@@ -1,7 +1,7 @@
 .nav_wrap{
 	display: flex;
 	justify-content: space-between;
-	width: 98%;
+	width: 97%;
 	border: 1px solid black;
 	height: 50px;
 	align-items: center;
