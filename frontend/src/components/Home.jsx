@@ -3,11 +3,11 @@ import Nav from "./Nav"
 import Search from "./Search"
 import home_styles from "../styles/Home.module.css"
 
-function Home_calendar() {
+function HomeCalendar() {
 	return (
 		<div className={home_styles.home_calendar_wrap}>
 			<div>
-				Home_calendar
+				HomeCalendar
 			</div>
 		</div>
 	)
@@ -18,7 +18,7 @@ export default function Home() {
 	<div className={home_styles.home_wrap}>
         <Nav />
         <Search />
-		<Home_calendar />
+		<HomeCalendar />
 	</div>
   )
 }
