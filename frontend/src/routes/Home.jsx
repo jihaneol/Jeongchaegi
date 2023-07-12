@@ -18,7 +18,6 @@ function HomeCalendar() {
 export default function Home() {
   return (
 	<div className={home_styles.home_wrap}>
-        <Nav />
         <Search />
 		<HomeCalendar />
 		<div className={home_styles.home_lower_wrap}>

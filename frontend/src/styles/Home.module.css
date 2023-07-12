@@ -33,7 +33,7 @@
 .home_lower_wrap {
 	width: 99%;
 	border: 1px solid black;
-	height: 300px;
+	height: 230px;
 	display: flex;
 	justify-content: center;
 }

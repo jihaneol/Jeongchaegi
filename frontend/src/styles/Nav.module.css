@@ -1,14 +1,25 @@
 .nav_wrap{
 	display: flex;
 	justify-content: space-between;
-	width: 97%;
+	width: 99%;
 	border: 1px solid black;
-	height: 50px;
+	height: 100px;
 	align-items: center;
-	padding: 0 20px;
 }
 
 .nav_menu{
 	display: flex;	
-	justify-content: space-evenly;
+	justify-content: space-between;
+	height: inherit;
+	width: 30%;
+	border: 1px solid black;
+}
+
+.nav_logo {
+	background-image: url("../../img/Logo.png");
+	background-size: contain;
+	width: 100px;
+	height: inherit;
+	border: 1px solid black;
+	background-repeat: no-repeat;
 }
