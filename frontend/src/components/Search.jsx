@@ -10,7 +10,9 @@ export default function Search() {
     setInputText(event.target.value);
   }
 
-  const onSubmit = () => {
+  // preventDefault 추가
+  const onSubmit = (e) => {
+    e.preventDefault()
     history.push(`/search/${inputText}`)
   }
 
@@ -26,7 +28,7 @@ export default function Search() {
         className='form-control input-lg'
         onChange={onChange}
       />
-      <button onClick={onSubmit}>검색</button>
+      <button onClick={onSubmit} className='btn btn-primary'>검색</button>
     </form>
   )
 }
