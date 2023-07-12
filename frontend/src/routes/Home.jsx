@@ -1,5 +1,5 @@
 import React from 'react'
-import Nav from "../components/Nav"
+// import Nav from "../components/Nav"
 import Search from "../components/Search"
 import HotPost from '../components/HotPost'
 import home_styles from "../styles/Home.module.css"
