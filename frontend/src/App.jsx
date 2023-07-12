@@ -7,6 +7,7 @@ import {
 import Nav from "./components/Nav";
 import Home from "./routes/Home"
 import List from "./routes/List";
+import Calendar from "./routes/Calendar";
 
 function App() {
     return (
@@ -15,6 +16,9 @@ function App() {
         <Switch>
           <Route path="/list">
             <List />
+          </Route>
+          <Route path="/calendar">
+            <Calendar />
           </Route>
           <Route path="/">
             <Home />

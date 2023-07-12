@@ -28,6 +28,14 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex: 1;
+	text-decoration: none;
+}
+
+.nav_calendar{
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	text-decoration: none;
 	flex: 1;
 }
