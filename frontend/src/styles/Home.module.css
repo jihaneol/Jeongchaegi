@@ -14,7 +14,8 @@
 }
 
 .search_bar>input {
-	margin-left: 20px;
+	/* margin-left: 20px; */
+	width: 35rem;
 }
 
 .home_calendar_wrap {
