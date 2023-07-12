@@ -1,7 +1,9 @@
 import React from 'react'
-import Nav from "./Nav"
-import Search from "./Search"
+import Nav from "../components/Nav"
+import Search from "../components/Search"
+import HotPost from '../components/HotPost'
 import home_styles from "../styles/Home.module.css"
+import Deadline from '../components/Deadline'
 
 function HomeCalendar() {
 	return (
@@ -19,6 +21,10 @@ export default function Home() {
         <Nav />
         <Search />
 		<HomeCalendar />
+		<div className={home_styles.home_lower_wrap}>
+			<HotPost />
+			<Deadline />
+		</div>
 	</div>
   )
 }
