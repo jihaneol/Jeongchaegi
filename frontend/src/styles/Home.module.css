@@ -7,14 +7,15 @@
 
 .search_bar {
 	margin: 20px auto;
-	width: 70%;
+	width: 80%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .search_bar>input {
-	margin-left: 20px;
+	/* margin-left: 20px; */
+	width: 35rem;
 }
 
 .home_calendar_wrap {
