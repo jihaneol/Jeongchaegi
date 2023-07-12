@@ -6,8 +6,8 @@ import home_styles from "../styles/Home.module.css"
 function HomeCalendar() {
 	return (
 		<div className={home_styles.home_calendar_wrap}>
-			<div>
-				HomeCalendar
+			<div className={home_styles.home_calendar_center}>
+				HomeCalendarCenter
 			</div>
 		</div>
 	)
