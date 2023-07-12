@@ -19,13 +19,26 @@
 
 .home_calendar_wrap {
 	width: 99%;
-	height: 400px;
+	height: 300px;
 	border: 1px solid black;
 }
 
 .home_calendar_center {
 	width: 40%;
-	height: 400px;
+	height: 100%;
 	border: 1px solid black;
 	margin: 0px auto
+}
+
+.home_lower_wrap {
+	width: 99%;
+	border: 1px solid black;
+	height: 300px;
+	display: flex;
+	justify-content: center;
+}
+
+.home_lower_deadline {
+	width: 50%;
+	border: 1px solid black;
 }
