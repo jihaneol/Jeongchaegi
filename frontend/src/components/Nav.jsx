@@ -7,8 +7,8 @@ export default function Nav() {
     <div className={nav_styles.nav_wrap}>
       <div className={nav_styles.nav_menu}>
         <Link to={"/"} className={nav_styles.nav_logo}></Link>
-        <div>정책list </div>
-        <div>calendar</div>
+        <Link to="/list" className={nav_styles.nav_list}>정책list </Link>
+        <Link to="/calendar" className={nav_styles.nav_calendar}>calendar</Link>
       </div>
       <div>
         Login
