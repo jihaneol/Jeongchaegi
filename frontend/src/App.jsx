@@ -8,12 +8,16 @@ import Nav from "./components/Nav";
 import Home from "./routes/Home"
 import List from "./routes/List";
 import Calendar from "./routes/Calendar";
+import SearchPage from "./routes/SearchPage"
 
 function App() {
     return (
       <Router>
         <Nav />
         <Switch>
+          <Route path="/search/:text">
+            <SearchPage />
+          </Route>
           <Route path="/list">
             <List />
           </Route>
