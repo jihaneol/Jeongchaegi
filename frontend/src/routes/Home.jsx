@@ -3,11 +3,20 @@ import Search from "../components/Search";
 import HotPost from "../components/HotPost";
 import home_styles from "../styles/Home.module.css";
 import Deadline from "../components/Deadline";
+import Calendar from "react-calendar";
+
+import 'react-calendar/dist/Calendar.css';
 
 function HomeCalendar() {
+  function calendarClick(v) {
+    console.log(v);
+  }
   return (
     <div className={home_styles.home_calendar_wrap}>
-      <div className={home_styles.home_calendar_center}>HomeCalendarCenter</div>
+      <Calendar 
+      onClickDay={calendarClick}
+      className={home_styles.home_calendar_center}
+      />
     </div>
   );
 }
