@@ -9,7 +9,7 @@ export default function Nav() {
         <Link to={"/"} className={nav_styles.nav_logo}></Link>
         <Link to="/list" >정책 </Link>
         <Link to="/calendar" >스토리</Link>
-        <Link to="/calendar" >익명 게시판</Link>
+        <Link to="/calendar" >익명게시판</Link>
         <Link to="/calendar" >후원</Link>
       </div>
       <div className={nav_styles.nav_login}>
