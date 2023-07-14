@@ -7,15 +7,39 @@
 
 .search_bar {
 	margin: 20px auto;
-	width: 80%;
+	min-width: 710px;
+	min-height: 57px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border: 1px solid black;
+	border-radius: 7px;
+	padding: 0px 10px;
+}
+
+.search_bar_find_img{
+	background-image: url(../../img/find_img.PNG);
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	min-width: 50px;
+	min-height: 56px;
 }
 
 .search_bar>input {
 	/* margin-left: 20px; */
-	width: 35rem;
+	width: 500px;
+	border: 0px;
+	min-height: 40px;
+}
+
+.search_bar > button {
+	min-width: 142px;
+	min-height: 40px;
+	background-color: black;
+	color: white;
+	font-weight: bold;
+	border-radius: 4px;
 }
 
 .home_calendar_wrap {
