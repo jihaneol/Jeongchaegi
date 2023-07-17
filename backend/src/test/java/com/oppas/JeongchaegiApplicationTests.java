@@ -1,4 +1,4 @@
-package com.oppas.jeongchaegi;
+package com.oppas;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
