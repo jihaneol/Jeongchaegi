@@ -3,7 +3,7 @@ package com.oppas.entity;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -23,8 +23,8 @@ public class PolicyScrap {
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 
-    @Column(nullable = false)
-    private Timestamp time;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime time;
 
 
 }

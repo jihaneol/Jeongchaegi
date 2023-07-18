@@ -21,5 +21,4 @@ public class Follow {
     @JoinColumn(name = "followee_id", nullable = false)
     private Member followeeId;
 
-
 }
