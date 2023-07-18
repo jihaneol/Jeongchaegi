@@ -20,7 +20,7 @@ public class PolicyScrap {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY) // 지연로딩 사용
-    @JoinColumn(name = "policy_id")
+    @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 
     @Column(nullable = false)
