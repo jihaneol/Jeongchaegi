@@ -11,13 +11,14 @@ public class PolicyScrap {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "policy_scrap_id")
     private Long id;
 
-    @Column(nullable = false) // 이거 아라ㅐ와 같이 객체지향적으로/.?
-    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩 사용
-    private Long memberId;// memberCLASS생기면 넣기
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩 사용
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
     @ManyToOne(fetch = FetchType.LAZY) // 지연로딩 사용
     @JoinColumn(name = "policy_id")
     private Policy policy;
