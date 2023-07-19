@@ -1,5 +1,6 @@
 package com.oppas.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@AllArgsConstructor
 public class Policy {
 
     @Id
