@@ -16,11 +16,12 @@ public class PolicyService {
     private final PolicyRepository policyRepository;
     private final ModelMapper modelMapper;
 
-    public Long savePolicy(PolicyDTO policyDTO) throws Exception {
-        Policy policy = modelMapper.map(policyDTO, Policy.class);
-        System.out.println(policy);
-        policyRepository.save(policy);
-        return policy.getId();
+    public Long savePolicy(PolicyDTO policyDTO) {
+        if (policyRepository.findByBizId(policyDTO.getBizId()) == null) {
+            Policy policy = policyDTO.createPolicy(modelMapper);
+            policyRepository.save(policy);
+            return policy.getId();
+        }
+        return null;
     }
-
 }
