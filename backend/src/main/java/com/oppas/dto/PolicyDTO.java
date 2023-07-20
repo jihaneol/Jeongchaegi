@@ -1,11 +1,15 @@
 package com.oppas.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.oppas.entity.Policy;
+import lombok.*;
+import org.modelmapper.ModelMapper;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class PolicyDTO {
+    private final Long id;
     private final int rnum;
     private final String bizId;
     private final String polyBizSjnm;
@@ -37,4 +41,8 @@ public class PolicyDTO {
     private final String tintCherCtpcCn;
     private final String etct;
     private final String polyRlmCd;
+
+    public Policy createPolicy(ModelMapper modelMapper) {
+        return modelMapper.map(this, Policy.class);
+    }
 }
