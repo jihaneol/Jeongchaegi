@@ -1,7 +1,11 @@
 import React from 'react'
+import Nav from "../components/Nav"
 
 export default function policylist() {
   return (
-    <div>policylist</div>
+    <>
+      <Nav />
+      <div>policylist</div>
+    </>
   )
 }

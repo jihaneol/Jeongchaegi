@@ -1,7 +1,11 @@
 import React from 'react'
+import Nav from "../components/Nav"
 
 export default function policyitem() {
   return (
-    <div>policyitem</div>
+    <>
+      <Nav />
+      <div>policyitem</div>
+    </>
   )
 }

@@ -1,18 +1,9 @@
-import Link from 'next/link'
+import Nav from "../components/Nav"
 
 export default function Home() {
 	return (
 	<div>
-    <Link href="/policylist">
-      <a>policylist</a>
-    </Link>
-
-    <br />
-
-    <Link href="/policyitem">
-      <a>policyitem</a>
-    </Link>
-
+    <Nav />
 		<h1>
 			정채기 프로젝트
 		</h1>
