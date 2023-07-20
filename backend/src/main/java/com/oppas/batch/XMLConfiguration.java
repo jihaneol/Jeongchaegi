@@ -1,6 +1,7 @@
 package com.oppas.batch;
 
 import com.oppas.dto.PolicyDTO;
+import com.oppas.service.PolicyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -28,6 +29,7 @@ public class XMLConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
+    private final PolicyService policyService;
 
     @Bean
     public Job xmlBatchJob() {
@@ -48,23 +50,36 @@ public class XMLConfiguration {
 
     @Bean
     public StaxEventItemReader<PolicyDTO> xmlItemReader() {
+        // api url로 데이터 저장
         try {
+            int display = 100;
+            int pageIndex = 1;
             return new StaxEventItemReaderBuilder<PolicyDTO>()
                     .name("xmlItemReader")
-                    .resource(new UrlResource("https://www.youthcenter.go.kr/opi/youthPlcyList.do?openApiVlak=839cda72655c1032eea8f071&display=10&pageIndex=1"))
+                    .resource(new UrlResource("https://www.youthcenter.go.kr/opi/youthPlcyList.do?openApiVlak=839cda72655c1032eea8f071&display=" + display + "&pageIndex=" + pageIndex))
                     .addFragmentRootElements("youthPolicy")
                     .unmarshaller(itemMarshaller())
                     .build();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+        // xml 파일로 데이터 저장
+//        return new StaxEventItemReaderBuilder<PolicyDTO>()
+//                .name("xmlItemReader")
+//                .resource(new ClassPathResource("policy.xml"))
+//                .addFragmentRootElements("youthPolicy")
+//                .unmarshaller(itemMarshaller())
+//                .build();
     }
 
     @Bean
     public ItemWriter<PolicyDTO> xmlItemWriter() {
         return items -> {
             for (PolicyDTO item : items) {
-                System.out.println(item.toString());
+                Long policyId = policyService.savePolicy(item);
+                if (policyId != null) {
+                    System.out.println("Saved policy ID: " + policyId);
+                }
             }
         };
     }
@@ -72,11 +87,11 @@ public class XMLConfiguration {
     @Bean
     public XStreamMarshaller itemMarshaller() {
         Map<String, Class<?>> aliases = new HashMap<>();
-
         aliases.put("youthPolicy", PolicyDTO.class);
 
         XStreamMarshaller xStreamMarshaller = new XStreamMarshaller();
         xStreamMarshaller.setAliases(aliases);
+        xStreamMarshaller.getXStream().allowTypes(new Class[]{PolicyDTO.class});
 
         return xStreamMarshaller;
     }
