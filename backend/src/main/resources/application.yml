@@ -3,6 +3,22 @@ server:
   port: 8080
 
 spring:
+  # OAuth 로그인
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          kakao:
+#            client-id: fcb05990a84d7cbf01eef4a5d55f8439
+#            client-secret: ZU89Ph7H47iXd3iHghN7AV7w3OMN3WEh
+#            scope:
+#              - account_email
+#              - profile_nickname
+#            authorization-grant-type: authorization_code
+#            redirect-uri: http://localhost:8080/jeongchaegi/user/kakaologin
+#            client-name: Kakao
+#            client-authentication-method: POST
+
   # Database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +31,7 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
