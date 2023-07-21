@@ -1,0 +1,7 @@
+.card_wrapper{
+    margin: 0 0 1rem 0;
+    cursor: pointer;
+}
+.card_wrapper:hover {
+    background: linear-gradient(0deg, rgb(161, 255, 194) 0%, rgb(158, 207, 255) 100%);
+}
