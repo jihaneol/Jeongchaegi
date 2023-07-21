@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +31,24 @@ public class Policy {
     @Lob
     private String sporCn; // 지원 내용
 
+    @Lob
     private String sporScvl; // 지원 규모
 
+    @Lob
     private String bizPrdCn; // 사업 운영기간 내용
 
+    @Lob
     private String rqutPrdCn; // 사업 신청기간 내용
 
+    private LocalDate rqutPrdBegin; // 사업 신청기간 시작일
+    
+    private LocalDate rqutPrdEnd;// 사업 신청기간 마감일
+
     private String ageInfo; // 연령 정보
+    
+    private int minAge; // 최소 연령
+    
+    private int maxAge; // 최대 연령
 
     @Lob
     private String majrRqisCn; // 전공 요건 내용
@@ -71,8 +83,10 @@ public class Policy {
     @Lob
     private String rqutUrla; // 신청 사이트 주소
 
+    @Lob
     private String rfcSiteUrla1; // 참고 사이트 URL 1
 
+    @Lob
     private String rfcSiteUrla2; // 참고 사이트 URL 2
 
     private String mngtMson; // 주관 부처명
