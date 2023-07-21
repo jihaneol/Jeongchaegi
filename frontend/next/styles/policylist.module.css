@@ -1,0 +1,28 @@
+.wrapper {
+    padding: 0 0 1rem 0;
+    background-color: #d0ddff;
+}
+
+.list_wrap {
+    margin: 1rem auto;
+    width: 50rem;
+    min-height: 20rem;
+    border-radius: 1rem;
+    background-color: #adc4ff;
+}
+
+.pcylist {
+    width: auto;
+    margin: 0 1rem;
+    min-height: 8rem;
+    background-color: greenyellow;
+}
+
+.search_query{
+    padding: 1rem;
+}
+
+.filter{
+    background-color: white;
+    margin: 1rem;
+}
