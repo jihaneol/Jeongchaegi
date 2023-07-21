@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Calendar from "react-calendar";
 
 import styles from "../styles/PolicyList.module.css";
 import Nav from "../components/Nav";
@@ -51,7 +52,20 @@ export default function PolicyList() {
 
   return (
     <div className={styles.wrapper}>
+      {/* navbar */}
       <Nav />
+      {/* fixed calendar */}
+      <Calendar
+      formatDay={(locale, date) =>
+        date.toLocaleString("en", { day: "numeric" })
+      }
+      className={`${styles.fixed_calendar}`}
+      minDetail="month"
+      maxDetail="month"
+      next2Label={null}
+      prev2Label={null}
+      showNeighboringMonth={false}
+      />
       {/* 바깥쪽 랩 */}
       <div className={styles.list_wrap}>
         {/* 검색창 */}
@@ -62,7 +76,7 @@ export default function PolicyList() {
             placeholder="search query"
           />
           <button
-            className={`btn btn-outline-secondary btn-info`}
+            className={`btn btn-outline-secondary btn-light`}
             onClick={prev}
           >
             search
