@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
-import styles from "../styles/policylist.module.css";
+import styles from "../styles/PolicyList.module.css";
 import axios from "axios";
 
 export default function PolicyList() {
