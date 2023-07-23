@@ -20,7 +20,7 @@ import java.util.Map;
  * Security session => Authentication => UserDetails
  * Authentication 객체에 저장할 수 있는 유일한 타입
  **/
-public class PrincipalDetails implements UserDetails, OAuth2User {
+public class PrincipalDetails implements UserDetails, OAuth2User { //2개 구현
 
     private static final long serialVersionUID = 1L;
     private User user; //콤포지션
@@ -75,6 +75,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        System.out.println("principalDetails 시작");
         Collection<GrantedAuthority> collet = new ArrayList<GrantedAuthority>();
         collet.add(() -> {
             return user.getRole();
