@@ -56,15 +56,15 @@ export default function PolicyList() {
       <Nav />
       {/* fixed calendar */}
       <Calendar
-      formatDay={(locale, date) =>
-        date.toLocaleString("en", { day: "numeric" })
-      }
-      className={`${styles.fixed_calendar}`}
-      minDetail="month"
-      maxDetail="month"
-      next2Label={null}
-      prev2Label={null}
-      showNeighboringMonth={false}
+        formatDay={(locale, date) =>
+          date.toLocaleString("en", { day: "numeric" })
+        }
+        className={`${styles.fixed_calendar}`}
+        minDetail="month"
+        maxDetail="month"
+        next2Label={null}
+        prev2Label={null}
+        showNeighboringMonth={false}
       />
       {/* 바깥쪽 랩 */}
       <div className={styles.list_wrap}>
