@@ -1,3 +1,4 @@
+import HomeCalendar from "../components/HomeCalendar"
 import HomeList from "../components/HomeList"
 import Nav from "../components/Nav"
 import style from "../styles/Home.module.css"
@@ -8,7 +9,7 @@ export default function Home() {
     <Nav />
 		<div className={style.home_wrapper}>
       <div className={style.calendar_wrapper}>
-        캘린더
+        <HomeCalendar />
       </div>
       <div className={style.outer_wrapper}>
         <HomeList title="마감 임박 정책"/>
