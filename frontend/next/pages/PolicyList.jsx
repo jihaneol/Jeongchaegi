@@ -32,12 +32,10 @@ export default function PolicyList() {
     getFakeData();
   }
 
-  function myClick(id) {
-    // 자식 컴포넌트가 위로올린 아이디 데이터랑, 모든 리스트 아이디랑 비교
-    testdata.map((item) => {
-      item.id === id ? console.log(item.id) : false;
-      item.id === id ? router.push(`/policydetail/${item.id}`) : false;
-    });
+  function handleItemClick(itemId) {
+    console.log(`Clicked item with ID: ${itemId}`);
+    router.push(`/policydetail/${itemId}`);
+    // Do whatever you want with the clicked item ID
   }
 
   useEffect(() => {
@@ -98,9 +96,7 @@ export default function PolicyList() {
         {/* pcylist========================================================== */}
         <div className={styles.pcylist}>
           {testdata ? (
-            testdata.map((item) => (
-              <PcyListItem key={item.id} obj={item} myClick={myClick} />
-            ))
+            <PcyListItem obj={testdata} onItemClick={handleItemClick} /> // 그냥 리스트 통째로 프롭함
           ) : (
             <h1>loading...</h1>
           )}
