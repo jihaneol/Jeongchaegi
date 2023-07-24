@@ -1,6 +1,18 @@
 # Application Port
 server:
   port: 8080
+# jwt
+jwt:
+  secretKey: asdfasdfasdf56454adfs
+
+  access:
+    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+    header: Authorization
+
+  refresh:
+    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
+    header: Authorization-refresh
+
 spring:
 #   OAuth 로그인
   security:
@@ -21,8 +33,6 @@ spring:
             token_uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user_name_attribute: id
-
-
   # Database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

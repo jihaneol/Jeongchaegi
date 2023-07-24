@@ -1,7 +1,6 @@
 package com.oppas.controller;
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.model.User;
 import com.oppas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -9,9 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,8 +36,9 @@ public class LoginController {
 
     //oauth
     @GetMapping({ "", "/" })
-    public @ResponseBody String index() {
-        return "인덱스 페이지입니다.";
+    public  String index() {
+
+        return "loginForm";
     }
 
     @GetMapping("/user")
@@ -71,16 +69,14 @@ public class LoginController {
         return "joinForm";
     }
 
-    @PostMapping("/join")
-    public  String join(User user) {
-        System.out.println(user);
-        user.setRole("ROLE_USER");
-        String rawPassword = user.getPassword();
-        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
-        user.setPassword(encPassword);
-        userRepository.save(user); // 비번 암호화 해줘야 한다.
-        return "redirect:/loginForm";
-    }
+//    @PostMapping("/join")
+//    public  String join(@RequestBody User user) {
+//        System.out.println(user);
+//        user.setRole("ROLE_USER");
+//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//        userRepository.save(user); // 비번 암호화 해줘야 한다.
+//        return "회원가입 완료";
+//    }
 
     //@preAuthorize("hasRole('ROLE_~) or hasRole('ROLE_~)") 여러개 설정
     @Secured("ROLE_ADMIN") // 권한이 이거인것만 접근 가능

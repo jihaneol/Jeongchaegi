@@ -6,7 +6,6 @@ import com.oppas.config.oauth.provider.OAuth2UserInfo;
 import com.oppas.model.User;
 import com.oppas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -28,7 +27,7 @@ public class  PrincipalOauth2UserService extends DefaultOAuth2UserService {
 //함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-//		System.out.println("sdklfjlkdasjflkj");
+		System.out.println("sdklfjlkdasjflkj");
         OAuth2User oAuth2User = super.loadUser(userRequest); // google의 회원 프로필 조회
 
 		// code를 통해 구성한 정보
@@ -58,7 +57,6 @@ public class  PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			System.out.println("이미 가입 했다");
 			user = userOptional.get();
 			// user가 존재하면 update 해주기
-			user.setEmail(oAuth2UserInfo.getEmail());
 			userRepository.save(user);
 		} else {
 			System.out.println("가입 해줄게");
