@@ -4,8 +4,9 @@
 }
 
 .list_wrap {
+    z-index: 3;
     margin: 1rem auto;
-    width: 50rem;
+    width: 45rem;
     min-height: 20rem;
     border-radius: 1rem;
     background-color: #adc4ff;
@@ -15,7 +16,6 @@
     width: auto;
     margin: 0 1rem;
     min-height: 8rem;
-    /* background-color: greenyellow; */
 }
 
 .search_query{
@@ -28,7 +28,8 @@
 }
 
 .fixed_calendar{
+    z-index: 2;
     position: fixed;
-    top: 5rem;
+    top: 6rem;
     left: 1rem;
 }
