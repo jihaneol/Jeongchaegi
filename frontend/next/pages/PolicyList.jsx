@@ -117,8 +117,8 @@ export default function PolicyList() {
             </button>
           </div>
           <div className={styles.policy_filter_list_wrapper}>
-            {filterList.map((filter) => 
-              <PolicyFilterList title={filter}/>
+            {filterList.map((filter, idx) => 
+              <PolicyFilterList key={idx} title={filter}/>
             )}
           </div>
         </div>
