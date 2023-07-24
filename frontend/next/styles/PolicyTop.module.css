@@ -54,3 +54,17 @@
   flex: 7;
   text-align: center;
 }
+
+.test {
+  border: 1px solid green;
+}
+
+.parent {
+  display: flex;
+  border: 1px solid red;
+  min-height: 8rem;
+}
+.child {
+  flex: 1;
+  border: 1px solid black;
+}
