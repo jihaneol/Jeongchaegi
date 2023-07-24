@@ -148,7 +148,7 @@
 .react_calendar_component {
   position: absolute;
   box-shadow: 2px 7px 15px 8px rgba(0, 0, 0, 0.3);
-  height: 40%;
+  height: 287px;
 }
 
 .react_calendar_center {
@@ -178,7 +178,7 @@
   position: absolute;
   width: 280px;
   max-width: 100%;
-  height: 40%;
+  height: 287px;
   opacity: 0;
   z-index: 75;
 }
