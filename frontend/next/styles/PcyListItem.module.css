@@ -1,7 +1,10 @@
 .card_wrapper{
     margin: 0 0 1rem 0;
     cursor: pointer;
+    transition: transform .2s;
 }
 .card_wrapper:hover {
-    background: linear-gradient(0deg, rgb(161, 255, 194) 0%, rgb(158, 207, 255) 100%);
+    background-position:right center;
+    background-image: linear-gradient(to right, rgb(161, 255, 194) 0%, rgb(158, 207, 255) 51%, #fbc2eb 100%);
+    transform: scale(1.005);
 }
