@@ -3,8 +3,17 @@
     background-color: #d0ddff;
 }
 
-.list_wrap {
+.list_wrap_on {
     margin: 1rem auto;
+    width: 50rem;
+    min-height: 20rem;
+    border-radius: 1rem;
+    background-color: #adc4ff;
+}
+
+.list_wrap_off {
+    margin-top: 1rem;
+    margin-left: 30%;
     width: 50rem;
     min-height: 20rem;
     border-radius: 1rem;
@@ -22,6 +31,35 @@
     padding: 1rem;
 }
 
+.filter_wrapper {
+    background-color: white;
+    padding: 0.5rem;
+    margin: 1rem;
+    border-radius: 10px;
+}
+
+.filter_header {
+    border-bottom: 1px solid black;
+    position: relvative;
+    display: flex;
+}
+
+.filter_calendar_btn {
+    margin-left: auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 5px;
+}
+
+.calendar_btn_on {
+    background-color: gray;
+    
+}
+
+.calendar_btn_off {
+    background-color: white;
+}
+
 .filter{
     background-color: white;
     margin: 1rem;
@@ -31,4 +69,9 @@
     position: fixed;
     top: 5rem;
     left: 1rem;
+}
+
+.policy_filter_list_wrapper {
+    display: flex;
+    flex-wrap: wrap;
 }

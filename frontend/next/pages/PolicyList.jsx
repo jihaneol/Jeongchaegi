@@ -6,9 +6,17 @@ import Calendar from "react-calendar";
 import styles from "../styles/PolicyList.module.css";
 import Nav from "../components/Nav";
 import PcyListItem from "../components/PcyListItem";
+import PolicyFilterList from "../components/PolicyFilterList";
 
 export default function PolicyList() {
   const router = useRouter();
+
+  // State 모음
+  const [isCalendarActive, setIsCalendarActive] = useState(false);
+
+  // 필터 리스트 - 필터 종류 늘어날 때마다 여기에 추가
+  const filterList = ["Default1", "Default2", "Default3"]
+
   // 데이터 테스트용 ===========================================아래쪽
 
   const [testdata, settest] = useState("");
@@ -48,24 +56,37 @@ export default function PolicyList() {
   }, []);
   // 데이터 테스트용 ===========================================위쪽
 
+  function calendarBtnClick() {
+    setIsCalendarActive((prev) => !prev);
+  }
+
   return (
     <div className={styles.wrapper}>
       {/* navbar */}
       <Nav />
       {/* fixed calendar */}
-      <Calendar
-        formatDay={(locale, date) =>
-          date.toLocaleString("en", { day: "numeric" })
-        }
-        className={`${styles.fixed_calendar}`}
-        minDetail="month"
-        maxDetail="month"
-        next2Label={null}
-        prev2Label={null}
-        showNeighboringMonth={false}
-      />
+      {isCalendarActive === true ? (
+        <Calendar
+          formatDay={(locale, date) =>
+            date.toLocaleString("en", { day: "numeric" })
+          }
+          className={`${styles.fixed_calendar}`}
+          minDetail="month"
+          maxDetail="month"
+          next2Label={null}
+          prev2Label={null}
+          showNeighboringMonth={false}
+        />
+      ) : null}
+
       {/* 바깥쪽 랩 */}
-      <div className={styles.list_wrap}>
+      <div
+        className={
+          isCalendarActive === false
+            ? styles.list_wrap_on
+            : styles.list_wrap_off
+        }
+      >
         {/* 검색창 */}
         <form action="" className={`input-group mb-3 ${styles.search_query}`}>
           <input
@@ -81,16 +102,25 @@ export default function PolicyList() {
           </button>
         </form>
         {/* 조건 검색 */}
-        <div className={`form-check ${styles.filter}`}>
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-          />
-          <label className="form-check-label" htmlFor="flexCheckDefault">
-            Default
-          </label>
+        <div className={styles.filter_wrapper}>
+          <div className={styles.filter_header}>
+            Filter
+            <button
+              className={`${styles.filter_calendar_btn} ${
+                isCalendarActive === true
+                  ? styles.calendar_btn_on
+                  : styles.calendar_btn_off
+              }`}
+              onClick={calendarBtnClick}
+            >
+              Calendar
+            </button>
+          </div>
+          <div className={styles.policy_filter_list_wrapper}>
+            {filterList.map((filter) => 
+              <PolicyFilterList title={filter}/>
+            )}
+          </div>
         </div>
 
         {/* pcylist========================================================== */}
