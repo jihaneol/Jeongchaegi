@@ -8,9 +8,7 @@ export default function Home() {
 	<div>
     <Nav />
 		<div className={style.home_wrapper}>
-      <div className={style.calendar_wrapper}>
         <HomeCalendar />
-      </div>
       <div className={style.outer_wrapper}>
         <HomeList title="마감 임박 정책"/>
         <HomeList title="Hot 정책"/>

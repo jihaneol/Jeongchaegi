@@ -144,3 +144,41 @@
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
 }
+
+.react_calendar_component {
+  position: absolute;
+  box-shadow: 2px 7px 15px 8px rgba(0, 0, 0, 0.3);
+  height: 40%;
+}
+
+.react_calendar_center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.react_calendar_left {
+  top: 40%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  filter: blur(3px);
+}
+
+.react_calendar_right {
+  top: 40%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  filter: blur(3px);
+}
+
+.react_calendar_side_position_btn {
+  position: absolute;
+  width: 280px;
+  max-width: 100%;
+  height: 40%;
+  opacity: 0;
+  z-index: 75;
+}
