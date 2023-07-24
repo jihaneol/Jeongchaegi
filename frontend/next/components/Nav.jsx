@@ -1,6 +1,7 @@
 import React from "react";
 import nav_styles from "../styles/Nav.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Nav() {
   return (
@@ -9,7 +10,9 @@ export default function Nav() {
         {/* <Link href="/" className={nav_styles.nav_logo}></Link> */}
 
         <Link href="/">
-          <a>home</a>
+          <a>
+            <Image src="/Logo.PNG" width="130px" height="64px" />
+          </a>
         </Link>
 
         <Link href="/ArticleList">
