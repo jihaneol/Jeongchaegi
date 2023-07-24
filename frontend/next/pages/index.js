@@ -1,12 +1,20 @@
+import HomeList from "../components/HomeList"
 import Nav from "../components/Nav"
+import style from "../styles/Home.module.css"
 
 export default function Home() {
 	return (
 	<div>
     <Nav />
-		<h1>
-			정채기 프로젝트
-		</h1>
+		<div className={style.home_wrapper}>
+      <div className={style.calendar_wrapper}>
+        캘린더
+      </div>
+      <div className={style.outer_wrapper}>
+        <HomeList title="마감 임박 정책"/>
+        <HomeList title="Hot 정책"/>
+      </div>
+    </div>
 	</div>
 	)
 }
