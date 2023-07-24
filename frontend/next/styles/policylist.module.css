@@ -26,3 +26,9 @@
     background-color: white;
     margin: 1rem;
 }
+
+.fixed_calendar{
+    position: fixed;
+    top: 5rem;
+    left: 1rem;
+}
