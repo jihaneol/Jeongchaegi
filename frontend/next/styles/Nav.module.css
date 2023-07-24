@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: space-between;
 	min-width: 100%;
-	min-height: 75px;
+	min-height: 5rem;
 	align-items: center;
 	background-color: #5383ff;
 }
@@ -17,15 +17,15 @@
 .nav_logo {
 	/* background-image: url("../../img/Logo.png"); */
 	background-size: cover;
-	min-height: 70px;
-	min-width: 170px;
+	min-height: 4.5rem;
+	min-width: 10.5rem;
 	height: inherit;
 	background-repeat: no-repeat;
-	margin-right: 50px;
+	margin-right: 3rem;
 }
 
 .nav_menu>a {
-	font-size: 25px;
+	font-size: 1.5rem;
 	color: white;
 	font-weight: bold;
 	display: flex;
@@ -37,8 +37,8 @@
 }
 
 .nav_login {
-	margin-right: 20px;
+	margin-right: 1.2rem;
 	color: white;
-	font-size: 20px;
+	font-size: 1.2rem;
 	font-weight: bold;
 }
