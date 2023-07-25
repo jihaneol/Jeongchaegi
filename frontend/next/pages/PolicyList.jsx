@@ -10,9 +10,16 @@ import PolicyFilterList from "../components/PolicyFilterList";
 
 export default function PolicyList() {
   const router = useRouter();
+  const {calendarActive, calendarDate} = router.query;
+  console.log(typeof(calendarActive));
+  console.log(typeof(calendarDate));
+  console.log(calendarDate);
 
   // State 모음
-  const [isCalendarActive, setIsCalendarActive] = useState(false);
+  const [isCalendarActive, setIsCalendarActive] = useState(Boolean(calendarActive));
+  const [targetDate, setTargetDate] = useState(new Date());
+  
+  // 변수 모음
 
   // 필터 리스트 - 필터 종류 늘어날 때마다 여기에 추가
   const filterList = ["Default1", "Default2", "Default3"]
@@ -47,6 +54,11 @@ export default function PolicyList() {
   }
 
   useEffect(() => {
+    setTargetDate(new Date(calendarDate));
+    console.log(calendarDate);
+  }, [])
+
+  useEffect(() => {
     // 컴포넌트 생성시 시행, 죽을때 시행
     console.log("pcylist component create");
     getFakeData();
@@ -58,6 +70,11 @@ export default function PolicyList() {
 
   function calendarBtnClick() {
     setIsCalendarActive((prev) => !prev);
+  }
+
+  function onClickDay(e) {
+    setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()))
+    console.log(targetDate);
   }
 
   return (
@@ -76,6 +93,8 @@ export default function PolicyList() {
           next2Label={null}
           prev2Label={null}
           showNeighboringMonth={false}
+          value={targetDate}
+          onClickDay={onClickDay}
         />
       ) : null}
 

@@ -11,7 +11,7 @@ export default function Nav() {
 
         <Link href="/">
           <a>
-            <Image src="/Logo.PNG" width="130px" height="64px" />
+            <Image src="/Logo.PNG" width="130px" height="64px" alt="정채기"/>
           </a>
         </Link>
 

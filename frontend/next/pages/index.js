@@ -1,9 +1,15 @@
+import { useState } from "react"
 import HomeCalendar from "../components/HomeCalendar"
 import HomeList from "../components/HomeList"
 import Nav from "../components/Nav"
 import style from "../styles/Home.module.css"
 
 export default function Home() {
+  // 아직 만드는 중
+  const [modalFlag, setModalFlag] = useState(false);
+  const modalChange = (modalFlag) => {
+    setModalFlag()
+  }
 	return (
 	<div>
     <Nav />
