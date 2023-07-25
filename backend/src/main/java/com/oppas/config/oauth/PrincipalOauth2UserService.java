@@ -27,8 +27,7 @@ public class  PrincipalOauth2UserService extends DefaultOAuth2UserService {
 //함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		System.out.println("sdklfjlkdasjflkj");
-        OAuth2User oAuth2User = super.loadUser(userRequest); // google의 회원 프로필 조회
+        OAuth2User oAuth2User = super.loadUser(userRequest); // 카카오의 회원 프로필 조회
 
 		// code를 통해 구성한 정보
 		System.out.println("userRequest clientRegistration : " + userRequest.getClientRegistration()); // 어떤오쓰로 로그인한지 확인
@@ -44,9 +43,13 @@ public class  PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 		// Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
 		OAuth2UserInfo oAuth2UserInfo = null;
-		if (userRequest.getClientRegistration().getRegistrationId().equals("KaKao")) {
+		if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
 			System.out.println("카카오 로그인 요청~~");
 			oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+		}
+		else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+				System.out.println("naver 로그인 요청~~");
+				oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
 		}else{
 			System.out.println("카카오만 취급한다.");
 		}

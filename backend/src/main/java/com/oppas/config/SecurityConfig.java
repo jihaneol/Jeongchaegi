@@ -2,6 +2,7 @@ package com.oppas.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oppas.config.auth.AuthorizationRequestRepository;
 import com.oppas.config.auth.PrincipalDetailsService;
 import com.oppas.config.oauth.PrincipalOauth2UserService;
 import com.oppas.jwt.JwtAuthenticationProcessingFilter;
@@ -33,6 +34,8 @@ import org.springframework.web.filter.CorsFilter;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) //secured 어노테이션 활성화 , preAuthorize활성화
 @RequiredArgsConstructor
 public class SecurityConfig  {
+
+	private final AuthorizationRequestRepository authorizationRequestRepository;
 	private final JwtService jwtService;
 	private final UserRepository userRepository;
 	private final ObjectMapper objectMapper;
@@ -52,23 +55,26 @@ public class SecurityConfig  {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+//		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 		http.csrf().disable();
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		http
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
-				.addFilter(corsFilter)
+//				.addFilter(corsFilter)
 				.formLogin().disable()
 				.httpBasic().disable()
 				.authorizeRequests()
-				.antMatchers("/api/v1/user/**")
-				.access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-				.anyRequest().permitAll()
-				.and()
-				.oauth2Login() //카카오 로그인 오쓰요
+//				.antMatchers("/api/v1/user/**")
+//				.access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+				.anyRequest().permitAll();
+
+		http.oauth2Login() //카카오 로그인 오쓰요
 				.loginPage("/") //로그인 완료된 뒤 후처리 필요
-//				// 1.인증 , 2 토큰, 3 , 사용자 정보 가져오기 4. 그 정보 토대로 로그인 자동 진행
+////				// 1.인증 , 2 토큰, 3 , 사용자 정보 가져오기 4. 그 정보 토대로 로그인 자동 진행
+//				.authorizationEndpoint()
+//				.authorizationRequestRepository(authorizationRequestRepository).and()
 				.userInfoEndpoint()
-				.userService(principalOauth2UserService);// 후처리용
+				.userService(principalOauth2UserService);
 //		http.addFilter(new JwtAuthenticationFilter(authenticationManager));
 //				// AuthenticationManger 떤져
 //		http.addFilter(new JwtAuthorizationFilter(authenticationManager));
