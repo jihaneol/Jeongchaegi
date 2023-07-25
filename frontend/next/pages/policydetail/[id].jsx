@@ -6,6 +6,7 @@ import PolicyHeader from "../../components/PolicyHeader";
 
 import Styles from "../../styles/PolicyDetail.module.css";
 import Test from "../../styles/PolicyTop.module.css";
+import LiveChat from "../../components/LiveChat";
 
 export default function Page() {
   const router = useRouter();
@@ -59,8 +60,8 @@ export default function Page() {
         </div>
         <div className={Styles.chat}>
           <h4>채팅방</h4>
+          <LiveChat />
         </div>
-        <div className={Styles.pcylist}></div>
       </div>
     </div>
   );
