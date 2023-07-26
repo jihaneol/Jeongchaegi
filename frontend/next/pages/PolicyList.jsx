@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-
 import style from "../styles/PolicyList.module.css";
 import Nav from "../components/Nav";
 import PcyListItem from "../components/PcyListItem";
@@ -16,13 +15,13 @@ export default function PolicyList() {
   // State 모음
   const [isCalendarActive, setIsCalendarActive] = useState(Boolean(calendarActive));
   const [targetDate, setTargetDate] = useState(new Date());
+  const [testdata, settest] = useState("");
   
   // 변수 모음
 
-  const [testdata, settest] = useState("");
 
+  // 더미 데이터 요청, 실험용
   function getFakeData() {
-    // 더미 데이터 요청, 실험용
     axios({
       method: "get",
       url: "https://jsonplaceholder.typicode.com/posts",
@@ -81,7 +80,7 @@ export default function PolicyList() {
         {/* 조건 검색 */}
         <PolicyFilter isCalendarActive={isCalendarActive} calendarBtnClick={calendarBtnClick}/>
 
-        {/* pcylist========================================================== */}
+        {/* pcylist */}
         <div className={style.pcylist}>
           {testdata ? (
             <PcyListItem obj={testdata} onItemClick={handleItemClick} /> // 그냥 리스트 통째로 프롭함
@@ -89,7 +88,6 @@ export default function PolicyList() {
             <h1>loading...</h1>
           )}
         </div>
-        {/* pcylist========================================================== */}
       </div>
     </div>
   );
