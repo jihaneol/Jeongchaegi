@@ -9,16 +9,20 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
     <div className={styles.filter_wrapper}>
       <div className={styles.filter_header}>
         Filter
-        <button
-          className={`${styles.filter_calendar_btn} ${
-            isCalendarActive === true
-              ? styles.calendar_btn_on
-              : styles.calendar_btn_off
-          }`}
-          onClick={calendarBtnClick}
-        >
-          Calendar
-        </button>
+        <div className={styles.filter_calendar_wrapper}>
+          {/* 캘린더 토글 버튼 */}
+          <div>calendar</div>
+          <button
+            className={`${styles.filter_calendar_btn} ${
+              isCalendarActive === true
+                ? styles.calendar_btn_on
+                : styles.calendar_btn_off
+            }`}
+            onClick={calendarBtnClick}
+          >
+            <div className={`${styles.toggle} ${isCalendarActive === true ? styles.toggle_on : styles.toggle_off}`} />
+          </button>
+        </div>
       </div>
       <div className={styles.policy_filter_list_wrapper}>
         {filterList.map((filter, idx) => (

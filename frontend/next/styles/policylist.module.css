@@ -41,22 +41,56 @@
     border-bottom: 1px solid black;
     position: relvative;
     display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+    height: 30px;
 }
 
-.filter_calendar_btn {
-    margin-left: auto;
-    border: 1px solid black;
-    border-radius: 15px;
+.filter_calendar_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 5px;
 }
 
+.filter_calendar_btn {
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    width: 58px;
+    height: 26px;
+    padding: 0px 2px;
+    margin-left: 10px;
+    right: 0%;
+    bottom: -10%;
+    position: relative;
+    z-index: 50;
+}
+
 .calendar_btn_on {
-    background-color: gray;
-    
+    background-color: #5383ff;
 }
 
 .calendar_btn_off {
+    background-color: rgb(239, 239, 239);
+}
+
+.toggle {
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    position: relative;
+    z-index: 100;
+}
+
+.toggle_on {
     background-color: white;
+    margin-left: auto;
+}
+
+.toggle_off {
+    background-color: white;
+    border: 1px solid rgb(198, 195, 195);
 }
 
 .filter{
