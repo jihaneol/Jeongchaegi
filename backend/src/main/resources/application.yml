@@ -2,6 +2,7 @@
 server:
   port: 8080
 # jwt
+
 jwt:
   secretKey: asdfasdfasdf56454adfs
 
@@ -19,20 +20,43 @@ spring:
     oauth2:
       client:
         registration:
+
           kakao:
             client-id: fcb05990a84d7cbf01eef4a5d55f8439
-            client-name: Kakao
-            redirect-uri: http://localhost:8080/jeongchaegi/user/kakaologin
-            # http://localhost:8080/login/oauth2/code/kakao
-            scope: profile_nickname,  account_email
-            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: POST
+            client-secret: YKLc4lQmIWKZSzhPcbVeUJckYogzlb0y
+            authorization-grant-type: authorization_code
+            # http://localhost:8080/login/oauth2/code/kakao
+            # http://localhost:8080/jeongchaegi/user/kakaologin
+            scope:
+              - profile_nickname
+#              - account_email
+            client_name: kakao
+
+          naver:
+            clientId: jU2kZsYreOUoGXGxAe2m
+            clientSecret: SfL2v5_fGy
+            scope:
+              - name
+              - email
+            clientName: Naver
+            authorizationGrantType: authorization-code
+            redirectUri: http://localhost:8080/login/oauth2/code/naver
+            client-authentication-method: POST
+
         provider:
           kakao:
-            authorization_uri: https://kauth.kakao.com/oauth/authorize
-            token_uri: https://kauth.kakao.com/oauth/token
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
-            user_name_attribute: id
+            user-name-attribute: id
+
+          naver:
+            authorizationUri: https://nid.naver.com/oauth2.0/authorize
+            tokenUri: https://nid.naver.com/oauth2.0/token
+            userInfoUri: https://openapi.naver.com/v1/nid/me
+            userNameAttribute: response
   # Database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
