@@ -26,7 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration // IoC 빈(bean)을 등록
@@ -71,17 +71,18 @@ public class SecurityConfig  {
 
 
 		http.oauth2Login() //카카오 로그인 오쓰요
-				.loginPage("/") //로그인 완료된 뒤 후처리 필요
-				.successHandler(loginSuccessHandler())
-				.failureHandler(loginFailureHandler())
-////				// 1.인증 , 2 토큰, 3 , 사용자 정보 가져오기 4. 그 정보 토대로 로그인 자동 진행
 				.userInfoEndpoint()
-				.userService(principalOauth2UserService);
+				.userService(principalOauth2UserService)
+				.and()
+				.successHandler(loginSuccessHandler())
+				.failureHandler(loginFailureHandler());
+////				// 1.인증 , 2 토큰, 3 , 사용자 정보 가져오기 4. 그 정보 토대로 로그인 자동 진행
+
 //		http.addFilter(new JwtAuthenticationFilter(authenticationManager));
 //				// AuthenticationManger 떤져
 //		http.addFilter(new JwtAuthorizationFilter(authenticationManager));
 //		http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
-		http.addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterAfter(jwtAuthenticationProcessingFilter(), LogoutFilter.class);
 
 		return http.build();
 	}
