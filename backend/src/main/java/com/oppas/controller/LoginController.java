@@ -8,9 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 스프링 시큐리티
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 
-@RestController
+@Controller
 public class LoginController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class LoginController {
 
     @GetMapping("/user")
     public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        System.out.println("principalDetails : "+principalDetails.getUser());
+//        System.out.println("principalDetails : "+principalDetails);
         return "user";
     }
     @GetMapping("/manager")
