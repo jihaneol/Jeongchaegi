@@ -29,12 +29,8 @@ export default function HomeList({ title }) {
             contents
               .filter((content) => content.id < 6)
               .map((content) => (
-                <HomeListItem
-                  key={content.id}
-                  type={title}
-                  content={content}
-                />)
-              )
+                <HomeListItem key={content.id} type={title} content={content} />
+              ))
           ) : (
             <h5>Loading...</h5>
           )}
