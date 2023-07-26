@@ -101,7 +101,9 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
-        System.out.println("뭔데이게");
+        log.info(String.valueOf(Optional.ofNullable(request.getHeader(refreshHeader))
+                .filter(refreshToken -> refreshToken.startsWith(BEARER))
+                .map(refreshToken -> refreshToken.replace(BEARER, ""))));
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -113,6 +115,7 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
+        log.info("access token : {}",request.getHeader(accessHeader));
         return Optional.ofNullable(request.getHeader(accessHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));

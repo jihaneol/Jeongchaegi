@@ -60,7 +60,7 @@ public class  PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			System.out.println("이미 가입 했다");
 			user = userOptional.get();
 			// user가 존재하면 update 해주기
-			userRepository.save(user);
+//			userRepository.save(user);
 		} else {
 			System.out.println("가입 해줄게");
 			// user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.

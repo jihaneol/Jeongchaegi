@@ -26,7 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration // IoC 빈(bean)을 등록
@@ -39,11 +39,12 @@ public class SecurityConfig  {
 	private final JwtService jwtService;
 	private final UserRepository userRepository;
 	private final ObjectMapper objectMapper;
-	private PrincipalDetailsService principalDetailsService;
+	private final PrincipalOauth2UserService principalOauth2UserService;
+	private final PrincipalDetailsService principalDetailsService;
+
 	@Autowired
 	private CorsFilter corsFilter;
-	@Autowired
-	private PrincipalOauth2UserService principalOauth2UserService;
+//	@Autowired
 
 
 	//해당 메서드의 리턴 되는 오브젝트를 loc로 등록해준다.
@@ -60,26 +61,27 @@ public class SecurityConfig  {
 		http
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
-//				.addFilter(corsFilter)
+				.addFilter(corsFilter)
 				.formLogin().disable()
 				.httpBasic().disable()
 				.authorizeRequests()
-//				.antMatchers("/api/v1/user/**")
-//				.access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-				.anyRequest().permitAll();
+				.antMatchers("/api/v1/user/**")
+				.access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+						.anyRequest().permitAll();
+
 
 		http.oauth2Login() //카카오 로그인 오쓰요
 				.loginPage("/") //로그인 완료된 뒤 후처리 필요
+				.successHandler(loginSuccessHandler())
+				.failureHandler(loginFailureHandler())
 ////				// 1.인증 , 2 토큰, 3 , 사용자 정보 가져오기 4. 그 정보 토대로 로그인 자동 진행
-//				.authorizationEndpoint()
-//				.authorizationRequestRepository(authorizationRequestRepository).and()
 				.userInfoEndpoint()
 				.userService(principalOauth2UserService);
 //		http.addFilter(new JwtAuthenticationFilter(authenticationManager));
 //				// AuthenticationManger 떤져
 //		http.addFilter(new JwtAuthorizationFilter(authenticationManager));
-		http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
-		http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
+//		http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
+		http.addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
@@ -173,7 +175,7 @@ public class SecurityConfig  {
 	 * 로그인 성공 시 호출할 handler, 실패 시 호출할 handler로 위에서 등록한 handler 설정
 	 */
 	@Bean
-		public CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
+	public CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
 		CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordLoginFilter
 				= new CustomJsonUsernamePasswordAuthenticationFilter(objectMapper);
 		customJsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
@@ -184,6 +186,7 @@ public class SecurityConfig  {
 
 	@Bean
 	public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
+		System.out.println("jwt 필터 작동 ~~~~~~~~~~~~~~~~");
 		JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, userRepository);
 		return jwtAuthenticationFilter;
 	}
