@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { Router, useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 
-export default function ReactCalendar({ position, year, month, day }) {
+export default function ReactCalendar({ position, year, month, day, modalActive, getTargetDate }) {
   const [targetDate, setTargetDate] = useState(new Date());
   const [targetDay, setTargetDay] = useState(day);
 
@@ -16,10 +15,12 @@ export default function ReactCalendar({ position, year, month, day }) {
   function clickCalendar(event) {
     setTargetDay(event.getDate());
     const queryDate = event + "";
-    router.push({
-      pathname: "/PolicyList",
-      query: { calendarActive: true, calendarDate: queryDate },
-    });
+    // router.push({
+    //   pathname: "/PolicyList",
+    //   query: { calendarActive: true, calendarDate: queryDate },
+    // });
+    modalActive(true);
+    getTargetDate(event);
   }
 
   return (

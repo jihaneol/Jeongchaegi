@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactCalendar from "./ReactCalendar";
 import style from "../styles/Home.module.css";
 
-export default function HomeCalendar() {
+export default function HomeCalendar({ modalActive, getTargetDate }) {
   const [targetMonth, setTargetMonth] = useState(new Date().getMonth());
   const [today, setToday] = useState(new Date());
   const year = today.getFullYear();
@@ -31,6 +31,8 @@ export default function HomeCalendar() {
         month={targetMonth}
         year={year}
         day={day}
+        modalActive={modalActive}
+        getTargetDate={getTargetDate}
       />
       <button
         className={`react_calendar_side_position_btn react_calendar_right`}

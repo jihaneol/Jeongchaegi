@@ -11,9 +11,6 @@ import PolicyFilterList from "../components/PolicyFilterList";
 export default function PolicyList() {
   const router = useRouter();
   const {calendarActive, calendarDate} = router.query;
-  console.log(typeof(calendarActive));
-  console.log(typeof(calendarDate));
-  console.log(calendarDate);
 
   // State 모음
   const [isCalendarActive, setIsCalendarActive] = useState(Boolean(calendarActive));
@@ -54,8 +51,11 @@ export default function PolicyList() {
   }
 
   useEffect(() => {
-    setTargetDate(new Date(calendarDate));
-    console.log(calendarDate);
+    if (calendarDate) {
+      setTargetDate(new Date(calendarDate));
+    }
+    else
+      setTargetDate(new Date())
   }, [])
 
   useEffect(() => {
@@ -74,7 +74,6 @@ export default function PolicyList() {
 
   function onClickDay(e) {
     setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()))
-    console.log(targetDate);
   }
 
   return (
