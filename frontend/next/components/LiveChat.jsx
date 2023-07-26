@@ -1,60 +1,119 @@
-import { useState, useEffect } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 
-import Style from "../styles/PolicyDetail.module.css";
+export default function LiveChat({ pageId }) {
+  const [msg, setMsg] = useState("");
+  const [name, setName] = useState("");
+  const [chat, setChat] = useState([]);
+  const [chkLog, setChkLog] = useState(false);
+  const [socketData, setSocketData] = useState();
 
-const LiveChat = () => {
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
-  const messageList = messages.map((msg) => <li>{msg}</li>);
+  const ws = useRef(null);
 
-  const onChange = (event) => {
-    setMessage(event.target.value);
-  };
-
-  const onClick = () => {
-    setMessages((preMessages) => [...preMessages, message]);
-    setMessage("");
-  };
+  const msgBox = chat.map((item, idx) => (
+    <div key={idx} className={item.name === name ? "me" : "other"}>
+      <span>
+        <b>{item.name}</b>
+      </span>{" "}
+      [{item.date}]<br />
+      <span>{item.msg}</span>
+    </div>
+  ));
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:3000/api/socket");
+    if (socketData != undefined) {
+      const tempData = chat.concat(socketData);
+      console.log(tempData);
+      setChat(tempData);
+    }
+  }, [socketData]);
 
-    socket.onopen = () => {
-      console.log("WebSocket connection established.");
-      socket.send("Hello, WebSocket!");
-    };
+  // webSocket
+  // webSocket
+  const onText = (event) => {
+    console.log(event.target.value);
+    setMsg(event.target.value);
+  };
 
-    socket.onmessage = (event) => {
-      console.log("Message from server:", event.data);
-    };
+  const webSocketLogin = useCallback(() => {
+    ws.current = new WebSocket(`ws://localhost:8080/policydetail/${pageId}`);
 
-    return () => {
-      socket.close();
+    ws.current.onmessage = (message) => {
+      const dataSet = JSON.parse(message.data);
+      setSocketData(dataSet);
     };
-  }, []);
+  }, [pageId]);
+
+  const send = useCallback(() => {
+    if (!chkLog) {
+      if (name === "") {
+        alert("이름을 입력하세요.");
+        document.getElementById("name").focus;
+        return;
+      }
+      webSocketLogin();
+      setChkLog(true);
+    }
+
+    if (msg !== "") {
+      const data = {
+        name,
+        msg,
+        date: new Date().toLocaleString(),
+      };
+
+      const temp = JSON.stringify(data);
+
+      if (ws.current.readyState === 0) {
+        ws.current.onopen = () => {
+          console.log(ws.current.readyState);
+          ws.current.send(temp);
+        };
+      } else {
+        ws.current.send(temp);
+      }
+    } else {
+      alert("메세지를 입력하세요.");
+      document.getElementById("msg").focus();
+      return;
+    }
+    setMsg("");
+  });
+  // webSocket
+  // webSocket
 
   return (
-    <div className={Style.chat_wrapper}>
-      <h1>WebSockets Demo</h1>
-      <div id="status">Connecting...</div>
-
-      <ul id="messages">{messageList};</ul>
-
-      <form onSubmit={onClick}>
-        <div className={Style.chat_textarea}>
-          <textarea
-            value={message}
-            onChange={onChange}
-            id="message"
-            placeholder="Write your message here..."
-            required
-          ></textarea>
+    <div>
+      <div id="chat-wrap">
+        <div id="chat">
+          <h1 id="title">WebSocket Chatting</h1>
+          <br />
+          <div id="talk">
+            <div className="talk-shadow"></div>
+            {msgBox}
+          </div>
+          <input
+            disabled={chkLog}
+            placeholder="이름을 입력하세요."
+            type="text"
+            id="name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+          <div id="sendZone">
+            <textarea
+              id="msg"
+              value="msg"
+              onChange={onText}
+              onKeyDown={(ev) => {
+                if (ev.keyCode === 13) {
+                  send();
+                }
+              }}
+            ></textarea>
+            <input type="button" value="전송" id="btnSend" onClick={send} />
+          </div>
         </div>
-        <button type="submit">Send Message</button>
-        <button type="reset">Close Connection</button>
-      </form>
+      </div>
     </div>
   );
-};
-
-export default LiveChat;
+}
