@@ -22,7 +22,7 @@
 
 .chat {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   width: auto;
   margin: 1rem 1rem 0 1rem;
   min-height: 24rem;
@@ -42,4 +42,24 @@
   position: fixed;
   top: 5rem;
   left: 1rem;
+}
+
+.chat_wrapper {
+  width: 650px;
+  background-color: #fff;
+  padding: 1em;
+  margin: 1em auto;
+  border-top: 5px solid #69c773;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0, 8);
+}
+
+.chat_textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+  min-height: 100px;
+  margin-bottom: 1rem;
 }
