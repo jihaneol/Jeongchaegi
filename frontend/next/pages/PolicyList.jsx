@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-import styles from "../styles/PolicyList.module.css";
+import style from "../styles/PolicyList.module.css";
 import Nav from "../components/Nav";
 import PcyListItem from "../components/PcyListItem";
 import PolicyListSearch from "../components/PolicyListSearch";
@@ -59,7 +59,7 @@ export default function PolicyList() {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={style.wrapper}>
       {/* navbar */}
       <Nav />
       {/* fixed calendar */}
@@ -71,8 +71,8 @@ export default function PolicyList() {
       <div
         className={
           isCalendarActive === false
-            ? styles.list_wrap_on
-            : styles.list_wrap_off
+            ? style.list_wrap_on
+            : style.list_wrap_off
         }
       >
         {/* 검색창 */}
@@ -82,7 +82,7 @@ export default function PolicyList() {
         <PolicyFilter isCalendarActive={isCalendarActive} calendarBtnClick={calendarBtnClick}/>
 
         {/* pcylist========================================================== */}
-        <div className={styles.pcylist}>
+        <div className={style.pcylist}>
           {testdata ? (
             <PcyListItem obj={testdata} onItemClick={handleItemClick} /> // 그냥 리스트 통째로 프롭함
           ) : (
