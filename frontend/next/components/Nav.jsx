@@ -1,15 +1,13 @@
 import React from "react";
-import nav_styles from "../styles/Nav.module.css";
+import styles from "../styles/Nav.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import axios from "axios";
-import Login from "./Login";
 
 export default function Nav() {
   return (
-    <div className={nav_styles.nav_wrap}>
-      <div className={nav_styles.nav_menu}>
-        {/* <Link href="/" className={nav_styles.nav_logo}></Link> */}
+    <div className={styles.nav_wrap}>
+      <div className={styles.nav_menu}>
+        {/* <Link href="/" className={styles.nav_logo}></Link> */}
 
         <Link href="/">
           <a>
@@ -31,7 +29,11 @@ export default function Nav() {
         </Link>
         
       </div>
-      <a href="http://localhost:8080/oauth2/authorization/kakao" className={nav_styles.nav_login}>Login</a>
+      <Link href="/login" >
+        <a className={styles.nav_login}>
+          Login
+        </a>
+      </Link>
     </div>
   );
 }
