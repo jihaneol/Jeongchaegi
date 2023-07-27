@@ -3,6 +3,9 @@ import { CONFIG_FILES } from "next/dist/shared/lib/constants";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
+
+// 이 파일은 테스트가 다 되면 _api.js 에 넣어야 함. 그리고 import api from "../../_api.js" 해야함.
+
 const Login = () => {
   // useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
   const [cookies, setCookie, removeCookie] = useCookies(["at"]);
