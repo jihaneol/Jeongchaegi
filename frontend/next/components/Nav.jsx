@@ -5,14 +5,6 @@ import Image from "next/image";
 import axios from "axios";
 
 export default function Nav() {
-  function onClick() {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/oauth2/authorization/kakao",
-    }).then((res) => {
-      console.log(res);
-    })
-  }
   return (
     <div className={nav_styles.nav_wrap}>
       <div className={nav_styles.nav_menu}>
