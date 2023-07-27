@@ -28,7 +28,7 @@ public class  PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest); // 카카오의 회원 프로필 조회
-
+		System.out.println("userRequest accse : " + userRequest.getAccessToken());
 		// code를 통해 구성한 정보
 		System.out.println("userRequest clientRegistration : " + userRequest.getClientRegistration()); // 어떤오쓰로 로그인한지 확인
 		// token을 통해 응답받은 회원정보
