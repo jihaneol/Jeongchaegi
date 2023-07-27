@@ -9,6 +9,7 @@
     min-height: 20rem;
     border-radius: 1rem;
     background-color: #adc4ff;
+    transition: margin-left 1.5s ease;
 }
 
 .list_wrap_off {
@@ -18,6 +19,7 @@
     min-height: 20rem;
     border-radius: 1rem;
     background-color: #adc4ff;
+    transition: margin-left 1.5s ease;
 }
 
 .pcylist {
@@ -54,7 +56,7 @@
 }
 
 .filter_calendar_btn {
-    border: 1px solid black;
+    border: 1px solid #ffc7c7;
     border-radius: 15px;
     margin-bottom: 5px;
     width: 58px;
@@ -86,11 +88,13 @@
 .toggle_on {
     background-color: white;
     margin-left: auto;
+    transition: margin-left .5s ease;
 }
 
 .toggle_off {
     background-color: white;
     border: 1px solid rgb(198, 195, 195);
+    transition: margin-left .5s ease;
 }
 
 .filter{

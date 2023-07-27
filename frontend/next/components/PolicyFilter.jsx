@@ -3,7 +3,7 @@ import styles from "../styles/PolicyList.module.css";
 
 export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
   // 필터 리스트 - 필터 종류 늘어날 때마다 여기에 추가
-  const filterList = ["Default1", "Default2", "Default3"]
+  const filterList = ["Default1", "Default2", "Default3"];
 
   return (
     <div className={styles.filter_wrapper}>
@@ -20,7 +20,11 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
             }`}
             onClick={calendarBtnClick}
           >
-            <div className={`${styles.toggle} ${isCalendarActive === true ? styles.toggle_on : styles.toggle_off}`} />
+            <div
+              className={`${styles.toggle} ${
+                isCalendarActive === true ? styles.toggle_on : styles.toggle_off
+              }`}
+            />
           </button>
         </div>
       </div>
