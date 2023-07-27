@@ -2,6 +2,8 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import { styled, alpha, Box } from "@mui/system";
 import Slider, { sliderClasses } from "@mui/base/Slider";
+import { IoIosArrowForward } from "react-icons/io";
+import { VscCircleLargeFilled } from "react-icons/vsc";
 
 import Style from "../../styles/UserFirInfo.module.css";
 
@@ -9,7 +11,7 @@ export default function UserFirInfo() {
   return (
     <div className={Style.wrap}>
       <div className={Style.slider}>
-        <Box sx={{ width: 300 }}>
+        <Box sx={{ width: 400 }}>
           <StyledSlider
             aria-label="Temperature"
             defaultValue={0}
@@ -22,14 +24,37 @@ export default function UserFirInfo() {
           />
         </Box>
       </div>
-      <h4>관심 유형</h4>
-      <span>관심 있으신 유형을 모두 선택하면</span>
-      <br />
-      <span>유형 맞춤알림 및 여러가지 혜택을 받을 수 있어요</span>
+      <div className={Style.container}>
+        <div className={Style.item}>
+          <span>관심 유형</span>
+          <br />
+          <span>관심 있으신 유형을 모두 선택하면</span>
+          <br />
+          <span>유형 맞춤알림 및 여러가지 혜택을 받을 수 있어요</span>
+        </div>
 
-      <div className={Style.container_row}>
-        <div className={Style.container_item}>123</div>
-        <div className={Style.container_item}>444</div>
+        <div className={Style.container_inner}>
+          <div>유형</div>
+          <div></div>
+          <div>선택 재설정</div>
+        </div>
+        <div className={Style.item}>
+          <div>
+            <div>
+              <VscCircleLargeFilled />
+            </div>
+            <div>일자리</div>
+            <div>
+              <IoIosArrowForward /> bb
+            </div>
+
+            <div>주거</div>
+            <div>● 복지 문화</div>
+            <div>● 참여 권리</div>
+          </div>
+          <div></div>
+        </div>
+        <div className={Style.item}>3333</div>
       </div>
     </div>
   );
