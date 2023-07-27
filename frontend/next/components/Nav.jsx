@@ -3,6 +3,7 @@ import nav_styles from "../styles/Nav.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
+import Login from "./Login";
 
 export default function Nav() {
   function onClick() {
@@ -38,7 +39,7 @@ export default function Nav() {
         </Link>
         
       </div>
-      <div className={nav_styles.nav_login}>Login</div>
+      <a href="http://localhost:8080/oauth2/authorization/kakao" className={nav_styles.nav_login}>Login</a>
     </div>
   );
 }

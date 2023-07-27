@@ -4,6 +4,7 @@ import HomeList from "../components/HomeList";
 import Nav from "../components/Nav";
 import style from "../styles/Home.module.css";
 import Modal from "../components/Modal";
+import Login from "../components/Login";
 
 export default function Home() {
   const [modalFlag, setModalFlag] = useState(false);
@@ -24,6 +25,7 @@ export default function Home() {
 
   return (
     <div className={style.all_wrapper}>
+      <Login />
       <Nav />
       <Modal modalFlag={modalFlag} onClose={onClose} targetDate={targetDate} />
       <div
