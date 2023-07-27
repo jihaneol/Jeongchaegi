@@ -1,0 +1,140 @@
+.all_wrapper {
+  position: relative;
+}
+
+.modal_on {
+  opacity: 50%;
+}
+
+.modal {
+  z-index: 200;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  height: 400px;
+  width: 500px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+}
+
+.modal_header {
+  flex: 1;
+  padding: 10px 10px 0 10px;
+  border-bottom: 0.5px solid #dfdbdb;
+  display: flex;
+}
+
+.modal_header_exit {
+  margin-left: auto;
+  border: 0px;
+  background-color: white;
+}
+
+.modal_content {
+  flex: 8;
+  padding: 10px;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal_content > * {
+  height: 50%;
+  text-align: center;
+  padding-top: 30px;
+}
+
+.modal_footer {
+  padding: 10px 0 40px 0;
+  flex: 1;
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 0 0 10px 10px;
+}
+
+.modal_footer > button {
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+.modal_footer_move {
+  background-color: #6e92e9;
+  color: white;
+  border: 0px;
+}
+
+.modal_footer_cancel {
+  color: #3b67d6;
+  border: 1px solid #3b67d6;
+}
+
+.calendar_wrapper {
+  height: 80vh;
+  background-color: #D0DDFF;
+  position: relative;
+  display: flex;
+}
+
+.outer_wrapper {
+  height: 28rem;
+  display: flex;
+}
+
+.list_wrapper {
+  width: 44rem;
+  padding: 1.2rem;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.list_box {
+  background-color: #5383FF;
+  height: 28rem;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list_header {
+  flex: 1;
+  background-color: #5383FF;
+  color: white;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 2.8rem;
+}
+
+.list_content_wrapper {
+  flex: 8;
+  background-color: #ADC4FF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-radius: 10px 10px 0 0;
+  border-top: 1px solid #5383FF;
+}
+
+.list_content_box {
+  padding: 0.3rem;
+  margin: 0 0.6rem;
+  max-height: 15%;
+  background-color: white;
+}
+
+.list_content_header {
+  font-size: 1.2rem;
+}
+
+.list_content_body {
+  height: 1.2rem;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  font-size: 1rem;
+}
