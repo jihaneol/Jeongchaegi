@@ -14,11 +14,6 @@ export default function ReactCalendar({ position, year, month, day, modalActive,
 
   function clickCalendar(event) {
     setTargetDay(event.getDate());
-    const queryDate = event + "";
-    // router.push({
-    //   pathname: "/PolicyList",
-    //   query: { calendarActive: true, calendarDate: queryDate },
-    // });
     modalActive(true);
     getTargetDate(event);
   }

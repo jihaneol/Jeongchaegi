@@ -1,0 +1,47 @@
+.all_wrapper {
+	min-width: 100vh;
+	min-height: 100vh;
+	border: 1px solid black;
+	display: flex;
+	justify-content: center;
+	background-color: #D0DDFF;
+}
+
+.content_container {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid black;
+	margin: 170px 0;
+	background-color: #99B5FF;
+}
+
+.content_container > * {
+	border: 1px solid black;
+}
+
+.head_wrapper {
+	flex: 2;
+}
+
+.content_wrapper{
+	flex: 10;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.kakao_wrapper {
+	margin-top: 50px;
+	flex: 1;
+}
+
+.signup_wrapper{
+	flex: 1;
+}
+
+.footer_wrapper {
+	flex: 1;
+}
