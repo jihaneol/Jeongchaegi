@@ -9,7 +9,7 @@ function KakaoLoginOrSignup() {
 				<div className={styles.head_wrapper}>header</div>
 				<div className={styles.content_wrapper}>
 					<div className={styles.kakao_wrapper}>
-						<a href="http://localhost:8080/oauth2/authorization/kakao">
+						<a href="http://localhost:8081/oauth2/authorization/kakao">
 							<Image src="/kakao_login_large_wide.png" width="480px" height="72px" alt="카카오 로그인"/>
 						</a>
 					</div>
