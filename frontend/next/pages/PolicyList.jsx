@@ -7,6 +7,7 @@ import PcyListItem from "../components/PcyListItem";
 import PolicyListSearch from "../components/PolicyListSearch";
 import PolicyFilter from "../components/PolicyFilter";
 import PolicyListCalendar from "../components/PolicyListCalendar";
+import PolicyListSort from "../components/PolicyListSort";
 
 export default function PolicyList() {
   const router = useRouter();
@@ -77,8 +78,11 @@ export default function PolicyList() {
         {/* 검색창 */}
         <PolicyListSearch />
 
-        {/* 조건 검색 */}
+        {/* 필터 */}
         <PolicyFilter isCalendarActive={isCalendarActive} calendarBtnClick={calendarBtnClick}/>
+
+        {/* 정렬 기능 */}
+        <PolicyListSort />
 
         {/* pcylist */}
         <div className={style.pcylist}>

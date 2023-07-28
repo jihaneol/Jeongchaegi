@@ -113,3 +113,22 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.sort_wrap {
+    margin: 25px 16px 10px 16px;
+    display: flex;
+}
+
+.sort_wrap > select {
+    border: 0px;
+    width: 100px;
+    background-color: #adc4ff;
+    font-weight: bold;
+    margin-left: auto;
+}
+
+.sort_wrap > button {
+    background-color: #adc4ff;
+    border: 0px;
+    margin-left: 5px;
+}
