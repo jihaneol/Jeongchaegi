@@ -3,7 +3,6 @@ import { CONFIG_FILES } from "next/dist/shared/lib/constants";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
-
 // 이 파일은 테스트가 다 되면 _api.js 에 넣어야 함. 그리고 import api from "../../_api.js" 해야함.
 
 const Login = () => {
@@ -45,11 +44,12 @@ const Login = () => {
 
   api.interceptors.response.use(
     (response) => {
-      console.log(response);
+      console.log("res: ", response);
       return response;
     },
     async (error) => {
       const originalRequest = error.config;
+      console.log("error status: ", error.response.status);
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         console.log("만료되었습니다 refresh Token 시도");
