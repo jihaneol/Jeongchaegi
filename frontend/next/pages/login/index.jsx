@@ -8,7 +8,7 @@ import Link from "next/link";
 function KakaoLoginOrSignup() {
   return (
     <div className={styles.all_wrapper}>
-		<Nav />
+		{/* <Nav /> */}
 		<Login_test />
 		<div className={styles.content_container}>
 			<div className={styles.head_wrapper}>

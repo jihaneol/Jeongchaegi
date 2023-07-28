@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Jwt 인증 필터
@@ -57,7 +58,10 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         String refreshToken = jwtService.extractRefreshToken(request)
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
-        log.info("필터 {}",refreshToken);
+        log.info("엑세스 {}",jwtService.extractAccessToken(request)
+                .filter(jwtService::isTokenValid)
+                .orElse(null));
+        log.info("리프레쉬 토큰 {}",refreshToken);
         // 리프레시 토큰이 요청 헤더에 존재했다면, 사용자가 AccessToken이 만료되어서
         // RefreshToken까지 보낸 것이므로 리프레시 토큰이 DB의 리프레시 토큰과 일치하는지 판단 후,
         // 일치한다면 AccessToken을 재발급해준다.
@@ -71,7 +75,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         // AccessToken이 없거나 유효하지 않다면, 인증 객체가 담기지 않은 상태로 다음 필터로 넘어가기 때문에 403 에러 발생
         // AccessToken이 유효하다면, 인증 객체가 담긴 상태로 다음 필터로 넘어가기 때문에 인증 성공
         if (refreshToken == null) {
-            checkAccessTokenAndAuthentication(request, response, filterChain);
+                checkAccessTokenAndAuthentication(request, response, filterChain);
         }
     }
 
@@ -87,7 +91,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                 .ifPresent(user -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(user);
                     jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getEmail()),
-                            reIssuedRefreshToken);
+                            reIssuedRefreshToken,true); // 응답헤더 저장
                 });
     }
 
@@ -114,11 +118,18 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
         log.info("checkAccessTokenAndAuthentication() 호출");
-         jwtService.extractAccessToken(request)
-                .filter(jwtService::isTokenValid)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
+     Optional<String> sdf = jwtService.extractAccessToken(request)
+                .filter(jwtService::isTokenValid);
+     if(sdf.isEmpty()){
+         log.error("Unauthorized error: {}", sdf);
+         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+         return;
+     }else{
+        log.info("엑세스 토큰이 있다.");
+                sdf.ifPresent(accessToken -> jwtService.extractEmail(accessToken)
                         .ifPresent(email -> userRepository.findByEmail(email)
-                                .ifPresent(this::saveAuthentication)));
+                                .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
+     }
 
         filterChain.doFilter(request, response);
     }
@@ -139,12 +150,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * setAuthentication()을 이용하여 위에서 만든 Authentication 객체에 대한 인증 허가 처리
      */
     public void saveAuthentication(User myUser) {
-        String password = myUser.getPassword();
-        if (password == null) { // 소셜 로그인 유저의 비밀번호 임의로 설정 하여 소셜 로그인 유저도 인증 되도록 설정
-            password = PasswordUtil.generateRandomPassword();
-        }
-        log.info("saveAuthen {}",password);
-        log.info("asdklfjladskf {}",myUser.getRole());
+
         PrincipalDetails userDetailsUser = new PrincipalDetails(myUser);
 
         Authentication authentication =
