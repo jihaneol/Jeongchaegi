@@ -89,11 +89,10 @@ public class JwtService {
     /**
      * AccessToken + RefreshToken 헤더에 실어서 보내기
      */
-    public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
+    public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken, boolean flag) {
         response.setStatus(HttpServletResponse.SC_OK);
-
-        setAccessTokenHeader(response, accessToken);
-        setRefreshTokenHeader(response, refreshToken);
+        setAccessTokenHeader(response, accessToken, flag);
+        setRefreshTokenHeader(response, refreshToken, flag);
         log.info("Access Token, Refresh Token 헤더 설정 완료");
     }
 
@@ -103,7 +102,7 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
-
+        log.info("리프레쉬토큰 추출", request.getHeader(refreshHeader));
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -115,7 +114,6 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
-        log.info("access token : {}",request.getHeader(accessHeader));
         return Optional.ofNullable(request.getHeader(accessHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -145,24 +143,34 @@ public class JwtService {
     /**
      * AccessToken 헤더 설정
      */
-    public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
-        Cookie cookie = new Cookie("at",accessToken);
-        cookie.setMaxAge(60*2);
-        cookie.setPath("/");
-//        cookie.setHttpOnly(true);
+    public void setAccessTokenHeader(HttpServletResponse response, String accessToken, boolean flag) {
+        if (flag) {
+            response.setHeader("accessHeader", accessToken);
 
-        response.addCookie(cookie);
+        } else {
+            Cookie cookie = new Cookie("at", accessToken);
+            cookie.setMaxAge(60 * 2);
+            cookie.setPath("/");
+//        cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+        }
     }
 
     /**
      * RefreshToken 헤더 설정
      */
-    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
-        Cookie cookie = new Cookie("rt",refreshToken);
-        cookie.setMaxAge(7*24*60*60);
-        cookie.setPath("/");
-//        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
+    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken, boolean flag) {
+        if (flag) {
+            response.setHeader("refreshHeader", refreshToken);
+        } else {
+
+            Cookie cookie = new Cookie("rt", refreshToken);
+            cookie.setMaxAge(2 * 60);
+            cookie.setPath("/");
+            //        cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+
+        }
     }
 
     /**

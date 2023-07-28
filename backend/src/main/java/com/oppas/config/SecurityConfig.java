@@ -14,6 +14,7 @@ import com.oppas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -61,8 +62,8 @@ public class SecurityConfig  {
 				.httpBasic().disable()
 				.authorizeRequests()
 				.antMatchers("/login").permitAll()
-				.antMatchers("/api/v1/user/**","/data","/refresh-token")
-				.authenticated()
+				.antMatchers("/api/v1/user/**","/data").authenticated()
+				.antMatchers(HttpMethod.POST,"/refresh-token").authenticated()
 						.anyRequest().permitAll();
 
 
