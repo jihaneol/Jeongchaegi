@@ -1,10 +1,11 @@
 .wrapper {
     padding: 0 0 1rem 0;
     background-color: #d0ddff;
+    margin-top: 5rem;
 }
 
 .list_wrap_on {
-    margin: 1rem auto;
+    margin: 0 auto;
     width: 45rem;
     min-height: 20rem;
     border-radius: 1rem;
@@ -13,7 +14,6 @@
 }
 
 .list_wrap_off {
-    margin-top: 1rem;
     margin-left: 30%;
     width: 50rem;
     min-height: 20rem;

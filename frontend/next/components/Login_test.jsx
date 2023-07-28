@@ -9,6 +9,7 @@ import { useCookies } from "react-cookie";
 const Login = () => {
   // useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
   const [cookies, setCookie, removeCookie] = useCookies(["at"]);
+  const [rtcookies, setrtCookie, removertCookie] = useCookies(["rt"]);
   const [accessToken, setAccessToken] = useState([]);
   const [refreshToken, setRefreshToken] = useState([]);
 
@@ -22,7 +23,7 @@ const Login = () => {
 
   // axios 설정
   const api = axios.create({
-    baseURL: "http://localhost:8080/",
+    baseURL: "http://localhost:8081/",
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
@@ -54,7 +55,7 @@ const Login = () => {
         console.log("만료되었습니다 refresh Token 시도");
         try {
           const response = await axios.post(
-            "http://localhost:8080/refresh-token",
+            "http://localhost:8081/refresh-token",
             {
               refreshToken,
             }
@@ -76,7 +77,7 @@ const Login = () => {
 
   async function login() {
     setAccessToken(cookies.at);
-    setRefreshToken(cookies.rt);
+    setRefreshToken(rtcookies.rt);
   }
 
   async function getData() {

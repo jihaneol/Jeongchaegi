@@ -5,6 +5,10 @@
 	min-height: 5rem;
 	align-items: center;
 	background-color: #5383ff;
+	position: fixed;
+	z-index: 500;
+	top: 0px;
+	
 }
 
 .nav_menu {
