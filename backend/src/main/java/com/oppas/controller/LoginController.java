@@ -1,5 +1,6 @@
 package com.oppas.controller;
 
+import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,24 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private UserRepository userRepository;
-//
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     // jwt
-    @GetMapping("home")
-    public String home(){
-        return "<h1> home </h1>";
-    }
 
-    //oauth
-    @GetMapping({ "", "/" })
-    public  String index() {
-
-        return "loginForm";
-    }
     @GetMapping("/data")
     public  ResponseEntity<?>  data() {
 
@@ -55,65 +42,6 @@ public class LoginController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/user")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-//        System.out.println("principalDetails : "+principalDetails);
-        return "user";
-    }
-    @GetMapping("/manager")
-    public @ResponseBody String manager() {
-        return "manager";
-    }
-    @GetMapping("/admin")
-    public @ResponseBody String admin() {
-        return "admin";
-    }
-    // 스프링 시큐리티 해당주소를 낚는다 - securityconfig 설정후에 말이다.
-//    @GetMapping("/login")
-//    public @ResponseBody String login() {
-//        return "login";
-//    }
-    @GetMapping("/loginForm")
-    public  String login() {
-        return "loginForm";
-    }
-
-    @GetMapping("/joinForm")
-    public  String joinForm() {
-        return "joinForm";
-    }
-
-//    @PostMapping("/join")
-//    public  String join(@RequestBody User user) {
-//        System.out.println(user);
-//        user.setRole("ROLE_USER");
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//        userRepository.save(user); // 비번 암호화 해줘야 한다.
-//        return "회원가입 완료";
-//    }
-
-    //@preAuthorize("hasRole('ROLE_~) or hasRole('ROLE_~)") 여러개 설정
-    @Secured("ROLE_ADMIN") // 권한이 이거인것만 접근 가능
-    @GetMapping("/info")
-    public @ResponseBody String info(){
-        return "개인정보";
-    }
-
-    @GetMapping("/test/login")
-    public @ResponseBody String testLogin(
-            @AuthenticationPrincipal PrincipalDetails userDetails){ // OAuth2User DI의존성 주입
-        System.out.println("test =====================");
-        System.out.println("userDetails : "+ userDetails.getUser());
-        return "세션 정보 확인하기";
-    }
-    @GetMapping("/test/oauth/login")
-    public @ResponseBody String testOAuthLogin(
-            Authentication authentication){
-        System.out.println("test/oauth =====================");
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("userDetails : "+ oAuth2User.getAttributes());
-        return " OAuth 세션 정보 확인하기";
-    }
 
 
 }
