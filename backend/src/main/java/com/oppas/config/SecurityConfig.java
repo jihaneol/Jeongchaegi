@@ -12,7 +12,6 @@ import com.oppas.login.handler.LoginFailureHandler;
 import com.oppas.login.handler.LoginSuccessHandler;
 import com.oppas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,8 +25,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration // IoC 빈(bean)을 등록
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록이된다.
@@ -42,9 +40,6 @@ public class SecurityConfig  {
 	private final PrincipalOauth2UserService principalOauth2UserService;
 	private final PrincipalDetailsService principalDetailsService;
 
-	@Autowired
-	private CorsFilter corsFilter;
-//	@Autowired
 
 
 	//해당 메서드의 리턴 되는 오브젝트를 loc로 등록해준다.
@@ -61,16 +56,17 @@ public class SecurityConfig  {
 		http
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
-				.addFilter(corsFilter)
+//				.addFilter(corsFilter)
 				.formLogin().disable()
 				.httpBasic().disable()
 				.authorizeRequests()
-				.antMatchers("/api/v1/user/**")
-				.access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+				.antMatchers("/login").permitAll()
+				.antMatchers("/api/v1/user/**","/data","/refresh-token")
+				.authenticated()
 						.anyRequest().permitAll();
 
 
-		http.oauth2Login() //카카오 로그인 오쓰요
+		http.oauth2Login() //카카오 로그인 오쓰
 				.userInfoEndpoint()
 				.userService(principalOauth2UserService)
 				.and()
@@ -82,7 +78,7 @@ public class SecurityConfig  {
 //				// AuthenticationManger 떤져
 //		http.addFilter(new JwtAuthorizationFilter(authenticationManager));
 //		http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
-		http.addFilterAfter(jwtAuthenticationProcessingFilter(), LogoutFilter.class);
+		http.addFilterAfter(jwtAuthenticationProcessingFilter(), BasicAuthenticationFilter.class);
 
 		return http.build();
 	}
