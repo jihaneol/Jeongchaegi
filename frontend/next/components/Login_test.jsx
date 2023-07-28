@@ -45,6 +45,7 @@ const Login = () => {
   api.interceptors.response.use(
     (response) => {
       console.log("res: ", response);
+      console.log("refresh: ", refreshToken);
       return response;
     },
     async (error) => {
@@ -55,9 +56,9 @@ const Login = () => {
         console.log("만료되었습니다 refresh Token 시도");
         try {
           const response = await axios.post(
-            "http://localhost:8080/refresh-token",
+            "http://localhost:8081/refresh-token",
             {
-              refreshToken,
+              refreshToken: refreshToken,
             }
           );
 
@@ -83,7 +84,7 @@ const Login = () => {
   async function getData() {
     try {
       const response = await api.get("/data");
-      console.log("Data:", response.data);
+      console.log("Data:", response);
     } catch (error) {
       console.error("Error:", error);
     }
