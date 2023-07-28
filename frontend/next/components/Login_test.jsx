@@ -45,6 +45,7 @@ const Login = () => {
   api.interceptors.response.use(
     (response) => {
       console.log("res: ", response);
+      console.log("refresh: ", refreshToken);
       return response;
     },
     async (error) => {
