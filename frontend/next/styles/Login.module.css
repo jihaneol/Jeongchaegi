@@ -25,6 +25,9 @@
 	flex: 2;
 	background-color: #9FB9FD;
 	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding-top: 10px;
 }
 
 .content_wrapper{

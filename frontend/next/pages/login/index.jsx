@@ -12,7 +12,11 @@ function KakaoLoginOrSignup() {
 		<Login_test />
 		<div className={styles.content_container}>
 			<div className={styles.head_wrapper}>
-				<Image src="/Logo.PNG" width="200px" height="72px" alt="정채기 로고" />
+				<Link href="/">
+					<a>
+						<Image src="/Logo_white.PNG" width="200px" height="80px" alt="정채기 로고" />
+					</a>
+				</Link>
 			</div>
 			<div className={styles.content_wrapper}>
 				<div className={styles.text_wrapper}>카카오 로그인으로 모든 기능 이용하기</div>
@@ -23,9 +27,9 @@ function KakaoLoginOrSignup() {
 				</div>
 			</div>
 			<div className={styles.signup_wrapper}>
-				계정이 없으신가요?
+				{`계정이 없으신가요? `}
 				<Link href="/login/signup">
-					<a> 가입하기</a>
+					<a>가입하기</a>
 				</Link>
 			</div>
 		</div>

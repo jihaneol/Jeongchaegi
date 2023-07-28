@@ -42,6 +42,9 @@ const Login = () => {
     }
   );
 
+  // access_token 이랑 요청 보냄 -> access_token 만료되면 status 로 에러 보냄 -> refresh_token 다시 보내고
+  // refresh_token 보내면 access_token 다시 발급, 근데 refresh_token 도 만료되면 그 때는 다시 로그인 해야 함.
+
   api.interceptors.response.use(
     (response) => {
       console.log("res: ", response);
