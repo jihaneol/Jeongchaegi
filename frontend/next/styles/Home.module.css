@@ -78,6 +78,7 @@
   background-color: #D0DDFF;
   position: relative;
   display: flex;
+  margin-top: 5rem;
 }
 
 .outer_wrapper {
