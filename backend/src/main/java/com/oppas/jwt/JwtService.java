@@ -91,9 +91,10 @@ public class JwtService {
      */
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken, boolean flag) {
         response.setStatus(HttpServletResponse.SC_OK);
+        System.out.println(accessToken);
+        log.info("리프레쉬 {}", refreshToken);
         setAccessTokenHeader(response, accessToken, flag);
         setRefreshTokenHeader(response, refreshToken, flag);
-        log.info("Access Token, Refresh Token 헤더 설정 완료");
     }
 
     /**
@@ -102,7 +103,6 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
-        log.info("리프레쉬토큰 추출", request.getHeader(refreshHeader));
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -114,6 +114,7 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
+
         return Optional.ofNullable(request.getHeader(accessHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -128,6 +129,7 @@ public class JwtService {
      */
     public Optional<String> extractEmail(String accessToken) {
         try {
+            log.info("이메일 추출");
             // 토큰 유효성 검사하는 데에 사용할 알고리즘이 있는 JWT verifier builder 반환
             return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
                     .build() // 반환된 빌더로 JWT verifier 생성
@@ -176,13 +178,7 @@ public class JwtService {
     /**
      * RefreshToken DB 저장(업데이트)
      */
-    public void updateRefreshToken(String email, String refreshToken) {
-        userRepository.findByEmail(email)
-                .ifPresentOrElse(
-                        user -> user.updateRefreshToken(refreshToken),
-                        () -> new Exception("일치하는 회원이 없습니다.")
-                );
-    }
+
 
     public boolean isTokenValid(String token) {
         try {
