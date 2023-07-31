@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import Style from "../styles/GetTypeInfo.module.css";
+import Style from "./styles/GetTypeInfo.module.css";
 
 export default function GetTypeInfo() {
   // 미선택 타입
@@ -108,9 +108,7 @@ export default function GetTypeInfo() {
                 ))}
           </div>
         </div>
-        <div className={Style.button_container}>
-          <div>
-            {/* TEST!!!
+        {/* TEST!!!
             <Link
               href={{
                 pathname: "/about",
@@ -119,12 +117,6 @@ export default function GetTypeInfo() {
             >
               About
             </Link> */}
-            <Link href="/">이전</Link>
-          </div>
-          <div>
-            <Link href="/">다음</Link>
-          </div>
-        </div>
       </div>
     </div>
   );
