@@ -13,7 +13,7 @@ export default function Modal({ modalFlag, onClose, targetDate }) {
   const moveToList = () => {
     const queryDate = targetDate + "";
     router.push({
-      pathname: "/PolicyList",
+      pathname: "/policylist",
       query: { calendarActive: true, calendarDate: queryDate },
     });
   };

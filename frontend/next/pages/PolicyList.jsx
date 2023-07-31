@@ -62,9 +62,14 @@ export default function PolicyList() {
       {/* navbar */}
       <Nav />
       {/* fixed calendar */}
-      {isCalendarActive === true ? (
-        <PolicyListCalendar onClickDay={onClickDay} targetDate={targetDate} />
-      ) : null}
+      {isCalendarActive ?
+        <div className={style.calendar_wrap}>
+          <div className={style.calendar_wrap_header}>날짜를 설정하세요</div>
+          {isCalendarActive === true ? (
+            <PolicyListCalendar onClickDay={onClickDay} targetDate={targetDate} />
+          ) : null}
+        </div> : null
+      }
 
       {/* 바깥쪽 랩 */}
       <div
