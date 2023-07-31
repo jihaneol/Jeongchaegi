@@ -20,9 +20,6 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
---job.name=xmlBatchJob
- */
 @Configuration
 @RequiredArgsConstructor
 public class XMLConfiguration {
@@ -35,41 +32,36 @@ public class XMLConfiguration {
     public Job xmlBatchJob() {
         return jobBuilderFactory.get("xmlBatchJob")
                 .incrementer(new RunIdIncrementer())
-                .start(xmlBatchStep1())
+                .start(xmlBatchStep(1))
                 .build();
     }
 
     @Bean
-    public Step xmlBatchStep1() {
-        return stepBuilderFactory.get("xmlBatchStep1")
+    public Step xmlBatchStep(int pageIndex) {
+        return stepBuilderFactory.get("xmlBatchStep" + pageIndex)
                 .<PolicyDTO, PolicyDTO>chunk(10)
-                .reader(xmlItemReader())
+                .reader(xmlItemReader(pageIndex))
                 .writer(xmlItemWriter())
                 .build();
     }
 
     @Bean
-    public StaxEventItemReader<PolicyDTO> xmlItemReader() {
+//    @StepScope
+    public StaxEventItemReader<PolicyDTO> xmlItemReader(int pageIndex) {
         // api url로 데이터 저장
+        String url= "https://www.youthcenter.go.kr/opi/youthPlcyList.do?openApiVlak=839cda72655c1032eea8f071&display=100&pageIndex=" + String.valueOf(pageIndex);
+        System.out.println(pageIndex);
+        System.out.println(url);
         try {
-            int display = 100;
-            int pageIndex = 1;
             return new StaxEventItemReaderBuilder<PolicyDTO>()
                     .name("xmlItemReader")
-                    .resource(new UrlResource("https://www.youthcenter.go.kr/opi/youthPlcyList.do?openApiVlak=839cda72655c1032eea8f071&display=" + display + "&pageIndex=" + pageIndex))
+                    .resource(new UrlResource(url))
                     .addFragmentRootElements("youthPolicy")
                     .unmarshaller(itemMarshaller())
                     .build();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-        // xml 파일로 데이터 저장
-//        return new StaxEventItemReaderBuilder<PolicyDTO>()
-//                .name("xmlItemReader")
-//                .resource(new ClassPathResource("policy.xml"))
-//                .addFragmentRootElements("youthPolicy")
-//                .unmarshaller(itemMarshaller())
-//                .build();
     }
 
     @Bean
