@@ -1,6 +1,6 @@
 package com.oppas.controller;
 
-import com.oppas.entity.Policy;
+import com.oppas.entity.policy.Policy;
 import com.oppas.service.PolicyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
