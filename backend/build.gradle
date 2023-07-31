@@ -48,3 +48,7 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+// gradle 시 꼭 해주어야 됨
+jar {
+	enabled = false
+}
