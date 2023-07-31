@@ -276,7 +276,12 @@ export default function SelectPlace() {
 
   return (
     <div className={Style.select_box}>
-      <select name="sido1" id="sido1" onChange={handleSidoChange}>
+      <select
+        className={Style.select}
+        name="sido1"
+        id="sido1"
+        onChange={handleSidoChange}
+      >
         <option value="">시/도 선택</option>
         {sidoOptions.map((option) => (
           <option key={option.index} value={option.index}>
@@ -284,7 +289,7 @@ export default function SelectPlace() {
           </option>
         ))}
       </select>
-      <select name="gugun1" id="gugun1">
+      <select className={Style.select} name="gugun1" id="gugun1">
         <option value="">구/군 선택</option>
         {gugunOptions.map((option) => (
           <option key={option} value={option}>

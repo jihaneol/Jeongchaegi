@@ -8,32 +8,26 @@ import Style from "../../styles/UserInfo.module.css";
 export default function userInfo() {
   const [userStep, setUserStep] = useState(0);
 
-  function onClick_prev() {
+  function onClick_pre() {
     const num = userStep;
-    setUserStep(num - 1);
-    console.log(num);
+    if (num > 0) {
+      setUserStep(num - 1);
+    }
   }
 
   function onClick_next() {
     const num = userStep;
     if (num < 1) setUserStep(num + 1);
-    console.log(num);
   }
 
   return (
     <div>
       <Nav />
-      <div className={Style.wrap}>
-        {userStep === 0 ? <GetTypeInfo /> : <GetPlaceInfo />}
-        <div className={Style.button_box}>
-          <div className={Style.button}>
-            {userStep === 0 ? null : (
-              <button onClick={onClick_prev}>이전</button>
-            )}
-            <button onClick={onClick_next}>다음</button>
-          </div>
-        </div>
-      </div>
+      {userStep === 0 ? (
+        <GetTypeInfo onClick_pre={onClick_pre} onClick_next={onClick_next} />
+      ) : (
+        <GetPlaceInfo onClick_pre={onClick_pre} onClick_next={onClick_next} />
+      )}
     </div>
   );
 }

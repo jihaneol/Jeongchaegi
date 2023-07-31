@@ -3,7 +3,9 @@ import Link from "next/link";
 
 import Style from "./styles/GetTypeInfo.module.css";
 
-export default function GetTypeInfo() {
+export default function GetTypeInfo(props) {
+  console.log(props);
+
   // 미선택 타입
   const [types, setTypes] = useState([]);
   //선택된 타입
@@ -65,10 +67,10 @@ export default function GetTypeInfo() {
             받을 수 있어요♥
           </div>
         </div>
-        <div className={Style.sup}>
+        <div className={Style.sup_box}>
           <span>유형</span>
           <span
-            className={Style.move}
+            className={Style.sup}
             onClick={() => {
               reset();
             }}
@@ -108,15 +110,14 @@ export default function GetTypeInfo() {
                 ))}
           </div>
         </div>
-        {/* TEST!!!
-            <Link
-              href={{
-                pathname: "/about",
-                query: { name: "test" },
-              }}
-            >
-              About
-            </Link> */}
+        <div className={Style.button_box}>
+          <button className={Style.button} onClick={props.onClick_pre}>
+            이전
+          </button>
+          <button className={Style.button} onClick={props.onClick_next}>
+            다음
+          </button>
+        </div>
       </div>
     </div>
   );
