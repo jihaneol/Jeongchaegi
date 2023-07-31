@@ -61,7 +61,9 @@ const Login = () => {
           const response = await axios.post(
             "http://localhost:8081/refresh-token",
             {
-              refreshToken: refreshToken,
+              headers: {
+                Authorization_refresh: refreshToken,
+              },
             }
           );
 
