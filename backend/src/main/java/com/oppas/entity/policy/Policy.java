@@ -1,11 +1,10 @@
-package com.oppas.entity;
+package com.oppas.entity.policy;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +16,9 @@ public class Policy {
 
     @Id
     @Column(name = "policy_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String bizId;
-
+    @Column(nullable = false)
     private String polyBizSjnm; // 정책명
 
     @Lob
@@ -39,10 +35,6 @@ public class Policy {
 
     @Lob
     private String rqutPrdCn; // 사업 신청기간 내용
-
-    private LocalDate rqutPrdBegin; // 사업 신청기간 시작일
-    
-    private LocalDate rqutPrdEnd;// 사업 신청기간 마감일
 
     private String ageInfo; // 연령 정보
     
@@ -104,9 +96,13 @@ public class Policy {
     @Lob
     private String etct; // 기타사항
 
+    @Column(nullable = false)
     private String polyRlmCd; // 정책 분야 코드
 
     private String srchPolyBizSecd; // 정책 지역 코드
+
+    @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PolicyDate> policyDates = new ArrayList<>();
 
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PolicyChat> policyChats = new ArrayList<>();
