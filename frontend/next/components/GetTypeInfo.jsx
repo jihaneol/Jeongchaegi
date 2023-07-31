@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 import Style from "../styles/GetTypeInfo.module.css";
 
@@ -10,11 +11,11 @@ export default function GetTypeInfo() {
 
   useEffect(() => {
     setTypes([
-      { index: 0, name: "일자리" },
-      { index: 1, name: "주거" },
-      { index: 2, name: "복지ㆍ문화" },
-      { index: 3, name: "참여ㆍ권리" },
-      { index: 4, name: "교육" },
+      { index: "023010", name: "일자리" },
+      { index: "023020", name: "주거" },
+      { index: "023040", name: "복지ㆍ문화" },
+      { index: "023050", name: "참여ㆍ권리" },
+      { index: "023030", name: "교육" },
     ]);
   }, []);
 
@@ -105,6 +106,23 @@ export default function GetTypeInfo() {
                     <div>●</div>
                   </div>
                 ))}
+          </div>
+        </div>
+        <div className={Style.button_container}>
+          <div>
+            {/* TEST!!!
+            <Link
+              href={{
+                pathname: "/about",
+                query: { name: "test" },
+              }}
+            >
+              About
+            </Link> */}
+            <Link href="/">이전</Link>
+          </div>
+          <div>
+            <Link href="/">다음</Link>
           </div>
         </div>
       </div>
