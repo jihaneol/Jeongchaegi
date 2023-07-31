@@ -41,13 +41,12 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
-    private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 로그아웃
         System.out.println(request.getRequestURI());
-        if (request.getRequestURI().equals("/")) {
+        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/logout2") ) {
             filterChain.doFilter(request,response);
             return;
         }
@@ -118,6 +117,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * DB에 재발급한 리프레시 토큰 업데이트 후 Flush
      */
     private String reIssueRefreshToken(User user) {
+        log.info("리프레쉬 재발급 {}",user.getRole());
         String reIssuedRefreshToken = jwtService.createRefreshToken();
         user.updateRefreshToken(reIssuedRefreshToken);
         userRepository.saveAndFlush(user);
@@ -143,8 +143,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             return;
         } else {
             log.info("엑세스 토큰이 있다.");
-            sdf.ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                    .ifPresent(email -> userRepository.findByEmail(email)
+            sdf.ifPresent(accessToken -> jwtService.extractName(accessToken)
+                    .ifPresent(name -> userRepository.findByName(name)
                             .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
         }
 

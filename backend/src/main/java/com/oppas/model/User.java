@@ -23,7 +23,7 @@ public class User {
 	private int id;
 	private int age;
 	private String city;
-	private String username;
+	private String name;
 	private String password;
 	private String email;
 	private String nickname; // 닉네임

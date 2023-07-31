@@ -33,8 +33,8 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         // 1. 유저정보 넣기
         // 2. 토큰 만들기
         log.info("토큰생성");
-        String email = extractUsername(authentication); // 인증 정보에서 Username(email) 추출
-        String accessToken = jwtService.createAccessToken(email); // JwtService의 createAccessToken을 사용하여 AccessToken 발급
+        String username = extractUsername(authentication); // 인증 정보에서 Username(email) 추출
+        String accessToken = jwtService.createAccessToken(username); // JwtService의 createAccessToken을 사용하여 AccessToken 발급
         String refreshToken = jwtService.createRefreshToken(); // JwtService의 createRefreshToken을 사용하여 RefreshToken 발급
         PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
         System.out.println(userDetails.getAttributes());
@@ -45,7 +45,9 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         SecurityContextHolder.getContext().setAuthentication(authentication1);
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken,false); // 응답 헤더에 AccessToken, RefreshToken 실어서 응답
 
-        userRepository.findByEmail(email)
+
+
+        userRepository.findByName(username)
                 .ifPresent(user -> {
                     user.updateRefreshToken(refreshToken);
                     userRepository.saveAndFlush(user);
@@ -56,6 +58,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private String extractUsername(Authentication authentication) {
         PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-        return userDetails.getEmail();
+        return userDetails.getUsername();
     }
 }
