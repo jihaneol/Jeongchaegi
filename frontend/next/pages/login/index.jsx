@@ -8,7 +8,7 @@ import Link from "next/link";
 function KakaoLoginOrSignup() {
   return (
     <div className={styles.all_wrapper}>
-		{/* <Nav /> */}
+		<Nav />
 		<Login_test />
 		<div className={styles.content_container}>
 			<div className={styles.head_wrapper}>
@@ -22,7 +22,7 @@ function KakaoLoginOrSignup() {
 				<div className={styles.text_wrapper}>카카오 로그인으로 모든 기능 이용하기</div>
 				<div className={styles.kakao_wrapper}>
 					<a href="http://localhost:8081/oauth2/authorization/kakao">
-						<Image src="/kakao_login_large_wide.png" width="480px" height="72px" alt="카카오 로그인"/>
+						<Image src="/kakao_login_large_wide.png" width="420px" height="63px" alt="카카오 로그인"/>
 					</a>
 				</div>
 			</div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import style from "../styles/PolicyList.module.css";
+import style from "../styles/policylist.module.css";
 import Nav from "../components/Nav";
 import PcyListItem from "../components/PcyListItem";
 import PolicyListSearch from "../components/PolicyListSearch";
@@ -11,15 +11,16 @@ import PolicyListSort from "../components/PolicyListSort";
 
 export default function PolicyList() {
   const router = useRouter();
-  const {calendarActive, calendarDate} = router.query;
+  const { calendarActive, calendarDate } = router.query;
 
   // State 모음
-  const [isCalendarActive, setIsCalendarActive] = useState(Boolean(calendarActive));
+  const [isCalendarActive, setIsCalendarActive] = useState(
+    Boolean(calendarActive)
+  );
   const [targetDate, setTargetDate] = useState(new Date());
   const [testdata, settest] = useState("");
-  
-  // 변수 모음
 
+  // 변수 모음
 
   // 더미 데이터 요청, 실험용
   function getFakeData() {
@@ -41,10 +42,8 @@ export default function PolicyList() {
   useEffect(() => {
     if (calendarDate) {
       setTargetDate(new Date(calendarDate));
-    }
-    else
-      setTargetDate(new Date())
-  }, [])
+    } else setTargetDate(new Date());
+  }, []);
 
   useEffect(() => {
     getFakeData();
@@ -55,7 +54,7 @@ export default function PolicyList() {
   }
 
   function onClickDay(e) {
-    setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()))
+    setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));
   }
 
   return (
@@ -64,22 +63,22 @@ export default function PolicyList() {
       <Nav />
       {/* fixed calendar */}
       {isCalendarActive === true ? (
-        <PolicyListCalendar onClickDay={onClickDay} targetDate={targetDate}/>
+        <PolicyListCalendar onClickDay={onClickDay} targetDate={targetDate} />
       ) : null}
 
       {/* 바깥쪽 랩 */}
       <div
-        className={
-          isCalendarActive === false
-            ? style.list_wrap_on
-            : style.list_wrap_off
-        }
+        className={`${style.list_wrap_container}
+          ${isCalendarActive ? style.list_wrap_on : style.list_wrap_off}`}
       >
         {/* 검색창 */}
         <PolicyListSearch />
 
         {/* 필터 */}
-        <PolicyFilter isCalendarActive={isCalendarActive} calendarBtnClick={calendarBtnClick}/>
+        <PolicyFilter
+          isCalendarActive={isCalendarActive}
+          calendarBtnClick={calendarBtnClick}
+        />
 
         {/* 정렬 기능 */}
         <PolicyListSort />
