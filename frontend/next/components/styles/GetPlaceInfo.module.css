@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: deepskyblue;
+  background-color: #34495e;
 }
 
 .container {
@@ -15,11 +15,7 @@
   border-radius: 15px;
   width: 500px;
   height: 600px;
-  background-color: aqua;
-}
-
-.form_box {
-  height: 100%;
+  background-color: #ecf0f1;
 }
 
 .range {
@@ -31,13 +27,34 @@
 .birth {
   display: flex;
   flex-direction: column;
+  row-gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.input {
+  border: none;
+  outline: none;
+  padding: 0.5em 0;
+  border-bottom: 1px solid #3498db;
 }
 
 .place {
-  height: 200px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5em;
+  margin-bottom: 1em;
 }
 
 .button_box {
   display: flex;
   justify-content: space-between;
+}
+
+.button {
+  width: 45%;
+  height: 2em;
+  border-radius: 15px;
+  border: none;
+  background-color: #2980b9;
+  color: white;
 }
