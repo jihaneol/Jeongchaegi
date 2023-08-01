@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Nav from "../../components/Nav";
 import { FaBell, IFaBellSlash, FaBars, FaBookmark } from "react-icons/fa";
+import Image from "next/image";
 
 import Style from "../../styles/PolicyDetail.module.css";
 import LiveChat from "../../components/LiveChat";
@@ -34,7 +35,7 @@ export default function Page(props) {
             </div>
           </div>
           <div>
-            <img className={Style.img} src="/testImg.jpg" alt="testImg" />
+            <Image className={Style.img} src="/testImg.jpg" alt="testImg" />
           </div>
           <div className={Style.content}></div>
           <div className={Style.chat_box}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../styles/policylist.module.css";
+import style from "../styles/PolicyList.module.css";
 import Image from "next/image";
 
 export default function PolicyListSort() {
@@ -16,7 +16,7 @@ export default function PolicyListSort() {
   }
 
   return (
-    <div className={style.sort_wrap}>
+    <div className={styles.sort_wrap}>
       <select onChange={test}>
         <option>정렬 기준 </option>
         <option>hi2</option>
