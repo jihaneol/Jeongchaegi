@@ -46,12 +46,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 로그아웃
         System.out.println(request.getRequestURI());
-<<<<<<< HEAD
         if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/member/signup") || request.getRequestURI().equals("/policies")) {
-=======
-        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/member/signup") || request.getRequestURI().equals("/policies")) {
->>>>>>> 5db70244963f7b53994742d94fbd13f1379fd92d
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
             return;
         }
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
@@ -120,7 +116,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * DB에 재발급한 리프레시 토큰 업데이트 후 Flush
      */
     private String reIssueRefreshToken(User user) {
-        log.info("리프레쉬 재발급 {}",user.getRole());
+        log.info("리프레쉬 재발급 {}", user.getRole());
         String reIssuedRefreshToken = jwtService.createRefreshToken();
         user.updateRefreshToken(reIssuedRefreshToken);
         userRepository.saveAndFlush(user);
