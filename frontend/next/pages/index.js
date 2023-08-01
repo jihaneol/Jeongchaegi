@@ -4,7 +4,7 @@ import HomeList from "../components/HomeList";
 import Nav from "../components/Nav";
 import style from "../styles/Home.module.css";
 import Modal from "../components/Modal";
-import getLoginToken from "../components/getLoginToken";
+import getLoginToken from "../components/GetLoginToken";
 
 export default function Home() {
   const [modalFlag, setModalFlag] = useState(false);
