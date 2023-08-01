@@ -6,12 +6,16 @@ import com.oppas.config.oauth.provider.OAuth2UserInfo;
 import com.oppas.model.User;
 import com.oppas.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
@@ -27,6 +31,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest); // 카카오의 회원 프로필 조회
         log.info("카카오 정보 {}", oAuth2User.getAttributes());
+
+
         return processOAuth2User(userRequest, oAuth2User);
     }
 
@@ -46,20 +52,28 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         Optional<User> userOptional =
                 userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
         User user;
+        log.info("에세스 토큰 {}", userRequest.getAccessToken().getTokenValue());
+
+
+
+
+
         if (userOptional.isPresent()) {
-            System.out.println("이미 가입 했다");
             user = userOptional.get();
-            System.out.println(oAuth2UserInfo.getEmail());
+//            user.updatekakaoToken( userRequest.getAccessToken().getTokenValue());
+            user.updateJoin(true);
         } else {
             System.out.println("가입 해줄게");
+
             // user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
             user = User.builder()
-                    .username(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
-                    .nickname(oAuth2UserInfo.getName())
+                    .name(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
                     .email(oAuth2UserInfo.getEmail())
                     .role("ROLE_USER")
                     .provider(oAuth2UserInfo.getProvider())
                     .providerId(oAuth2UserInfo.getProviderId())
+                    .kakaoToken(userRequest.getAccessToken().getTokenValue())
+                    .sign(false)
                     .build();
             userRepository.save(user);
         }
