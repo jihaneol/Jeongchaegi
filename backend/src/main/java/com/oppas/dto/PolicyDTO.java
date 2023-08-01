@@ -51,8 +51,8 @@ public class PolicyDTO {
         Long policyId = Long.parseLong(this.getBizId().substring(1));
         policy.setId(policyId);
 
-        // 정책 지역 설정
-        policy.setSrchPolyBizSecd("003002001"); // 서울
+        // 정책 지역 초기화
+        policy.setSrchPolyBizSecd("000000000");
 
         // 신청 가능 연령 파싱
         int minAge = 0;
