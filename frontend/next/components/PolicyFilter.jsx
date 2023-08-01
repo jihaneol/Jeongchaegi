@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/PolicyList.module.css";
+import styles from "../styles/policylist.module.css";
 
 export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
   // 필터 리스트 - 필터 종류 늘어날 때마다 여기에 추가
