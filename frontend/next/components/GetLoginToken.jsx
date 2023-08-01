@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function getLoginToken() {
+export default function GetLoginToken() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [tokens, setTokens] = useState({ accessToken: "", refreshToken: "" });
