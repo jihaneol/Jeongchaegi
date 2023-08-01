@@ -19,7 +19,7 @@ public class PolicyScheduler {
     private final JobExplorer jobExplorer;
     private final PolicyJobConfig policyJobConfig;
 
-    @Scheduled(initialDelay = 5000, fixedRate = 3600000)
+    @Scheduled(cron = "0 0 9 * * ?")
     public void runPolicyUpdateJob() {
         try {
             int maxPageIndex = 43;
