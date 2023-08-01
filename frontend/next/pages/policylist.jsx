@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import style from "../styles/policylist.module.css";
+import style from "../styles/PolicyList.module.css";
 import Nav from "../components/Nav";
 import PcyListItem from "../components/PcyListItem";
 import PolicyListSearch from "../components/PolicyListSearch";

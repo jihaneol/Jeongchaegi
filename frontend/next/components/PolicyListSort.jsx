@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../styles/policylist.module.css";
+import style from "../styles/PolicyList.module.css";
 import Image from "next/image";
 
 export default function PolicyListSort() {
