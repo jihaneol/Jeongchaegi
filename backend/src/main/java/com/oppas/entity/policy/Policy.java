@@ -89,6 +89,7 @@ public class Policy {
 
     private String cnsgNmor; // 운영 기관명
 
+    @Lob
     private String tintCherCn; // 운영 기관 담당자 이름
 
     private String tintCherCtpcCn; // 운영 기관 담당자 연락처
