@@ -17,18 +17,16 @@ export default function success() {
 	//   console.log(result);
 	// }
   
-	const api = ourAxios();
-  
 	async function login() {
-	  localStorage.setItem("accessToken", atCookies.at);
-	  localStorage.setItem("refreshToken", rtCookies.rt);
+	  sessionStorage.setItem("accessToken", atCookies.at);
+	  sessionStorage.setItem("refreshToken", rtCookies.rt);
 	}
 
 	useEffect(() => {
 		login().then(() => {
 			router.push("/");
 		})
-	}) 
+	})
 
   return (
 	<div>Loading...</div>
