@@ -15,11 +15,11 @@ export default function Nav() {
           </a>
         </Link>
 
-        <Link href="/ArticleList">
+        <Link href="/articlelist">
           <a>게시판</a>
         </Link>
 
-        <Link href="/PolicyList">
+        <Link href="/policylist">
           <a>정책 리스트</a>
         </Link>
 

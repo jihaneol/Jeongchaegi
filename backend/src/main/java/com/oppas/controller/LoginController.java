@@ -1,119 +1,79 @@
 package com.oppas.controller;
 
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.oppas.dto.UserSignUpDTO;
+import com.oppas.jwt.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 /**
  * 스프링 시큐리티
  * 시큐리티 세션
  * Authentication -> DI -> userDetails(일반 로그인),OAuth2user(카카오 등 로그인)
- *
  */
 
 @Controller
+@RequiredArgsConstructor
 public class LoginController {
+    JwtService jwtService;
 
-    @Autowired
-    private UserRepository userRepository;
-//
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    // jwt
-    @GetMapping("home")
-    public String home(){
-        return "<h1> home </h1>";
-    }
-
-    //oauth
-    @GetMapping({ "", "/" })
-    public  String index() {
-
+    @GetMapping("/")
+    public String domain() {
+        System.out.println("도메인");
         return "loginForm";
     }
+
+    @DeleteMapping("member/logout")
+    public ResponseEntity<?> logout(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+
+        System.out.println("로그인 완료");
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("member/signup")
+    public ResponseEntity<?> sign(@RequestBody UserSignUpDTO userSignUpDTO) {
+
+        
+
+        System.out.println("로그인 완료");
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
     @GetMapping("/data")
-    public  ResponseEntity<?>  data() {
-
+    public ResponseEntity<?> data() {
+        System.out.println("시발 뭐야");
         return new ResponseEntity(HttpStatus.OK);
     }
-
-    @PostMapping("/refresh-token")
-    public  ResponseEntity<?>  rep() {
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @GetMapping("/user")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-//        System.out.println("principalDetails : "+principalDetails);
-        return "user";
-    }
-    @GetMapping("/manager")
-    public @ResponseBody String manager() {
-        return "manager";
-    }
-    @GetMapping("/admin")
-    public @ResponseBody String admin() {
-        return "admin";
-    }
-    // 스프링 시큐리티 해당주소를 낚는다 - securityconfig 설정후에 말이다.
-//    @GetMapping("/login")
-//    public @ResponseBody String login() {
-//        return "login";
-//    }
-    @GetMapping("/loginForm")
-    public  String login() {
-        return "loginForm";
-    }
-
-    @GetMapping("/joinForm")
-    public  String joinForm() {
+    @GetMapping("/test")
+    public String test() {
+        System.out.println("시발 뭐야");
         return "joinForm";
     }
 
-//    @PostMapping("/join")
-//    public  String join(@RequestBody User user) {
-//        System.out.println(user);
-//        user.setRole("ROLE_USER");
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//        userRepository.save(user); // 비번 암호화 해줘야 한다.
-//        return "회원가입 완료";
-//    }
-
-    //@preAuthorize("hasRole('ROLE_~) or hasRole('ROLE_~)") 여러개 설정
-    @Secured("ROLE_ADMIN") // 권한이 이거인것만 접근 가능
-    @GetMapping("/info")
-    public @ResponseBody String info(){
-        return "개인정보";
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> rep() {
+        System.out.println("이건 뭔데 시발");
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/test/login")
-    public @ResponseBody String testLogin(
-            @AuthenticationPrincipal PrincipalDetails userDetails){ // OAuth2User DI의존성 주입
-        System.out.println("test =====================");
-        System.out.println("userDetails : "+ userDetails.getUser());
-        return "세션 정보 확인하기";
+    @GetMapping("/logout2")
+    public String access() throws IOException {
+
+
+        return "redirect:/";
     }
-    @GetMapping("/test/oauth/login")
-    public @ResponseBody String testOAuthLogin(
-            Authentication authentication){
-        System.out.println("test/oauth =====================");
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("userDetails : "+ oAuth2User.getAttributes());
-        return " OAuth 세션 정보 확인하기";
-    }
+
 
 
 }

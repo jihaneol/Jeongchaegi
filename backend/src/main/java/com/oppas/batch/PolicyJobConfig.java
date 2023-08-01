@@ -7,10 +7,12 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.UrlResource;
@@ -20,56 +22,49 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
---job.name=xmlBatchJob
- */
 @Configuration
 @RequiredArgsConstructor
-public class XMLConfiguration {
+public class PolicyJobConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final PolicyService policyService;
 
     @Bean
-    public Job xmlBatchJob() {
-        return jobBuilderFactory.get("xmlBatchJob")
+    public Job policyUpdateJob() {
+        return jobBuilderFactory.get("policyUpdateJob")
                 .incrementer(new RunIdIncrementer())
-                .start(xmlBatchStep1())
+                .start(policyUpdateStep())
                 .build();
     }
 
     @Bean
-    public Step xmlBatchStep1() {
-        return stepBuilderFactory.get("xmlBatchStep1")
-                .<PolicyDTO, PolicyDTO>chunk(10)
-                .reader(xmlItemReader())
+    public Step policyUpdateStep() {
+        return stepBuilderFactory.get("policyUpdateStep")
+                .<PolicyDTO, PolicyDTO>chunk(1)
+                .reader(xmlItemReader(0))
                 .writer(xmlItemWriter())
                 .build();
     }
 
     @Bean
-    public StaxEventItemReader<PolicyDTO> xmlItemReader() {
-        // api url로 데이터 저장
+    @StepScope
+    public StaxEventItemReader<PolicyDTO> xmlItemReader(@Value("#{jobParameters['pageIndex']}") long pageIndex) {
+        System.out.println("Page Index: " + pageIndex);
+        String apiUrl = "https://www.youthcenter.go.kr/opi/youthPlcyList.do?openApiVlak=839cda72655c1032eea8f071&display=100&pageIndex=" + pageIndex;
+
+        // API URL에서 XML 데이터 읽어오기
         try {
-            int display = 100;
-            int pageIndex = 1;
             return new StaxEventItemReaderBuilder<PolicyDTO>()
                     .name("xmlItemReader")
-                    .resource(new UrlResource("https://www.youthcenter.go.kr/opi/youthPlcyList.do?openApiVlak=839cda72655c1032eea8f071&display=" + display + "&pageIndex=" + pageIndex))
+                    .resource(new UrlResource(apiUrl))
                     .addFragmentRootElements("youthPolicy")
                     .unmarshaller(itemMarshaller())
                     .build();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-        // xml 파일로 데이터 저장
-//        return new StaxEventItemReaderBuilder<PolicyDTO>()
-//                .name("xmlItemReader")
-//                .resource(new ClassPathResource("policy.xml"))
-//                .addFragmentRootElements("youthPolicy")
-//                .unmarshaller(itemMarshaller())
-//                .build();
+
     }
 
     @Bean

@@ -44,9 +44,9 @@ function PolicyFilterList({ title }) {
         className="form-check-input"
         type="checkbox"
         value=""
-        id="flexCheckDefault"
+        id={title}
       />
-      <label className="form-check-label" htmlFor="flexCheckDefault">
+      <label className="form-check-label" htmlFor={title}>
         {title}
       </label>
     </div>
