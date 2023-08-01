@@ -17,12 +17,15 @@ import java.util.Optional;
 	//@repository 라는 어노테이션이 없어도 loc되요, 이유는 jparepository를 상속했기 때문에
 public interface UserRepository extends JpaRepository<User, Integer>{
 	// SELECT * FROM user WHERE username = ?1
-	User findByUsername(String username);
+
+
 	Optional<User> findByEmail(String email);
 
+	Optional<User> findByName(String name);
 	Optional<User> findByNickname(String nickname);
 
 	Optional<User> findByRefreshToken(String refreshToken);
+
 	// SELECT * FROM user WHERE provider = ?1 and providerId = ?2
 	Optional<User> findByProviderAndProviderId(String provider, String providerId);
 }

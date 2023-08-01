@@ -12,16 +12,17 @@ jwt:
 
   refresh:
     expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
-    header: Authorization-refresh
+    header: Authorization_refresh
 
 spring:
-#   OAuth 로그인
+  #   OAuth 로그인
   security:
     oauth2:
       client:
         registration:
 
           kakao:
+            prompt: login
             client-id: fcb05990a84d7cbf01eef4a5d55f8439
             redirect-uri: http://localhost:8081/login/oauth2/code/kakao
             client-authentication-method: POST
@@ -31,7 +32,7 @@ spring:
             # http://localhost:8080/jeongchaegi/user/kakaologin
             scope:
               - profile_nickname
-#              - account_email
+              - account_email
             client_name: kakao
 
 
@@ -54,7 +55,7 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

@@ -1,6 +1,6 @@
 package com.oppas.service;
 
-import com.oppas.dto.UserSignUpDto;
+import com.oppas.dto.UserSignUpDTO;
 import com.oppas.model.User;
 import com.oppas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,26 +17,26 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUp(UserSignUpDto userSignUpDto) throws Exception {
+    public void signUp(UserSignUpDTO userSignUpDto) throws Exception {
 
-        if (userRepository.findByEmail(userSignUpDto.getEmail()).isPresent()) {
-            throw new Exception("이미 존재하는 이메일입니다.");
-        }
-
-        if (userRepository.findByNickname(userSignUpDto.getNickname()).isPresent()) {
-            throw new Exception("이미 존재하는 닉네임입니다.");
-        }
+//        if (userRepository.findByEmail(userSignUpDto.getEmail()).isPresent()) {
+//            throw new Exception("이미 존재하는 이메일입니다.");
+//        }
+//
+//        if (userRepository.findByNickname(userSignUpDto.getNickname()).isPresent()) {
+//            throw new Exception("이미 존재하는 닉네임입니다.");
+//        }
 
         User user = User.builder()
                 .email(userSignUpDto.getEmail())
-                .password(userSignUpDto.getPassword())
                 .nickname(userSignUpDto.getNickname())
                 .age(userSignUpDto.getAge())
                 .city(userSignUpDto.getCity())
                 .role("ROLE_USER")
+                .policyType(userSignUpDto.getPolicyType())
                 .build();
 
-        user.passwordEncode(passwordEncoder);
+//        user.passwordEncode(passwordEncoder);
         userRepository.save(user);
     }
 }
