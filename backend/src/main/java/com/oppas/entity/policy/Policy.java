@@ -38,9 +38,9 @@ public class Policy {
 
     private String ageInfo; // 연령 정보
     
-    private int minAge; // 최소 연령
+    private Integer minAge; // 최소 연령
     
-    private int maxAge; // 최대 연령
+    private Integer maxAge; // 최대 연령
 
     @Lob
     private String majrRqisCn; // 전공 요건 내용

@@ -12,9 +12,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PolicyFilterDTO {
-    private int type; // 정책 구분 코드
-    private int region; // 지역 코드
-    private int age; // 나이
+    private Integer type; // 정책 구분 코드
+    private Integer region; // 지역 코드
+    private Integer age; // 나이
     private String keyword; // 검색 키워드
     private LocalDate date; // 날짜
 }
