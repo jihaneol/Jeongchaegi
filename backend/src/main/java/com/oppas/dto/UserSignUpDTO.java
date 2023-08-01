@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserSignUpDTO {
 
-    private String  email;
+    private String email;
     private String policyType;
     private String nickname;
     private int age;
