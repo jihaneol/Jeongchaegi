@@ -1,49 +1,48 @@
 .nav_wrap {
-	display: flex;
-	justify-content: space-between;
-	min-width: 100%;
-	min-height: 5rem;
-	align-items: center;
-	background-color: #5383ff;
-	position: fixed;
-	z-index: 500;
-	top: 0px;
-	
+  display: flex;
+  justify-content: space-between;
+  min-width: 100%;
+  min-height: 5rem;
+  align-items: center;
+  background-color: #5383ff;
+  position: fixed;
+  z-index: 500;
+  top: 0px;
 }
 
 .nav_menu {
-	display: flex;
-	justify-content: space-evenly;
-	height: inherit;
-	min-width: 60%;
+  display: flex;
+  justify-content: space-evenly;
+  height: inherit;
+  min-width: 60%;
 }
 
 .nav_logo {
-	/* background-image: url("../../img/Logo.png"); */
-	background-size: cover;
-	min-height: 4.5rem;
-	min-width: 10.5rem;
-	height: inherit;
-	background-repeat: no-repeat;
-	margin-right: 3rem;
+  /* background-image: url("../../img/Logo.png"); */
+  background-size: cover;
+  min-height: 4.5rem;
+  min-width: 10.5rem;
+  height: inherit;
+  background-repeat: no-repeat;
+  margin-right: 3rem;
 }
 
-.nav_menu>a {
-	font-size: 1.5rem;
-	color: white;
-	font-weight: bold;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex: 1;
-	text-decoration: none;
-	padding: auto;
+.nav_menu > a {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  text-decoration: none;
+  padding: auto;
 }
 
 .nav_login {
-	margin-right: 1.2rem;
-	color: white;
-	font-size: 1.2rem;
-	font-weight: bold;
-	text-decoration: none;
+  margin-right: 1.2rem;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
 }

@@ -3,8 +3,6 @@ import GetTypeInfo from "../../components/GetTypeInfo";
 import GetPlaceInfo from "../../components/GetPlaceInfo";
 import Nav from "../../components/Nav";
 
-import Style from "../../styles/UserInfo.module.css";
-
 export default function userInfo() {
   const [userStep, setUserStep] = useState(0);
 

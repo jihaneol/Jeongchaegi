@@ -244,22 +244,22 @@ export default function SelectPlace() {
 
   useEffect(() => {
     setSidoOptions([
-      { index: 0, value: "서울특별시" },
-      { index: 1, value: "인천광역시" },
-      { index: 2, value: "대전광역시" },
-      { index: 3, value: "광주광역시" },
-      { index: 4, value: "대구광역시" },
-      { index: 5, value: "울산광역시" },
-      { index: 6, value: "부산광역시" },
-      { index: 7, value: "경기도" },
-      { index: 8, value: "강원도" },
-      { index: 9, value: "충청북도" },
-      { index: 10, value: "충청남도" },
-      { index: 11, value: "전라북도" },
-      { index: 12, value: "전라남도" },
-      { index: 13, value: "경상북도" },
-      { index: 14, value: "경상남도" },
-      { index: 15, value: "제주특별자치도" },
+      { index: 0, value: "서울특별시", code: "003002001" },
+      { index: 1, value: "인천광역시", code: "003002004" },
+      { index: 2, value: "대전광역시", code: "003002006" },
+      { index: 3, value: "광주광역시", code: "003002005" },
+      { index: 4, value: "대구광역시", code: "003002003" },
+      { index: 5, value: "울산광역시", code: "003002007" },
+      { index: 6, value: "부산광역시", code: "003002002" },
+      { index: 7, value: "경기도", code: "003002008" },
+      { index: 8, value: "강원도", code: "003002009" },
+      { index: 9, value: "충청북도", code: "003002010" },
+      { index: 10, value: "충청남도", code: "003002011" },
+      { index: 11, value: "전라북도", code: "003002012" },
+      { index: 12, value: "전라남도", code: "003002013" },
+      { index: 13, value: "경상북도", code: "003002014" },
+      { index: 14, value: "경상남도", code: "003002015" },
+      { index: 15, value: "제주특별자치도", code: "003002016" },
     ]);
   }, []);
 
