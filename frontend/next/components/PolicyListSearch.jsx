@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/policylist.module.css";
+import styles from "../styles/PolicyList.module.css";
 
 export default function PolicyListSearch() {
   return (
