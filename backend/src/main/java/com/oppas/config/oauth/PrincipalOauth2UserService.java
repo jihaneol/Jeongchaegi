@@ -61,7 +61,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if (userOptional.isPresent()) {
             user = userOptional.get();
 //            user.updatekakaoToken( userRequest.getAccessToken().getTokenValue());
-            user.updateJoin(true);
+//            user.updateJoin(true);
         } else {
             System.out.println("가입 해줄게");
 
@@ -75,8 +75,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .kakaoToken(userRequest.getAccessToken().getTokenValue())
                     .sign(false)
                     .build();
-            userRepository.save(user);
         }
+            userRepository.save(user);
 
         return new PrincipalDetails(user, oAuth2User.getAttributes());
     }
