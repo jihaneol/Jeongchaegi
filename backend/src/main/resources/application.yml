@@ -54,7 +54,11 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
+<<<<<<< HEAD
       ddl-auto: update
+=======
+      ddl-auto: validate
+>>>>>>> 5db70244963f7b53994742d94fbd13f1379fd92d
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
