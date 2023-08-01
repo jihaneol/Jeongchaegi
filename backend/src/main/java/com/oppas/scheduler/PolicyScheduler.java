@@ -1,9 +1,7 @@
 package com.oppas.scheduler;
 
-import com.oppas.batch.XMLConfiguration;
+import com.oppas.batch.PolicyJobConfig;
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.JobParameter;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -13,28 +11,24 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Component
 @RequiredArgsConstructor
 public class PolicyScheduler {
 
     private final JobLauncher jobLauncher;
     private final JobExplorer jobExplorer;
-    private final XMLConfiguration xmlConfiguration;
+    private final PolicyJobConfig policyJobConfig;
 
-    @Scheduled(cron = "*/10 * * * * *")
-    public void runJob() {
-        // job parameter
-        Map<String, JobParameter> confMap = new HashMap<>();
-        confMap.put("time", new JobParameter(System.currentTimeMillis()));
-        JobParameters jobParameters = new JobParameters(confMap);
-
+    @Scheduled(initialDelay = 5000, fixedRate = 3600000)
+    public void runPolicyUpdateJob() {
         try {
-            jobLauncher.run(xmlConfiguration.xmlBatchJob(), new JobParametersBuilder(jobExplorer)
-                    .getNextJobParameters(xmlConfiguration.xmlBatchJob())
-                    .toJobParameters());
+            int maxPageIndex = 43;
+            for (long pageIndex = 1; pageIndex <= maxPageIndex; pageIndex++) {
+                jobLauncher.run(policyJobConfig.policyUpdateJob(), new JobParametersBuilder(jobExplorer)
+                        .getNextJobParameters(policyJobConfig.policyUpdateJob())
+                        .addLong("pageIndex", pageIndex)
+                        .toJobParameters());
+            }
         } catch (JobExecutionAlreadyRunningException | JobInstanceAlreadyCompleteException
                  | JobParametersInvalidException | org.springframework.batch.core.repository.JobRestartException e) {
             e.printStackTrace();
