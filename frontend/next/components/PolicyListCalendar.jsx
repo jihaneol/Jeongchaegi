@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../styles/policylist.module.css";
+import styles from "../styles/PolicyList.module.css";
 import Calendar from "react-calendar";
 
 export default function PolicyListCalendar({ onClickDay, targetDate }) {
