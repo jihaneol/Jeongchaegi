@@ -3,7 +3,7 @@ import GetTypeInfo from "../../components/GetTypeInfo";
 import GetPlaceInfo from "../../components/GetPlaceInfo";
 import Nav from "../../components/Nav";
 
-export default function userInfo() {
+export default function UserInfo() {
   const [userStep, setUserStep] = useState(0);
 
   function onClick_pre() {
