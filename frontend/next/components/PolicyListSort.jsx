@@ -16,7 +16,7 @@ export default function PolicyListSort() {
   }
 
   return (
-    <div className={styles.sort_wrap}>
+    <div className={style.sort_wrap}>
       <select onChange={test}>
         <option>정렬 기준 </option>
         <option>hi2</option>
