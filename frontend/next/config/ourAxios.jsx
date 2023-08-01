@@ -61,7 +61,7 @@ const api = axios.create({
     }
   );
   
-  export default function ourAxios() {
+  export default function OurAxios() {
 	return api;
   }
   
