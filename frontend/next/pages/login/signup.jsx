@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import GetTypeInfo from "../../components/GetTypeInfo";
 import GetPlaceInfo from "../../components/GetPlaceInfo";
 import Nav from "../../components/Nav";
 
-import Style from "../../styles/UserInfo.module.css";
-
-export default function userInfo() {
+export default function SignUp() {
   const [userStep, setUserStep] = useState(0);
 
   function onClick_pre() {

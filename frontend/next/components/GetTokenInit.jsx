@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useCookies } from 'react-cookie';
-import ourAxios from '../../config/ourAxios';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react'
 
-export default function Success() {
+export default function GetTokenInit() {
 	// useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
 	const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
 	const [rtCookies, setrtCookie, removertCookie] = useCookies(["rt"]);
@@ -27,8 +24,8 @@ export default function Success() {
 			router.push("/");
 		})
 	})
-
+	
   return (
-	<div>Loading...</div>
+	<div>GetTokenInit</div>
   )
 }

@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-mustache'
 	implementation 'com.auth0:java-jwt:4.2.1'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
@@ -47,4 +47,8 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+// gradle 시 꼭 해주어야 됨
+jar {
+	enabled = false
 }
