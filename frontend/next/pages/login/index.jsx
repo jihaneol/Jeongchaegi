@@ -2,14 +2,12 @@ import React from "react";
 import styles from "../../styles/Login.module.css";
 import Image from "next/image";
 import Nav from "../../components/Nav"
-import Login_test from "../../components/Login_test"
 import Link from "next/link";
 
 function KakaoLoginOrSignup() {
   return (
     <div className={styles.all_wrapper}>
 		<Nav />
-		<Login_test />
 		<div className={styles.content_container}>
 			<div className={styles.head_wrapper}>
 				<Link href="/">
