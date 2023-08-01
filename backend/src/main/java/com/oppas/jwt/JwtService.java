@@ -154,7 +154,7 @@ public class JwtService {
         } else {
             Cookie cookie = new Cookie("at", accessToken);
             cookie.setMaxAge(60 * 2);
-            cookie.setPath("/login/signup");
+            cookie.setPath("/");
 //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
