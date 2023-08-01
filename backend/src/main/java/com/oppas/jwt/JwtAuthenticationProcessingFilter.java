@@ -46,7 +46,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 로그아웃
         System.out.println(request.getRequestURI());
-        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/logout2") ) {
+        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/logout2")) {
             filterChain.doFilter(request,response);
             return;
         }
@@ -173,7 +173,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(userDetailsUser, null,
                         userDetailsUser.getAuthorities());
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

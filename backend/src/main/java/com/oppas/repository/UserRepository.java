@@ -18,12 +18,14 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer>{
 	// SELECT * FROM user WHERE username = ?1
 
+
 	Optional<User> findByEmail(String email);
 
 	Optional<User> findByName(String name);
 	Optional<User> findByNickname(String nickname);
 
 	Optional<User> findByRefreshToken(String refreshToken);
+
 	// SELECT * FROM user WHERE provider = ?1 and providerId = ?2
 	Optional<User> findByProviderAndProviderId(String provider, String providerId);
 }
