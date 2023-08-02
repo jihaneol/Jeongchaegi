@@ -7,7 +7,7 @@ import Nav from "../../components/Nav";
 
 import { userActions } from "../../store/user";
 
-export default function userInfo() {
+export default function UserInfo() {
   const [userStep, setUserStep] = useState(0);
 
   const dispatch = useDispatch();

@@ -49,8 +49,8 @@ export default function PolicyList() {
 
   // policy data 서버에서 받기, 나중에 수정 예정
   function getPcyData(page) {
-    console.log(page);
-    console.log(lastPage);
+    // console.log(page);
+    // console.log(lastPage);
     axios({
       method: "get",
       url: "http://3.36.131.236:8081/policies",
@@ -72,7 +72,7 @@ export default function PolicyList() {
   function handleScroll() {
     const { scrollTop, offsetHeight } = document.documentElement
     if (window.innerHeight + scrollTop + 0.5 >= offsetHeight) {  // 0.5  더한거는 왠지 모르겠는데 끝까지 않닿음
-      console.log(true);
+      // console.log(true);
       setFetching(isFetching => isFetching + 1)  // 닿는 순간 +1 위 useeffect에서 변화 감지
     }
   }
