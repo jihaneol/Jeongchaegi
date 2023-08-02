@@ -4,7 +4,17 @@ import Link from "next/link";
 import Style from "./styles/GetPlaceInfo.module.css";
 import SelectPlace from "./SelectPlace";
 
+const userBirth = "";
+
 export default function GetPlaceInfo(props) {
+  const [birth, setBirth] = useState("");
+
+  // input 요소의 값이 변경될 때마다 상태를 업데이트합니다.
+  const onChangeBirth = (event) => {
+    userBirth = event.target.value;
+    setBirth(event.target.value);
+  };
+
   return (
     <div className={Style.wrap}>
       <div className={Style.container}>
@@ -25,7 +35,13 @@ export default function GetPlaceInfo(props) {
           <form>
             <div className={Style.birth}>
               <label htmlFor="birth">출생 연도</label>
-              <input className={Style.input} type="date" id="birth" />
+              <input
+                className={Style.input}
+                type="date"
+                id="birth"
+                value={birth}
+                onChange={onChangeBirth}
+              />
             </div>
             <div className={Style.place}>
               <label htmlFor="place">거주지</label>
@@ -45,3 +61,5 @@ export default function GetPlaceInfo(props) {
     </div>
   );
 }
+
+export { userBirth };
