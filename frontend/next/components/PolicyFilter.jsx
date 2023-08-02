@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "../styles/PolicyList.module.css";
+import axios from "axios";
 
 export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
   // 필터 리스트 - 필터 종류 늘어날 때마다 여기에 추가
   const filterList = ["Default1", "Default2", "Default3"];
+  const [myFilter, setMyFilter] = useState({
+    type:'',  // select
+    region:'',  // select
+    age:'',  // input int
+    keyword:'',  // input text
+    date:'',  // calendar
+  })
 
   return (
     <div className={style.filter_wrapper}>
