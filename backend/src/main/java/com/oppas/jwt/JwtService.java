@@ -155,11 +155,12 @@ public class JwtService {
             Cookie cookie = new Cookie("at", accessToken);
             cookie.setMaxAge(60 * 2);
             cookie.setPath("/");
-//        cookie.setHttpOnly(true);
+            cookie.setDomain("localhost:3000");
+            //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
     }
-
+    
     /**
      * RefreshToken 헤더 설정
      */
@@ -167,10 +168,11 @@ public class JwtService {
         if (flag) {
             response.setHeader("refreshHeader", refreshToken);
         } else {
-
+            
             Cookie cookie = new Cookie("rt", refreshToken);
             cookie.setMaxAge(2 * 60);
             cookie.setPath("/");
+            cookie.setDomain("localhost:3000");
             //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
