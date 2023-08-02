@@ -1,8 +1,10 @@
 import axios from "axios";
 
 // axios 설정
+axios.defaults.withCredentials = true;
+
 const api = axios.create({
-    baseURL: "http://localhost:8081/",
+    baseURL: "http://3.36.131.236:8081/",
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +41,7 @@ const api = axios.create({
         console.log("만료되었습니다 refresh Token 시도");
         try {
           const response = await axios.post(
-            "http://localhost:8081/refresh-token",
+            "http://3.36.131.236:8081/refresh-token",
             {
               headers: {
                 Authorization_refresh: refreshToken,
@@ -61,7 +63,7 @@ const api = axios.create({
     }
   );
   
-  export default function ourAxios() {
+  export default function OurAxios() {
 	return api;
   }
   

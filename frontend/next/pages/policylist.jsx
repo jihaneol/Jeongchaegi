@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import style from "../styles/PolicyList.module.css";
 import Nav from "../components/Nav";
 import PcyListItem from "../components/PcyListItem";
@@ -8,6 +7,7 @@ import PolicyListSearch from "../components/PolicyListSearch";
 import PolicyFilter from "../components/PolicyFilter";
 import PolicyListCalendar from "../components/PolicyListCalendar";
 import PolicyListSort from "../components/PolicyListSort";
+import PolicyListPageBtn from "../components/PolicyListPageBtn";
 
 export default function PolicyList() {
   const router = useRouter();
@@ -89,6 +89,10 @@ export default function PolicyList() {
     setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));
   }
 
+  function clickPageNumb(numb) {
+    console.log(numb);
+  }
+
   return (
     <div className={style.wrapper}>
       {/* navbar */}
@@ -127,6 +131,9 @@ export default function PolicyList() {
           ) : (
             <h1>loading...</h1>
           )}
+        </div>
+        <div className={style.list_page_wrap}>
+          <PolicyListPageBtn pageCnt={10} clickPageNumb={clickPageNumb}/>
         </div>
       </div>
     </div>
