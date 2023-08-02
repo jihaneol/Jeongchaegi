@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import Style from "./styles/SelectPlace.module.css";
 
+const sido = "";
+
 export default function SelectPlace() {
   const [sidoOptions, setSidoOptions] = useState([]);
   const [gugunOptions, setGugunOptions] = useState([]);
@@ -267,6 +269,8 @@ export default function SelectPlace() {
   const handleSidoChange = (e) => {
     const selectedSido = e.target.value;
     console.log(selectedSido);
+    sido = sidoOptions[e.target.value].code;
+    console.log(sidoOptions[e.target.value].code);
     if (selectedSido) {
       const Sido = setGugunOptions(gugunList[selectedSido]);
     } else {
@@ -300,3 +304,5 @@ export default function SelectPlace() {
     </div>
   );
 }
+
+export { sido };
