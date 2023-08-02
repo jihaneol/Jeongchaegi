@@ -157,6 +157,7 @@ public class JwtService {
             cookie.setPath("/");
             cookie.setDomain("localhost");
             cookie.setSameSite("None");
+            cookie.setDomain("localhost:3000/");
             //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
@@ -175,6 +176,7 @@ public class JwtService {
             cookie.setPath("/");
             cookie.setDomain("localhost");
             cookie.setSameSite("None");
+            cookie.setDomain("localhost:3000/");
             //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
