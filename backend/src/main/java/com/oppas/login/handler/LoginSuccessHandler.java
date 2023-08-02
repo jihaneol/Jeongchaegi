@@ -34,9 +34,9 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         String username = extractUsername(authentication);
         String accessToken = jwtService.createAccessToken(username);
         User user = getUser(authentication);
-        if(!user.isSign()){
+        if (!user.isSign()) {
             // 회원 가입 x
-            jwtService.sendAccessToken(response,accessToken);
+            jwtService.sendAccessToken(response, accessToken);
             response.sendRedirect("http://localhost:3000/login/signup");
             return;
         }

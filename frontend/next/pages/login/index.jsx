@@ -2,14 +2,12 @@ import React from "react";
 import styles from "../../styles/Login.module.css";
 import Image from "next/image";
 import Nav from "../../components/Nav"
-import Login_test from "../../components/Login_test"
 import Link from "next/link";
 
 function KakaoLoginOrSignup() {
   return (
     <div className={styles.all_wrapper}>
 		<Nav />
-		<Login_test />
 		<div className={styles.content_container}>
 			<div className={styles.head_wrapper}>
 				<Link href="/">
@@ -21,7 +19,7 @@ function KakaoLoginOrSignup() {
 			<div className={styles.content_wrapper}>
 				<div className={styles.text_wrapper}>카카오 로그인으로 모든 기능 이용하기</div>
 				<div className={styles.kakao_wrapper}>
-					<a href="http://localhost:8081/oauth2/authorization/kakao">
+					<a href="http://3.36.131.236:8081/oauth2/authorization/kakao">
 						<Image src="/kakao_login_large_wide.png" width="420px" height="63px" alt="카카오 로그인"/>
 					</a>
 				</div>
