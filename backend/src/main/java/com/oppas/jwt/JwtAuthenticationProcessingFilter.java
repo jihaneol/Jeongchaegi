@@ -5,18 +5,16 @@ import com.oppas.model.User;
 import com.oppas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
-import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -32,24 +30,26 @@ import java.util.Optional;
  * 3. RefreshToken이 있는 경우 -> DB의 RefreshToken과 비교하여 일치하면 AccessToken 재발급, RefreshToken 재발급(RTR 방식)
  * 인증 성공 처리는 하지 않고 실패 처리
  */
-@RequiredArgsConstructor
 @Slf4j
-public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
+public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter {
 
     private static final String NO_CHECK_URL = "/member/logout"; // "/login"으로 들어오는 요청은 Filter 작동 X
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
+    public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, UserRepository userRepository) {
+        super(authenticationManager);
+        this.jwtService = jwtService;
+        this.userRepository = userRepository;
+    }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 로그아웃
         System.out.println(request.getRequestURI());
-        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/member/signup") || request.getRequestURI().equals("/policies")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
 
             jwtService.extractRefreshToken(request)
