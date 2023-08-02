@@ -5,11 +5,13 @@ import com.oppas.entity.policy.Policy;
 import com.oppas.repository.PolicyRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,11 +33,12 @@ public class PolicyService {
         return policy.getId();
     }
 
-    public List<Policy> findPolicies() throws Exception {
-        return policyRepository.findAll();
+    public Page<Policy> getPolicies(int pageIndex) throws Exception {
+        Pageable pageable = PageRequest.of(pageIndex, 20);
+        return policyRepository.findAll(pageable);
     }
 
-    public Policy findPolicy(Long policyId) throws Exception {
+    public Policy getPolicy(Long policyId) throws Exception {
         return policyRepository.findById(policyId).orElseThrow(EntityNotFoundException::new);
     }
 
