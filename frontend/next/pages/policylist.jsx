@@ -20,6 +20,20 @@ export default function PolicyList() {
   const [targetDate, setTargetDate] = useState(new Date());
   const [testdata, settest] = useState("");
 
+  const [pcydata, setpcy] = useState('');
+
+
+  // useEffect 관리 모음
+  useEffect(() => {
+    if (calendarDate) {
+      setTargetDate(new Date(calendarDate));
+    } else setTargetDate(new Date());
+  }, []);
+
+  useEffect(() => {
+    getFakeData();
+    // getPcyData();
+  }, []);
   // 변수 모음
 
   // 더미 데이터 요청, 실험용
@@ -33,21 +47,21 @@ export default function PolicyList() {
     });
   }
 
+  function getPcyData() {
+    axios({
+      method: "get",
+      url: "http://3.36.131.236:8081/policies?pageIndex=1",
+    }).then((res) => {
+      console.log(res);
+      // settest(res.data);
+    });
+  }
+
   function handleItemClick(itemId) {
     console.log(`Clicked item with ID: ${itemId}`);
     router.push(`/policydetail/${itemId}`);
     // Do whatever you want with the clicked item ID
   }
-
-  useEffect(() => {
-    if (calendarDate) {
-      setTargetDate(new Date(calendarDate));
-    } else setTargetDate(new Date());
-  }, []);
-
-  useEffect(() => {
-    getFakeData();
-  }, []);
 
   function calendarBtnClick() {
     setIsCalendarActive((prev) => !prev);
