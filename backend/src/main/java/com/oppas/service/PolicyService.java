@@ -42,4 +42,8 @@ public class PolicyService {
         return policyRepository.findById(policyId).orElseThrow(EntityNotFoundException::new);
     }
 
+    public long getPolicyCount() throws Exception {
+        return policyRepository.count();
+    }
+
 }

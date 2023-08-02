@@ -25,4 +25,9 @@ public class PolicyController {
         return ResponseEntity.ok(policyService.getPolicy(policyId));
     }
 
+    @GetMapping("/policies/count")
+    public ResponseEntity<Long> getPolicyCount() throws Exception {
+        return ResponseEntity.ok(policyService.getPolicyCount());
+    }
+
 }
