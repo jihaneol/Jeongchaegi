@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import style from "../styles/PolicyList.module.css";
 import Nav from "../components/Nav";
 import PcyListItem from "../components/PcyListItem";
@@ -8,6 +7,7 @@ import PolicyListSearch from "../components/PolicyListSearch";
 import PolicyFilter from "../components/PolicyFilter";
 import PolicyListCalendar from "../components/PolicyListCalendar";
 import PolicyListSort from "../components/PolicyListSort";
+import PolicyListPageBtn from "../components/PolicyListPageBtn";
 
 export default function PolicyList() {
   const router = useRouter();
@@ -19,19 +19,12 @@ export default function PolicyList() {
   );
   const [targetDate, setTargetDate] = useState(new Date());
   const [testdata, settest] = useState("");
-
+  const [pageNumb, setPageNumb] = useState(1);
+  
   // 변수 모음
+  let pageCnt = 10;
 
   // 더미 데이터 요청, 실험용
-  function getFakeData() {
-    axios({
-      method: "get",
-      url: "https://jsonplaceholder.typicode.com/posts",
-    }).then((res) => {
-      // console.log(res);
-      settest(res.data);
-    });
-  }
 
   function handleItemClick(itemId) {
     console.log(`Clicked item with ID: ${itemId}`);
@@ -45,16 +38,16 @@ export default function PolicyList() {
     } else setTargetDate(new Date());
   }, []);
 
-  useEffect(() => {
-    getFakeData();
-  }, []);
-
   function calendarBtnClick() {
     setIsCalendarActive((prev) => !prev);
   }
 
   function onClickDay(e) {
     setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));
+  }
+
+  function clickPageNumb(numb) {
+    console.log(numb);
   }
 
   return (
@@ -95,6 +88,9 @@ export default function PolicyList() {
           ) : (
             <h1>loading...</h1>
           )}
+        </div>
+        <div className={style.list_page_wrap}>
+          <PolicyListPageBtn pageCnt={10} clickPageNumb={clickPageNumb}/>
         </div>
       </div>
     </div>
