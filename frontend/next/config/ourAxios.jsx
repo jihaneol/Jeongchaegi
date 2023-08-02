@@ -1,6 +1,8 @@
 import axios from "axios";
 
 // axios 설정
+axios.defaults.withCredentials = true;
+
 const api = axios.create({
     baseURL: "http://3.36.131.236:8081/",
     timeout: 5000,
