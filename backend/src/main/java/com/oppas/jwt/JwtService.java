@@ -155,9 +155,6 @@ public class JwtService {
             Cookie cookie = new Cookie("at", accessToken);
             cookie.setMaxAge(60 * 2);
             cookie.setPath("/");
-            cookie.setDomain("localhost");
-            cookie.setSameSite("None");
-            cookie.setDomain("localhost:3000/");
             //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
@@ -174,9 +171,6 @@ public class JwtService {
             Cookie cookie = new Cookie("rt", refreshToken);
             cookie.setMaxAge(2 * 60);
             cookie.setPath("/");
-            cookie.setDomain("localhost");
-            cookie.setSameSite("None");
-            cookie.setDomain("localhost:3000/");
             //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
