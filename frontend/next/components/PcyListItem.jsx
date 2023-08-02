@@ -12,10 +12,11 @@ export default function PcyListItem({ obj, onItemClick }) {
         onClick={() => onItemClick(item.id)}
         key={item.id}
       >
-        <div className="card-header">{item.id}</div>
+        <div className="card-header">{item.polyBizSjnm}</div>
         <div className="card-body">
-          <div>{item.title}</div>
-          <div>{item.body}</div>
+          <div>{item.mngtMson}</div>
+          <div>{item.cnsgNmor}</div>
+          <div>{item.polyItcnCn}</div>
         </div>
       </div>
       ))}
