@@ -1,7 +1,7 @@
 package com.oppas.jwt;
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.model.User;
+import com.oppas.entity.Member;
 import com.oppas.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -113,7 +113,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      * jwtService.createRefreshToken()으로 리프레시 토큰 재발급 후
      * DB에 재발급한 리프레시 토큰 업데이트 후 Flush
      */
-    private String reIssueRefreshToken(User user) {
+    private String reIssueRefreshToken(Member user) {
         log.info("리프레쉬 재발급 {}", user.getRole());
         String reIssuedRefreshToken = jwtService.createRefreshToken();
         user.updateRefreshToken(reIssuedRefreshToken);
@@ -165,7 +165,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      * SecurityContextHolder.getContext()로 SecurityContext를 꺼낸 후,
      * setAuthentication()을 이용하여 위에서 만든 Authentication 객체에 대한 인증 허가 처리
      */
-    public void saveAuthentication(User myUser) {
+    public void saveAuthentication(Member myUser) {
 
         PrincipalDetails userDetailsUser = new PrincipalDetails(myUser);
 

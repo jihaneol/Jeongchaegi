@@ -3,21 +3,17 @@ package com.oppas.config.oauth;
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.config.oauth.provider.KakaoUserInfo;
 import com.oppas.config.oauth.provider.OAuth2UserInfo;
-import com.oppas.model.User;
+import com.oppas.entity.Member;
 import com.oppas.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -47,9 +43,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else {
             System.out.println("카카오만 취급한다.");
         }
-        Optional<User> userOptional =
+        Optional<Member> userOptional =
                 userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
-        User user;
+        Member user;
 
 
         if (userOptional.isPresent()) {
@@ -58,7 +54,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             System.out.println("가입 해줄게");
 
             // user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
-            user = User.builder()
+            user = Member.builder()
                     .name(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
                     .email(oAuth2UserInfo.getEmail())
                     .role("ROLE_USER")
@@ -66,6 +62,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .providerId(oAuth2UserInfo.getProviderId())
                     .kakaoToken(userRequest.getAccessToken().getTokenValue())
                     .sign(false)
+                    .img((String)((Map)oAuth2User.getAttributes().get("properties")).get("thumbnail_image"))
                     .build();
         }
         userRepository.save(user);

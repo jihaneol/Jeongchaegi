@@ -1,22 +1,19 @@
 package com.oppas.controller;
 
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.dto.UserSignUpDTO;
-import com.oppas.jwt.JwtService;
-import com.oppas.model.User;
-import com.oppas.repository.UserRepository;
 import com.oppas.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -26,10 +23,17 @@ import java.net.URISyntaxException;
  */
 
 @Controller
-@RestController
+//@RestController
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController {
     private final UserService userService;
+    @ExceptionHandler(RuntimeException.class)
+    public Object processValidationError(RuntimeException ex) {
+        log.info("에러 확인 {}", ex.getMessage());
+        return ResponseEntity.badRequest().build();
+//        return ApiResponse.error(ApiStatus.SYSTEM_ERROR, ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+    }
 
     @GetMapping("/")
     public String domain() {
@@ -41,19 +45,17 @@ public class LoginController {
     public ResponseEntity<?> logout(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 
 
-        System.out.println("로그아윳 완료");
+        System.out.println("로그아웃 완료");
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/members/signup")
-    public ResponseEntity<?> sign(@RequestBody UserSignUpDTO userSignUpDTO) throws URISyntaxException {
+    public ResponseEntity<?> signup(@Valid @RequestBody UserSignUpDTO userSignUpDTO)  {
         System.out.println(userSignUpDTO.getAge());
         System.out.println(userSignUpDTO.getName());
         userService.signUp(userSignUpDTO);
 
-
-        System.out.println("로그인 완료");
 
         return ResponseEntity.ok().build();
     }

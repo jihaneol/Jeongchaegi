@@ -2,20 +2,12 @@ package com.oppas.login.handler;
 
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.jwt.JwtService;
-import com.oppas.model.User;
+import com.oppas.entity.Member;
 import com.oppas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.remoting.soap.SoapFaultException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +25,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
         String username = extractUsername(authentication);
         String accessToken = jwtService.createAccessToken(username);
-        User user = getUser(authentication);
+        Member user = getUser(authentication);
         if (!user.isSign()) {
             // 회원 가입 x
             jwtService.sendAccessToken(response, accessToken);
@@ -44,7 +36,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         String refreshToken = jwtService.createRefreshToken(); // JwtService의 createRefreshToken을 사용하여 RefreshToken 발급
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken, false); // 응답 헤더에 AccessToken, RefreshToken 실어서 응답
-
 
         userRepository.findByName(username)
                 .ifPresent(user1 -> {
@@ -60,7 +51,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         return userDetails.getUsername();
     }
 
-    private User getUser(Authentication authentication) {
+    private Member getUser(Authentication authentication) {
         PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
         return userDetails.getUser();
     }
