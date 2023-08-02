@@ -43,7 +43,7 @@ export default function PolicyList() {
       url: "https://jsonplaceholder.typicode.com/posts",
     }).then((res) => {
       // console.log(res);
-      settest(res.data);
+      settest(res.data.slice(0,10));
     });
   }
 
