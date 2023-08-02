@@ -41,10 +41,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
             return;
         }
 
-        // 1. 유저정보 넣기
-        // 2. 토큰 만들기
-
-        // 인증 정보에서 Username(email) 추출
 
         String refreshToken = jwtService.createRefreshToken(); // JwtService의 createRefreshToken을 사용하여 RefreshToken 발급
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken, false); // 응답 헤더에 AccessToken, RefreshToken 실어서 응답

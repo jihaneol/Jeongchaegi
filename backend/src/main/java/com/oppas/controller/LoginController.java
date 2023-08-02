@@ -8,6 +8,7 @@ import com.oppas.model.User;
 import com.oppas.repository.UserRepository;
 import com.oppas.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * 스프링 시큐리티
@@ -23,11 +26,10 @@ import java.io.IOException;
  */
 
 @Controller
+@RestController
 @RequiredArgsConstructor
 public class LoginController {
-//    JwtService jwtService;
-//    UserRepository userRepository;
-    UserService userService;
+    private final UserService userService;
 
     @GetMapping("/")
     public String domain() {
@@ -44,19 +46,16 @@ public class LoginController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/member/signup")
-    public ResponseEntity<?> sign(@RequestBody UserSignUpDTO userSignUpDTO) {
+    @PostMapping("/members/signup")
+    public ResponseEntity<?> sign(@RequestBody UserSignUpDTO userSignUpDTO) throws URISyntaxException {
         System.out.println(userSignUpDTO.getAge());
-        System.out.println(userSignUpDTO.getUsername());
-//        User user =  userRepository.findByName(userSignUpDTO.getUsername()).get();
-//        System.out.println(user.getProviderId());
+        System.out.println(userSignUpDTO.getName());
         userService.signUp(userSignUpDTO);
 
 
         System.out.println("로그인 완료");
 
-
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -65,6 +64,7 @@ public class LoginController {
         System.out.println("데이터");
         return new ResponseEntity(HttpStatus.OK);
     }
+
     @GetMapping("/test")
     public String test() {
         System.out.println("테스트");
@@ -83,7 +83,6 @@ public class LoginController {
 
         return "redirect:/";
     }
-
 
 
 }

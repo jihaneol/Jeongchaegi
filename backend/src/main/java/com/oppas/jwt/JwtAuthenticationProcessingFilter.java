@@ -3,7 +3,6 @@ package com.oppas.jwt;
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.model.User;
 import com.oppas.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,14 +33,13 @@ import java.util.Optional;
 public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter {
 
     private static final String NO_CHECK_URL = "/member/logout"; // "/login"으로 들어오는 요청은 Filter 작동 X
-
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
     public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, UserRepository userRepository) {
         super(authenticationManager);
-        this.jwtService = jwtService;
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
 
 
@@ -49,6 +47,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 로그아웃
         System.out.println(request.getRequestURI());
+
 
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
 
@@ -101,7 +100,6 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      */
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
 
-
         userRepository.findByRefreshToken(refreshToken)
                 .ifPresent(user -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(user);
@@ -134,19 +132,21 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
         log.info("checkAccessTokenAndAuthentication() 호출");
-        Optional<String> sdf = jwtService.extractAccessToken(request)
-                .filter(jwtService::isTokenValid);
-        if (sdf.isEmpty()) {
-            log.error("Unauthorized error: {}", sdf);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
-            return;
-        } else {
-            log.info("엑세스 토큰이 있다.");
-            sdf.ifPresent(accessToken -> jwtService.extractName(accessToken)
-                    .ifPresent(name -> userRepository.findByName(name)
-                            .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
-        }
+        Optional<String> token = jwtService.extractAccessToken(request);
 
+        if (!token.isEmpty()) {
+            Optional<String> valid = token.filter(jwtService::isTokenValid);
+            if (!valid.isEmpty()) {
+                // 에세스 토큰이 유효하면 인증에 넣어주기
+                valid.ifPresent(accessToken -> jwtService.extractName(accessToken)
+                        .ifPresent(name -> userRepository.findByName(name)
+                                .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
+            } else {
+                // 유효 하지않으면 재발급 해주세요 리프레쉬 토큰
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+                return;
+            }
+        }
         filterChain.doFilter(request, response);
     }
 

@@ -12,5 +12,5 @@ public class UserSignUpDTO {
     private String nickname;
     private int age;
     private String city;
-    private String username;
+    private String name;
 }

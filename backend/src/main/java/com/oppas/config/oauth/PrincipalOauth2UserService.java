@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -29,9 +30,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
         OAuth2User oAuth2User = super.loadUser(userRequest); // 카카오의 회원 프로필 조회
         log.info("카카오 정보 {}", oAuth2User.getAttributes());
-
 
         return processOAuth2User(userRequest, oAuth2User);
     }
@@ -43,25 +44,16 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
             System.out.println("카카오 로그인 요청~~");
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
-            System.out.println("naver 로그인 요청~~");
-            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         } else {
             System.out.println("카카오만 취급한다.");
         }
         Optional<User> userOptional =
                 userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
         User user;
-        log.info("에세스 토큰 {}", userRequest.getAccessToken().getTokenValue());
-
-
-
 
 
         if (userOptional.isPresent()) {
             user = userOptional.get();
-//            user.updatekakaoToken( userRequest.getAccessToken().getTokenValue());
-//            user.updateJoin(true);
         } else {
             System.out.println("가입 해줄게");
 
@@ -76,7 +68,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .sign(false)
                     .build();
         }
-            userRepository.save(user);
+        userRepository.save(user);
 
         return new PrincipalDetails(user, oAuth2User.getAttributes());
     }
