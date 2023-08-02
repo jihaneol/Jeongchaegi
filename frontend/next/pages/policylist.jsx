@@ -134,9 +134,9 @@ export default function PolicyList() {
             <h1>loading...</h1>
           )}
         </div>
-        <div className={style.list_page_wrap}>
-          <PolicyListPageBtn pageCnt={10} clickPageNumb={clickPageNumb}/>
-        </div>
+        // <div className={style.list_page_wrap}>
+        //   <PolicyListPageBtn pageCnt={10} clickPageNumb={clickPageNumb}/>
+        // </div>
       </div>
     </div>
   );
