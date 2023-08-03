@@ -1,6 +1,6 @@
 package com.oppas.repository;
 
-import com.oppas.model.User;
+import com.oppas.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -15,19 +15,17 @@ import java.util.Optional;
 
 // JpaRepository 를 상속하면 자동 컴포넌트 스캔됨.
 	//@repository 라는 어노테이션이 없어도 loc되요, 이유는 jparepository를 상속했기 때문에
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends JpaRepository<Member, Integer>{
 	// SELECT * FROM user WHERE username = ?1
 
 
-	Optional<User> findByEmail(String email);
 
-	Optional<User> findByName(String name);
-	Optional<User> findByNickname(String nickname);
+	Optional<Member> findByName(String name);
 
-	Optional<User> findByRefreshToken(String refreshToken);
+	Optional<Member> findByRefreshToken(String refreshToken);
 
 	// SELECT * FROM user WHERE provider = ?1 and providerId = ?2
-	Optional<User> findByProviderAndProviderId(String provider, String providerId);
+	Optional<Member> findByProviderAndProviderId(String provider, String providerId);
 }
 
 

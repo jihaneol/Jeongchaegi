@@ -1,10 +1,10 @@
 package com.oppas.service;
 
 import com.oppas.dto.UserSignUpDTO;
-import com.oppas.model.User;
+import com.oppas.entity.Member;
 import com.oppas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,21 +15,17 @@ import javax.transaction.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-
+    private final ModelMapper modelMapper;
     public void signUp(UserSignUpDTO userSignUpDto)  {
         System.out.println("andskfj");
-        System.out.println(userSignUpDto.getUsername());
-       User user  = userRepository.findByName(userSignUpDto.getUsername()).get();
 
-        User user1 = user.builder()
-                .email(userSignUpDto.getEmail())
-                .nickname(userSignUpDto.getNickname())
-                .age(userSignUpDto.getAge())
-                .city(userSignUpDto.getCity())
-                .policyType(userSignUpDto.getPolicyType())
-                .sign(true)
-                .build();
+        Member user  = userRepository.findByName(userSignUpDto.getName()).get();
 
-        userRepository.save(user1);
+        user.join(userSignUpDto);
+
+
+        user.updateJoin(true);
+
+        userRepository.save(user);
     }
 }
