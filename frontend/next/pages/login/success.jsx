@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie';
-import ourAxios from '../../config/ourAxios';
 import { useRouter } from 'next/router';
 
 export default function Success() {
@@ -29,6 +28,6 @@ export default function Success() {
 	})
 
   return (
-	<div>Loading...</div>
+		<div>Loading...</div>
   )
 }
