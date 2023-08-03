@@ -38,7 +38,7 @@ export default function UserInfo() {
   
   useEffect(() => {
     getToken().then(() => {
-      sessionStorage.setItem("accessToken", atCookies.at);
+      localStorage.setItem("accessToken", atCookies.at);
     })
   }, [atCookies.at])
 
