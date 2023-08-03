@@ -21,6 +21,7 @@ export default function GetLoginToken() {
   useEffect(() => {
     getToken().then(() => {
       setTokens({ accessToken, refreshToken });
+      console.log("access: ", accessToken, "refresh: ", refreshToken);
     });
   }, []);
 
