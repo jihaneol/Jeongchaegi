@@ -17,8 +17,8 @@ export default function Success() {
 	// }
   
 	async function login() {
-	  sessionStorage.setItem("accessToken", atCookies.at);
-	  sessionStorage.setItem("refreshToken", rtCookies.rt);
+	  localStorage.setItem("accessToken", atCookies.at);
+	  localStorage.setItem("refreshToken", rtCookies.rt);
 	}
 
 	useEffect(() => {
