@@ -6,9 +6,11 @@ import { sido } from "../../components/SelectPlace";
 import Nav from "../../components/Nav";
 
 import { userActions } from "../../store/user";
+import { useCookies } from 'react-cookie';
 
 export default function UserInfo() {
   const [userStep, setUserStep] = useState(0);
+	const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
 
   const dispatch = useDispatch();
 
@@ -29,6 +31,17 @@ export default function UserInfo() {
       if (sido) dispatch(userActions.setCity(sido));
     }
   }
+
+  function getToken() {
+    console.log(atCookies);
+    return atCookies.at;
+  }
+  
+  useEffect(() => {
+    const accessToken = getToken();
+    if (accessToken)
+      localStorage.setItem("accessToken", accessToken);
+  }, [atCookies.at])
 
   return (
     <div>

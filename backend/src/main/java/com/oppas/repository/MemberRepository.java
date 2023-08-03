@@ -14,7 +14,7 @@ import java.util.Optional;
 
 // JpaRepository 를 상속하면 자동 컴포넌트 스캔됨.
 //@repository 라는 어노테이션이 없어도 loc되요, 이유는 jparepository를 상속했기 때문에
-public interface MemberRepository extends JpaRepository<Member, Integer> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByName(String name);
 
