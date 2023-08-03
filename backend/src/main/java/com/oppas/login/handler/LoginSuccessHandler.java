@@ -29,7 +29,8 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         if (!user.isSign()) {
             // 회원 가입 x
             jwtService.sendAccessToken(response, accessToken);
-            response.sendRedirect("http://localhost:3000/login/signup");
+//            response.sendRedirect("http://localhost:3000/login/signup");
+            response.sendRedirect("http://3.36.131.236/login/signup");
             return;
         }
 
@@ -43,7 +44,8 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                     userRepository.saveAndFlush(user1);
                 });
         log.info("로그인 됐다....");
-        response.sendRedirect("http://localhost:3000/login/success");
+//        response.sendRedirect("http://localhost:3000/login/success");
+        response.sendRedirect("http://3.36.131.236/login/success");
     }
 
     private String extractUsername(Authentication authentication) {
