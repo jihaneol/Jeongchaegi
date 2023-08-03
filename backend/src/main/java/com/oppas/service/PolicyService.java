@@ -1,6 +1,7 @@
 package com.oppas.service;
 
 import com.oppas.dto.PolicyDTO;
+import com.oppas.dto.PolicyFilterDTO;
 import com.oppas.entity.policy.Policy;
 import com.oppas.repository.PolicyRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,13 +34,17 @@ public class PolicyService {
         return policy.getId();
     }
 
-    public Page<Policy> getPolicies(int pageIndex) throws Exception {
-        Pageable pageable = PageRequest.of(pageIndex, 20);
-        return policyRepository.findAll(pageable);
+    public Page<Policy> getPolicies(PolicyFilterDTO filter, int pageIndex) throws Exception {
+        Pageable pageable = PageRequest.of(pageIndex - 1, 20);
+        return policyRepository.findPolicies(filter, pageable);
     }
 
     public Policy getPolicy(Long policyId) throws Exception {
         return policyRepository.findById(policyId).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public long getPolicyCount() throws Exception {
+        return policyRepository.count();
     }
 
 }
