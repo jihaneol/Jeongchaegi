@@ -1,4 +1,4 @@
-package com.oppas.repository;
+package com.oppas.repository.policy;
 
 import com.oppas.dto.PolicyFilterDTO;
 import com.oppas.entity.policy.Policy;
