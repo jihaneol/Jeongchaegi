@@ -4,6 +4,7 @@ import com.oppas.dto.PolicyFilterDTO;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.QPolicy;
 import com.oppas.entity.policy.QPolicyDate;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -63,13 +64,8 @@ public class PolicyRepositoryImpl implements PolicyRepositoryCustom {
         String keyword = filter.getKeyword();
         String dateString = filter.getDate();
         LocalDate date = dateString != null ? LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null;
-        System.out.println("types: " + types);
-        System.out.println("region: " + region);
-        System.out.println("age: " + age);
-        System.out.println("keyword: " + keyword);
-        System.out.println("date: " + date);
 
-        List<Policy> content = queryFactory
+        QueryResults<Policy> queryResults = queryFactory
                 .selectFrom(policy)
                 .leftJoin(policy.policyDates, policyDate)
                 .fetchJoin()
@@ -81,8 +77,8 @@ public class PolicyRepositoryImpl implements PolicyRepositoryCustom {
                 .orderBy(policy.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();
+                .fetchResults();
 
-        return new PageImpl<>(content, pageable, content.size());
+        return new PageImpl<>(queryResults.getResults(), pageable, queryResults.getTotal());
     }
 }
