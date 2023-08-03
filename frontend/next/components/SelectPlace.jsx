@@ -269,8 +269,13 @@ export default function SelectPlace() {
   const handleSidoChange = (e) => {
     const selectedSido = e.target.value;
     console.log(selectedSido);
-    sido = sidoOptions[e.target.value].code;
-    console.log(sidoOptions[e.target.value].code);
+    if ([e.target.value].code) {
+      sido = sidoOptions[e.target.value].code;
+      console.log(sidoOptions[e.target.value].code);
+    } else {
+      sido = "";
+    }
+
     if (selectedSido) {
       const Sido = setGugunOptions(gugunList[selectedSido]);
     } else {
