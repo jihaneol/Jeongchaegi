@@ -27,7 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final JwtService jwtService;
-    private final MemberRepository userRepository;
+    private final MemberRepository memberRepository;
     private final PrincipalOauth2UserService principalOauth2UserService;
 
 
@@ -65,7 +65,7 @@ public class SecurityConfig {
                 .successHandler(loginSuccessHandler())
                 .failureHandler(loginFailureHandler());
 
-        http.addFilter(new JwtAuthenticationProcessingFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtService, userRepository));
+        http.addFilter(new JwtAuthenticationProcessingFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtService, memberRepository));
 
         return http.build();
     }
@@ -81,7 +81,7 @@ public class SecurityConfig {
      */
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, userRepository);
+        return new LoginSuccessHandler(jwtService, memberRepository);
     }
 
     /**

@@ -1,20 +1,18 @@
 package com.oppas.controller;
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.UserSignUpDTO;
-import com.oppas.service.UserService;
+import com.oppas.dto.MemberSignUpDTO;
+import com.oppas.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 /**
  * 스프링 시큐리티
@@ -27,7 +25,8 @@ import java.net.URISyntaxException;
 @RequiredArgsConstructor
 @Slf4j
 public class LoginController {
-    private final UserService userService;
+    private final MemberService memberService;
+
     @ExceptionHandler(RuntimeException.class)
     public Object processValidationError(RuntimeException ex) {
         log.info("에러 확인 {}", ex.getMessage());
@@ -43,20 +42,15 @@ public class LoginController {
 
     @DeleteMapping("/member/logout")
     public ResponseEntity<?> logout(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-
         System.out.println("로그아웃 완료");
-
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/members/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody UserSignUpDTO userSignUpDTO)  {
-        System.out.println(userSignUpDTO.getAge());
-        System.out.println(userSignUpDTO.getName());
-        userService.signUp(userSignUpDTO);
-
-
+    public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO) {
+        System.out.println(memberSignUpDTO.getAge());
+        System.out.println(memberSignUpDTO.getName());
+        memberService.signUp(memberSignUpDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -64,7 +58,7 @@ public class LoginController {
     @GetMapping("/data")
     public ResponseEntity<?> data() {
         System.out.println("데이터");
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/test")
@@ -76,13 +70,11 @@ public class LoginController {
     @PostMapping("/refresh-token")
     public ResponseEntity<?> rep() {
         System.out.println("리프레쉬 토큰 확인");
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/logout2")
     public String access() throws IOException {
-
-
         return "redirect:/";
     }
 

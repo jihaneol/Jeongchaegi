@@ -34,11 +34,11 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
 
     private static final String NO_CHECK_URL = "/member/logout"; // "/login"으로 들어오는 요청은 Filter 작동 X
     private final JwtService jwtService;
-    private final MemberRepository userRepository;
+    private final MemberRepository memberRepository;
 
-    public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, MemberRepository userRepository) {
+    public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, MemberRepository memberRepository) {
         super(authenticationManager);
-        this.userRepository = userRepository;
+        this.memberRepository = memberRepository;
         this.jwtService = jwtService;
     }
 
@@ -52,10 +52,10 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
 
             jwtService.extractRefreshToken(request)
-                    .ifPresent(refreshtoken -> userRepository.findByRefreshToken(refreshtoken)
+                    .ifPresent(refreshtoken -> memberRepository.findByRefreshToken(refreshtoken)
                             .ifPresent(user -> {
                                 user.updateRefreshToken("");
-                                userRepository.save(user);
+                                memberRepository.save(user);
                                 saveAuthentication(user);
                             })
                     );
@@ -100,7 +100,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      */
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
 
-        userRepository.findByRefreshToken(refreshToken)
+        memberRepository.findByRefreshToken(refreshToken)
                 .ifPresent(user -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(user);
                     jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getEmail()),
@@ -117,7 +117,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
         log.info("리프레쉬 재발급 {}", user.getRole());
         String reIssuedRefreshToken = jwtService.createRefreshToken();
         user.updateRefreshToken(reIssuedRefreshToken);
-        userRepository.saveAndFlush(user);
+        memberRepository.saveAndFlush(user);
         return reIssuedRefreshToken;
     }
 
@@ -139,7 +139,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
             if (!valid.isEmpty()) {
                 // 에세스 토큰이 유효하면 인증에 넣어주기
                 valid.ifPresent(accessToken -> jwtService.extractName(accessToken)
-                        .ifPresent(name -> userRepository.findByName(name)
+                        .ifPresent(name -> memberRepository.findByName(name)
                                 .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
             } else {
                 // 유효 하지않으면 재발급 해주세요 리프레쉬 토큰
