@@ -3,7 +3,11 @@ package com.oppas.service;
 import com.oppas.dto.PolicyDTO;
 import com.oppas.dto.PolicyFilterDTO;
 import com.oppas.entity.policy.Policy;
-import com.oppas.repository.PolicyRepository;
+import com.oppas.entity.policy.PolicyRegion;
+import com.oppas.entity.policy.PolicyType;
+import com.oppas.repository.policy.PolicyRegionRepository;
+import com.oppas.repository.policy.PolicyRepository;
+import com.oppas.repository.policy.PolicyTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +26,8 @@ import java.util.Optional;
 public class PolicyService {
 
     private final PolicyRepository policyRepository;
+    private final PolicyTypeRepository policyTypeRepository;
+    private final PolicyRegionRepository policyRegionRepository;
     private final ModelMapper modelMapper;
 
     public Long savePolicy(PolicyDTO policyDTO) throws Exception {
@@ -29,7 +36,7 @@ public class PolicyService {
         // 이미 저장된 정책인 경우, 기존 지역 코드를 가져오기
         Optional<Policy> savedPolicy = policyRepository.findById(policy.getId());
         savedPolicy.ifPresent(value -> policy.setSrchPolyBizSecd(value.getSrchPolyBizSecd()));
-        
+
         policyRepository.save(policy);
         return policy.getId();
     }
@@ -43,8 +50,12 @@ public class PolicyService {
         return policyRepository.findById(policyId).orElseThrow(EntityNotFoundException::new);
     }
 
-    public long getPolicyCount() throws Exception {
-        return policyRepository.count();
+    public List<PolicyType> getPolicyTypes() throws Exception {
+        return policyTypeRepository.findAll();
+    }
+
+    public List<PolicyRegion> getPolicyRegions() throws Exception {
+        return policyRegionRepository.findAll();
     }
 
 }
