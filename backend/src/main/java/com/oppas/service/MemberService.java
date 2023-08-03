@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,5 +22,19 @@ public class MemberService {
         member.updateJoin(true);
         this.memberRepository.save(member);
     }
+
+    public boolean findNickName(String nickName) {
+        Optional<Member> member = memberRepository.findByNickname(nickName);
+
+        if (member.isEmpty()) {
+            // 유일 하다면
+            return true;
+        } else {
+            // 유일 하지 않으면
+            return false;
+        }
+
+    }
+
 
 }

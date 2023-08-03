@@ -20,8 +20,8 @@ import java.io.IOException;
  * Authentication -> DI -> userDetails(일반 로그인),OAuth2user(카카오 등 로그인)
  */
 
-@Controller
-//@RestController
+
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 public class LoginController {
@@ -34,18 +34,22 @@ public class LoginController {
 //        return ApiResponse.error(ApiStatus.SYSTEM_ERROR, ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
-    @GetMapping("/")
-    public String domain() {
-        System.out.println("도메인");
-        return "loginForm";
+    @GetMapping("/members/find/{nickname}")
+    public ResponseEntity<?> checkNickName(@PathVariable String nickname) {
+        System.out.println(nickname);
+        boolean flag = memberService.findNickName(nickname);
+        if (flag) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping("/member/logout")
-    public ResponseEntity<?> logout(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+    @DeleteMapping("/members/logout")
+    public ResponseEntity<?> logout() {
         System.out.println("로그아웃 완료");
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
     @PostMapping("/members/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO) {
         System.out.println(memberSignUpDTO.getAge());
@@ -53,30 +57,5 @@ public class LoginController {
         memberService.signUp(memberSignUpDTO);
         return ResponseEntity.ok().build();
     }
-
-
-    @GetMapping("/data")
-    public ResponseEntity<?> data() {
-        System.out.println("데이터");
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        System.out.println("테스트");
-        return "joinForm";
-    }
-
-    @PostMapping("/refresh-token")
-    public ResponseEntity<?> rep() {
-        System.out.println("리프레쉬 토큰 확인");
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/logout2")
-    public String access() throws IOException {
-        return "redirect:/";
-    }
-
 
 }
