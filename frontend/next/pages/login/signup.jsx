@@ -12,6 +12,7 @@ export default function UserInfo() {
   const [userStep, setUserStep] = useState(0);
 	const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
   const userData = useSelector((state) => state.user);
+  const getUserData = ["GetTypeInfo", "GetPlaceInfo", "GetNickname"];
 
   const dispatch = useDispatch();
 
@@ -30,7 +31,6 @@ export default function UserInfo() {
     } else if (num === 1) {
       if (userBirth) dispatch(userActions.setBirth(userBirth));
       if (sido) dispatch(userActions.setCity(sido));
-      console.log(userData);
     }
 
   }
@@ -50,11 +50,7 @@ export default function UserInfo() {
   return (
     <div>
       <Nav />
-      {userStep === 0 ? (
-        <GetTypeInfo onClick_pre={onClick_pre} onClick_next={onClick_next} />
-      ) : (
-        <GetPlaceInfo onClick_pre={onClick_pre} onClick_next={onClick_next} />
-      )}
+      {`<${getUserData[userStep]} onClick_pre={onClick_pre} onClick_next={onClick_next} />`}
     </div>
   );
 }
