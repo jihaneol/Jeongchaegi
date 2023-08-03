@@ -31,6 +31,7 @@ export default function UserInfo() {
     } else if (num === 1) {
       if (userBirth) dispatch(userActions.setBirth(userBirth));
       if (sido) dispatch(userActions.setCity(sido));
+      setUserStep(num + 1);
     }
 
   }
