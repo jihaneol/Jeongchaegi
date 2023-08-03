@@ -2,7 +2,7 @@ package com.oppas.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.oppas.repository.UserRepository;
+import com.oppas.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class JwtService {
     private static final String USER_CLAIM = "username";
     private static final String BEARER = "Bearer ";
 
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
 
     /**
      * AccessToken 생성 메소드
@@ -57,8 +57,6 @@ public class JwtService {
                 .withSubject(ACCESS_TOKEN_SUBJECT) // JWT의 Subject 지정 -> AccessToken이므로 AccessToken
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
 
-                //클레임으로는 저희는 email 하나만 사용합니다.
-                //추가적으로 식별자나, 이름 등의 정보를 더 추가하셔도 됩니다.
                 //추가하실 경우 .withClaim(클래임 이름, 클래임 값) 으로 설정해주시면 됩니다
                 .withClaim(USER_CLAIM, name)
                 .sign(Algorithm.HMAC512(secretKey)); // HMAC512 알고리즘 사용, application-jwt.yml에서 지정한 secret 키로 암호화
@@ -80,9 +78,9 @@ public class JwtService {
      * AccessToken 헤더에 실어서 보내기
      */
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
-        response.setStatus(HttpServletResponse.SC_OK);
+
         setAccessTokenHeader(response, accessToken, false);
-        response.setHeader(accessHeader, accessToken);
+
         log.info("재발급된 Access Token : {}", accessToken);
     }
 

@@ -7,14 +7,16 @@ import PolicyListSearch, { mySearchQuery } from "../components/PolicyListSearch"
 import PolicyFilter, { searchAge, selectPcyTypes } from "../components/PolicyFilter";
 import PolicyListCalendar from "../components/PolicyListCalendar";
 import PolicyListSort from "../components/PolicyListSort";
-import { sido } from "../components/SelectPlace";  // 컴포넌트 변수 가져옴
 
+import { sido } from "../components/SelectPlace";  // 컴포넌트 변수 가져옴
+import OurAxios from "../config/ourAxios";
 
 import axios from "axios";
 
 export default function PolicyList() {
   const router = useRouter();
   const { calendarActive, calendarDate } = router.query;
+  const api = OurAxios();
 
   // State 모음
   const [isCalendarActive, setIsCalendarActive] = useState(
@@ -26,7 +28,6 @@ export default function PolicyList() {
 
     // filter 데이터 모음
   const [targetDate, setTargetDate] = useState(new Date());
-  const [targetType, settargetType] = useState('')
   
   // useEffect 관리 모음
   useEffect(() => {
@@ -61,7 +62,7 @@ export default function PolicyList() {
 
   // policy data 서버에서 받기, 나중에 수정 예정
   function getPcyData(page) {
-    console.log(page);
+    // console.log(page);
     // console.log(lastPage);
     axios({
       method: "get",
@@ -70,13 +71,16 @@ export default function PolicyList() {
         pageIndex:page,
       }
     }).then((res) => {
-      if (pcydata && page < lastPage) {  // 이미 데이터가 있으면(한번 이상 요청을 받았으면)
-        setpcy(pcydata => [...pcydata, ...res.data.content])  // 뒤에 추가함
+      console.log(res);
+      if (!pcydata) {
+        setLastPage(res.data.totalPages)
+        setpcy(res.data.content);
       }
-      else if (!pcydata){  // 데이터가 없으면(처음이면) 바로 set함
-        setLastPage(res.data.totalPages)  // 마지막 페이지
-        setpcy(res.data.content);  
+      else if (pcydata && page < lastPage) {
+        setpcy(pcydata => [...pcydata, ...res.data.content])
       }
+    }).catch((err) => {
+      console.log(err);
     });
   }
 
@@ -102,10 +106,6 @@ export default function PolicyList() {
   function onClickDay(e) {
     setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));
     console.log(targetDate.getDate());
-  }
-
-  function clickPageNumb(numb) {
-    console.log(numb);
   }
 
   return (

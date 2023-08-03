@@ -14,13 +14,14 @@ export default function GetLoginToken() {
   // }
 
   async function getToken() {
-    setAccessToken(sessionStorage.getItem("accessToken"));
-    setRefreshToken(sessionStorage.getItem("refreshToken"));
+    setAccessToken(localStorage.getItem("accessToken"));
+    setRefreshToken(localStorage.getItem("refreshToken"));
   }
 
   useEffect(() => {
     getToken().then(() => {
       setTokens({ accessToken, refreshToken });
+      console.log("access: ", accessToken, "refresh: ", refreshToken);
     });
   }, []);
 

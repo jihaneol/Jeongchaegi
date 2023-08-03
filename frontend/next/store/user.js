@@ -50,6 +50,10 @@ const userSlice = createSlice({
       state.city = action.payload;
       console.log(state.city);
     },
+    setNickName(state, action) {
+      state.nickname = action.payload;
+      console.log(state.nickname);
+    }
   },
 });
 
