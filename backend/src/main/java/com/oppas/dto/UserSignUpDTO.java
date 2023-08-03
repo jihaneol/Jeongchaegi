@@ -21,7 +21,7 @@ public class UserSignUpDTO {
     @NotBlank
     private String nickname;
     @NotNull
-    @Min(value = 18, message = "나이먹고 와라")
+    @Min(value = 18, message = "나이 부족")
     private Integer age;
     @NotBlank
     private String city;
