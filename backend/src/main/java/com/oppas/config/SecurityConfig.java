@@ -57,15 +57,16 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/user/**").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.POST, "/refresh-token").authenticated()
                 .antMatchers(HttpMethod.DELETE, "member/logout").authenticated()
-                .anyRequest().permitAll()
-                .and()
-                .oauth2Login() //카카오 로그인 오쓰
+                .anyRequest().permitAll();
+
+
+        http
+                .oauth2Login() //오 로그인 오쓰
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService)
                 .and()
                 .successHandler(loginSuccessHandler())
-                .failureHandler(loginFailureHandler())
-                .permitAll();
+                .failureHandler(loginFailureHandler());
 
         http.addFilter(new JwtAuthenticationProcessingFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtService, userRepository));
 
