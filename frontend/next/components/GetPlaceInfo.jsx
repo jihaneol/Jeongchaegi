@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { useSelector } from "react-redux";
 
 import Style from "./styles/GetPlaceInfo.module.css";
 import SelectPlace from "./SelectPlace";
@@ -8,6 +8,7 @@ const userBirth = "";
 
 export default function GetPlaceInfo(props) {
   const [birth, setBirth] = useState("");
+  const userData = useSelector((state) => state.user);
 
   // input 요소의 값이 변경될 때마다 상태를 업데이트합니다.
   const onChangeBirth = (event) => {
