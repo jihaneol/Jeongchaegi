@@ -1,6 +1,6 @@
 package com.oppas.entity;
 
-import com.oppas.dto.UserSignUpDTO;
+import com.oppas.dto.MemberSignUpDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -60,7 +60,7 @@ public class Member {
         this.kakaoToken = token;
     }
 
-    public void join(UserSignUpDTO userSignUpDTO) {
+    public void join(MemberSignUpDTO userSignUpDTO) {
         this.city = userSignUpDTO.getCity();
         this.age = userSignUpDTO.getAge();
         this.nickname = userSignUpDTO.getNickname();

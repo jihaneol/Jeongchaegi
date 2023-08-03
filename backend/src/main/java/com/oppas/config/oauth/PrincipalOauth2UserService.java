@@ -21,8 +21,7 @@ import java.util.Optional;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    private MemberRepository userRepository;
-
+    private MemberRepository memberRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -44,17 +43,17 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             System.out.println("카카오만 취급한다.");
         }
         Optional<Member> userOptional =
-                userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
-        Member user;
+                memberRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
+        Member member;
 
 
         if (userOptional.isPresent()) {
-            user = userOptional.get();
+            member = userOptional.get();
         } else {
             System.out.println("가입 해줄게");
 
             // user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
-            user = Member.builder()
+            member = Member.builder()
                     .name(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
                     .email(oAuth2UserInfo.getEmail())
                     .role("ROLE_USER")
@@ -62,11 +61,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .providerId(oAuth2UserInfo.getProviderId())
                     .kakaoToken(userRequest.getAccessToken().getTokenValue())
                     .sign(false)
-                    .img((String)((Map)oAuth2User.getAttributes().get("properties")).get("thumbnail_image"))
+                    .img((String) ((Map) oAuth2User.getAttributes().get("properties")).get("thumbnail_image"))
                     .build();
         }
-        userRepository.save(user);
+        memberRepository.save(member);
 
-        return new PrincipalDetails(user, oAuth2User.getAttributes());
+        return new PrincipalDetails(member, oAuth2User.getAttributes());
     }
 }
