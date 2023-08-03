@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import style from "../styles/PolicyList.module.css";
 import Nav from "../components/Nav";
 import PcyListItem from "../components/PcyListItem";
-import PolicyListSearch from "../components/PolicyListSearch";
-import PolicyFilter from "../components/PolicyFilter";
+import PolicyListSearch, { mySearchQuery } from "../components/PolicyListSearch";
+import PolicyFilter, { searchAge, selectPcyTypes } from "../components/PolicyFilter";
 import PolicyListCalendar from "../components/PolicyListCalendar";
 import PolicyListSort from "../components/PolicyListSort";
-import PolicyListPageBtn from "../components/PolicyListPageBtn";
+import { sido } from "../components/SelectPlace";  // 컴포넌트 변수 가져옴
+
 
 import axios from "axios";
 
@@ -19,37 +20,48 @@ export default function PolicyList() {
   const [isCalendarActive, setIsCalendarActive] = useState(
     Boolean(calendarActive)
   );
-  const [targetDate, setTargetDate] = useState(new Date());
   const [pcydata, setpcy] = useState('');  // 정책리스트 데이터
   const [isFetching, setFetching] = useState(1);  // 패치할지 감시, 1페이지부터
   const [lastPage, setLastPage] = useState(999999999999999999999);  // 귀찮아서 일단 이렇게 구현
 
+    // filter 데이터 모음
+  const [targetDate, setTargetDate] = useState(new Date());
+  const [targetType, settargetType] = useState('')
+  
   // useEffect 관리 모음
   useEffect(() => {
-    if (calendarDate) {
-      setTargetDate(new Date(calendarDate));
-    } else setTargetDate(new Date());
-  }, []);
-
-  useEffect(() => {
-    if (isFetching <= lastPage) getPcyData(isFetching);  // 변화 감지하면 그 페이지 실행, 막페이지 아니면
-    
-  }, [isFetching]);
-
-  useEffect(() => {    
     const timer = setInterval(() => {
       window.addEventListener("scroll", handleScroll);
     }, 100);
-    return () => {
+    if (calendarDate) {
+      setTargetDate(new Date(calendarDate));
+    } else setTargetDate(new Date());
+
+    return () => {  // 컴포넌트 생성시 스크롤 이벤트, 끝날때 없애기
       clearInterval(timer);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+
+  useEffect(() => {
+    if (isFetching <= lastPage) getPcyData(isFetching);  // 변화 감지하면 그 페이지 실행, 막페이지 아니면
+  }, [isFetching]);
   // 함수 모음
+
+
+  function submitParamsToBack() {  // 검색 클릭시 filter 항목 ================현재 수정중!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    console.log('current filtering list...........');
+    console.log(targetDate.getDate());
+    console.log(sido);
+    console.log(mySearchQuery);
+    console.log(searchAge);
+    console.log(selectPcyTypes);
+  }
 
   // policy data 서버에서 받기, 나중에 수정 예정
   function getPcyData(page) {
-    // console.log(page);
+    console.log(page);
     // console.log(lastPage);
     axios({
       method: "get",
@@ -72,7 +84,7 @@ export default function PolicyList() {
   function handleScroll() {
     const { scrollTop, offsetHeight } = document.documentElement
     if (window.innerHeight + scrollTop + 0.5 >= offsetHeight) {  // 0.5  더한거는 왠지 모르겠는데 끝까지 않닿음
-      // console.log(true);
+      console.log('next page...');
       setFetching(isFetching => isFetching + 1)  // 닿는 순간 +1 위 useeffect에서 변화 감지
     }
   }
@@ -89,6 +101,7 @@ export default function PolicyList() {
 
   function onClickDay(e) {
     setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));
+    console.log(targetDate.getDate());
   }
 
   function clickPageNumb(numb) {
@@ -115,7 +128,9 @@ export default function PolicyList() {
           ${isCalendarActive ? style.list_wrap_on : style.list_wrap_off}`}
       >
         {/* 검색창 */}
-        <PolicyListSearch />
+        <PolicyListSearch
+        submitParamsToBack = {submitParamsToBack}
+        />
 
         {/* 필터 */}
         <PolicyFilter

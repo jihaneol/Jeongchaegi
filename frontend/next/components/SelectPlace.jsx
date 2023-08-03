@@ -268,9 +268,10 @@ export default function SelectPlace() {
   // 선택한 시/도에 따라 구/군 데이터를 가져오는 함수
   const handleSidoChange = (e) => {
     const selectedSido = e.target.value;
-    console.log(selectedSido);
+    // console.log(selectedSido);
     sido = sidoOptions[e.target.value].code;
-    console.log(sidoOptions[e.target.value].code);
+    console.log(sido, 'component in');
+    // console.log(sidoOptions[e.target.value].code);
     if (selectedSido) {
       const Sido = setGugunOptions(gugunList[selectedSido]);
     } else {

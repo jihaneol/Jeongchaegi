@@ -17,6 +17,7 @@ export default function PcyListItem({ obj, onItemClick }) {
           <div>{item.mngtMson}</div>
           <div>{item.cnsgNmor}</div>
           <div>{item.polyItcnCn}</div>
+          {item.id}
         </div>
       </div>
       ))}

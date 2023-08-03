@@ -163,6 +163,7 @@
 
 .policy_filter_list_wrapper {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
 }
 
