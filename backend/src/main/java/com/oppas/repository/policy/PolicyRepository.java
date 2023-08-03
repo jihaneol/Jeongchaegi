@@ -1,4 +1,4 @@
-package com.oppas.repository;
+package com.oppas.repository.policy;
 
 import com.oppas.entity.policy.Policy;
 import org.springframework.data.jpa.repository.JpaRepository;
