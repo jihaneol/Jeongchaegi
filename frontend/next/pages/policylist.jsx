@@ -7,13 +7,14 @@ import PolicyListSearch from "../components/PolicyListSearch";
 import PolicyFilter from "../components/PolicyFilter";
 import PolicyListCalendar from "../components/PolicyListCalendar";
 import PolicyListSort from "../components/PolicyListSort";
-import PolicyListPageBtn from "../components/PolicyListPageBtn";
+import OurAxios from "../config/ourAxios";
 
 import axios from "axios";
 
 export default function PolicyList() {
   const router = useRouter();
   const { calendarActive, calendarDate } = router.query;
+  const api = OurAxios();
 
   // State 모음
   const [isCalendarActive, setIsCalendarActive] = useState(
@@ -49,22 +50,21 @@ export default function PolicyList() {
 
   // policy data 서버에서 받기, 나중에 수정 예정
   function getPcyData(page) {
-    // console.log(page);
-    // console.log(lastPage);
-    axios({
-      method: "get",
-      url: "http://3.36.131.236:8081/policies",
-      params:{
-        pageIndex:page,
+    api.get("/policies", {
+      params: {
+        pageIndex: page,
       }
     }).then((res) => {
-      if (pcydata && page < lastPage) {  // 이미 데이터가 있으면(한번 이상 요청을 받았으면)
-        setpcy(pcydata => [...pcydata, ...res.data.content])  // 뒤에 추가함
+      console.log(res);
+      if (!pcydata) {
+        setLastPage(res.data.totalPages)
+        setpcy(res.data.content);
       }
-      else if (!pcydata){  // 데이터가 없으면(처음이면) 바로 set함
-        setLastPage(res.data.totalPages)  // 마지막 페이지
-        setpcy(res.data.content);  
+      else if (pcydata && page < lastPage) {
+        setpcy(pcydata => [...pcydata, ...res.data.content])
       }
+    }).catch((err) => {
+      console.log(err);
     });
   }
 
@@ -89,10 +89,6 @@ export default function PolicyList() {
 
   function onClickDay(e) {
     setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));
-  }
-
-  function clickPageNumb(numb) {
-    console.log(numb);
   }
 
   return (
