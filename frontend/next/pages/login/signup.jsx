@@ -34,12 +34,13 @@ export default function UserInfo() {
 
   function getToken() {
     console.log(atCookies);
+    return atCookies.at;
   }
   
   useEffect(() => {
-    getToken().then(() => {
-      localStorage.setItem("accessToken", atCookies.at);
-    })
+    const accessToken = getToken();
+    if (accessToken)
+      localStorage.setItem("accessToken", accessToken);
   }, [atCookies.at])
 
   return (
