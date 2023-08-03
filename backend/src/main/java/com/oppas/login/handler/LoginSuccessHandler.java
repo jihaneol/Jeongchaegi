@@ -3,7 +3,7 @@ package com.oppas.login.handler;
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.jwt.JwtService;
 import com.oppas.entity.Member;
-import com.oppas.repository.UserRepository;
+import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

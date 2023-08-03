@@ -2,7 +2,7 @@ package com.oppas.jwt;
 
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.entity.Member;
-import com.oppas.repository.UserRepository;
+import com.oppas.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,9 +34,9 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
 
     private static final String NO_CHECK_URL = "/member/logout"; // "/login"으로 들어오는 요청은 Filter 작동 X
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
 
-    public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, UserRepository userRepository) {
+    public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, MemberRepository userRepository) {
         super(authenticationManager);
         this.userRepository = userRepository;
         this.jwtService = jwtService;
