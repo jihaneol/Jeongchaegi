@@ -4,7 +4,7 @@ import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.config.oauth.provider.KakaoUserInfo;
 import com.oppas.config.oauth.provider.OAuth2UserInfo;
 import com.oppas.entity.Member;
-import com.oppas.repository.UserRepository;
+import com.oppas.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -21,7 +21,7 @@ import java.util.Optional;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository userRepository;
 
 
     @Override
