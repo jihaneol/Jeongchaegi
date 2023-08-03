@@ -1,5 +1,6 @@
 package com.oppas.controller;
 
+import com.oppas.dto.PolicyFilterDTO;
 import com.oppas.entity.policy.Policy;
 import com.oppas.service.PolicyService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ public class PolicyController {
     private final PolicyService policyService;
 
     @GetMapping("/policies")
-    public ResponseEntity<Page<Policy>> getPolicies(@RequestParam int pageIndex) throws Exception {
-        Page<Policy> policyList = policyService.getPolicies(pageIndex);
+    public ResponseEntity<Page<Policy>> getPolicies(@ModelAttribute PolicyFilterDTO filter, @RequestParam int pageIndex) throws Exception {
+        Page<Policy> policyList = policyService.getPolicies(filter, pageIndex);
         return ResponseEntity.ok(policyList);
     }
 
