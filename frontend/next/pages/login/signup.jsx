@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GetTypeInfo, { pcyTypes } from "../../components/GetTypeInfo";
 import GetPlaceInfo, { userBirth } from "../../components/GetPlaceInfo";
 import { sido } from "../../components/SelectPlace";
@@ -11,6 +11,7 @@ import { useCookies } from 'react-cookie';
 export default function UserInfo() {
   const [userStep, setUserStep] = useState(0);
 	const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
+  const userData = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -29,7 +30,9 @@ export default function UserInfo() {
     } else if (num === 1) {
       if (userBirth) dispatch(userActions.setBirth(userBirth));
       if (sido) dispatch(userActions.setCity(sido));
+      console.log(userData);
     }
+
   }
 
   function getToken() {
@@ -42,6 +45,7 @@ export default function UserInfo() {
     if (accessToken)
       localStorage.setItem("accessToken", accessToken);
   }, [atCookies.at])
+
 
   return (
     <div>
