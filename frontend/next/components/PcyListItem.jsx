@@ -6,17 +6,19 @@ export default function PcyListItem({ obj, onItemClick }) {
 
   return (
     <>
-      {obj.map((item)=>(
+      {obj.map((item, index)=>(
       <div
         className={`card ${styles.card_wrapper}`}
         onClick={() => onItemClick(item.id)}
         key={item.id}
       >
+        {index}
         <div className="card-header">{item.polyBizSjnm}</div>
         <div className="card-body">
           <div>{item.mngtMson}</div>
           <div>{item.cnsgNmor}</div>
           <div>{item.polyItcnCn}</div>
+          {item.id}
         </div>
       </div>
       ))}
