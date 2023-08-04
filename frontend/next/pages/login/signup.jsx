@@ -10,10 +10,18 @@ import GetPersonalInfo from "../../components/GetPersonalInfo";
 
 export default function UserInfo() {
 	const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
+  const userData = useSelector(state => state.user);
 
   function getToken() {
     console.log(atCookies);
     return atCookies.at;
+  }
+
+  function submitUserInfo() {
+    console.log(userData.birth);
+    console.log(userData.city);
+    console.log(userData.age);
+    console.log(userData.nickname);
   }
   
   useEffect(() => {
@@ -37,7 +45,7 @@ export default function UserInfo() {
 
         </div>
         <div className={style.signup_btn_wrapper}>
-          <button >가입하기</button>
+          <button onClick={submitUserInfo}>가입하기</button>
         </div>
       </div>
     </div>

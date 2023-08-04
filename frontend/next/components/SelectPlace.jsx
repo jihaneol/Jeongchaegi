@@ -4,7 +4,7 @@ import Style from "./styles/SelectPlace.module.css";
 
 const sido = "";
 
-export default function SelectPlace() {
+export default function SelectPlace({getResidence}) {
   const [sidoOptions, setSidoOptions] = useState([]);
   const [gugunOptions, setGugunOptions] = useState([]);
   const gugunList = [
@@ -268,10 +268,12 @@ export default function SelectPlace() {
   // 선택한 시/도에 따라 구/군 데이터를 가져오는 함수
   const handleSidoChange = (e) => {
     const selectedSido = e.target.value;
-    sido = sidoOptions[e.target.value].code;
     if (selectedSido) {
-      const Sido = setGugunOptions(gugunList[selectedSido]);
+      sido = sidoOptions[e.target.value].code;
+      setGugunOptions(gugunList[selectedSido]);
+      getResidence(sido);
     } else {
+      getResidence("");
       setGugunOptions([]); // 시/도가 선택되지 않았을 때 구/군 옵션을 초기화합니다.
     }
   };
