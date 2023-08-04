@@ -11,13 +11,13 @@ import LiveChat from "../../components/LiveChat";
 export default function Page(props) {
   // const router = useRouter();
   const post = props.post;
+  console.log(post);
   const keys = Object.keys(post);
-  console.log(props.post);
   console.log(keys);
 
   return (
     <div>
-      {/* <Nav /> */}
+      <Nav />
       <div className={Style.wrap}>
         <div className={Style.container}>
           <div className={Style.title}>
@@ -79,32 +79,98 @@ export default function Page(props) {
             </div>
             <div className={Style.summary_box}>
               <div className={Style.summary_ctt}>
-                <div className={Style.summary_ctt_left}>정책 번호</div>
-                <div className={Style.summary_ctt_right}>{post.id}</div>
+                <div className={Style.summary_ctt_left}>연령</div>
+                <div className={Style.summary_ctt_right}>{post.ageInfo}</div>
               </div>
               <div className={Style.summary_ctt}>
-                <div className={Style.summary_ctt_left}>정책 분야</div>
-                <div className={Style.summary_ctt_right}>{post.polyRlmCd}</div>
+                <div className={Style.summary_ctt_left}>거주지 및 소득</div>
+                <div className={Style.summary_ctt_right}>{post.prcpCn}</div>
               </div>
               <div className={Style.summary_ctt}>
-                <div className={Style.summary_ctt_left}>지원 내용</div>
-                <div className={Style.summary_ctt_right}>{post.sporCn}</div>
+                <div className={Style.summary_ctt_left}>학력</div>
+                <div className={Style.summary_ctt_right}>{post.accrRqisCn}</div>
               </div>
               <div className={Style.summary_ctt}>
-                <div className={Style.summary_ctt_left}>사업 운영 기간</div>
-                <div className={Style.summary_ctt_right}>{post.bizPrdCn}</div>
+                <div className={Style.summary_ctt_left}>전공</div>
+                <div className={Style.summary_ctt_right}>{post.majrRqisCn}</div>
               </div>
               <div className={Style.summary_ctt}>
-                <div className={Style.summary_ctt_left}>사업 신청 기간</div>
-                <div className={Style.summary_ctt_right}>{post.rqutPrdCn}</div>
+                <div className={Style.summary_ctt_left}>취업 상태</div>
+                <div className={Style.summary_ctt_right}>{post.empmSttsCn}</div>
               </div>
               <div className={Style.summary_ctt}>
-                <div className={Style.summary_ctt_left}>지원 규모(명)</div>
-                <div className={Style.summary_ctt_right}>{post.sporScvl}</div>
+                <div className={Style.summary_ctt_left}>특화 분야</div>
+                <div className={Style.summary_ctt_right}>
+                  {post.splzRlmRqisCn}
+                </div>
               </div>
               <div className={Style.summary_ctt}>
-                <div className={Style.summary_ctt_left}>비고</div>
-                <div className={Style.summary_ctt_right}>{post.rqutPrdCn}</div>
+                <div className={Style.summary_ctt_left}>추가 단서 사항</div>
+                <div className={Style.summary_ctt_right}>{post.aditRscn}</div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>참여 제한 대상</div>
+                <div className={Style.summary_ctt_right}>
+                  {post.prcpLmttTrgtCn}
+                </div>
+              </div>
+            </div>
+            <div className={Style.summary}>
+              <h2>신청방법</h2>
+            </div>
+            <div className={Style.summary_box}>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>신청 절차</div>
+                <div className={Style.summary_ctt_right}>{post.rqutProcCn}</div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>심사 및 발표</div>
+                <div className={Style.summary_ctt_right}>{post.jdgnPresCn}</div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>신청 사이트</div>
+                <div className={Style.summary_ctt_right}>{post.rqutUrla}</div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>제출 서류</div>
+                <div className={Style.summary_ctt_right}>{post.pstnPaprCn}</div>
+              </div>
+            </div>
+            <div className={Style.summary}>
+              <h2>기타</h2>
+            </div>
+            <div className={Style.summary_box}>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>기타 유익 정보</div>
+                <div className={Style.summary_ctt_right}>{post.etct}</div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>주관 기관</div>
+                <div className={Style.summary_ctt_right}>{post.mngtMson}</div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>운영 기관</div>
+                <div className={Style.summary_ctt_right}>{post.cnsgNmor}</div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>
+                  사업관련 참고 사이트1
+                </div>
+                <div className={Style.summary_ctt_right}>
+                  {post.rfcSiteUrla1}
+                </div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>
+                  사업관련 참고 사이트2
+                </div>
+                <div className={Style.summary_ctt_right}>
+                  {post.rfcSiteUrla2}
+                </div>
+              </div>
+              <div className={Style.summary_ctt}>
+                <div className={Style.summary_ctt_left}>첨부파일</div>
+                <div className={Style.summary_ctt_right}>??</div>
               </div>
             </div>
           </div>
@@ -118,13 +184,13 @@ export default function Page(props) {
               objectFit="cover"
             />
           </div> */}
-          <ul className={Style.content}>
+          {/* <ul className={Style.content}>
             {keys.map((key) => (
               <li key={key}>
                 {key} : {post[key]}
               </li>
             ))}
-          </ul>
+          </ul> */}
           <div className={Style.chat_box}>
             <div className={Style.chat}>
               <h4>채팅방</h4>
@@ -139,26 +205,9 @@ export default function Page(props) {
 
 // getStaticPaths
 export async function getStaticPaths() {
-  let paths = [];
+  const paths = [];
 
-  // 게시물을 가져오기 위해 외부 API 엔드포인트를 호출합니다.
-  for (let step = 1; step <= 211; step++) {
-    const res = await fetch(
-      `http://3.36.131.236:8081/policies?pageIndex=${step}`
-    );
-
-    const data = await res.json();
-    const posts = data.content;
-
-    // 게시물에 따라 프리 렌더링 할 경로를 가져옵니다.
-    for (const post of posts) {
-      paths.push({ params: { id: post.id.toString() } });
-    }
-  }
-
-  // 빌드 타임에 이러한 경로만 프리 렌더링합니다.
-  // { fallback: false }는 다른 경로는 404를 반환해야 함을 의미합니다.
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 }
 
 // getStaticProps
