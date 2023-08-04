@@ -19,11 +19,11 @@ public class PolicyScrap {
     @Column(name = "policy_scrap_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩 사용
+    @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩 사용
+    @ManyToOne
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 
