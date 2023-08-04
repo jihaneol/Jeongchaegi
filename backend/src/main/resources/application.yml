@@ -29,11 +29,11 @@ spring:
             authorization-grant-type: authorization_code
 
             # 로컬 테스트용 카카오 정보
-            #          kakao:
-            #            client-id: 5bebd3961cec12296fc72d86729bffe8
-            #            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
-            #            client-authentication-method: POST
-            #            authorization-grant-type: authorization_code
+#          kakao:
+#            client-id: 5bebd3961cec12296fc72d86729bffe8
+#            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
+#            client-authentication-method: POST
+#            authorization-grant-type: authorization_code
 
             scope:
               - profile_nickname

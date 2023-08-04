@@ -1,15 +1,18 @@
 package com.oppas.entity;
 
 import com.oppas.dto.MemberSignUpDTO;
+import com.oppas.entity.policy.PolicyType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 // ORM - Object Relation Mapping
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Builder
@@ -35,9 +38,9 @@ public class Member {
     @CreationTimestamp
     private Timestamp createDate;
     private String refreshToken; // 리프레시 토큰
-    private String kakaoToken; // 리프레시 토큰
     private boolean sign;
-    private String policyType;
+    @OneToMany(mappedBy = "member")
+    private List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
 
     //	@ColumnDefault("false")
 //	@Column(columnDefinition = "TINYINT(1)")
@@ -56,15 +59,10 @@ public class Member {
         this.sign = true;
     }
 
-    public void updatekakaoToken(String token) {
-        this.kakaoToken = token;
-    }
-
     public void join(MemberSignUpDTO userSignUpDTO) {
+        System.out.println("조인");
         this.city = userSignUpDTO.getCity();
         this.age = userSignUpDTO.getAge();
         this.nickname = userSignUpDTO.getNickname();
-        this.policyType = userSignUpDTO.getPolicyType();
-        this.email = userSignUpDTO.getEmail();
     }
 }
