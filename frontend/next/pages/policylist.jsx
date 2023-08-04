@@ -7,13 +7,14 @@ import PolicyListSearch from "../components/PolicyListSearch";
 import PolicyFilter from "../components/PolicyFilter";
 import PolicyListCalendar from "../components/PolicyListCalendar";
 import PolicyListSort from "../components/PolicyListSort";
-import PolicyListPageBtn from "../components/PolicyListPageBtn";
+import OurAxios from "../config/ourAxios";
 
 import axios from "axios";
 
 export default function PolicyList() {
   const router = useRouter();
   const { calendarActive, calendarDate } = router.query;
+  const api = OurAxios();
 
   // State 모음
   const [isCalendarActive, setIsCalendarActive] = useState(
@@ -65,6 +66,8 @@ export default function PolicyList() {
         setLastPage(res.data.totalPages); // 마지막 페이지
         setpcy(res.data.content);
       }
+    }).catch((err) => {
+      console.log(err);
     });
   }
 
@@ -90,10 +93,6 @@ export default function PolicyList() {
 
   function onClickDay(e) {
     setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));
-  }
-
-  function clickPageNumb(numb) {
-    console.log(numb);
   }
 
   return (

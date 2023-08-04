@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { useSelector } from "react-redux";
+
 
 import Style from "./styles/GetTypeInfo.module.css";
 
@@ -8,6 +9,7 @@ let pcyTypes = [];
 
 export default function GetTypeInfo(props) {
   // console.log(props);
+  const userData = useSelector(state => state.user);
 
   // 미선택 타입
   const [types, setTypes] = useState([]);
@@ -23,6 +25,10 @@ export default function GetTypeInfo(props) {
       { index: "023030", name: "교육" },
     ]);
   }, []);
+
+  useEffect(() => {
+    setMyTypes(userData.policyType)
+  }, [])
 
   function onClick_left(index) {
     // 새로운 배열을 생성하여 types 상태를 업데이트
