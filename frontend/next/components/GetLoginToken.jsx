@@ -23,7 +23,7 @@ export default function GetLoginToken() {
       setTokens({ accessToken, refreshToken });
       console.log("access: ", accessToken, "refresh: ", refreshToken);
     });
-  }, []);
+  }, [accessToken, refreshToken]);
 
   return tokens;
 }
