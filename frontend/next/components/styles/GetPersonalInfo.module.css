@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  padding: 0px 0px 0px 10px;
+  margin: 30px 10px;
+}
+
+.nickname_wrapper > input {
+  margin: 0px 14px;
+  width: 40%;
+  padding: 2px 2px 2px 5px;
+}
+
+.nickname_wrapper > button {
+  border: 0px;
+  background-color: skyblue;
+  border-radius: 4px;
+}
+
+.birth_wrapper > div > label {
+  margin-right: 10px;
+}
+
+.residence_wrapper {
+  display: flex;
+}
+
+.residence_wrapper > label {
+  width: 100px;
+  line-height: 50px;
+}
