@@ -45,9 +45,6 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 로그아웃
-        System.out.println(request.getRequestURI());
-
 
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
 

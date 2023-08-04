@@ -59,7 +59,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .role("ROLE_USER")
                     .provider(oAuth2UserInfo.getProvider())
                     .providerId(oAuth2UserInfo.getProviderId())
-                    .kakaoToken(userRequest.getAccessToken().getTokenValue())
                     .sign(false)
                     .img((String) ((Map) oAuth2User.getAttributes().get("properties")).get("thumbnail_image"))
                     .build();
