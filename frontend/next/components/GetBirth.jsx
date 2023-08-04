@@ -22,7 +22,7 @@ export default function GetBirth({getBirth}) {
             date.getDate() + 1 > 9
               ? date.getDate() + 1 + ""
               : "0" + (date.getDate() + 1);
-          const new_date = year + month + day;
+          const new_date = year + "-" + month + "-" + day;
           setSelectedDate(date);
 					getBirth(new_date)
         }}
