@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 500px;
+  width: 800px;
 }
 
 .title {
@@ -104,6 +104,8 @@
 }
 
 .ctt_title {
+  display: flex;
+  align-items: center;
   border-bottom: 0.5px solid blue;
 }
 
