@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie';
-import ourAxios from '../../config/ourAxios';
 import { useRouter } from 'next/router';
 
-export default function success() {
+export default function Success() {
 	// useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
 	const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
 	const [rtCookies, setrtCookie, removertCookie] = useCookies(["rt"]);
@@ -18,8 +17,8 @@ export default function success() {
 	// }
   
 	async function login() {
-	  sessionStorage.setItem("accessToken", atCookies.at);
-	  sessionStorage.setItem("refreshToken", rtCookies.rt);
+	  localStorage.setItem("accessToken", atCookies.at);
+	  localStorage.setItem("refreshToken", rtCookies.rt);
 	}
 
 	useEffect(() => {
@@ -29,6 +28,6 @@ export default function success() {
 	})
 
   return (
-	<div>Loading...</div>
+		<div>Loading...</div>
   )
 }

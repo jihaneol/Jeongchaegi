@@ -1,31 +1,53 @@
 import React, { useEffect, useState } from "react";
-import GetTypeInfo from "../../components/GetTypeInfo";
-import GetPlaceInfo from "../../components/GetPlaceInfo";
+import { useDispatch, useSelector } from "react-redux";
+import { sido } from "../../components/SelectPlace";
 import Nav from "../../components/Nav";
+import style from "../../styles/Signup.module.css";
 
-export default function userInfo() {
-  const [userStep, setUserStep] = useState(0);
+import { userActions } from "../../store/user";
+import { useCookies } from 'react-cookie';
+import GetPersonalInfo from "../../components/GetPersonalInfo";
 
-  function onClick_pre() {
-    const num = userStep;
-    if (num > 0) {
-      setUserStep(num - 1);
-    }
+export default function UserInfo() {
+	const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
+  const userData = useSelector(state => state.user);
+
+  function getToken() {
+    console.log(atCookies);
+    return atCookies.at;
   }
 
-  function onClick_next() {
-    const num = userStep;
-    if (num < 1) setUserStep(num + 1);
+  function submitUserInfo() {
+    console.log(userData.birth);
+    console.log(userData.city);
+    console.log(userData.age);
+    console.log(userData.nickname);
   }
+  
+  useEffect(() => {
+    const accessToken = getToken();
+    if (accessToken)
+      localStorage.setItem("accessToken", accessToken);
+  }, [atCookies.at])
+
 
   return (
-    <div>
+    <div className={style.signup_wrapper}>
       <Nav />
-      {userStep === 0 ? (
-        <GetTypeInfo onClick_pre={onClick_pre} onClick_next={onClick_next} />
-      ) : (
-        <GetPlaceInfo onClick_pre={onClick_pre} onClick_next={onClick_next} />
-      )}
+      <div className={style.signup_container}>
+        <div className={style.signup_header}>
+          {`회원가입`}
+        </div>
+        <div className={style.signup_content_personal_info}>
+          <GetPersonalInfo /> 
+        </div>
+        <div className={style.signup_content_policy_type}>
+
+        </div>
+        <div className={style.signup_btn_wrapper}>
+          <button onClick={submitUserInfo}>가입하기</button>
+        </div>
+      </div>
     </div>
   );
 }

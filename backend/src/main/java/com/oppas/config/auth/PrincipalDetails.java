@@ -1,6 +1,6 @@
 package com.oppas.config.auth;
 
-import com.oppas.model.User;
+import com.oppas.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -23,36 +23,38 @@ import java.util.Map;
 public class PrincipalDetails implements UserDetails, OAuth2User { //2개 구현
 
     private static final long serialVersionUID = 1L;
-    private User user; //콤포지션
+    private Member member; //콤포지션
     private Map<String, Object> attributes;
 
     // 일반 시큐리티 로그인시 사용
-    public PrincipalDetails(User user) {
-        this.user = user;
+    public PrincipalDetails(Member member) {
+        this.member = member;
     }
 
     // OAuth2.0 로그인시 사용
-    public PrincipalDetails(User user, Map<String, Object> attributes) {
-        this.user = user;
+    public PrincipalDetails(Member member, Map<String, Object> attributes) {
+        this.member = member;
         this.attributes = attributes;
     }
 
-    public User getUser() {
-        return user;
+    public Member getMember() {
+        return member;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getName();
+        return member.getName();
     }
+
     public String getEmail() {
-        return user.getEmail();
+        return member.getEmail();
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -79,7 +81,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User { //2개 구현
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collet = new ArrayList<GrantedAuthority>();
         collet.add(() -> {
-            return user.getRole();
+            return member.getRole();
         });
         return collet;
     }
@@ -93,7 +95,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User { //2개 구현
     // User의 PrimaryKey
     @Override
     public String getName() {
-        return user.getId() + "";
+        return String.valueOf(member.getId());
     }
 
 }

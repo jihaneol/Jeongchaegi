@@ -1,22 +1,19 @@
 package com.oppas.jwt;
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.model.User;
-import com.oppas.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import com.oppas.entity.Member;
+import com.oppas.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
-import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -32,35 +29,36 @@ import java.util.Optional;
  * 3. RefreshToken이 있는 경우 -> DB의 RefreshToken과 비교하여 일치하면 AccessToken 재발급, RefreshToken 재발급(RTR 방식)
  * 인증 성공 처리는 하지 않고 실패 처리
  */
-@RequiredArgsConstructor
 @Slf4j
-public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
+public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter {
 
     private static final String NO_CHECK_URL = "/member/logout"; // "/login"으로 들어오는 요청은 Filter 작동 X
-
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
+
+    public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, MemberRepository memberRepository) {
+        super(authenticationManager);
+        this.memberRepository = memberRepository;
+        this.jwtService = jwtService;
+    }
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 로그아웃
         System.out.println(request.getRequestURI());
-        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/logout2") || request.getRequestURI().equals("/policies")) {
-            filterChain.doFilter(request,response);
-            return;
-        }
+
+
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
 
             jwtService.extractRefreshToken(request)
-                    .ifPresent(refreshtoken -> userRepository.findByRefreshToken(refreshtoken)
+                    .ifPresent(refreshtoken -> memberRepository.findByRefreshToken(refreshtoken)
                             .ifPresent(user -> {
                                 user.updateRefreshToken("");
-                                userRepository.save(user);
+                                memberRepository.save(user);
                                 saveAuthentication(user);
                             })
                     );
-            SecurityContextHolder.clearContext();
             filterChain.doFilter(request, response);
             return;
         }
@@ -102,8 +100,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      */
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
 
-
-        userRepository.findByRefreshToken(refreshToken)
+        memberRepository.findByRefreshToken(refreshToken)
                 .ifPresent(user -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(user);
                     jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getEmail()),
@@ -116,11 +113,11 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * jwtService.createRefreshToken()으로 리프레시 토큰 재발급 후
      * DB에 재발급한 리프레시 토큰 업데이트 후 Flush
      */
-    private String reIssueRefreshToken(User user) {
-        log.info("리프레쉬 재발급 {}",user.getRole());
+    private String reIssueRefreshToken(Member user) {
+        log.info("리프레쉬 재발급 {}", user.getRole());
         String reIssuedRefreshToken = jwtService.createRefreshToken();
         user.updateRefreshToken(reIssuedRefreshToken);
-        userRepository.saveAndFlush(user);
+        memberRepository.saveAndFlush(user);
         return reIssuedRefreshToken;
     }
 
@@ -135,19 +132,21 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
         log.info("checkAccessTokenAndAuthentication() 호출");
-        Optional<String> sdf = jwtService.extractAccessToken(request)
-                .filter(jwtService::isTokenValid);
-        if (sdf.isEmpty()) {
-            log.error("Unauthorized error: {}", sdf);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
-            return;
-        } else {
-            log.info("엑세스 토큰이 있다.");
-            sdf.ifPresent(accessToken -> jwtService.extractName(accessToken)
-                    .ifPresent(name -> userRepository.findByName(name)
-                            .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
-        }
+        Optional<String> token = jwtService.extractAccessToken(request);
 
+        if (!token.isEmpty()) {
+            Optional<String> valid = token.filter(jwtService::isTokenValid);
+            if (!valid.isEmpty()) {
+                // 에세스 토큰이 유효하면 인증에 넣어주기
+                valid.ifPresent(accessToken -> jwtService.extractName(accessToken)
+                        .ifPresent(name -> memberRepository.findByName(name)
+                                .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
+            } else {
+                // 유효 하지않으면 재발급 해주세요 리프레쉬 토큰
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+                return;
+            }
+        }
         filterChain.doFilter(request, response);
     }
 
@@ -166,7 +165,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * SecurityContextHolder.getContext()로 SecurityContext를 꺼낸 후,
      * setAuthentication()을 이용하여 위에서 만든 Authentication 객체에 대한 인증 허가 처리
      */
-    public void saveAuthentication(User myUser) {
+    public void saveAuthentication(Member myUser) {
 
         PrincipalDetails userDetailsUser = new PrincipalDetails(myUser);
 

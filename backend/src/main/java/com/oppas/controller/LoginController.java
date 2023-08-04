@@ -1,16 +1,17 @@
 package com.oppas.controller;
 
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.UserSignUpDTO;
-import com.oppas.jwt.JwtService;
+import com.oppas.dto.MemberSignUpDTO;
+import com.oppas.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 /**
@@ -19,61 +20,42 @@ import java.io.IOException;
  * Authentication -> DI -> userDetails(일반 로그인),OAuth2user(카카오 등 로그인)
  */
 
-@Controller
+
+@RestController
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController {
-    JwtService jwtService;
+    private final MemberService memberService;
 
-    @GetMapping("/")
-    public String domain() {
-        System.out.println("도메인");
-        return "loginForm";
+    @ExceptionHandler(RuntimeException.class)
+    public Object processValidationError(RuntimeException ex) {
+        log.info("에러 확인 {}", ex.getMessage());
+        return ResponseEntity.badRequest().build();
+//        return ApiResponse.error(ApiStatus.SYSTEM_ERROR, ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
-    @DeleteMapping("member/logout")
-    public ResponseEntity<?> logout(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-
-        System.out.println("로그인 완료");
-
-        return new ResponseEntity(HttpStatus.OK);
+    @GetMapping("/members/find/{nickname}")
+    public ResponseEntity<?> checkNickName(@PathVariable String nickname) {
+        System.out.println(nickname);
+        boolean flag = memberService.findNickName(nickname);
+        if (flag) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PostMapping("member/signup")
-    public ResponseEntity<?> sign(@RequestBody UserSignUpDTO userSignUpDTO) {
-
-        
-
-        System.out.println("로그인 완료");
-
-        return new ResponseEntity(HttpStatus.OK);
+    @DeleteMapping("/members/logout")
+    public ResponseEntity<?> logout() {
+        System.out.println("로그아웃 완료");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-    @GetMapping("/data")
-    public ResponseEntity<?> data() {
-        System.out.println("시발 뭐야");
-        return new ResponseEntity(HttpStatus.OK);
+    @PostMapping("/members/signup")
+    public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO) {
+        System.out.println(memberSignUpDTO.getAge());
+        System.out.println(memberSignUpDTO.getName());
+        memberService.signUp(memberSignUpDTO);
+        return ResponseEntity.ok().build();
     }
-    @GetMapping("/test")
-    public String test() {
-        System.out.println("시발 뭐야");
-        return "joinForm";
-    }
-
-    @PostMapping("/refresh-token")
-    public ResponseEntity<?> rep() {
-        System.out.println("이건 뭔데 시발");
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @GetMapping("/logout2")
-    public String access() throws IOException {
-
-
-        return "redirect:/";
-    }
-
-
 
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function getLoginToken() {
+export default function GetLoginToken() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [tokens, setTokens] = useState({ accessToken: "", refreshToken: "" });
@@ -14,13 +14,14 @@ export default function getLoginToken() {
   // }
 
   async function getToken() {
-    setAccessToken(sessionStorage.getItem("accessToken"));
-    setRefreshToken(sessionStorage.getItem("refreshToken"));
+    setAccessToken(localStorage.getItem("accessToken"));
+    setRefreshToken(localStorage.getItem("refreshToken"));
   }
 
   useEffect(() => {
     getToken().then(() => {
       setTokens({ accessToken, refreshToken });
+      console.log("access: ", accessToken, "refresh: ", refreshToken);
     });
   }, []);
 

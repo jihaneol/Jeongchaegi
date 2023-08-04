@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { useSelector } from "react-redux";
+
 
 import Style from "./styles/GetTypeInfo.module.css";
 
+// export용 - 정책 방출
+let pcyTypes = [];
+
 export default function GetTypeInfo(props) {
-  console.log(props);
+  // console.log(props);
+  const userData = useSelector(state => state.user);
 
   // 미선택 타입
   const [types, setTypes] = useState([]);
@@ -21,9 +26,14 @@ export default function GetTypeInfo(props) {
     ]);
   }, []);
 
+  useEffect(() => {
+    setMyTypes(userData.policyType)
+  }, [])
+
   function onClick_left(index) {
     // 새로운 배열을 생성하여 types 상태를 업데이트
-    setMyTypes([...myTypes, types.find((type) => type.index === index)]);
+    pcyTypes = [...myTypes, types.find((type) => type.index === index)];
+    setMyTypes(pcyTypes);
 
     // 새로운 배열을 생성하여 types 상태를 업데이트
     setTypes(types.filter((type) => type.index !== index));
@@ -32,7 +42,8 @@ export default function GetTypeInfo(props) {
   function onClick_right(index) {
     setTypes([...types, myTypes.find((myType) => myType.index === index)]);
 
-    setMyTypes(myTypes.filter((myType) => myType.index !== index));
+    pcyTypes = myTypes.filter((myType) => myType.index !== index);
+    setMyTypes(pcyTypes);
   }
 
   function reset() {
@@ -43,6 +54,8 @@ export default function GetTypeInfo(props) {
       { index: 3, name: "참여ㆍ권리" },
       { index: 4, name: "교육" },
     ]);
+
+    pcyTypes = [];
 
     setMyTypes([]);
   }
@@ -122,3 +135,5 @@ export default function GetTypeInfo(props) {
     </div>
   );
 }
+
+export { pcyTypes };
