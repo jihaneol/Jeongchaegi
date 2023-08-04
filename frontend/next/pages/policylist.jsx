@@ -13,6 +13,9 @@ import OurAxios from "../config/ourAxios";
 
 import axios from "axios";
 
+let page = 1
+let lastPage = 999999999999
+
 export default function PolicyList() {
   const router = useRouter();
   const { calendarActive, calendarDate } = router.query;
@@ -22,33 +25,41 @@ export default function PolicyList() {
   const [isCalendarActive, setIsCalendarActive] = useState(
     Boolean(calendarActive)
   );
-  const [pcydata, setpcy] = useState('');  // 정책리스트 데이터
-  const [isFetching, setFetching] = useState(1);  // 패치할지 감시, 1페이지부터
-  const [lastPage, setLastPage] = useState(999999999999999999999);  // 귀찮아서 일단 이렇게 구현
+
+  const [pcydata, setpcy] = useState();  // 정책리스트 데이터
 
     // filter 데이터 모음
   const [targetDate, setTargetDate] = useState(new Date());
   
   // useEffect 관리 모음
   useEffect(() => {
-    const timer = setInterval(() => {
-      window.addEventListener("scroll", handleScroll);
-    }, 100);
-    if (calendarDate) {
-      setTargetDate(new Date(calendarDate));
-    } else setTargetDate(new Date());
+    page = 1
+    lastPage = 9999999
+    
+    console.log(router.query);
+    getPcyData(page, router.query)
 
-    return () => {  // 컴포넌트 생성시 스크롤 이벤트, 끝날때 없애기
-      clearInterval(timer);
-      window.removeEventListener("scroll", handleScroll);
+  }, [router.query]);
+  
+
+  useEffect(() => {  // 컴포넌트 생성시 할것들
+    page = 1
+    lastPage = 9999999
+    // const timer = setInterval(() => {
+    //   window.addEventListener("scroll", handleScroll);
+    // }, 100);
+
+    // if (calendarDate) {
+    //   setTargetDate(new Date(calendarDate));
+    // } else setTargetDate(new Date());
+
+    console.log(router.query, 'component create');
+
+    return () => {  // 컴포넌트 생성시 스크롤 이벤트, 끝날때 없애기 
+      // clearInterval(timer);
+      // window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-
-  useEffect(() => {
-    if (isFetching <= lastPage) getPcyData(isFetching);  // 변화 감지하면 그 페이지 실행, 막페이지 아니면
-  }, [isFetching]);
-  // 함수 모음
 
 
   function submitParamsToBack() {  // 검색 클릭시 filter 항목 ================현재 수정중!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -58,27 +69,57 @@ export default function PolicyList() {
     console.log(mySearchQuery);
     console.log(searchAge);
     console.log(selectPcyTypes);
+
+    const types = selectPcyTypes.join(',')
+    const region = sido
+    const age = searchAge
+    const keyword = mySearchQuery
+
+    const paramobj = {types, region, age, keyword}
+    for (const key in paramobj) {  // 없으면 한번 처리
+      if (!paramobj[key]) {
+        delete paramobj[key];
+      }
+    }
+    console.log(paramobj);  // 완성된 params
+
+    // 1페이지부터 돌아가서 검색해야됨 그래서 수정
+    page = 1
+    lastPage = 999999999999999
+    setpcy()  // 그리고 검색시 기존 데이터는 비울거임
+
+
+    router.replace({  // url 변경함 그리고 가져올거임
+      pathname: "/policylist",
+      query: paramobj
+    });
+
   }
 
   // policy data 서버에서 받기, 나중에 수정 예정
-  function getPcyData(page) {
-    // console.log(page);
-    // console.log(lastPage);
+  function getPcyData(page, paramobj ='') {
+    console.log(page);
+    console.log(lastPage);
     axios({
       method: "get",
       url: "http://3.36.131.236:8081/policies",
       params:{
+        ...paramobj,
         pageIndex:page,
       }
+
     }).then((res) => {
-      console.log(res);
       if (!pcydata) {
-        setLastPage(res.data.totalPages)
-        setpcy(res.data.content);
+        console.log(res.request.responseURL);
+        lastPage = res.data.totalPages
+        setpcy(pcydata => [...res.data.content])
       }
-      else if (pcydata && page < lastPage) {
+      else {
+        console.log(res.request.responseURL);
+        lastPage = res.data.totalPages
         setpcy(pcydata => [...pcydata, ...res.data.content])
       }
+
     }).catch((err) => {
       console.log(err);
     });
@@ -86,12 +127,19 @@ export default function PolicyList() {
 
   // 스크롤 이벤트 감시
   function handleScroll() {
-    const { scrollTop, offsetHeight } = document.documentElement
-    if (window.innerHeight + scrollTop + 0.5 >= offsetHeight) {  // 0.5  더한거는 왠지 모르겠는데 끝까지 않닿음
-      console.log('next page...');
-      setFetching(isFetching => isFetching + 1)  // 닿는 순간 +1 위 useeffect에서 변화 감지
-    }
+    console.log('next page...');
+    page += 1
+    if (page <= lastPage) getPcyData(page, router.query)
+    
+    // const { scrollTop, offsetHeight } = document.documentElement
+    // if (window.innerHeight + scrollTop + 0.5 >= offsetHeight) {  // 0.5  더한거는 왠지 모르겠는데 끝까지 않닿음
+    //   console.log('next page...');
+    //   page += 1
+    //   if (page <= lastPage) getPcyData(page, router.query)
+    //   // setFetching(isFetching => isFetching + 1)  // 닿는 순간 +1 위 useeffect에서 변화 감지
+    // }
   }
+
 
   function handleItemClick(itemId) {
     console.log(`Clicked item with ID: ${itemId}`);
@@ -131,6 +179,8 @@ export default function PolicyList() {
         <PolicyListSearch
         submitParamsToBack = {submitParamsToBack}
         />
+        <button onClick={handleScroll}>next</button>
+
 
         {/* 필터 */}
         <PolicyFilter
