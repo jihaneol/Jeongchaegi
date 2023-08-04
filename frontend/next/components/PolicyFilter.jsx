@@ -1,17 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "../styles/PolicyList.module.css";
 import axios from "axios";
+import SelectPlace from "./SelectPlace";
+
+let searchAge = ''
+let selectPcyTypes = []
 
 export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
-  // 필터 리스트 - 필터 종류 늘어날 때마다 여기에 추가
-  const filterList = ["Default1", "Default2", "Default3"];
-  const [myFilter, setMyFilter] = useState({
-    type:'',  // select
-    region:'',  // select
-    age:'',  // input int
-    keyword:'',  // input text
-    date:'',  // calendar
-  })
+
+  const [typedata, setTypeData] = useState()
+
+  useEffect(()=>{  // 시작할때 타입 가져옴
+    selectPcyTypes = []  // 시작할때 비움
+    searchAge = ''       // 시작할때 비움
+    axios({
+      method:'get',
+      url:'http://3.36.131.236:8081/policies/type',
+    })
+    .then((res)=>{
+      setTypeData(res.data)
+    })
+  },[])
+
+  function handleAge(e) {  // 타겟 바뀌면 그것을 위에 searchAge 변수에 담음, 그리고 맨 아래서 export함
+    const curAge = e.target.value
+    searchAge = curAge
+  }
+
+  function handleTypeChange(e) {  // react문법 짜증나서 안씀, 그냥 자바스크립트
+    const curId = e.target.id
+    const isChecked = selectPcyTypes.includes(curId);
+    if (isChecked) {
+      selectPcyTypes = selectPcyTypes.filter((el) => el !== curId)
+    } else{
+      selectPcyTypes.push(curId)
+    }
+    console.log(selectPcyTypes);
+  }
 
   return (
     <div className={style.filter_wrapper}>
@@ -37,26 +62,28 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
         </div>
       </div>
       <div className={style.policy_filter_list_wrapper}>
-        {filterList.map((filter, idx) => (
-          <PolicyFilterList key={idx} title={filter} />
-        ))}
+        <div className="d-flex">
+          <h1>types</h1>
+          {typedata ? typedata.map((item)=>(
+            <div className="form-check" key={item.id}>
+              <input className="form-check-input" type="checkbox" value="" id={item.id} onClick={handleTypeChange}/>
+              <label className="form-check-label" htmlFor={item.id}>
+                {item.type}
+              </label>
+            </div>
+          )) : 'loading...'}
+        </div>
+        <div className="d-flex">
+          <h1>region</h1>
+          <SelectPlace />
+        </div>
+        <div className="d-flex">
+          <h1>age</h1>
+          <input type="text" onChange={handleAge}/>
+        </div>
       </div>
     </div>
   );
 }
 
-function PolicyFilterList({ title }) {
-  return (
-    <div className={`form-check ${style.filter}`}>
-      <input
-        className="form-check-input"
-        type="checkbox"
-        value=""
-        id={title}
-      />
-      <label className="form-check-label" htmlFor={title}>
-        {title}
-      </label>
-    </div>
-  );
-}
+export {searchAge, selectPcyTypes}
