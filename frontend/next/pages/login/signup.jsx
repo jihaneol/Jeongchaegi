@@ -27,7 +27,7 @@ export default function UserInfo() {
     console.log("nickname: ", userData.nickname);
     console.log("types: ", userData.policyType);
     api.post("/members/signup", {
-      policyType: userData.policyType,
+      policyTypes: userData.policyType,
       age: userData.age,
       city: userData.city,
       nickname: userData.nickname,
