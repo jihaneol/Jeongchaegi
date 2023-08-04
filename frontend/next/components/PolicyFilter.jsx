@@ -11,6 +11,8 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
   const [typedata, setTypeData] = useState()
 
   useEffect(()=>{  // 시작할때 타입 가져옴
+    selectPcyTypes = []  // 시작할때 비움
+    searchAge = ''       // 시작할때 비움
     axios({
       method:'get',
       url:'http://3.36.131.236:8081/policies/type',
@@ -73,7 +75,7 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
         </div>
         <div className="d-flex">
           <h1>region</h1>
-          <SelectPlace/>
+          <SelectPlace />
         </div>
         <div className="d-flex">
           <h1>age</h1>

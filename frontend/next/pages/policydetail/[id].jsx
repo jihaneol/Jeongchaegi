@@ -12,12 +12,14 @@ export default function Page(props) {
   // const router = useRouter();
   const post = props.post;
   console.log(post);
-  const keys = Object.keys(post);
-  console.log(keys);
+  // const keys = Object.keys(post);
+  // console.log(keys);
 
   return (
     <div>
-      <Nav />
+      {post ? <>
+      
+        <Nav />
       <div className={Style.wrap}>
         <div className={Style.container}>
           <div className={Style.title}>
@@ -38,8 +40,8 @@ export default function Page(props) {
           </div>
           <div className={Style.making}>
             <div className={Style.ctt_title}>
-              <h1>{post.polyBizSjnm}</h1>
-              <p>{post.polyItcnCn}</p>
+              {/* <h1>{post.polyBizSjnm}</h1>
+              <p>{post.polyItcnCn}</p> */}
             </div>
             <div className={Style.summary}>
               <h2>한 눈에 보는 정책 요약</h2>
@@ -199,6 +201,9 @@ export default function Page(props) {
           </div>
         </div>
       </div>
+      
+      </>: false}
+      
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "../styles/PolicyList.module.css";
 
 let mySearchQuery = ''  // 변화 가능 변수
@@ -14,6 +14,10 @@ export default function PolicyListSearch({submitParamsToBack}) {
     e.preventDefault()
     submitParamsToBack()
   }
+
+  useEffect(()=>{  // 시작할때 비움
+    mySearchQuery = ''
+  },[])
 
   return (
     <form 
