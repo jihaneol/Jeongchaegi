@@ -8,7 +8,7 @@ import { userActions } from "../store/user";
 import OurAxios from "../config/ourAxios";
 import { useRef } from "react";
 
-export default function GetPersonalInfo(props) {
+export default function GetPersonalInfo() {
   const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const api = OurAxios();
@@ -34,9 +34,7 @@ export default function GetPersonalInfo(props) {
   }
 
   function getNickName(e) {
-    console.log(e.target.value);
     setNickName(e.target.value);
-    console.log(nickName);
   }
 
   function overlapCheck() {
@@ -51,6 +49,7 @@ export default function GetPersonalInfo(props) {
         .catch((err) => {
           console.log(err);
           if (err.response.status === 404) {
+            dispatch(userActions.setNickName(""));
             setIsOverlap(1);
             nickNameRef.current.focus();
             setNickName("");
@@ -58,6 +57,10 @@ export default function GetPersonalInfo(props) {
               nickNameRef.current.value = "";
           }
         });
+    }
+    else {
+      setIsOverlap(2);
+      dispatch(userActions.setNickName(""));
     }
   }
 
