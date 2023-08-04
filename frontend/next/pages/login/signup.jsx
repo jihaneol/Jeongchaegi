@@ -7,12 +7,13 @@ import { useCookies } from "react-cookie";
 import GetPersonalInfo from "../../components/GetPersonalInfo";
 import GetTypeInfo from "../../components/GetTypeInfo";
 import OurAxios from "../../config/ourAxios";
+import { useRouter } from "next/router";
 
 export default function UserInfo() {
   const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
   const userData = useSelector((state) => state.user);
-  const [kakaoID, setKakaoID] = useState("");
   const api = OurAxios();
+  const router = useRouter();
 
   function getToken() {
     console.log(atCookies);
@@ -25,11 +26,15 @@ export default function UserInfo() {
     console.log("age: ", typeof(userData.age));
     console.log("nickname: ", userData.nickname);
     console.log("types: ", userData.policyType);
-    api.post("/member/signup", {
-      policyType: "정책",
-      age: 20,
-      city: "서울",
-      nickname: "asdf",
+    api.post("/members/signup", {
+      policyType: userData.policyType,
+      age: userData.age,
+      city: userData.city,
+      nickname: userData.nickname,
+    }).then(() => {
+      router.push("/login/success");
+    }).catch((err) => {
+      console.log(err);
     });
   }
 
@@ -37,14 +42,6 @@ export default function UserInfo() {
     const accessToken = getToken();
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
-      const [header, payload, signature] = String.prototype.split.call(
-        accessToken,
-        "."
-      );
-      let real_payload = Buffer.from(payload, "base64");
-      let result = JSON.parse(real_payload.toString());
-      console.log(result.userName);
-      setKakaoID(result.userName);
     }
   }, [atCookies.at]);
 
