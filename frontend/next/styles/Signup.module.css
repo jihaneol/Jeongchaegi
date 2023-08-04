@@ -17,20 +17,18 @@
 }
 
 .signup_header {
-	border: 1px solid black;
+	border-bottom: 1px solid black;
 	text-align: center;
 	line-height: 60px;
 	height: 61px;
 }
 
 .signup_content_personal_info {
-	border: 1px solid black;
 	height: auto;
 }
 
 .signup_btn_wrapper {
 	height: 50px;
-	border: 1px solid black;
 	display: flex;
 	justify-content: space-evenly;
 }
@@ -44,5 +42,5 @@
 }
 
 .signup_content_policy_type {
-	
+	height: auto;
 }
