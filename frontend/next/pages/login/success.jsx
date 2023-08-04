@@ -8,13 +8,7 @@ export default function Success() {
 	const [rtCookies, setrtCookie, removertCookie] = useCookies(["rt"]);
 	const router = useRouter();
   
-	// accessToken 에 있는 expired 를 받아오기 위한 과정
-	// if (accessToken){
-	//   const [header, payload, signature] = String.prototype.split.call(accessToken, ".");
-	//   var real_payload = Buffer.from(payload, 'base64');
-	//   var result = JSON.parse(real_payload.toString())
-	//   console.log(result);
-	// }
+	
   
 	async function login() {
 	  localStorage.setItem("accessToken", atCookies.at);

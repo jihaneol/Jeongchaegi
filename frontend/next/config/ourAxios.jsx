@@ -42,9 +42,9 @@ export default function OurAxios() {
       if (error.response.status === 401) {
         // refresh token 전송하기
         api
-          .post("/refresh-token", {
+          .post("/members/refresh-token", {
             headers: {
-              Authorization_refresh: tokens.refreshToken,
+              Authorization_refresh: `Bearer ${tokens.refreshToken}`,
             },
           })
           .then((response) => {
