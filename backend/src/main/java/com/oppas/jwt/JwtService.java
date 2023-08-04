@@ -147,7 +147,7 @@ public class JwtService {
      */
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken, boolean flag) {
         if (flag) {
-            response.setHeader("accessHeader", accessToken);
+            response.setHeader("accessToken", accessToken);
 
         } else {
             Cookie cookie = new Cookie("at", accessToken);
@@ -163,7 +163,7 @@ public class JwtService {
      */
     public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken, boolean flag) {
         if (flag) {
-            response.setHeader("refreshHeader", refreshToken);
+            response.setHeader("refreshToken", refreshToken);
         } else {
             
             Cookie cookie = new Cookie("rt", refreshToken);

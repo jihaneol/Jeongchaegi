@@ -2,12 +2,18 @@ package com.oppas.service;
 
 import com.oppas.dto.MemberSignUpDTO;
 import com.oppas.entity.Member;
+import com.oppas.entity.PolicyMemberMapped;
+import com.oppas.entity.policy.PolicyType;
 import com.oppas.repository.MemberRepository;
+import com.oppas.repository.PolicyMemberMappedRepository;
+import com.oppas.repository.policy.PolicyTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.logging.SocketHandler;
 
 @Service
 @Transactional
@@ -15,10 +21,23 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PolicyMemberMappedRepository policyMemberMappedRepository;
+    private final PolicyTypeRepository policyTypeRepository;
 
-    public void signUp(MemberSignUpDTO memberSignUpDTO) {
-        Member member = this.memberRepository.findByName(memberSignUpDTO.getName()).get();
+//    public void
+
+    public void signUp(MemberSignUpDTO memberSignUpDTO,Member member) {
+        System.out.println("adsfdfa");
         member.join(memberSignUpDTO);
+        for(String type: memberSignUpDTO.getPolicyTypes()){
+            System.out.println(type);
+            PolicyType findType = policyTypeRepository.findById(type).orElseThrow();
+            PolicyMemberMapped Mapped = PolicyMemberMapped.builder()
+                    .policyType(findType)
+                    .member(member)
+                    .time(LocalDateTime.now()).build();
+            policyMemberMappedRepository.save(Mapped);
+        }
         member.updateJoin(true);
         this.memberRepository.save(member);
     }

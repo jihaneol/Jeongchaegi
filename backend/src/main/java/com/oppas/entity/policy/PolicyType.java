@@ -13,7 +13,6 @@ public class PolicyType {
     @Id
     @Column(name = "type_code")
     private String id;
-
     private String type;
 
 }
