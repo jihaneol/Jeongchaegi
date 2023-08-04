@@ -24,12 +24,6 @@ function KakaoLoginOrSignup() {
 					</a>
 				</div>
 			</div>
-			<div className={styles.signup_wrapper}>
-				{`계정이 없으신가요? `}
-				<Link href="/login/signup">
-					<a>가입하기</a>
-				</Link>
-			</div>
 		</div>
 		{/* <div className={styles.footer_wrapper}>
 			footer
