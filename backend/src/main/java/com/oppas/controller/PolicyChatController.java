@@ -1,7 +1,6 @@
 package com.oppas.controller;
 
-import com.oppas.Utill.chatUtil;
-import com.oppas.dto.Message;
+import com.oppas.dto.PolicyChat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -13,10 +12,10 @@ public class PolicyChatController {
 
     private final SimpMessageSendingOperations simpMessageSendingOperations;
 
-    @MessageMapping("policy")
-    public void message(Message message){
-        System.out.println(message);
-        simpMessageSendingOperations.convertAndSend("/sub/policychat/"+message.getPolicyId(), message);
+    @MessageMapping("policychat")
+    public void message(PolicyChat policyChat){
+        System.out.println(policyChat);
+        simpMessageSendingOperations.convertAndSend("/sub/policychat/"+ policyChat.getRoomId(), policyChat);
 
     }
 
