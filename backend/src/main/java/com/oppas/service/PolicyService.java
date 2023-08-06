@@ -90,7 +90,7 @@ public class PolicyService {
     /**
      * 관심있는 정책을 스크랩하여 저장
      */
-    public PolicyScrap createPolicyScrap(PolicyScrapDTO policyScrapDTO) throws Exception {
+    public void createPolicyScrap(PolicyScrapDTO policyScrapDTO) throws Exception {
         PolicyScrap policyScrap = new PolicyScrap();
         Long memberId = policyScrapDTO.getMemberId();
         Long policyId = policyScrapDTO.getPolicyId();
@@ -102,7 +102,6 @@ public class PolicyService {
         policyScrap.setTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
 
         policyScrapRepository.save(policyScrap);
-        return policyScrap;
     }
 
     /**
