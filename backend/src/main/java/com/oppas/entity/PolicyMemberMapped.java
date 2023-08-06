@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
 @Builder
 @AllArgsConstructor
 public class PolicyMemberMapped {
@@ -28,4 +27,10 @@ public class PolicyMemberMapped {
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime time;
+
+    //
+    protected PolicyMemberMapped() {
+
+    }
+    // 생성 메서드 //
 }

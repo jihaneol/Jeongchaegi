@@ -9,14 +9,14 @@ import com.oppas.repository.PolicyMemberMappedRepository;
 import com.oppas.repository.policy.PolicyTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.logging.SocketHandler;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -24,22 +24,23 @@ public class MemberService {
     private final PolicyMemberMappedRepository policyMemberMappedRepository;
     private final PolicyTypeRepository policyTypeRepository;
 
-//    public void
-
-    public void signUp(MemberSignUpDTO memberSignUpDTO,Member member) {
-        System.out.println("adsfdfa");
+    @Transactional
+    public void signUp(MemberSignUpDTO memberSignUpDTO,long id) {
+        Member member = memberRepository.findById(id).get();
         member.join(memberSignUpDTO);
-        for(String type: memberSignUpDTO.getPolicyTypes()){
-            System.out.println(type);
-            PolicyType findType = policyTypeRepository.findById(type).orElseThrow();
-            PolicyMemberMapped Mapped = PolicyMemberMapped.builder()
+        for(String policyId: memberSignUpDTO.getPolicyId()){
+            // Type 찾기
+            PolicyType findType = policyTypeRepository.findById(policyId).orElseThrow();
+            // PolicyMemberMapped 생성자?
+            PolicyMemberMapped mapped = PolicyMemberMapped.builder()
                     .policyType(findType)
                     .member(member)
                     .time(LocalDateTime.now()).build();
-            policyMemberMappedRepository.save(Mapped);
+            // member에 값 저장
+            member.getPolicyMemberMappeds().add(mapped);
         }
         member.updateJoin(true);
-        this.memberRepository.save(member);
+//        this.memberRepository.save(member);
     }
 
     public boolean findNickName(String nickName) {

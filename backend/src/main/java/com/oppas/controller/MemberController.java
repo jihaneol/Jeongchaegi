@@ -57,9 +57,8 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO, Authentication authentication) {
         PrincipalDetails principalDetails =(PrincipalDetails) authentication.getPrincipal();
-        Member member = principalDetails.getMember();
-        System.out.println(member.getId());
-        memberService.signUp(memberSignUpDTO,member);
+        long id = principalDetails.getId();
+        memberService.signUp(memberSignUpDTO,id);
         log.info("회원가입 성공");
         return ResponseEntity.ok().build();
     }
