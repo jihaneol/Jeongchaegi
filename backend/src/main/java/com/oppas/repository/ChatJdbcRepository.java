@@ -20,9 +20,8 @@ public class ChatJdbcRepository {
 
     public void batchInsertRoomInventories(List<PolicyChat> chatList){
 
-
         String sql = "INSERT INTO policy_chat"
-                +  "(policy_id,member_id,message,created_at,) VALUE(?,?,?,?)";
+                +  "(policy_id,member_id,message,created_at) VALUE(?,?,?,?)";
 
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {

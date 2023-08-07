@@ -3,7 +3,6 @@ package com.oppas.controller;
 import com.oppas.dto.PolicyChatPagingDto;
 import com.oppas.dto.PolicyChatPagingResponseDto;
 import com.oppas.dto.PolicyChatSaveDto;
-import com.oppas.dto.ResponseDto;
 import com.oppas.pubsub.RedisPublisher;
 import com.oppas.service.ChatRedisCacheService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
