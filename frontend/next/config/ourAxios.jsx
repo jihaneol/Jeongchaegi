@@ -1,10 +1,11 @@
 import axios from "axios";
-import GetLoginToken from "../components/GetLoginToken";
+import { GetTokens } from "../components/GetLoginToken";
 
 export default function OurAxios() {
-  let tokens = GetLoginToken();
+  let tokens = GetTokens();
   console.log(tokens);
 
+  
   // axios 설정
   const api = axios.create({
     baseURL: "http://3.36.131.236:8081/",
@@ -17,7 +18,8 @@ export default function OurAxios() {
 
   // 인터셉터 설정
   api.interceptors.request.use(
-    (config) => {
+    async (config) => {
+      tokens = GetTokens();
       config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       console.log("in Our Axios at Request3: ", config.headers.Authorization);
       return config;
