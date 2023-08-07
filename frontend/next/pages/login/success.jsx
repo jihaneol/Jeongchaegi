@@ -9,7 +9,7 @@ export default function Success() {
   const [tokenReceive, setTokenReceive] = useCookies(false);
 	const [loginData, setLoginData] = useState([]);
 
-	let api = OurAxios();
+	const api = OurAxios();
 
   async function setToken() {
     console.log("setToken in...");
@@ -37,7 +37,7 @@ export default function Success() {
 		}
 	
 		fetchData();
-	}, []);
+	}, [loginData]);
 	
 
   return (<div>
