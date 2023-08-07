@@ -30,11 +30,10 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         if (!user.isSign()) {
             // 회원 가입 x
             jwtService.sendAccessToken(response, accessToken);
-//            response.sendRedirect("http://localhost:3000/login/signup");
             response.sendRedirect("http://3.36.131.236/login/signup");
             return;
         }
-
+        // 회원 가입 완료
 
         String refreshToken = jwtService.createRefreshToken(); // JwtService의 createRefreshToken을 사용하여 RefreshToken 발급
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken, false); // 응답 헤더에 AccessToken, RefreshToken 실어서 응답
@@ -45,7 +44,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                     memberRepository.saveAndFlush(member);
                 });
         log.info("로그인 됐다....");
-//        response.sendRedirect("http://localhost:3000/login/success");
         response.sendRedirect("http://3.36.131.236/login/success");
     }
 

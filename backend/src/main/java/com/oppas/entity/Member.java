@@ -39,7 +39,7 @@ public class Member {
     private Timestamp createDate;
     private String refreshToken; // 리프레시 토큰
     private boolean sign;
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
 
     //	@ColumnDefault("false")

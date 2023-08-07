@@ -16,7 +16,7 @@ public class MemberSignUpDTO {
 
 
     @NotEmpty
-    private List<String> policyTypes;
+    private List<String> policyId;
     @NotBlank
     private String nickname;
     @NotNull
