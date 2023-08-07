@@ -3,9 +3,11 @@ import axios from "axios";
 export default function OurAxios() {
 
   function getTokens() {
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-    return {accessToken, refreshToken};
+    if (typeof window !== 'undefined') {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+      return {accessToken, refreshToken};
+    }
   }
   
   let tokens = getTokens();
