@@ -57,11 +57,14 @@ public class PolicyService {
         Page<Policy> policyPages = policyRepository.findPolicies(filter, pageable);
         return policyPages.map(policy -> {
             PolicySummaryDTO policySummary = modelMapper.map(policy, PolicySummaryDTO.class);
-            PolicyDate policyDate = policyDateRepository.findByPolicyId(policySummary.getId());
+            Optional<PolicyDate> policyDate = policyDateRepository.findByPolicyId(policySummary.getId());
             PolicyType policyType = policyTypeRepository.findById(policy.getPolyRlmCd()).orElseThrow(EntityNotFoundException::new);
             PolicyRegion policyRegion = policyRegionRepository.findById(policy.getSrchPolyBizSecd()).orElseThrow(EntityNotFoundException::new);
-            policySummary.setRqutPrdBegin(policyDate.getRqutPrdBegin());
-            policySummary.setRqutPrdEnd(policyDate.getRqutPrdEnd());
+
+            if (policyDate.isPresent()) {
+                policySummary.setRqutPrdBegin(policyDate.get().getRqutPrdBegin());
+                policySummary.setRqutPrdEnd(policyDate.get().getRqutPrdEnd());
+            }
             policySummary.setType(policyType.getType());
             policySummary.setRegion(policyRegion.getRegion());
             return policySummary;
