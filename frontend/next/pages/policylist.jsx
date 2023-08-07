@@ -53,22 +53,24 @@ export default function PolicyList() {
     // console.log(lastPage);
     axios({
       method: "get",
-      url: "http://3.36.131.236:8081/policies",
+      url: "http://3.36.131.236:8081/api/policies",
       params: {
         pageIndex: page,
       },
-    }).then((res) => {
-      if (pcydata && page < lastPage) {
-        // 이미 데이터가 있으면(한번 이상 요청을 받았으면)
-        setpcy((pcydata) => [...pcydata, ...res.data.content]); // 뒤에 추가함
-      } else if (!pcydata) {
-        // 데이터가 없으면(처음이면) 바로 set함
-        setLastPage(res.data.totalPages); // 마지막 페이지
-        setpcy(res.data.content);
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+    })
+      .then((res) => {
+        if (pcydata && page < lastPage) {
+          // 이미 데이터가 있으면(한번 이상 요청을 받았으면)
+          setpcy((pcydata) => [...pcydata, ...res.data.content]); // 뒤에 추가함
+        } else if (!pcydata) {
+          // 데이터가 없으면(처음이면) 바로 set함
+          setLastPage(res.data.totalPages); // 마지막 페이지
+          setpcy(res.data.content);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // 스크롤 이벤트 감시

@@ -227,7 +227,7 @@ export default function Page(props) {
               <div className={Style.chat_box}>
                 <div className={Style.chat}>
                   <h4>채팅방</h4>
-                  <LiveChat />
+                  <LiveChat pageId={post.id} />
                 </div>
               </div>
             </div>
@@ -252,7 +252,7 @@ export async function getStaticProps({ params }) {
   try {
     // 동적 경로의 변수를 이용하여 데이터를 가져옵니다.
     const response = await axios.get(
-      `http://3.36.131.236:8081/policies/${params.id}`
+      `http://3.36.131.236:8081/api/policies/${params.id}`
     );
     const post = response.data;
 
