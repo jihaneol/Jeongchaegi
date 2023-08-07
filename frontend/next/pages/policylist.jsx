@@ -121,14 +121,17 @@ export default function PolicyList() {
       },
     })
       .then((res) => {
-        if (pcydata && page < lastPage) {
-          // 이미 데이터가 있으면(한번 이상 요청을 받았으면)
-          setpcy((pcydata) => [...pcydata, ...res.data.content]); // 뒤에 추가함
-        } else if (!pcydata) {
-          // 데이터가 없으면(처음이면) 바로 set함
-          setpcy(res.data.content);
+        if (!pcydata) {
+          console.log(res.request.responseURL);
+          lastPage = res.data.totalPages;
+          setpcy([...res.data.content]);
+        } else {
+          console.log(res.request.responseURL);
+          lastPage = res.data.totalPages;
+          setpcy((pcydata) => [...pcydata, ...res.data.content]);
         }
-      })
+      }
+      )
       .catch((err) => {
         console.log(err);
       })
