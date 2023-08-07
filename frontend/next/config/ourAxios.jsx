@@ -25,6 +25,7 @@ export default function OurAxios() {
         tokens = GetLoginToken();
         config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       }
+      console.log("in Our Axios at Request: ", config.headers.Authorization);
       return config;
     },
     (error) => {
