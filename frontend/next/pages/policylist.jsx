@@ -113,7 +113,6 @@ export default function PolicyList() {
           setpcy((pcydata) => [...pcydata, ...res.data.content]); // 뒤에 추가함
         } else if (!pcydata) {
           // 데이터가 없으면(처음이면) 바로 set함
-          setLastPage(res.data.totalPages); // 마지막 페이지
           setpcy(res.data.content);
         }
       })

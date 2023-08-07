@@ -20,6 +20,11 @@ const useStompClient = (connectUrl, subscribe) => {
       },
       reconnectDelay: 5000, // 연결이 끊긴 경우 재연결을 시도하기 전에 대기할 시간
       webSocketFactory: () => new SockJS(connectUrl), // 만약 브라우저가 웹소켓을 지원하지 않으면, SockJS를 사용하여 대체 연결을 생성
+      //   if (window.WebSocket) {
+      //     return new window.WebSocket(connectUrl);
+      //   } else {
+      //     return new SockJS(connectUrl.replace("ws:", "http:")); // Use HTTP/HTTPS for SockJS
+      //   }
     });
 
     // STOMP 웹소켓 서버에 성공적으로 연결되었을 때 실행되는 콜백 함수
