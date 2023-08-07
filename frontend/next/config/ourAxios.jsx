@@ -62,6 +62,7 @@ export default function OurAxios() {
             // accessToken 이랑 refreshToken 잘 받았으면
             console.log("token refresh 보내기!!", tokens.refreshToken);
             tokens = response.headers;
+            console.log("response.headers = ", response.headers);
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);
