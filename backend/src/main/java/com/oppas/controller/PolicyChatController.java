@@ -38,7 +38,7 @@ public class PolicyChatController {
 //        레디스 설정파일에 MessageListenerAdapter 즉 sub에서 처리하도록 변경
 
         System.out.println(LocalDateTime.now());
-        policyChatSaveDto.setCreatedAt(LocalDateTime.now());
+        policyChatSaveDto.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS")));
         System.out.println(policyChatSaveDto);
         //channelTopic을 통해서 서로 다른값을 주면 메시지를 특정대상에게만 주는 등 채널의 분리가 가능해짐
         //예를 들어서 사용자별 등급채팅과 같이...
@@ -57,7 +57,7 @@ public class PolicyChatController {
         //Cursor 존재하지 않을 경우,현재시간을 기준으로 paging
         if(policyChatPagingDto==null||policyChatPagingDto.getCursor()==null || policyChatPagingDto.getCursor().equals("")){
             policyChatPagingDto= PolicyChatPagingDto.builder()
-                    .cursor(LocalDateTime.now())
+                    .cursor(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS")))
                     .build();
             System.out.println("여기는 커서가 없을 때 동작");
         }
