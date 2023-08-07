@@ -10,6 +10,7 @@ export default function Success() {
 	const router = useRouter();
   
 	async function setToken() {
+		console.log("setToken in...");
 		if (atCookies && rtCookies){
 			localStorage.setItem("accessToken", atCookies.at);
 			localStorage.setItem("refreshToken", rtCookies.rt);
@@ -24,7 +25,7 @@ export default function Success() {
 
   return (
 		<div>
-			{tokenReceive ? (<h1>Loading...</h1>) : (<h1>회원가입이 완료되었습니다.</h1>)}
+			{!tokenReceive ? (<h1>Loading...</h1>) : (<h1>회원가입이 완료되었습니다.</h1>)}
 		</div>
   )
 }
