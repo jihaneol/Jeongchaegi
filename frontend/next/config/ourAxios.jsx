@@ -21,6 +21,10 @@ export default function OurAxios() {
       if (tokens.accessToken) {
         config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       }
+      else {
+        tokens = GetLoginToken();
+        config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+      }
       return config;
     },
     (error) => {
