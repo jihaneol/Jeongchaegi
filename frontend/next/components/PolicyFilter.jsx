@@ -35,7 +35,6 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
     } else{
       selectPcyTypes.push(curId)
     }
-    console.log(selectPcyTypes);
   }
 
   return (
