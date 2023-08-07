@@ -16,6 +16,7 @@ export default function Success() {
     if (atCookies && rtCookies) {
       localStorage.setItem("accessToken", atCookies.at);
       localStorage.setItem("refreshToken", rtCookies.rt);
+			setTokenReceive(true);
     }
   }
 
@@ -32,7 +33,6 @@ export default function Success() {
 	useEffect(() => {
 		async function fetchData() {
 			await setToken();
-			setTokenReceive(true);
 			getLoginData();
 		}
 	
