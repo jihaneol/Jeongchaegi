@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
-export default function success() {
+export default function Success() {
   // useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
   const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
   const [rtCookies, setrtCookie, removertCookie] = useCookies(["rt"]);
