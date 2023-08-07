@@ -23,19 +23,13 @@ export default function UserInfo() {
   }
 
   function submitUserInfo() {
-    console.log("birth: ", userData.birth);
-    console.log("city: ", userData.city);
-    console.log("age: ", typeof(userData.age));
-    console.log("nickname: ", userData.nickname);
-    console.log("types: ", userData.policyType);
-    console.log(localStorage.getItem("accessToken"));
     api.post("/members/signup", {
       policyId: userData.policyType,
       age: userData.age,
       city: userData.city,
       nickname: userData.nickname,
     }).then(() => {
-      router.push("/login/success");
+      router.push("/login/signup/success");
     }).catch((err) => {
       console.log(err);
     });

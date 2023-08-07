@@ -21,10 +21,13 @@ export default function OurAxios() {
       if (tokens.accessToken) {
         config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       }
+      else {
+        tokens = GetLoginToken();
+        config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+      }
       return config;
     },
     (error) => {
-      console.log(tokens.accessToken);
       return Promise.reject(error);
     }
   );
@@ -34,12 +37,10 @@ export default function OurAxios() {
 
   api.interceptors.response.use(
     (response) => {
-      console.log("res: ", response);
       return response;
     },
     async (error) => {
       const originalRequest = error.config;
-      console.log(error);
       // access Token 만료
       if (error.response.status === 401) {
         // refresh token 전송하기
@@ -51,16 +52,12 @@ export default function OurAxios() {
           })
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
-            console.log(response);
             tokens = response.headers;
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);
           })
           .catch((error) => {
-            console.error(
-              "Refresh Token 이 만료되었습니다. 다시 로그인해주세요."
-            );
             return Promise.reject(error);
           });
       } else {
