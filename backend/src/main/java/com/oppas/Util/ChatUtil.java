@@ -1,4 +1,4 @@
-package com.oppas.Utill;
+package com.oppas.Util;
 
 import org.springframework.stereotype.Component;
 

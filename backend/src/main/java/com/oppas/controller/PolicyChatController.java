@@ -52,13 +52,14 @@ public class PolicyChatController {
     //채팅방 입장 또는 커서 올릴 시 이전의 채팅내역을 보여주는 메서드
 //    @ApiOperation(value = "채팅", notes = "채팅 cursor paging 을 통해 조회하기")
     @PostMapping("/api/chats/{policyId}")
-    public ResponseEntity<Set<PolicyChatSaveDto>> getChatting(@PathVariable Long policyId, @RequestBody(required = false) PolicyChatPagingDto policyChatPagingDto){
+    public ResponseEntity<List<PolicyChatPagingResponseDto>> getChatting(@PathVariable Long policyId, @RequestBody(required = false) PolicyChatPagingDto policyChatPagingDto){
         System.out.println("여기요~");
         //Cursor 존재하지 않을 경우,현재시간을 기준으로 paging
         if(policyChatPagingDto==null||policyChatPagingDto.getCursor()==null || policyChatPagingDto.getCursor().equals("")){
             policyChatPagingDto= PolicyChatPagingDto.builder()
                     .cursor(LocalDateTime.now())
                     .build();
+            System.out.println("여기는 커서가 없을 때 동작");
         }
         return chatRedisCacheService.getChatsFromRedis(policyId,policyChatPagingDto);
     }
