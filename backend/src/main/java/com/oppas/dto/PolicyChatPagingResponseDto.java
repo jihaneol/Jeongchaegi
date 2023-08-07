@@ -1,13 +1,10 @@
 package com.oppas.dto;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
+import com.oppas.entity.policy.PolicyChat;
 import lombok.*;
 
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -23,14 +20,7 @@ public class PolicyChatPagingResponseDto {
     private String createdAt;
     private String nickname;
 
-//    public static PolicyChatPagingResponseDto of(PolicyChat policyChat){
-//        return PolicyChatPagingResponseDto.builder()
-//                .memberId(policyChat.getUsers())
-//                .workSpaceId(policyChat.getWorkSpace().getId())
-//                .createdAt(policyChat.getCreatedAt())
-//                .message(policyChat.getMessage())
-//                .build();
-//    }
+
 
     public static PolicyChatPagingResponseDto byChatMessageDto(PolicyChatSaveDto policyChatSaveDto){
         return PolicyChatPagingResponseDto.builder()
@@ -40,5 +30,27 @@ public class PolicyChatPagingResponseDto {
                 .message(policyChatSaveDto.getMessage())
                 .nickname(policyChatSaveDto.getNickName())
                 .build();
+    }
+
+
+    public static PolicyChatPagingResponseDto policyChatEntityToPagingResponseDto(PolicyChat policyChat){
+        return PolicyChatPagingResponseDto.builder()
+                .memberId(policyChat.getMember().getId())
+                .createdAt(policyChat.getCreatedAt())
+                .policyId(policyChat.getPolicy().getId())
+                .message(policyChat.getMessage())
+                .nickname(policyChat.getMember().getNickname())
+                .build();
+    }
+
+    @Override
+    public String toString() {
+        return "PolicyChatPagingResponseDto{" +
+                "policyId=" + policyId +
+                ", memberId=" + memberId +
+                ", message='" + message + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", nickname='" + nickname + '\'' +
+                '}';
     }
 }
