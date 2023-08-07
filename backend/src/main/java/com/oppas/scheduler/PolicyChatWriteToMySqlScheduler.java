@@ -24,20 +24,14 @@ import java.util.List;
 public class PolicyChatWriteToMySqlScheduler {
 
     private final RedisTemplate<String,Object> redisTemplate;
-
     private final RedisTemplate<String, PolicyChatSaveDto> chatRedisTemplate;
-
-//    private final ChatRepository chatRepository;
     private final PolicyRepository policyRepository;
     private final MemberRepository memberRepository;
     private final ChatJdbcRepository chatJdbcRepository;
 
-//    private final ChatJdbcRepository chatJdbcRepository;
-//    private final WorkSpaceRepository workSpaceRepository;
 
-//    @Scheduled(cron = "0 0 0/1 * * *") 
-    //30분마다
-    @Scheduled(cron = "0 * * * * ?")//1분마다
+//  CRON 표현식에서 "일"과 "요일" 중 하나만 값을 지정할 수 있슴. 물음표(?)는 그 중에서 값이 지정되지 않은 필드를 나타내기 위함.
+    @Scheduled(cron = "0 0 * * * ?")//1시간마다
     @Transactional
     public void writeBack(){
         log.info("Scheduling start");
@@ -58,11 +52,10 @@ public class PolicyChatWriteToMySqlScheduler {
 
                 Policy policy = policyRepository.findById(policyChatDto.getValue().getPolicyId()).orElseThrow(null);
                 Member member = memberRepository.findById(policyChatDto.getValue().getMemberId()).orElseThrow(null);
-
 //
-//                if(workSpace==null) {
-//                    continue;
-//                }
+                if(policy==null||member==null) {
+                    continue;
+                }
 //
                 chatList.add( PolicyChat.of(policyChatDto.getValue(),member,policy));
             }

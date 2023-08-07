@@ -2,12 +2,15 @@ package com.oppas.entity.policy;
 
 import com.oppas.dto.PolicyChatSaveDto;
 import com.oppas.entity.Member;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
+@NoArgsConstructor// 기본생성자 생성
+@AllArgsConstructor//모든 필드를 파라미터로 가지는 생성자
 @Entity
 @Getter
 @Builder
