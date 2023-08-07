@@ -26,6 +26,7 @@ export default function UserInfo() {
     console.log("age: ", typeof(userData.age));
     console.log("nickname: ", userData.nickname);
     console.log("types: ", userData.policyType);
+    console.log(localStorage.getItem("accessToken"));
     api.post("/members/signup", {
       policyTypes: userData.policyType,
       age: userData.age,
