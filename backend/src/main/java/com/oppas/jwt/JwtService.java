@@ -2,7 +2,7 @@ package com.oppas.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.oppas.repository.UserRepository;
+import com.oppas.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class JwtService {
     private static final String USER_CLAIM = "username";
     private static final String BEARER = "Bearer ";
 
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
 
     /**
      * AccessToken 생성 메소드
@@ -147,7 +147,7 @@ public class JwtService {
      */
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken, boolean flag) {
         if (flag) {
-            response.setHeader("accessHeader", accessToken);
+            response.setHeader("accessToken", accessToken);
 
         } else {
             Cookie cookie = new Cookie("at", accessToken);
@@ -163,7 +163,7 @@ public class JwtService {
      */
     public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken, boolean flag) {
         if (flag) {
-            response.setHeader("refreshHeader", refreshToken);
+            response.setHeader("refreshToken", refreshToken);
         } else {
             
             Cookie cookie = new Cookie("rt", refreshToken);

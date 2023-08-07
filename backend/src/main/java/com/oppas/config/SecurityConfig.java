@@ -1,13 +1,12 @@
 package com.oppas.config;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oppas.config.oauth.PrincipalOauth2UserService;
 import com.oppas.jwt.JwtAuthenticationProcessingFilter;
 import com.oppas.jwt.JwtService;
 import com.oppas.login.handler.LoginFailureHandler;
 import com.oppas.login.handler.LoginSuccessHandler;
-import com.oppas.repository.UserRepository;
+import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +20,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.servlet.http.HttpServletResponse;
-
 @Configuration // IoC 빈(bean)을 등록
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록이된다.
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) //secured 어노테이션 활성화 , preAuthorize활성화
@@ -30,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SecurityConfig {
 
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final PrincipalOauth2UserService principalOauth2UserService;
 
 
@@ -68,7 +65,7 @@ public class SecurityConfig {
                 .successHandler(loginSuccessHandler())
                 .failureHandler(loginFailureHandler());
 
-        http.addFilter(new JwtAuthenticationProcessingFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtService, userRepository));
+        http.addFilter(new JwtAuthenticationProcessingFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtService, memberRepository));
 
         return http.build();
     }
@@ -84,7 +81,7 @@ public class SecurityConfig {
      */
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, userRepository);
+        return new LoginSuccessHandler(jwtService, memberRepository);
     }
 
     /**

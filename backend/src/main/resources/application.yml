@@ -15,6 +15,11 @@ jwt:
     header: Authorization_refresh
 
 spring:
+  redis:
+    host: 3.36.131.236
+    port: 6379
+
+
   #   OAuth 로그인
   security:
     oauth2:
@@ -28,7 +33,7 @@ spring:
             client-secret: YKLc4lQmIWKZSzhPcbVeUJckYogzlb0y
             authorization-grant-type: authorization_code
 
-          # 로컬 테스트용 카카오 정보
+            # 로컬 테스트용 카카오 정보
 #          kakao:
 #            client-id: 5bebd3961cec12296fc72d86729bffe8
 #            redirect-uri: http://localhost:8081/login/oauth2/code/kakao

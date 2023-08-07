@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Style from "./styles/SelectPlace.module.css";
 
-const sido = "";
+let sido = "";
 
 export default function SelectPlace({getResidence}) {
   const [sidoOptions, setSidoOptions] = useState([]);
@@ -263,18 +263,29 @@ export default function SelectPlace({getResidence}) {
       { index: 14, value: "경상남도", code: "003002015" },
       { index: 15, value: "제주특별자치도", code: "003002016" },
     ]);
+    sido = ''
   }, []);
 
   // 선택한 시/도에 따라 구/군 데이터를 가져오는 함수
   const handleSidoChange = (e) => {
     const selectedSido = e.target.value;
-    if (selectedSido) {
-      sido = sidoOptions[e.target.value].code;
-      setGugunOptions(gugunList[selectedSido]);
-      getResidence(sido);
-    } else {
-      getResidence("");
-      setGugunOptions([]); // 시/도가 선택되지 않았을 때 구/군 옵션을 초기화합니다.
+    if (getResidence) {
+      if (selectedSido) {
+        sido = sidoOptions[e.target.value].code;
+        setGugunOptions(gugunList[selectedSido]);
+        getResidence(sido);
+      } else {
+        getResidence("");
+        setGugunOptions([]); // 시/도가 선택되지 않았을 때 구/군 옵션을 초기화합니다.
+      }
+    }
+    else{
+      if (selectedSido) {
+        sido = sidoOptions[e.target.value].code;
+        setGugunOptions(gugunList[selectedSido]);
+      } else {
+        setGugunOptions([]); // 시/도가 선택되지 않았을 때 구/군 옵션을 초기화합니다.
+      }
     }
   };
 
