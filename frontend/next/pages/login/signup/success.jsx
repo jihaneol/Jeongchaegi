@@ -6,10 +6,10 @@ import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
 import LooksTwoRoundedIcon from '@mui/icons-material/LooksTwoRounded';
 
 export default function Success() {
-
-
 	const userData = useSelector(state => state.user);
   const router = useRouter();
+
+	console.log("login/signup/success");
 
   return (
     <div className={style.success_wrap}>
