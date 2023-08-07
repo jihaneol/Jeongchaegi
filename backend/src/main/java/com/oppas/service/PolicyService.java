@@ -2,13 +2,9 @@ package com.oppas.service;
 
 import com.oppas.dto.*;
 import com.oppas.entity.Member;
-import com.oppas.entity.policy.Policy;
-import com.oppas.entity.policy.PolicyScrap;
+import com.oppas.entity.policy.*;
 import com.oppas.repository.MemberRepository;
-import com.oppas.repository.policy.PolicyRegionRepository;
-import com.oppas.repository.policy.PolicyRepository;
-import com.oppas.repository.policy.PolicyScrapRepository;
-import com.oppas.repository.policy.PolicyTypeRepository;
+import com.oppas.repository.policy.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -32,6 +28,7 @@ import java.util.stream.Collectors;
 public class PolicyService {
 
     private final PolicyRepository policyRepository;
+    private final PolicyDateRepository policyDateRepository;
     private final PolicyTypeRepository policyTypeRepository;
     private final PolicyRegionRepository policyRegionRepository;
     private final PolicyScrapRepository policyScrapRepository;
@@ -58,7 +55,20 @@ public class PolicyService {
     public Page<PolicySummaryDTO> getPolicies(PolicyFilterDTO filter, int pageIndex) throws Exception {
         Pageable pageable = PageRequest.of(pageIndex - 1, 20);
         Page<Policy> policyPages = policyRepository.findPolicies(filter, pageable);
-        return policyPages.map(policy -> modelMapper.map(policy, PolicySummaryDTO.class));
+        return policyPages.map(policy -> {
+            PolicySummaryDTO policySummary = modelMapper.map(policy, PolicySummaryDTO.class);
+            Optional<PolicyDate> policyDate = policyDateRepository.findByPolicyId(policySummary.getId());
+            PolicyType policyType = policyTypeRepository.findById(policy.getPolyRlmCd()).orElseThrow(EntityNotFoundException::new);
+            PolicyRegion policyRegion = policyRegionRepository.findById(policy.getSrchPolyBizSecd()).orElseThrow(EntityNotFoundException::new);
+
+            if (policyDate.isPresent()) {
+                policySummary.setRqutPrdBegin(policyDate.get().getRqutPrdBegin());
+                policySummary.setRqutPrdEnd(policyDate.get().getRqutPrdEnd());
+            }
+            policySummary.setType(policyType.getType());
+            policySummary.setRegion(policyRegion.getRegion());
+            return policySummary;
+        });
     }
 
     /**

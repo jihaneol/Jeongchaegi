@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../styles/Login.module.css";
 import Image from "next/image";
-import Nav from "../../components/Nav"
+import Nav from "../../components/Nav";
 import Link from "next/link";
 
 function KakaoLoginOrSignup() {
