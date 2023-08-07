@@ -35,7 +35,7 @@ export default function UserInfo() {
       city: userData.city,
       nickname: userData.nickname,
     }).then(() => {
-      // router.push("/login/success");
+      router.push("/login/signup/success");
     }).catch((err) => {
       console.log(err);
     });
