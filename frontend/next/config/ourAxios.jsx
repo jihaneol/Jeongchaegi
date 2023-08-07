@@ -3,6 +3,7 @@ import GetLoginToken from "../components/GetLoginToken";
 
 export default function OurAxios() {
   let tokens = GetLoginToken();
+  console.log(tokens);
 
   // axios 설정
   const api = axios.create({
@@ -23,6 +24,7 @@ export default function OurAxios() {
       return config;
     },
     (error) => {
+      console.log(tokens.accessToken);
       return Promise.reject(error);
     }
   );
@@ -42,9 +44,9 @@ export default function OurAxios() {
       if (error.response.status === 401) {
         // refresh token 전송하기
         api
-          .post("/refresh-token", {
+          .get("/members/refresh-token", {
             headers: {
-              Authorization_refresh: tokens.refreshToken,
+              Authorization_refresh: `Bearer ${tokens.refreshToken}`,
             },
           })
           .then((response) => {

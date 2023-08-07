@@ -5,17 +5,18 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Getter
 
 public class MemberSignUpDTO {
 
-    @NotBlank
-    private String email;
-    @NotBlank
-    private String policyType;
+
+    @NotEmpty
+    private List<String> policyId;
     @NotBlank
     private String nickname;
     @NotNull
@@ -23,6 +24,5 @@ public class MemberSignUpDTO {
     private Integer age;
     @NotBlank
     private String city;
-    @NotBlank
-    private String name;
+
 }

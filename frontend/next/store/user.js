@@ -21,11 +21,11 @@ const userSlice = createSlice({
   initialState: initialUserState,
   reducers: {
     setPolicyType(state, action) {
-      const typeArray = [];
-      action.payload.map((type) => {
-        typeArray.push(type.index);
-      });
-      state.policyType = typeArray;
+      // const typeArray = [];
+      // action.payload.map((type) => {
+      //   typeArray.push(type.index);
+      // });
+      state.policyType = action.payload;
       console.log(state.policyType);
     },
     setBirth(state, action) {
