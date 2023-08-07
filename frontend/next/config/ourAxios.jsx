@@ -27,7 +27,7 @@ export default function OurAxios() {
   api.interceptors.request.use(
     async (config) => {
       tokens = getTokens();
-      config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+      config.headers.Authorization = `Bearer 1${tokens.accessToken}`;
       console.log("in Our Axios at Request3: ", config.headers.Authorization);
       return config;
     },
@@ -47,7 +47,9 @@ export default function OurAxios() {
     async (error) => {
       const originalRequest = error.config;
       // access Token 만료
-      if (error.response && error.response.status === 401) {
+      console.log("response error 도착!");
+      if (error.response && error.response?.status === 401) {
+        console.log("response status == 401", error.response?.status);
         // refresh token 전송하기
         api
           .get("/members/refresh-token", {
@@ -57,12 +59,14 @@ export default function OurAxios() {
           })
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
+            console.log("token refresh 보내기!!", tokens.refreshToken);
             tokens = response.headers;
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);
           })
           .catch((error) => {
+            console.log("token refresh 못 보냄...");
             return Promise.reject(error);
           });
       } else {
