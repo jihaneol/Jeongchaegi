@@ -20,15 +20,18 @@ export default function OurAxios() {
     (config) => {
       if (tokens.accessToken) {
         config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+        console.log("in Our Axios at Request1: ", config.headers.Authorization);
       }
       else {
         tokens = GetLoginToken();
         config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+        console.log("in Our Axios at Request2: ", config.headers.Authorization);
       }
-      console.log("in Our Axios at Request: ", config.headers.Authorization);
+      console.log("in Our Axios at Request3: ", config.headers.Authorization);
       return config;
     },
     (error) => {
+      console.log("in our axios at request error!!");
       return Promise.reject(error);
     }
   );
@@ -43,7 +46,7 @@ export default function OurAxios() {
     async (error) => {
       const originalRequest = error.config;
       // access Token 만료
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         // refresh token 전송하기
         api
           .get("/members/refresh-token", {
