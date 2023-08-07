@@ -6,12 +6,15 @@ import com.oppas.entity.Member;
 import com.oppas.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * 스프링 시큐리티
@@ -55,12 +58,16 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO, Authentication authentication) {
+    public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO, Authentication authentication) throws URISyntaxException {
         PrincipalDetails principalDetails =(PrincipalDetails) authentication.getPrincipal();
         long id = principalDetails.getId();
         memberService.signUp(memberSignUpDTO,id);
         log.info("회원가입 성공");
-        return ResponseEntity.ok().build();
+        // 리다이렉트
+        URI redirectUri = new URI("http://3.36.131.236/login/signup/success");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(redirectUri);
+        return new ResponseEntity<>(httpHeaders, HttpStatus.OK);
     }
     // 회원 수정
 //    @GetMapping("/info")
