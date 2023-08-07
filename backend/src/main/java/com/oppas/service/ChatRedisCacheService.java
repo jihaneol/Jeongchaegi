@@ -1,11 +1,11 @@
 package com.oppas.service;
 
 
+import com.oppas.Utill.ChatUtil;
 import com.oppas.dto.PolicyChatPagingDto;
-import com.oppas.dto.PolicyChatPagingResponseDto;
+
 import com.oppas.dto.PolicyChatSaveDto;
-import com.oppas.dto.ResponseDto;
-import com.oppas.utill.ChatUtil;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 //import org.springframework.data.domain.PageRequest;
@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.Iterator;
-import java.util.List;
+
 import java.util.Set;
-import java.util.stream.Collectors;
+
 //import java.time.LocalDateTime;
 //import java.time.format.DateTimeFormatter;
 //import java.util.stream.Collectors;
