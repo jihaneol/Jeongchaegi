@@ -42,7 +42,7 @@ export default function PolicyList() {
 
     console.log(router.query);
     getPcyData(page, router.query);
-  }, [router.query]);  // url 쿼리 바뀔 시 실행, 
+  }, [router.query]); // url 쿼리 바뀔 시 실행,
 
   useEffect(() => {
     // 컴포넌트 생성시 할것들
@@ -54,8 +54,8 @@ export default function PolicyList() {
     lastPage = 9999999;
   }, []);
 
-
-  useEffect(()=>{  // 스크롤 이벤트는 처음 했던거 기준으로만 됨 그래서 계속 함수 최신화 할거임 근데 계속 함수 생성하니까 문제, 어떻게 하지?
+  useEffect(() => {
+    // 스크롤 이벤트는 처음 했던거 기준으로만 됨 그래서 계속 함수 최신화 할거임 근데 계속 함수 생성하니까 문제, 어떻게 하지?
     const timer = setInterval(() => {
       window.addEventListener("scroll", handleScroll);
     }, 500);
@@ -64,7 +64,7 @@ export default function PolicyList() {
       clearInterval(timer);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [handleScroll])
+  }, [handleScroll]);
 
   // 검색 클릭시 filter 항목 ================현재 수정중!!!!!!!!!!!!!!!!!!!!!!!!!!!
   function submitParamsToBack() {
@@ -121,14 +121,12 @@ export default function PolicyList() {
       },
     })
       .then((res) => {
-        if (!pcydata) {
-          console.log(res.request.responseURL);
-          lastPage = res.data.totalPages;
-          setpcy([...res.data.content]);
-        } else {
-          console.log(res.request.responseURL);
-          lastPage = res.data.totalPages;
-          setpcy((pcydata) => [...pcydata, ...res.data.content]);
+        if (pcydata && page < lastPage) {
+          // 이미 데이터가 있으면(한번 이상 요청을 받았으면)
+          setpcy((pcydata) => [...pcydata, ...res.data.content]); // 뒤에 추가함
+        } else if (!pcydata) {
+          // 데이터가 없으면(처음이면) 바로 set함
+          setpcy(res.data.content);
         }
       })
       .catch((err) => {

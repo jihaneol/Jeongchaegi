@@ -1,119 +1,49 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
+import useStompClient from "./hooks/useStompClient";
 
-export default function LiveChat({ pageId }) {
-  const [msg, setMsg] = useState("");
-  const [name, setName] = useState("");
-  const [chat, setChat] = useState([]);
-  const [chkLog, setChkLog] = useState(false);
-  const [socketData, setSocketData] = useState();
+export default function LiveChat(props) {
+  const { client, messages } = useStompClient(
+    "http://localhost:8081/api/policychat",
+    `/sub/policychat${props.pageId}`
+  );
+  // ws://3.36.131.236:8081/api/policy
+  // http://localhost:8081/api/policy
 
-  const ws = useRef(null);
-
-  const msgBox = chat.map((item, idx) => (
-    <div key={idx} className={item.name === name ? "me" : "other"}>
-      <span>
-        <b>{item.name}</b>
-      </span>{" "}
-      [{item.date}]<br />
-      <span>{item.msg}</span>
-    </div>
-  ));
-
-  useEffect(() => {
-    if (socketData != undefined) {
-      const tempData = chat.concat(socketData);
-      console.log(tempData);
-      setChat(tempData);
-    }
-  }, [socketData]);
-
-  // webSocket
-  // webSocket
-  const onText = (event) => {
-    console.log(event.target.value);
-    setMsg(event.target.value);
-  };
-
-  const webSocketLogin = useCallback(() => {
-    ws.current = new WebSocket(`ws://localhost:8080/policydetail/${pageId}`);
-
-    ws.current.onmessage = (message) => {
-      const dataSet = JSON.parse(message.data);
-      setSocketData(dataSet);
-    };
-  }, [pageId]);
-
-  const send = useCallback(() => {
-    if (!chkLog) {
-      if (name === "") {
-        alert("이름을 입력하세요.");
-        document.getElementById("name").focus;
-        return;
-      }
-      webSocketLogin();
-      setChkLog(true);
-    }
-
-    if (msg !== "") {
+  const sendMessage = (messageContent) => {
+    if (client && client.connected) {
       const data = {
-        name,
-        msg,
-        date: new Date().toLocaleString(),
+        message: messageContent,
+        memberId: "333",
+        nickName: "심경섭",
+        policyId: props.pageId,
       };
 
-      const temp = JSON.stringify(data);
-
-      if (ws.current.readyState === 0) {
-        ws.current.onopen = () => {
-          console.log(ws.current.readyState);
-          ws.current.send(temp);
-        };
-      } else {
-        ws.current.send(temp);
-      }
-    } else {
-      alert("메세지를 입력하세요.");
-      document.getElementById("msg").focus();
-      return;
+      client.publish({
+        destination: "/pub/policychat",
+        body: JSON.stringify(data),
+      });
     }
-    setMsg("");
-  });
-  // webSocket
-  // webSocket
+  };
+
+  const onClick = () => {
+    return null;
+  };
 
   return (
     <div>
-      <div id="chat-wrap">
-        <div id="chat">
-          <h1 id="title">WebSocket Chatting</h1>
-          <br />
-          <div id="talk">
-            <div className="talk-shadow"></div>
-            {msgBox}
-          </div>
-          <input
-            disabled={chkLog}
-            placeholder="이름을 입력하세요."
-            type="text"
-            id="name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-          <div id="sendZone">
-            <textarea
-              id="msg"
-              value="msg"
-              onChange={onText}
-              onKeyDown={(ev) => {
-                if (ev.keyCode === 13) {
-                  send();
-                }
-              }}
-            ></textarea>
-            <input type="button" value="전송" id="btnSend" onClick={send} />
-          </div>
-        </div>
+      <div>
+        <button type="button" onClick={onClick}>
+          이전 내역
+        </button>
       </div>
+      <ul>
+        {messages.map((msg, index) => (
+          <li key={index}>{msg}</li>
+        ))}
+      </ul>
+      <button onClick={() => sendMessage("Hello from Next.js with STOMP!")}>
+        Send Message
+      </button>
     </div>
   );
 }
