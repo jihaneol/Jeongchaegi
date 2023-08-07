@@ -1,3 +1,4 @@
 FROM openjdk:11-jre
-COPY build/libs/*.jar security.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+EXPOSE 8081
+COPY build/libs/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "-Duser.timezone=Asia/Seoul", "/app.jar"]

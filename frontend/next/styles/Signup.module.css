@@ -1,0 +1,46 @@
+ .signup_wrapper{
+	background-color: #9FB9FD;
+	width: 100%;
+	text-align: center;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.signup_container {
+	width: 700px;
+	border: 1px solid black;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+}
+
+.signup_header {
+	border-bottom: 1px solid black;
+	text-align: center;
+	line-height: 60px;
+	height: 61px;
+}
+
+.signup_content_personal_info {
+	height: auto;
+}
+
+.signup_btn_wrapper {
+	height: 50px;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.signup_btn_wrapper > button {
+	border: 0px;
+	background-color: skyblue;
+	margin: 10px 0px;
+	width: 50%;
+	border-radius: 10px;
+}
+
+.signup_content_policy_type {
+	height: auto;
+}

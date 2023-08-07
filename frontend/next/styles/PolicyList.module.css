@@ -7,7 +7,6 @@
 .list_wrap_container {
     margin: 0 auto;
     width: 45rem;
-    min-height: 20rem;
     border-radius: 1rem;
     background-color: #adc4ff;
 }
@@ -163,6 +162,7 @@
 
 .policy_filter_list_wrapper {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
 }
 
@@ -183,4 +183,9 @@
     background-color: #adc4ff;
     border: 0px;
     margin-left: 5px;
+}
+
+.list_page_wrap {
+    border: 1px solid black;
+    display: flex;
 }

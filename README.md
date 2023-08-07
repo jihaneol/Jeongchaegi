@@ -1,6 +1,6 @@
 ## 프로젝트 주제
 
-> 재테크 SNS
+> 청년 정책 SNS
 
 ## 프로젝트 목표
 
@@ -50,6 +50,6 @@
 - API 문서화 도구 : `Swagger`
 - 배포 : `Docker` `AWS EC2`
 
-## 와이어프레임 링크
+## 와이어프레임 링크.
 
 https://www.figma.com/file/nIVugz7kZjTHbUGV5RRAl9/%EC%A0%95%EC%B1%84%EA%B8%B0?type=design&node-id=7%3A3&mode=design&t=5HDLBfCKXDbCObez-1

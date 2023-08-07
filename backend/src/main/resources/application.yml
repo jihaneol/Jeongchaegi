@@ -12,10 +12,15 @@ jwt:
 
   refresh:
     expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
-    header: Authorization-refresh
+    header: Authorization_refresh
 
 spring:
-#   OAuth 로그인
+  redis:
+    host: 3.36.131.236
+    port: 6379
+
+
+  #   OAuth 로그인
   security:
     oauth2:
       client:
@@ -23,15 +28,22 @@ spring:
 
           kakao:
             client-id: fcb05990a84d7cbf01eef4a5d55f8439
-            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
+            redirect-uri: http://3.36.131.236:8081/login/oauth2/code/kakao
             client-authentication-method: POST
             client-secret: YKLc4lQmIWKZSzhPcbVeUJckYogzlb0y
             authorization-grant-type: authorization_code
-            # http://localhost:8080/login/oauth2/code/kakao
-            # http://localhost:8080/jeongchaegi/user/kakaologin
+
+            # 로컬 테스트용 카카오 정보
+#          kakao:
+#            client-id: 5bebd3961cec12296fc72d86729bffe8
+#            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
+#            client-authentication-method: POST
+#            authorization-grant-type: authorization_code
+
             scope:
               - profile_nickname
-#              - account_email
+              - account_email
+              - profile_image
             client_name: kakao
 
 
@@ -46,8 +58,9 @@ spring:
   # Database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jeongchaegi?serverTimezone=UTC
-    username: ssafy
+    url: jdbc:mysql://3.36.131.236:3306/jeongchaegi?serverTimezone=UTC
+#    url: jdbc:mysql://localhost:3306/jeongchaegi?serverTimezone=UTC
+    username: root
     password: ssafy
   # JPA
   jpa:
@@ -55,6 +68,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+#      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

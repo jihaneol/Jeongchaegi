@@ -23,7 +23,7 @@ public class KakaoUserInfo implements OAuth2UserInfo {
     @Override
     public String getEmail() {
         // kakao_account라는 Map에서 추출
-        return "sdfdsf";
+        return (String) ((Map) attributes.get("kakao_account")).get("email");
     }
 
     @Override
