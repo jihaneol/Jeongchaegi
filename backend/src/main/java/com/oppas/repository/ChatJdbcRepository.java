@@ -1,6 +1,7 @@
-package com.hanghae.final_project.domain.repository.chat;
+package com.oppas.repository;
 
-import com.hanghae.final_project.domain.model.Chat;
+
+import com.oppas.entity.policy.PolicyChat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,21 +18,21 @@ public class ChatJdbcRepository {
     private final JdbcTemplate jdbcTemplate;
 
 
-    public void batchInsertRoomInventories(List<Chat> chatList){
+    public void batchInsertRoomInventories(List<PolicyChat> chatList){
 
 
-        String sql = "INSERT INTO chats"
-                +  "(message,users,workspace_id,created_at) VALUE(?,?,?,?)";
+        String sql = "INSERT INTO policy_chat"
+                +  "(policy_id,member_id,message,created_at,) VALUE(?,?,?,?)";
 
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                Chat chat = chatList.get(i);
-                ps.setString(1,chat.getMessage());
-                ps.setString(2,chat.getUsers());
-                ps.setLong(3,chat.getWorkSpace().getId());
-                ps.setString(4,chat.getCreatedAt());
+                PolicyChat policyChat = chatList.get(i);
+                ps.setLong(1,policyChat.getPolicy().getId());
+                ps.setLong(2,policyChat.getMember().getId());
+                ps.setString(3,policyChat.getMessage());
+                ps.setString(4,policyChat.getCreatedAt());
             }
 
             @Override
