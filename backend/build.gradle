@@ -60,6 +60,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	//embedded-redis
 	implementation 'it.ozimov:embedded-redis:0.7.2'
+	//stomp
+	implementation 'org.webjars:stomp-websocket:2.3.3-1'
+	
+	//LocalDateTime을 직렬화하기 위해서
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
 
 }
 
