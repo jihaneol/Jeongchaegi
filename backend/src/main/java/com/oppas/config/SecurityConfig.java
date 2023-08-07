@@ -56,7 +56,6 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.DELETE, "member/logout").authenticated()
                 .anyRequest().permitAll();
 
-
         http
                 .oauth2Login() //오 로그인 오쓰
                 .userInfoEndpoint()
