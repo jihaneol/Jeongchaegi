@@ -37,7 +37,7 @@ export default function Success() {
 		}
 	
 		fetchData();
-	}, [loginData]);
+	}, []);
 	
 
   return (<div>
