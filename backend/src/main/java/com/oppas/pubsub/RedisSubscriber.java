@@ -40,7 +40,7 @@ public class RedisSubscriber/* implements MessageListener*/ {
             PolicyChatSaveDto policyChatSaveDto = objectMapper.readValue(publishMessage, PolicyChatSaveDto.class);
 
             //WebSocket 구독자에게 채팅 메시지 Send
-            messagingTemplate.convertAndSend("/sub/chat/room/"+policyChatSaveDto.getPolicyId(),policyChatSaveDto);
+            messagingTemplate.convertAndSend("/sub/policychat"+policyChatSaveDto.getPolicyId(),policyChatSaveDto);
         }catch (Exception e){
             log.error(e.getMessage());
         }

@@ -24,8 +24,8 @@ public class PolicyChat {
     private Member member;
 
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime time;
+    private LocalDateTime createdAt;
 
-    private String content;
+    private String message;
 
 }
