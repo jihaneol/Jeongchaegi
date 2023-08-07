@@ -12,7 +12,7 @@ function KakaoLoginOrSignup() {
 			<div className={styles.head_wrapper}>
 				<Link href="/">
 					<a>
-						<Image src="/Logo_white.PNG" width="200px" height="80px" alt="정채기 로고" />
+						<Image src="/Logo_white.png" width="200px" height="80px" alt="정채기 로고" />
 					</a>
 				</Link>
 			</div>
