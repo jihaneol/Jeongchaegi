@@ -21,7 +21,7 @@ function KakaoLoginOrSignup() {
 				<div className={styles.kakao_wrapper}>
 					<a href="http://3.36.131.236:8081/oauth2/authorization/kakao">
 						<Image src="/kakao_login_large_wide.png" width="420px" height="63px" alt="카카오 로그인"/>
-					</a>
+					</a>  
 				</div>
 			</div>
 		</div>
