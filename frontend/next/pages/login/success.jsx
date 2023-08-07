@@ -9,7 +9,7 @@ export default function Success() {
   const [tokenReceive, setTokenReceive] = useCookies(false);
 	const [loginData, setLoginData] = useState([]);
 
-	let api = OurAxios();
+	const api = OurAxios();
 
   async function setToken() {
     console.log("setToken in...");
@@ -20,6 +20,7 @@ export default function Success() {
   }
 
 	function getLoginData()	{
+		console.log("api get gogo");
 		api.get("/members/info/").then((res) => {
 			setLoginData(res);
 			console.log(res);
@@ -28,15 +29,18 @@ export default function Success() {
 		})
 	}
 
-  useEffect(() => {
-    setToken().then(() => {
-      setTokenReceive(true);
-    }).then(() => {
+	useEffect(() => {
+		async function fetchData() {
+			await setToken();
+			setTokenReceive(true);
 			getLoginData();
-		});
-  }, []);
+		}
+	
+		fetchData();
+	}, []);
+	
 
   return (<div>
-		{!tokenReceive ? <h1>loading...</h1> : <h1>Complete!</h1>}
+		{!loginData ? <h1>loading...</h1> : <h1>Complete!</h1>}
 	</div>);
 }

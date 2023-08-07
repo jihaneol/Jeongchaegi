@@ -15,11 +15,15 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>new app</title>
       </Head>
-      <Provider store={store}>
+      {/* <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Component {...pageProps} />
         </PersistGate>
+      </Provider> */}
+      <Provider store={store}>
+        <Component {...pageProps}/>
       </Provider>
+
     </>
   );
 }

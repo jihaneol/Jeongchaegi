@@ -5,6 +5,8 @@ import Nav from "../../components/Nav";
 import { FaBell, IFaBellSlash, FaBars, FaBookmark } from "react-icons/fa";
 import Image from "next/image";
 
+import Head from "next/head";
+
 import Style from "../../styles/PolicyDetail.module.css";
 import LiveChat from "../../components/LiveChat";
 
@@ -19,6 +21,12 @@ export default function Page(props) {
     <div>
       {post ? (
         <>
+        {/* 이거 되나? */}
+        <Head>  
+        <title>{post.polyBizSjnm}</title>
+        </Head>
+
+
           <Nav />
           <div className={Style.wrap}>
             <div className={Style.container}>
