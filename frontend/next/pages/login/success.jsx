@@ -20,6 +20,7 @@ export default function Success() {
   }
 
 	function getLoginData()	{
+		console.log("api get gogo");
 		api.get("/members/info/").then((res) => {
 			setLoginData(res);
 			console.log(res);
