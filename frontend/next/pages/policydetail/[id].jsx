@@ -235,7 +235,7 @@ export default function Page(props) {
               <div className={Style.chat_box}>
                 <div className={Style.chat}>
                   <h4>채팅방</h4>
-                  <LiveChat />
+                  <LiveChat pageId={post.id} />
                 </div>
               </div>
             </div>

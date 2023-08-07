@@ -12,7 +12,7 @@ import org.springframework.web.socket.config.annotation.*;
 @RequiredArgsConstructor
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    private final StompHandler stompHandler;
+//    private final StompHandler stompHandler;
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/sub");
@@ -21,7 +21,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("api/policychat").setAllowedOrigins("http://localhost:8080","http://localhost:8088","http://3.36.131.236:443","http://3.36.131.236:80","https://3.36.131.236:443","https://3.36.131.236:80").withSockJS();
+    registry.addEndpoint("api/policychat").setAllowedOrigins("http://localhost:3000", "http://localhost:8080","http://localhost:8088","http://3.36.131.236:443","http://3.36.131.236:80","https://3.36.131.236:443","https://3.36.131.236:80").withSockJS();
     }
 
     
@@ -33,8 +33,8 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     //함께 사용함으로서  Redis를 메시지 브로커로 사용하여 실시간 채팅을 처리하면서, 웹 애플리케이션과 클라이언트들과의 통신은 STOMP 프로토콜을 활용하여 간편하게 처리
     //
 
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(stompHandler);
-    }
+//    @Override
+//    public void configureClientInboundChannel(ChannelRegistration registration) {
+//        registration.interceptors(stompHandler);
+//    }
 }
