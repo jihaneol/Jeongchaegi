@@ -30,6 +30,7 @@ public class Member {
     private String name;
     @Column(nullable = false)
     private String email;
+    @Column(unique=true)
     private String nickname; // 닉네임
     private String role; //ROLE_USER, ROLE_ADMIN
     // OAuth를 위해 구성한 추가 필드 2개
@@ -39,7 +40,7 @@ public class Member {
     private Timestamp createDate;
     private String refreshToken; // 리프레시 토큰
     private boolean sign;
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
 
     //	@ColumnDefault("false")
@@ -60,7 +61,6 @@ public class Member {
     }
 
     public void join(MemberSignUpDTO userSignUpDTO) {
-        System.out.println("조인");
         this.city = userSignUpDTO.getCity();
         this.age = userSignUpDTO.getAge();
         this.nickname = userSignUpDTO.getNickname();
