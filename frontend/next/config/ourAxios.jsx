@@ -18,15 +18,7 @@ export default function OurAxios() {
   // 인터셉터 설정
   api.interceptors.request.use(
     (config) => {
-      if (tokens.accessToken) {
-        config.headers.Authorization = `Bearer ${tokens.accessToken}`;
-        console.log("in Our Axios at Request1: ", config.headers.Authorization);
-      }
-      else {
-        tokens = GetLoginToken();
-        config.headers.Authorization = `Bearer ${tokens.accessToken}`;
-        console.log("in Our Axios at Request2: ", config.headers.Authorization);
-      }
+      config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       console.log("in Our Axios at Request3: ", config.headers.Authorization);
       return config;
     },
