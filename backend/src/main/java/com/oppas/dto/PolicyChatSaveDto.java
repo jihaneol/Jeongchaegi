@@ -24,9 +24,8 @@ public class PolicyChatSaveDto {
     private String nickName;
 
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime createdAt;
+    
+    private String createdAt;
 
 
     private static final ObjectMapper objectMapper = new ObjectMapper();

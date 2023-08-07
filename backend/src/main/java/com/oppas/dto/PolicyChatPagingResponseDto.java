@@ -19,9 +19,8 @@ public class PolicyChatPagingResponseDto {
     private Long policyId;
     private Long memberId;
     private String message;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime createdAt;
+
+    private String createdAt;
     private String nickname;
 
 //    public static PolicyChatPagingResponseDto of(PolicyChat policyChat){
