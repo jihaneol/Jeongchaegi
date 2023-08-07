@@ -101,7 +101,7 @@ export default function PolicyList() {
     console.log(lastPage);
     axios({
       method: "get",
-      url: "http://3.36.131.236:8081/policies",
+      url: "http://3.36.131.236:8081/api/policies",
       params: {
         ...paramobj,
         pageIndex: page,

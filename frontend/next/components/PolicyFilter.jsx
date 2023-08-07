@@ -15,7 +15,7 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
     searchAge = ''       // 시작할때 비움
     axios({
       method:'get',
-      url:'http://3.36.131.236:8081/policies/type',
+      url:'http://3.36.131.236:8081/api/policies/type',
     })
     .then((res)=>{
       setTypeData(res.data)

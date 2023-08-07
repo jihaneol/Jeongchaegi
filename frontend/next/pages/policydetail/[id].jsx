@@ -5,6 +5,8 @@ import Nav from "../../components/Nav";
 import { FaBell, IFaBellSlash, FaBars, FaBookmark } from "react-icons/fa";
 import Image from "next/image";
 
+import Head from "next/head";
+
 import Style from "../../styles/PolicyDetail.module.css";
 import LiveChat from "../../components/LiveChat";
 
@@ -19,6 +21,12 @@ export default function Page(props) {
     <div>
       {post ? (
         <>
+        {/* 이거 되나? */}
+        <Head>  
+        <title>{post.polyBizSjnm}</title>
+        </Head>
+
+
           <Nav />
           <div className={Style.wrap}>
             <div className={Style.container}>
@@ -252,7 +260,7 @@ export async function getStaticProps({ params }) {
   try {
     // 동적 경로의 변수를 이용하여 데이터를 가져옵니다.
     const response = await axios.get(
-      `http://3.36.131.236:8081/policies/${params.id}`
+      `http://3.36.131.236:8081/api/policies/${params.id}`
     );
     const post = response.data;
 
