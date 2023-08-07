@@ -4,7 +4,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html lang="ko">
+    <Html lang="ko-KR">
       <Head>
         <meta name="description" content="i just want increase SEO" />
       </Head>
