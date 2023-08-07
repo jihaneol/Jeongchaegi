@@ -41,7 +41,7 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
     <div className={style.filter_wrapper}>
       <div className={style.filter_header}>
         Filter
-        <div className={style.filter_calendar_wrapper}>
+        <div className={`${style.filter_calendar_wrapper} d-none d-lg-flex`}>
           {/* 캘린더 토글 버튼 */}
           <div>calendar</div>
           <button

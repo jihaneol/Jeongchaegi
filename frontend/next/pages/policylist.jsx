@@ -159,9 +159,14 @@ export default function PolicyList() {
   }
 
   function onClickDay(e) {
+    console.log(targetDate, e);
     if (targetDate) {  // 날짜가 입력되어 있는 경우
-      if (targetDate == e) setTargetDate(null)  // 같은 날짜 클릭하는 경우
-      else setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));  // 다른날짜 클릭
+      if (targetDate.getFullYear() == e.getFullYear() && targetDate.getMonth() == e.getMonth() && targetDate.getDate() == e.getDate()){
+        setTargetDate(null)  // 같은 날짜 클릭하는 경우
+      }
+      else {
+        setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));  // 다른날짜 클릭
+      } 
     }
     else setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));  // 날짜 없으면
       
@@ -173,7 +178,7 @@ export default function PolicyList() {
       <Nav />
       {/* fixed calendar */}
       {isCalendarActive ? (
-        <div className={style.calendar_wrap}>
+        <div className={`${style.calendar_wrap} d-none d-lg-flex`}>
           <div className={style.calendar_wrap_header}>날짜를 설정하세요</div>
           {isCalendarActive === true ? (
             <PolicyListCalendar
