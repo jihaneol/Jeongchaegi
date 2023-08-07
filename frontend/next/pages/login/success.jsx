@@ -32,7 +32,7 @@ export default function Success() {
     setToken().then(() => {
       setTokenReceive(true);
     }).then(() => {
-
+			getLoginData();
 		});
   }, []);
 
