@@ -5,6 +5,7 @@ import com.oppas.dto.MemberSignUpDTO;
 import com.oppas.entity.Member;
 import com.oppas.service.MemberService;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -74,7 +75,7 @@ public class MemberController {
         return new MemberResponse(member.getId(),member.getAge(), member.getNickname(), member.getCity());
     }
 
-
+    @Data
     @AllArgsConstructor
      static class MemberResponse {
         private Long id;
