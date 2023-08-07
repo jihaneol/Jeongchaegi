@@ -50,6 +50,7 @@ export default function OurAxios() {
       console.log("response error 도착!");
       if (error.response && error.response?.status === 401) {
         console.log("response status == 401", error.response?.status);
+        console.log("refresh-token = ", tokens.refreshToken);
         // refresh token 전송하기
         api
           .get("/members/refresh-token", {
