@@ -16,7 +16,7 @@ jwt:
 
 spring:
   redis:
-    host: localhost
+    host: 3.36.131.236
     port: 6379
 
 
