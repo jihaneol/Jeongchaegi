@@ -11,10 +11,20 @@ export default function Modal({ modalFlag, onClose, targetDate }) {
   const day = targetDate.getDate();
 
   const moveToList = () => {
-    const queryDate = targetDate + "";
+    function getToday(){  // 긁어온 yyyy-mm-dd형식으로 바꿔주는 함수
+      if (targetDate) {
+        var year = targetDate.getFullYear();
+        var month = ("0" + (1 + targetDate.getMonth())).slice(-2);
+        var day = ("0" + targetDate.getDate()).slice(-2);
+    
+        return year + "-" + month + "-" + day;
+      }
+      return null
+    }
+    const queryDate = getToday()
     router.push({
       pathname: "/policylist",
-      query: { calendarActive: true, calendarDate: queryDate },
+      query: { calendarActive: true, date: queryDate },
     });
   };
 

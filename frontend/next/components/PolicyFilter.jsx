@@ -15,7 +15,7 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
     searchAge = ''       // 시작할때 비움
     axios({
       method:'get',
-      url:'http://3.36.131.236:8081/policies/type',
+      url:'http://3.36.131.236:8081/api/policies/type',
     })
     .then((res)=>{
       setTypeData(res.data)
@@ -35,14 +35,13 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
     } else{
       selectPcyTypes.push(curId)
     }
-    console.log(selectPcyTypes);
   }
 
   return (
     <div className={style.filter_wrapper}>
       <div className={style.filter_header}>
         Filter
-        <div className={style.filter_calendar_wrapper}>
+        <div className={`${style.filter_calendar_wrapper} d-none d-lg-flex`}>
           {/* 캘린더 토글 버튼 */}
           <div>calendar</div>
           <button
