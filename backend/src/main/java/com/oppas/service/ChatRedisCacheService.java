@@ -1,9 +1,11 @@
 package com.oppas.service;
 
 
-import com.oppas.Utill.ChatUtil;
+
+import com.oppas.Util.ChatUtil;
 import com.oppas.dto.PolicyChatPagingDto;
 
+import com.oppas.dto.PolicyChatPagingResponseDto;
 import com.oppas.dto.PolicyChatSaveDto;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.Iterator;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 //import java.time.LocalDateTime;
 //import java.time.format.DateTimeFormatter;
@@ -62,11 +66,14 @@ public class ChatRedisCacheService {
 
         double localDateTimeToDoubleVal = chatUtil.changeLocalDateTimeToDouble(savedData.getCreatedAt());
 
+
+        redisTemplate.opsForZSet().add(NEW_CHAT, savedData, localDateTimeToDoubleVal);
+        //위의 것은 redis에서 한번에 최근의 채팅을 조회하여 sql에 적어야 하는데 정책마다 따로 키값이 있으면 하나하나 찾기 어려우므로
         redisTemplate.opsForZSet().add("CHAT_SORTED_SET_" + savedData.getPolicyId(), savedData, localDateTimeToDoubleVal);
     }
 
     //chat_data 조회
-    public ResponseEntity<Set<PolicyChatSaveDto>> getChatsFromRedis(Long policyId, PolicyChatPagingDto policyChatPagingDto) {
+    public ResponseEntity<List<PolicyChatPagingResponseDto>> getChatsFromRedis(Long policyId, PolicyChatPagingDto policyChatPagingDto) {
 
         //마지막 채팅을 기준으로 redis의 Sorted set에 몇번째 항목인지 파악
         PolicyChatSaveDto cursorDto = PolicyChatSaveDto.builder()
@@ -90,23 +97,15 @@ public class ChatRedisCacheService {
         //Redis 로부터 chat_data 조회
         Set<PolicyChatSaveDto> policyChatSaveDtoSet = zSetOperations.reverseRange("CHAT_SORTED_SET_" + policyId, rank, rank + 10);
 
-        Iterator<PolicyChatSaveDto> iterator = policyChatSaveDtoSet.iterator();
-        while (iterator.hasNext()) {
-            System.out.println(iterator.next());
-        }
 
 
-//        List<PolicyChatPagingResponseDto> chatList =
-//                policyChatSaveDtoSet
-//                        .stream()
-//                        .map(PolicyChatPagingResponseDto::byChatMessageDto)
-//                        .collect(Collectors.toList());
-//        Iterator<PolicyChatPagingResponseDto> iterator2 = chatList.iterator();
-//
-//        System.out.println("리스트 사이즈는"+chatList.size());
-//        while (iterator2.hasNext()) {
-//            System.out.println(iterator.next());
-//        }
+
+        List<PolicyChatPagingResponseDto> chatList =
+                policyChatSaveDtoSet
+                        .stream()
+                        .map(PolicyChatPagingResponseDto::byChatMessageDto)
+                        .collect(Collectors.toList());
+
 //        //Chat_data 부족할경우 MYSQL 추가 조회
 //        if (chatList.size() != 10) {
 //            findOtherChatDataInMysql(chatList, policyId, policyChatPagingDto.getCursor());
@@ -117,7 +116,7 @@ public class ChatRedisCacheService {
 //            chatPagingResponseDto.setNickname(findUserNicknameByUsername(chatPagingResponseDto.getWriter()));
 //        }
 
-        return ResponseEntity.ok(policyChatSaveDtoSet);
+        return ResponseEntity.ok(chatList);
     }
 //
 //    public void cachingDBDataToRedis(Chat chat) {
