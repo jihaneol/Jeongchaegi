@@ -1,20 +1,21 @@
-package com.oppas.Utill;
+package com.oppas.utill;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oppas.dto.PolicyChat;
+import org.springframework.stereotype.Component;
 
-public class chatUtil {
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+@Component
+public class ChatUtil {
+
+//    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     // Message 객체를 JSON 문자열로 변환하는 메서드
-    public static String convertToJson(PolicyChat policyChat) {
-        try {
-            return objectMapper.writeValueAsString(policyChat);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Double changeLocalDateTimeToDouble(LocalDateTime createdAt) {
+
+        return ((Long)createdAt.toInstant(ZoneOffset.ofHours(9)).toEpochMilli()).doubleValue();
+
+
     }
 }
