@@ -31,7 +31,6 @@ export default function Success() {
   useEffect(() => {
     setToken().then(() => {
       setTokenReceive(true);
-			api = OurAxios();
     }).then(() => {
 			getLoginData();
 		});
