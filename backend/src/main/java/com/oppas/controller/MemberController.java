@@ -65,14 +65,14 @@ public class MemberController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-   
+
     // 회원 정보 전달
-    @GetMapping("/info")
-    public MemberResponse info(Authentication authentication) {
-        PrincipalDetails principalDetails =(PrincipalDetails) authentication.getPrincipal();
-        Member member = principalDetails.getMember();
-        return new MemberResponse(member.getId(),member.getAge(), member.getNickname(), member.getCity());
-    }
+//    @GetMapping("/info")
+//    public MemberResponse info(Authentication authentication) {
+//        PrincipalDetails principalDetails =(PrincipalDetails) authentication.getPrincipal();
+//        Member member = principalDetails.getMember();
+//        return new MemberResponse(member.getId(),member.getAge(), member.getNickname(), member.getCity());
+//    }
 
 
     @AllArgsConstructor
