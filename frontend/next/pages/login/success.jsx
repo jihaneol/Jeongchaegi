@@ -9,7 +9,7 @@ export default function Success() {
   const [tokenReceive, setTokenReceive] = useCookies(false);
 	const [loginData, setLoginData] = useState([]);
 
-	const api = OurAxios();
+	const api = "";
 
   async function setToken() {
     console.log("setToken in...");
@@ -31,6 +31,7 @@ export default function Success() {
   useEffect(() => {
     setToken().then(() => {
       setTokenReceive(true);
+			api = OurAxios();
     }).then(() => {
 			getLoginData();
 		});
