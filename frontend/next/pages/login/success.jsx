@@ -28,13 +28,16 @@ export default function Success() {
 		})
 	}
 
-  useEffect(() => {
-    setToken().then(() => {
-      setTokenReceive(true);
-    }).then(() => {
+	useEffect(() => {
+		async function fetchData() {
+			await setToken();
+			setTokenReceive(true);
 			getLoginData();
-		});
-  }, []);
+		}
+	
+		fetchData();
+	}, []);
+	
 
   return (<div>
 		{!tokenReceive ? <h1>loading...</h1> : <h1>Complete!</h1>}
