@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Nav from "../../components/Nav";
-import style from "../../styles/Signup.module.css";
+import Nav from "../../../components/Nav";
+import style from "../../../styles/Signup.module.css";
+import LooksOneRoundedIcon from '@mui/icons-material/LooksOneRounded';
+import LooksTwoOutlinedIcon from '@mui/icons-material/LooksTwoOutlined';
 
 import { useCookies } from "react-cookie";
-import GetPersonalInfo from "../../components/GetPersonalInfo";
-import GetTypeInfo from "../../components/GetTypeInfo";
-import OurAxios from "../../config/ourAxios";
+import GetPersonalInfo from "../../../components/GetPersonalInfo";
+import GetTypeInfo from "../../../components/GetTypeInfo";
+import OurAxios from "../../../config/ourAxios";
 import { useRouter } from "next/router";
 
 export default function UserInfo() {
@@ -51,7 +53,13 @@ export default function UserInfo() {
       <Nav />
       {/* 헤더 */}
       <div className={style.signup_container}>
-        <div className={style.signup_header}>{`회원가입`}</div>
+        <div className={style.signup_header}>
+          <div>회원가입</div>
+          <div style={{	lineHeight: "80px"}}>
+            <LooksOneRoundedIcon />
+            <LooksTwoOutlinedIcon />
+          </div>
+        </div>
         {/* 개인 정보 입력 받는 란 */}
         <div className={style.signup_content_personal_info}>
           <GetPersonalInfo />
