@@ -83,19 +83,15 @@ public class ChatRedisCacheService {
                 .nickName(policyChatPagingDto.getNickName())
                 .build();
 
-        System.out.println(cursorDto.toString());
         //마지막 chat_data cursor Rank 조회
         Long rank = zSetOperations.reverseRank("CHAT_SORTED_SET_" + policyId, cursorDto);
-        System.out.println("rank : "+ rank);
         //Cursor 없을 경우 -> 최신채팅 조회
         if (rank == null)
             rank = 0L;
         else rank = rank + 1;
 
-        System.out.println("rank : "+ rank);
         //Redis 로부터 chat_data 조회
         Set<PolicyChatSaveDto> policyChatSaveDtoSet = zSetOperations.reverseRange("CHAT_SORTED_SET_" + policyId, rank, rank + 9);
-        System.out.println("set의 사이즈는"+policyChatSaveDtoSet.size());
 
 
 
@@ -111,17 +107,15 @@ public class ChatRedisCacheService {
         }
 
 
-        System.out.println("리스트 사이즈는"+redisChatList.size());
-        Collections.reverse(redisChatList);
 
-        
+        Collections.reverse(redisChatList);
 
         return ResponseEntity.ok(redisChatList);
     }
 
 //    레디스에 채팅 부족할 시 호출할 메서드
     private void findChatFromMysql(List<PolicyChatPagingResponseDto> chatMessageDtoList, Long policyId, String cursor) {
-        System.out.println("db로 채팅 찾으러 옴");
+
 
         String lastCursor;
         // 데이터가 하나도 없을 경우 현재시간을 Cursor로
