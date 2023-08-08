@@ -1,32 +1,70 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import useStompClient from "./hooks/useStompClient";
+import axios from "axios";
 
 export default function LiveChat(props) {
-  const { client, messages } = useStompClient(
+  const [inputMessage, setInputMessage] = useState("");
+  const { client, messages, setMessages } = useStompClient(
     "http://localhost:8081/api/policychat",
     `/sub/policychat${props.pageId}`
   );
   // ws://3.36.131.236:8081/api/policy
   // http://localhost:8081/api/policy
 
-  const sendMessage = (messageContent) => {
-    if (client && client.connected) {
+  const handleMessage = (e) => {
+    setInputMessage(e.target.value);
+  };
+
+  const sendMessage = () => {
+    if (client && client.connected && inputMessage) {
       const data = {
-        message: messageContent,
-        memberId: "333",
-        nickName: "심경섭",
+        message: inputMessage,
+        memberId: 13,
+        nickName: "zzankor",
         policyId: props.pageId,
       };
-
       client.publish({
         destination: "/pub/policychat",
         body: JSON.stringify(data),
       });
     }
+    setInputMessage("");
   };
 
-  const onClick = () => {
-    return null;
+  const onClick = async () => {
+    try {
+      let data = {
+        message: null,
+        memberId: null,
+        nickName: null,
+        cursor: null,
+      };
+      // let data = null;
+
+      if (messages && messages.length !== 0) {
+        const firstMessage =
+          typeof messages[0] === "string"
+            ? JSON.parse(messages[0])
+            : messages[0];
+        data = {
+          message: firstMessage.message,
+          memberId: firstMessage.memberId,
+          nickName: firstMessage.nickName,
+          cursor: firstMessage.cursor,
+        };
+      }
+
+      const response = await axios.post(
+        `http://localhost:8081/api/chats/${props.pageId}`,
+        data
+      );
+      console.log(response.data); // 객체 배열
+      if (response.data.length !== 0)
+        setMessages([...response.data, ...messages]);
+      console.log(messages);
+    } catch (error) {
+      console.error("Error sending POST request:", error);
+    }
   };
 
   return (
@@ -37,11 +75,18 @@ export default function LiveChat(props) {
         </button>
       </div>
       <ul>
-        {messages.map((msg, index) => (
-          <li key={index}>{msg}</li>
-        ))}
+        {messages.map((msg, index) => {
+          let content =
+            typeof msg === "string" ? JSON.parse(msg).message : msg.message;
+          return <li key={index}>{content}</li>;
+        })}
       </ul>
-      <button onClick={() => sendMessage("Hello from Next.js with STOMP!")}>
+      <input
+        onChange={handleMessage}
+        placeholder="응애~"
+        value={inputMessage}
+      ></input>
+      <button onClick={() => sendMessage("super sexy 심경섭!")}>
         Send Message
       </button>
     </div>

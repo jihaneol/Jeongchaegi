@@ -59,6 +59,7 @@ public class PolicyChatController {
                     .build();
             System.out.println("여기는 커서가 없을 때 동작");
         }
+
         return chatRedisCacheService.getChatsFromRedis(policyId,policyChatPagingDto);
     }
 

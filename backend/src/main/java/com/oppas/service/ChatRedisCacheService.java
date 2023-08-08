@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -111,6 +112,7 @@ public class ChatRedisCacheService {
 
 
         System.out.println("리스트 사이즈는"+redisChatList.size());
+        Iterator<PolicyChatPagingResponseDto> ite  = redisChatList.iterator();
 
         return ResponseEntity.ok(redisChatList);
     }
