@@ -1,0 +1,72 @@
+.all_wrapper {
+	background-color: #D0DDFF;
+	width: 100%;
+	height: 1500px;
+}
+
+.content_wrapper {
+	position: absolute;
+	background-color: #99B5FF;
+	top: 15%;
+	width: 1050px;
+	height: 1000px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	flex-direction: column;
+}
+
+.profile_wrapper {
+	height: 470px;
+	width: 100%;
+	border: 1px solid black;
+	display: flex;
+}
+
+.profile_box {
+	border-right: 1px solid black;
+	flex: 2;
+}
+
+.status_box {
+	flex: 3;
+}
+
+.articleList_wrapper {
+	height: 330px;
+	width: 100%;
+	border: 1px solid black;
+}
+
+.articleList_header {
+	border-bottom: 1px solid black;
+	height: 70px;
+	font-size: 50px;
+	line-height: 70px;
+	font-weight: bold;
+	padding-left: 20px;
+}
+
+.articleList_content {
+	height: 260px;
+}
+
+.followerList_wrapper {
+	height: 270px;
+	width: 100%;
+	border: 1px solid black;
+}
+
+.followerList_header {
+	border-bottom: 1px solid black;
+	height: 70px;
+	font-size: 50px;
+	line-height: 70px;
+	font-weight: bold;
+	padding-left: 20px;
+
+}
+
+.followerList_content {
+	height: 200px;
+}

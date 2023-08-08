@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import OurAxios from "../../config/ourAxios";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 export default function Success() {
   // useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
@@ -11,6 +12,7 @@ export default function Success() {
 
 	const userData = useSelector(state => state.user);
 	const api = OurAxios();
+	const router = useRouter();
 
   async function setToken() {
     console.log("setToken in...");
@@ -24,11 +26,14 @@ export default function Success() {
 	function getLoginData()	{
 		console.log("api get gogo");
 		api.get("/members/info/").then((res) => {
-			// userData.nickname = res.data.nickname;
-			// userData.city = res.data.city;
-			// userData.age = res.data.age;
-			// userData
+			// 로컬스토리지에 정보 저장
+			localStorage.setItem("userNickName", res.data.nickname);
+			localStorage.setItem("userAge", res.data.age);
+			localStorage.setItem("userCity", res.data.city);
+			// localStorage.setItem("userProfilePicture", res.data.)
+			// localStorage.setItem("")
 			console.log("res:", res);
+			router.push("/");
 		}).catch((err) => {
 			console.log(err);
 		})

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default function OurAxios() {
+  let requestCount = 0;
 
   function getTokens() {
     if (typeof window !== 'undefined') {
@@ -26,9 +27,13 @@ export default function OurAxios() {
   // 인터셉터 설정
   api.interceptors.request.use(
     async (config) => {
+      requestCount++;
+
+      if (requestCount > 10)
+        return Promise.reject(new Error(`You have axceeded the maximum number of requests.`));
       tokens = getTokens();
       config.headers.Authorization = `Bearer ${tokens.accessToken}`;
-      console.log("in Our Axios at Request3: ", config.headers.Authorization);
+      console.log("in Our Axios at Request: ", config.headers.Authorization);
       return config;
     },
     (error) => {
@@ -62,7 +67,8 @@ export default function OurAxios() {
             // accessToken 이랑 refreshToken 잘 받았으면
             console.log("token refresh 보내기!!", tokens.refreshToken);
             tokens = response.headers;
-            console.log("response.headers = ", response.headers);
+            console.log("response = ", response);
+            console.log("originalREquest = ", originalRequest);
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);
