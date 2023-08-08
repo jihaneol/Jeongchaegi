@@ -1,23 +1,23 @@
 package com.oppas.service;
 
 import com.oppas.dto.*;
-import com.oppas.entity.Member;
-import com.oppas.entity.policy.*;
-import com.oppas.repository.MemberRepository;
-import com.oppas.repository.policy.*;
+import com.oppas.entity.policy.Policy;
+import com.oppas.entity.policy.PolicyDate;
+import com.oppas.entity.policy.PolicyRegion;
+import com.oppas.entity.policy.PolicyType;
+import com.oppas.repository.policy.PolicyDateRepository;
+import com.oppas.repository.policy.PolicyRegionRepository;
+import com.oppas.repository.policy.PolicyRepository;
+import com.oppas.repository.policy.PolicyTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,8 +31,6 @@ public class PolicyService {
     private final PolicyDateRepository policyDateRepository;
     private final PolicyTypeRepository policyTypeRepository;
     private final PolicyRegionRepository policyRegionRepository;
-    private final PolicyScrapRepository policyScrapRepository;
-    private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
 
     /**
@@ -95,55 +93,6 @@ public class PolicyService {
         return policyRegionRepository.findAll()
                 .stream().map(policyRegion -> modelMapper.map(policyRegion, PolicyRegionDTO.class))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * 관심있는 정책을 스크랩하여 저장
-     */
-    public void createPolicyScrap(PolicyScrapDTO policyScrapDTO) throws Exception {
-        PolicyScrap policyScrap = new PolicyScrap();
-        Long memberId = policyScrapDTO.getMemberId();
-        Long policyId = policyScrapDTO.getPolicyId();
-        Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
-        Policy policy = policyRepository.findById(policyId).orElseThrow(EntityNotFoundException::new);
-
-        policyScrap.setMember(member);
-        policyScrap.setPolicy(policy);
-        policyScrap.setTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
-
-        policyScrapRepository.save(policyScrap);
-    }
-
-    /**
-     * 사용자가 스크랩했던 정책 정보들을 반환
-     */
-    public Page<PolicySummaryDTO> getMyPolicyScraps(Long memberId, int pageIndex) throws Exception {
-        List<PolicySummaryDTO> policyPages = new ArrayList<>();
-        List<PolicyScrap> policyScraps = policyScrapRepository.findAllByMemberId(memberId);
-
-        for (PolicyScrap policyScrap : policyScraps) {
-            Policy policy = policyScrap.getPolicy();
-            policyPages.add(modelMapper.map(policy, PolicySummaryDTO.class));
-        }
-
-        return new PageImpl<>(policyPages, PageRequest.of(pageIndex - 1, 20), policyPages.size());
-    }
-
-    /**
-     * 각 정책별로 스크랩 여부를 확인
-     */
-    public Boolean checkPolicyScrap(PolicyScrapDTO policyScrapDTO) throws Exception {
-        Long memberId = policyScrapDTO.getMemberId();
-        Long policyId = policyScrapDTO.getPolicyId();
-        PolicyScrap policyScrap = policyScrapRepository.findByMemberIdAndPolicyId(memberId, policyId);
-        return policyScrap != null;
-    }
-
-    /**
-     * 스크랩한 정책에 대해 스크랩 취소
-     */
-    public void cancelPolicyScrap(Long policyScrapId) throws Exception {
-        policyScrapRepository.deleteById(policyScrapId);
     }
 
 }
