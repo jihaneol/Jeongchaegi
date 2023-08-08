@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "../store/index";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   let persistor = persistStore(store);
@@ -21,9 +22,8 @@ function MyApp({ Component, pageProps }) {
         </PersistGate>
       </Provider> */}
       <Provider store={store}>
-        <Component {...pageProps}/>
+        <Component {...pageProps} />
       </Provider>
-
     </>
   );
 }
