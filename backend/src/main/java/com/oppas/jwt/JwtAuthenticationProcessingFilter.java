@@ -45,7 +45,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+        log.info("url 몇번 도냐{}", request.getRequestURI());
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
 
             jwtService.extractRefreshToken(request)
@@ -68,12 +68,12 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
 
-        log.info("리프레쉬 토큰 {}", refreshToken);
+
         // 리프레시 토큰이 요청 헤더에 존재했다면, 사용자가 AccessToken이 만료되어서
         // RefreshToken까지 보낸 것이므로 리프레시 토큰이 DB의 리프레시 토큰과 일치하는지 판단 후,
         // 일치한다면 AccessToken을 재발급해준다.
         if (refreshToken != null) {
-            log.info("refresh {}", refreshToken);
+            log.info("refresh 계속 해봐 어디 리프레쉬 있다. {}", refreshToken);
             checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
             return; // RefreshToken을 보낸 경우에는 AccessToken을 재발급 하고 인증 처리는 하지 않게 하기위해 바로 return으로 필터 진행 막기
         }
@@ -94,10 +94,6 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      * 그 후 JwtService.sendAccessTokenAndRefreshToken()으로 응답 헤더에 보내기
      */
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-        log.info("리프레쉬 토 {}",refreshToken);
-        Member member =  memberRepository.findByRefreshToken(refreshToken).get();
-        log.info("멤버 {}", member.getNickname());
-
         memberRepository.findByRefreshToken(refreshToken)
                 .ifPresent(user -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(user);
@@ -112,7 +108,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      * DB에 재발급한 리프레시 토큰 업데이트 후 Flush
      */
     private String reIssueRefreshToken(Member user) {
-        log.info("리프레쉬 재발급 {}", user.getRole());
+
         String reIssuedRefreshToken = jwtService.createRefreshToken();
         user.updateRefreshToken(reIssuedRefreshToken);
         memberRepository.saveAndFlush(user);
@@ -129,7 +125,6 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      */
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
-        log.info("checkAccessTokenAndAuthentication() 호출");
         Optional<String> token = jwtService.extractAccessToken(request);
 
         if (!token.isEmpty()) {
@@ -141,10 +136,12 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
                                 .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
             } else {
                 // 유효 하지않으면 재발급 해주세요 리프레쉬 토큰
+                log.info("유효하지 않은 토큰이다 리프레쉬 주세요");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
                 return ;
             }
         }
+        log.info("토큰 둘다 없거나 에세스토큰 유효하다 ");
         filterChain.doFilter(request, response);
     }
 
@@ -164,7 +161,6 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      * setAuthentication()을 이용하여 위에서 만든 Authentication 객체에 대한 인증 허가 처리
      */
     public void saveAuthentication(Member myUser) {
-        System.out.println(myUser.getId());
         PrincipalDetails userDetailsUser = new PrincipalDetails(myUser);
 
         Authentication authentication =

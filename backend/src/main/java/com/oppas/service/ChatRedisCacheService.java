@@ -20,7 +20,6 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -115,10 +114,7 @@ public class ChatRedisCacheService {
         System.out.println("리스트 사이즈는"+redisChatList.size());
         Collections.reverse(redisChatList);
 
-        Iterator<PolicyChatPagingResponseDto> ite = redisChatList.iterator();
-        while(ite.hasNext()){
-            System.out.println(ite.next().toString());
-        }
+        
 
         return ResponseEntity.ok(redisChatList);
     }
