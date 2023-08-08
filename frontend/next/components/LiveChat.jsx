@@ -83,7 +83,7 @@ export default function LiveChat(props) {
           let content = typeof msg === "string" ? JSON.parse(msg) : msg;
           return (
             <li key={index}>
-              내용: {content.message} ///////시간: {content.createdAt}
+              내용: {content.message} !!!!!!! 시간: {content.createdAt}
             </li>
           );
         })}
