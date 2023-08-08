@@ -74,6 +74,7 @@ public class MemberController {
     // 회원 정보 전달
     @GetMapping("/info")
     public MemberResponse info(Authentication authentication) {
+        log.info("회원 정보 전달 하기");
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
         return new MemberResponse(member);
