@@ -35,9 +35,10 @@ public class ScrapController {
         return ResponseEntity.ok(scrapService.checkPolicyScrap(memberId, policyId));
     }
 
-    @DeleteMapping("/cancel/{policyScrapId}")
-    public ResponseEntity<?> cancelPolicyScrap(@PathVariable Long policyScrapId) throws Exception {
-        scrapService.cancelPolicyScrap(policyScrapId);
+    @DeleteMapping("/cancel/members/{memberId}/policies/{policyId}")
+    public ResponseEntity<?> cancelPolicyScrap(@PathVariable Long memberId,
+                                               @PathVariable Long policyId) throws Exception {
+        scrapService.cancelPolicyScrap(memberId, policyId);
         return ResponseEntity.noContent().build();
     }
 

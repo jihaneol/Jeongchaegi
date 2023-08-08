@@ -11,4 +11,6 @@ public interface PolicyScrapRepository extends JpaRepository<PolicyScrap, Long> 
 
     PolicyScrap findByMemberIdAndPolicyId(Long memberId, Long policyId);
 
+    void deleteByMemberIdAndPolicyId(Long memberId, Long policyId);
+
 }
