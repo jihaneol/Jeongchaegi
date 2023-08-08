@@ -115,10 +115,7 @@ public class ChatRedisCacheService {
         System.out.println("리스트 사이즈는"+redisChatList.size());
         Collections.reverse(redisChatList);
 
-        Iterator<PolicyChatPagingResponseDto> ite = redisChatList.iterator();
-        while(ite.hasNext()){
-            System.out.println(ite.next().toString());
-        }
+    
 
         return ResponseEntity.ok(redisChatList);
     }
