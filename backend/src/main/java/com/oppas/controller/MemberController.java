@@ -3,8 +3,8 @@ package com.oppas.controller;
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.dto.MemberSignUpDTO;
 import com.oppas.entity.Member;
+import com.oppas.entity.PolicyMemberMapped;
 import com.oppas.service.MemberService;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 스프링 시큐리티
@@ -45,6 +47,7 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping("/refresh-token")
     public ResponseEntity<?> refreshToekn() {
         log.info("토큰 재발급");
@@ -56,11 +59,12 @@ public class MemberController {
         log.info("로그 아웃 완료");
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO, Authentication authentication) {
-        PrincipalDetails principalDetails =(PrincipalDetails) authentication.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         long id = principalDetails.getId();
-        memberService.signUp(memberSignUpDTO,id);
+        memberService.signUp(memberSignUpDTO, id);
         log.info("회원가입 성공");
         // 리다이렉트
 
@@ -70,17 +74,53 @@ public class MemberController {
     // 회원 정보 전달
     @GetMapping("/info")
     public MemberResponse info(Authentication authentication) {
-        PrincipalDetails principalDetails =(PrincipalDetails) authentication.getPrincipal();
+        log.info("회원 정보 전달 하기");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
-        return new MemberResponse(member.getId(),member.getAge(), member.getNickname(), member.getCity());
+        return new MemberResponse(member);
+    }
+
+    // 회원 정보 수정
+    @PutMapping("/{nickName}/edit")
+    public MemberResponse updateMember(Authentication authentication) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Member member = principalDetails.getMember();
+        System.out.println(member.getId());
+        return new MemberResponse(member);
     }
 
     @Data
-    @AllArgsConstructor
-     static class MemberResponse {
+    static class MemberResponse {
         private Long id;
         private Integer age;
         private String nickname;
         private String city;
+        private String img;
+        private List<PolicyMemberDTO> policyMemberDTO;
+
+        public MemberResponse(Member member) {
+            id = member.getId();
+            age = member.getAge();
+            nickname = member.getNickname();
+            city = member.getCity();
+            img = member.getImg();
+            policyMemberDTO = member.getPolicyMemberMappeds().stream()
+                    .map(PolicyMemberDTO::new)
+                    .collect(Collectors.toList());
+
+        }
+
+        @Data
+        private class PolicyMemberDTO {
+
+            private String id;
+            private String type;
+
+            public PolicyMemberDTO(PolicyMemberMapped policyMember) {
+                id = policyMember.getPolicyType().getId();
+                type = policyMember.getPolicyType().getType();
+            }
+
+        }
     }
 }

@@ -1,14 +1,17 @@
-package com.oppas.dto;
+package com.oppas.dto.personalChat;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class PolicyChatPagingDto {
+public class PersonalChatPagingDto {
 
     private String  message;
     private Long  memberId;

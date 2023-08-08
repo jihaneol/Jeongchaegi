@@ -1,6 +1,6 @@
 package com.oppas.config.chat;
 
-import com.oppas.dto.PolicyChatSaveDto;
+import com.oppas.dto.policyChat.PolicyChatSaveDto;
 import com.oppas.pubsub.RedisSubscriber;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
@@ -109,6 +109,15 @@ public class RedisConfig {
 //  opsForSet() : Redis의 Set타입을 Serialize / Deserialize 해주는 인터페이스
 //  opsForZset() : Redis의 Zset타입을 Serialize / Deserialize 해주는 인터페이스
 //  opsForHash() : Redis의 Hash타입을 Serialize / Deserialize 해주는 인터페이스
+
+//opsForValue() : Redis에서 문자열 값을 다루기 위한 ValueOperations 객체를 반환하며, 문자열 값을 설정하거나 가져오는 등의 연산을 수행할 수 있습니다.
+//opsForList() : Redis에서 리스트 값을 다루기 위한 ListOperations 객체를 반환하며, 리스트에 값을 추가하거나 가져오는 등의 연산을 수행할 수 있습니다.
+//opsForSet() : Redis에서 집합 값을 다루기 위한 SetOperations 객체를 반환하며, 집합에 값을 추가하거나 가져오는 등의 연산을 수행할 수 있습니다.
+//opsForHash() : Redis에서 해시 값을 다루기 위한 HashOperations 객체를 반환하며, 해시에 필드와 값을 추가하거나 가져오는 등의 연산을 수행할 수 있습니다.
+//opsForZSet() : Redis에서 정렬된 집합 값을 다루기 위한 ZSetOperations 객체를 반환하며, 정렬된 집합에 값을 추가하거나 가져오는 등의 연산을 수행할 수 있습니다.
+
+//    이를 통해 반환된 객체를 통해 추가적인 메소드를 통한 연산이 가능하다.
+//    해당 프로젝트에서는 ZSetOperations 인스턴스를 생성해서 이를 통해 키,밸류,가중치를 저장하는 식으로 사용
     @Bean
     public RedisTemplate<String , PolicyChatSaveDto> chatRedisTemplate(RedisConnectionFactory connectionFactory){
         RedisTemplate<String , PolicyChatSaveDto> redisTemplate = new RedisTemplate<>();

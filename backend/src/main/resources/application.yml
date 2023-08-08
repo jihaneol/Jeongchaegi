@@ -7,7 +7,7 @@ jwt:
   secretKey: asdfasdfasdf56454adfs
 
   access:
-    expiration: 1800000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+    expiration: 120000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
     header: Authorization
 
   refresh:
@@ -73,6 +73,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+        default_batch_fetch_size: 100 #성능 최적화
   # batch
   batch:
     initialize-schema: always

@@ -1,6 +1,8 @@
 package com.oppas.entity.policy;
 
+import com.oppas.dto.personalChat.PersonalChatSaveDto;
 import com.oppas.dto.policyChat.PolicyChatSaveDto;
+import com.oppas.entity.ChatRoom;
 import com.oppas.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,33 +16,32 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Builder
-public class PolicyChat {
+public class PersonalChat {
 
     @Id
-    @Column(name = "policy_chat_id")
+    @Column(name = "personal_chat_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "policy_id", nullable = false)
-    private Policy policy;
+    @JoinColumn(name = "id", nullable = false)
+    private ChatRoom chatRoom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(columnDefinition = "TIMESTAMP")
     private String createdAt;
 
     private String message;
 
-    public static PolicyChat of(PolicyChatSaveDto policyChatSaveDto,Member member,Policy policy){
+    public static PersonalChat of(PersonalChatSaveDto personalChatSaveDto, Member member, ChatRoom chatRoom){
 
-        return PolicyChat.builder()
-                .message(policyChatSaveDto.getMessage())
-                .createdAt(policyChatSaveDto.getCreatedAt())
+        return PersonalChat.builder()
+                .message(personalChatSaveDto.getMessage())
+                .createdAt(personalChatSaveDto.getCreatedAt())
                 .member(member)
-                .policy(policy)
+                .chatRoom(chatRoom)
                 .build();
 
 

@@ -1,8 +1,8 @@
 package com.oppas.controller;
 
-import com.oppas.dto.PolicyChatPagingDto;
-import com.oppas.dto.PolicyChatPagingResponseDto;
-import com.oppas.dto.PolicyChatSaveDto;
+import com.oppas.dto.policyChat.PolicyChatPagingDto;
+import com.oppas.dto.policyChat.PolicyChatPagingResponseDto;
+import com.oppas.dto.policyChat.PolicyChatSaveDto;
 import com.oppas.pubsub.RedisPublisher;
 import com.oppas.service.ChatRedisCacheService;
 import lombok.RequiredArgsConstructor;

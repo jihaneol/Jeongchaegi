@@ -3,9 +3,9 @@ package com.oppas.service;
 
 
 import com.oppas.Util.ChatUtil;
-import com.oppas.dto.PolicyChatPagingDto;
-import com.oppas.dto.PolicyChatPagingResponseDto;
-import com.oppas.dto.PolicyChatSaveDto;
+import com.oppas.dto.policyChat.PolicyChatPagingDto;
+import com.oppas.dto.policyChat.PolicyChatPagingResponseDto;
+import com.oppas.dto.policyChat.PolicyChatSaveDto;
 import com.oppas.entity.policy.PolicyChat;
 import com.oppas.repository.policy.PolicyChatRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,7 +35,7 @@ public class ChatRedisCacheService {
 
     private final ChatUtil chatUtil;
 
-    public static final String NEW_CHAT = "NEW_CHAT";
+    public static final String NEW_POLICY_CHAT = "NEW_POLICY_CHAT";
     public static final String OUT_USER = "탈퇴한 회원";
     public static final String USERNAME_NICKNAME = "USERNAME_NICKNAME";
     private final RedisTemplate<String, Object> redisTemplate;
@@ -65,7 +67,7 @@ public class ChatRedisCacheService {
         double localDateTimeToDoubleVal = chatUtil.changeLocalDateTimeToDouble(savedData.getCreatedAt());
 
 
-        redisTemplate.opsForZSet().add(NEW_CHAT, savedData, localDateTimeToDoubleVal);
+        redisTemplate.opsForZSet().add(NEW_POLICY_CHAT, savedData, localDateTimeToDoubleVal);
         //위의 것은 redis에서 한번에 최근의 채팅을 조회하여 sql에 적어야 하는데 정책마다 따로 키값이 있으면 하나하나 찾기 어려우므로
         redisTemplate.opsForZSet().add("CHAT_SORTED_SET_" + savedData.getPolicyId(), savedData, localDateTimeToDoubleVal);
     }
@@ -93,7 +95,7 @@ public class ChatRedisCacheService {
 
         System.out.println("rank : "+ rank);
         //Redis 로부터 chat_data 조회
-        Set<PolicyChatSaveDto> policyChatSaveDtoSet = zSetOperations.reverseRange("CHAT_SORTED_SET_" + policyId, rank, rank + 10);
+        Set<PolicyChatSaveDto> policyChatSaveDtoSet = zSetOperations.reverseRange("CHAT_SORTED_SET_" + policyId, rank, rank + 9);
         System.out.println("set의 사이즈는"+policyChatSaveDtoSet.size());
 
 
@@ -111,6 +113,12 @@ public class ChatRedisCacheService {
 
 
         System.out.println("리스트 사이즈는"+redisChatList.size());
+        Collections.reverse(redisChatList);
+
+        Iterator<PolicyChatPagingResponseDto> ite = redisChatList.iterator();
+        while(ite.hasNext()){
+            System.out.println(ite.next().toString());
+        }
 
         return ResponseEntity.ok(redisChatList);
     }

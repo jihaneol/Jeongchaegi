@@ -1,10 +1,8 @@
-package com.oppas.dto;
+package com.oppas.dto.policyChat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oppas.entity.policy.PolicyChat;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
