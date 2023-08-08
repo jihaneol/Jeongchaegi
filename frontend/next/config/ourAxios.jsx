@@ -16,7 +16,7 @@ export default function OurAxios() {
 
   // axios 설정
   const api = axios.create({
-    baseURL: "http://3.36.131.236/api",
+    baseURL: "http://3.36.131.236:8081/api",
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
