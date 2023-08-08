@@ -80,16 +80,19 @@ public class ChatRedisCacheService {
                 .createdAt(policyChatPagingDto.getCursor())
                 .message(policyChatPagingDto.getMessage())
                 .memberId(policyChatPagingDto.getMemberId())
-                .nickName(policyChatPagingDto.getNickName())
+                .nickname(policyChatPagingDto.getNickname())
                 .build();
 
         //마지막 chat_data cursor Rank 조회
         Long rank = zSetOperations.reverseRank("CHAT_SORTED_SET_" + policyId, cursorDto);
         //Cursor 없을 경우 -> 최신채팅 조회
-        if (rank == null)
+        System.out.println("rank : "+rank);
+        if (rank == null) {
             rank = 0L;
+        }
         else rank = rank + 1;
 
+        System.out.println("rank : "+rank);
         //Redis 로부터 chat_data 조회
         Set<PolicyChatSaveDto> policyChatSaveDtoSet = zSetOperations.reverseRange("CHAT_SORTED_SET_" + policyId, rank, rank + 9);
 
