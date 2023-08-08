@@ -46,3 +46,13 @@
   font-weight: bold;
   text-decoration: none;
 }
+
+.nav_logout {
+  margin-right: 1.2rem;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  background-color: #5383ff;
+}
