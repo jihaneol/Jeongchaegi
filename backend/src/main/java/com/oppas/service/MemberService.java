@@ -43,8 +43,8 @@ public class MemberService {
 //        this.memberRepository.save(member);
     }
 
-    public boolean findNickName(String nickName) {
-        Optional<Member> member = memberRepository.findByNickname(nickName);
+    public boolean findNickName(String nickname) {
+        Optional<Member> member = memberRepository.findByNickname(nickname);
 
         if (member.isEmpty()) {
             // 유일 하다면

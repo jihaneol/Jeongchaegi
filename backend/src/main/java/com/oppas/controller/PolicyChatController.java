@@ -34,7 +34,7 @@ public class PolicyChatController {
 
 //        simpMessageSendingOperations.convertAndSend("/sub/policychat/"+ policyChat.getRoomId(), policyChat);
 //        레디스 설정파일에 MessageListenerAdapter 즉 sub에서 처리하도록 변경
-
+        System.out.println(policyChatSaveDto.toString());
         policyChatSaveDto.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS")));
         //channelTopic을 통해서 서로 다른값을 주면 메시지를 특정대상에게만 주는 등 채널의 분리가 가능해짐
         //예를 들어서 사용자별 등급채팅과 같이...
@@ -56,7 +56,7 @@ public class PolicyChatController {
                     .cursor(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS")))
                     .build();
         }
-
+        System.out.println(policyChatPagingDto.toString());
         return chatRedisCacheService.getChatsFromRedis(policyId,policyChatPagingDto);
     }
 
