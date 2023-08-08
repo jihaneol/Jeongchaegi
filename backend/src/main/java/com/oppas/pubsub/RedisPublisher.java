@@ -1,6 +1,6 @@
 package com.oppas.pubsub;
 
-import com.oppas.dto.PolicyChatSaveDto;
+import com.oppas.dto.policyChat.PolicyChatSaveDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;

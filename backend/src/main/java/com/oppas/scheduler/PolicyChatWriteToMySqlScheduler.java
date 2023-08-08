@@ -1,7 +1,7 @@
 package com.oppas.scheduler;
 
 
-import com.oppas.dto.PolicyChatSaveDto;
+import com.oppas.dto.policyChat.PolicyChatSaveDto;
 import com.oppas.entity.Member;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.PolicyChat;
@@ -36,7 +36,7 @@ public class PolicyChatWriteToMySqlScheduler {
     public void writeBack(){
         log.info("Scheduling start");
         //여기서부터 읽어오는 과정.
-        BoundZSetOperations<String, PolicyChatSaveDto> setOperations = chatRedisTemplate.boundZSetOps("NEW_CHAT");
+        BoundZSetOperations<String, PolicyChatSaveDto> setOperations = chatRedisTemplate.boundZSetOps("NEW_POLICY_CHAT");
 
         ScanOptions scanOptions = ScanOptions.scanOptions().build();
 
@@ -61,7 +61,7 @@ public class PolicyChatWriteToMySqlScheduler {
             }
             chatJdbcRepository.batchInsertRoomInventories(chatList);
 
-            redisTemplate.delete("NEW_CHAT");
+            redisTemplate.delete("NEW_POLICY_CHAT");
 
         }catch (Exception e){
             e.printStackTrace();

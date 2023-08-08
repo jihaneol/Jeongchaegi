@@ -1,7 +1,7 @@
 package com.oppas.pubsub;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oppas.dto.PolicyChatSaveDto;
+import com.oppas.dto.policyChat.PolicyChatSaveDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
