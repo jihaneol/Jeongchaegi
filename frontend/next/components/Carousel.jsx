@@ -9,7 +9,7 @@ const Carousel = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 50,
     slidesToShow: 1,
     slidesToScroll: 1,
     // fade: true, // 슬라이드 전환 시 페이드 효과
