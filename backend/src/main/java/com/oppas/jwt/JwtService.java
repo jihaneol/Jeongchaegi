@@ -90,6 +90,7 @@ public class JwtService {
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken, boolean flag) {
         response.setStatus(HttpServletResponse.SC_OK);
         System.out.println(accessToken);
+        log.info("에세스 {}",accessToken);
         log.info("리프레쉬 {}", refreshToken);
         setAccessTokenHeader(response, accessToken, flag);
         setRefreshTokenHeader(response, refreshToken, flag);
@@ -102,7 +103,7 @@ public class JwtService {
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
 
-
+        log.info("리프레쉬 토큰추출");
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -181,7 +182,9 @@ public class JwtService {
 
 
     public boolean isTokenValid(String token) {
+        log.info("토큰 유효");
         try {
+        log.info("토큰 유효0");
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {
