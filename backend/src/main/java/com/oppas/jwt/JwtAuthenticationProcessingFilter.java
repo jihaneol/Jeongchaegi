@@ -75,6 +75,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
         if (refreshToken != null) {
             log.info("refresh {}", refreshToken);
             checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
+            filterChain.doFilter(request, response);
             return; // RefreshToken을 보낸 경우에는 AccessToken을 재발급 하고 인증 처리는 하지 않게 하기위해 바로 return으로 필터 진행 막기
         }
 
