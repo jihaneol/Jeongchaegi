@@ -74,6 +74,5 @@ public class PolicyDetailDTO {
 
     private String srchPolyBizSecd; // 정책 지역 코드
 
-    private List<PolicyChat> policyChats; // 채팅 리스트
 
 }

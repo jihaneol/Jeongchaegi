@@ -105,7 +105,6 @@ public class Policy {
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PolicyDate> policyDates = new ArrayList<>(); // 신청 날짜 리스트
 
-    @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PolicyChat> policyChats = new ArrayList<>(); // 채팅 리스트
+
 
 }
