@@ -52,7 +52,6 @@ public class SecurityConfig {
                 .authorizeRequests()
 //                .antMatchers("/data").authenticated()
                 .antMatchers("/api/v1/user/**").access("hasRole('ROLE_USER')")
-                .antMatchers(HttpMethod.POST, "/refresh-token").authenticated()
                 .antMatchers(HttpMethod.DELETE, "member/logout").authenticated()
                 .anyRequest().permitAll();
 
