@@ -28,7 +28,7 @@ public class PolicyChatPagingResponseDto {
                 .createdAt(policyChatSaveDto.getCreatedAt())
                 .policyId(policyChatSaveDto.getPolicyId())
                 .message(policyChatSaveDto.getMessage())
-                .nickname(policyChatSaveDto.getNickName())
+                .nickname(policyChatSaveDto.getNickname())
                 .build();
     }
 

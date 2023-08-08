@@ -16,7 +16,7 @@ public class PolicyChatSaveDto {
     private Long memberId;
     private Long policyId;// 프론트 테스트를 위해서 변환시켜 놓음 , 컨트롤러에 getRoomId랑 RedisSubscriber의 getRoomId랑 원상복구 필요
     private String message;
-    private String nickName;
+    private String nickname;
 
 
     
@@ -36,7 +36,7 @@ public class PolicyChatSaveDto {
                 .createdAt(policyChatSaveDto.getCreatedAt())
                 .message(policyChatSaveDto.getMessage())
                 .createdAt(policyChatSaveDto.getCreatedAt())
-                .nickName(policyChatSaveDto.getNickName())
+                .nickname(policyChatSaveDto.getNickname())
                 .build();
     }
 
@@ -49,7 +49,7 @@ public class PolicyChatSaveDto {
                 .createdAt(policyChat.getCreatedAt())
                 .message(policyChat.getMessage())
                 .createdAt(policyChat.getCreatedAt())
-                .nickName(policyChat.getMember().getNickname())
+                .nickname(policyChat.getMember().getNickname())
                 .build();
     }
 
@@ -60,7 +60,7 @@ public class PolicyChatSaveDto {
                 "memberId=" + memberId +
                 ", policyId=" + policyId +
                 ", message='" + message + '\'' +
-                ", nickName='" + nickName + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }
