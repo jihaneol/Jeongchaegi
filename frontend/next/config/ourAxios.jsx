@@ -4,19 +4,19 @@ export default function OurAxios() {
   let requestCount = 0;
 
   function getTokens() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const accessToken = localStorage.getItem("accessToken");
       const refreshToken = localStorage.getItem("refreshToken");
-      return {accessToken, refreshToken};
+      return { accessToken, refreshToken };
     }
   }
-  
+
   let tokens = getTokens();
   console.log(tokens);
-  
+
   // axios 설정
   const api = axios.create({
-    baseURL: "http://3.36.131.236:8081/api",
+    baseURL: "http://3.36.131.236/api",
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,9 @@ export default function OurAxios() {
       requestCount++;
 
       if (requestCount > 10)
-        return Promise.reject(new Error(`You have axceeded the maximum number of requests.`));
+        return Promise.reject(
+          new Error(`You have axceeded the maximum number of requests.`)
+        );
       tokens = getTokens();
       config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       console.log("in Our Axios at Request: ", config.headers.Authorization);
@@ -66,7 +68,16 @@ export default function OurAxios() {
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
             console.log("token refresh 보내기!!", tokens.refreshToken);
-            tokens = response.headers;
+            console.log("원래 token", tokens);
+            const at = response.config.headers.Authorization.split(" ");
+            const rt = response.config.headers.Authorization_refresh.split(" ");
+            tokens = {
+              accessToken: at[1],
+              refreshToken: rt[1],
+            };
+            console.log("바뀐 token", tokens);
+            localStorage.setItem("accessToken", tokens.accessToken);
+            localStorage.setItem("refreshToken", tokens.refreshToken);
             console.log("response = ", response);
             console.log("originalREquest = ", originalRequest);
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
