@@ -70,8 +70,8 @@ export default function OurAxios() {
             console.log("token refresh 보내기!!", tokens.refreshToken);
             console.log("원래 token", tokens);
             console.log("response = ", response);
-            const at = response.headers.accessToken.split(" ");
-            const rt = response.headers.refreshToken.split(" ");
+            const at = response.headers.accessToken;
+            const rt = response.headers.refreshToken;
             tokens = {
               accessToken: at[1],
               refreshToken: rt[1],
