@@ -73,8 +73,8 @@ export default function OurAxios() {
             const at = response.headers.accessToken;
             const rt = response.headers.refreshToken;
             tokens = {
-              accessToken: at[1],
-              refreshToken: rt[1],
+              accessToken: at,
+              refreshToken: rt,
             };
             console.log("바뀐 token", tokens);
             localStorage.setItem("accessToken", tokens.accessToken);
