@@ -33,7 +33,7 @@ export default function OurAxios() {
         return Promise.reject(new Error(`You have axceeded the maximum number of requests.`));
       tokens = getTokens();
       config.headers.Authorization = `Bearer ${tokens.accessToken}`;
-      console.log("in Our Axios at Request3: ", config.headers.Authorization);
+      console.log("in Our Axios at Request: ", config.headers.Authorization);
       return config;
     },
     (error) => {
