@@ -12,7 +12,6 @@ export default function OurAxios() {
   }
 
   let tokens = getTokens();
-  console.log(tokens);
 
   // axios 설정
   const api = axios.create({
@@ -35,11 +34,9 @@ export default function OurAxios() {
         );
       tokens = getTokens();
       config.headers.Authorization = `Bearer ${tokens.accessToken}`;
-      console.log("in Our Axios at Request: ", config.headers.Authorization);
       return config;
     },
     (error) => {
-      console.log("in our axios at request error!!");
       return Promise.reject(error);
     }
   );
@@ -56,8 +53,6 @@ export default function OurAxios() {
       // access Token 만료
       console.log("response error 도착!");
       if (error.response && error.response?.status === 401) {
-        console.log("response status == 401", error.response?.status);
-        console.log("refresh-token = ", tokens.refreshToken);
         // refresh token 전송하기
         api
           .get("/members/refresh-token", {
@@ -67,25 +62,19 @@ export default function OurAxios() {
           })
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
-            console.log("token refresh 보내기!!", tokens.refreshToken);
-            console.log("원래 token", tokens);
-            console.log("response = ", response);
             const at = response.headers.accesstoken;
             const rt = response.headers.refreshtoken;
             tokens = {
               accessToken: at,
               refreshToken: rt,
             };
-            console.log("바뀐 token", tokens);
             localStorage.setItem("accessToken", tokens.accessToken);
             localStorage.setItem("refreshToken", tokens.refreshToken);
-            console.log("originalREquest = ", originalRequest);
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);
           })
           .catch((error) => {
-            console.log("token refresh 못 보냄...");
             return Promise.reject(error);
           });
       } else {
