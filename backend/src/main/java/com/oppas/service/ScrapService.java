@@ -72,8 +72,8 @@ public class ScrapService {
     /**
      * 스크랩한 정책에 대해 스크랩 취소
      */
-    public void cancelPolicyScrap(Long policyScrapId) throws Exception {
-        policyScrapRepository.deleteById(policyScrapId);
+    public void cancelPolicyScrap(Long memberId, Long policyId) throws Exception {
+        policyScrapRepository.deleteByMemberIdAndPolicyId(memberId, policyId);
     }
 
 }
