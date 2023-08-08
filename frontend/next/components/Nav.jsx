@@ -10,6 +10,7 @@ export default function Nav() {
 
   useEffect(() => {
     setAt(localStorage.getItem("accessToken"));
+    console.log(localStorage.getItem("accessToken"));
   }, [])
 
   return (
