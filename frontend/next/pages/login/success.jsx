@@ -45,5 +45,6 @@ export default function Success() {
 
   return (<div>
 		{!tokenReceive ? <h1>loading...</h1> : <h1>Complete!</h1>}
+		<button onClick={getLoginData}>정보 주세요!</button>
 	</div>);
 }
