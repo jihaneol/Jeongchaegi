@@ -20,7 +20,7 @@ export default function LiveChat(props) {
       const data = {
         message: inputMessage,
         memberId: 13,
-        nickName: "zzankor",
+        nickname: "zzankor",
         policyId: props.pageId,
       };
       client.publish({
@@ -36,7 +36,7 @@ export default function LiveChat(props) {
       let data = {
         message: null,
         memberId: null,
-        nickName: null,
+        nickname: null,
         cursor: null,
       };
       // let data = null;
@@ -46,14 +46,18 @@ export default function LiveChat(props) {
           typeof messages[0] === "string"
             ? JSON.parse(messages[0])
             : messages[0];
+
         data = {
           message: firstMessage.message,
           memberId: firstMessage.memberId,
-          nickName: firstMessage.nickName,
-          cursor: firstMessage.cursor,
+          nickname: firstMessage.nickname,
+          cursor: firstMessage.createdAt,
         };
+
+        console.log(firstMessage);
       }
 
+      console.log(data);
       const response = await axios.post(
         `http://localhost:8081/api/chats/${props.pageId}`,
         data
@@ -76,9 +80,12 @@ export default function LiveChat(props) {
       </div>
       <ul>
         {messages.map((msg, index) => {
-          let content =
-            typeof msg === "string" ? JSON.parse(msg).message : msg.message;
-          return <li key={index}>{content}</li>;
+          let content = typeof msg === "string" ? JSON.parse(msg) : msg;
+          return (
+            <li key={index}>
+              내용: {content.message} ///////시간: {content.createdAt}
+            </li>
+          );
         })}
       </ul>
       <input
