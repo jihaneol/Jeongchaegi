@@ -16,7 +16,7 @@ export default function OurAxios() {
 
   // axios 설정
   const api = axios.create({
-    baseURL: "http://3.36.131.236:8081/api",
+    baseURL: "http://3.36.131.236/api",
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
@@ -68,12 +68,14 @@ export default function OurAxios() {
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
             console.log("token refresh 보내기!!", tokens.refreshToken);
+            console.log("원래 token", tokens);
             const at = response.config.headers.Authorization.split(" ");
             const rt = response.config.headers.Authorization_refresh.split(" ");
             tokens = {
               accessToken: at[1],
               refreshToken: rt[1],
             };
+            console.log("바뀐 token", tokens);
             localStorage.setItem("accessToken", tokens.accessToken);
             localStorage.setItem("refreshToken", tokens.refreshToken);
             console.log("response = ", response);
