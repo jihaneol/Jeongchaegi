@@ -24,10 +24,11 @@ export default function Success() {
 	function getLoginData()	{
 		console.log("api get gogo");
 		api.get("/members/info/").then((res) => {
-			userData.nickname = res.data.nickname;
-			userData.city = res.data.city;
-			userData.age = res.data.age;
-			userData
+			// userData.nickname = res.data.nickname;
+			// userData.city = res.data.city;
+			// userData.age = res.data.age;
+			// userData
+			console.log("res:", res);
 		}).catch((err) => {
 			console.log(err);
 		})

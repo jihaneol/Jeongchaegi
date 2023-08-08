@@ -27,7 +27,7 @@ export default function OurAxios() {
   api.interceptors.request.use(
     async (config) => {
       tokens = getTokens();
-      config.headers.Authorization = `Bearer 1${tokens.accessToken}`;
+      config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       console.log("in Our Axios at Request3: ", config.headers.Authorization);
       return config;
     },
