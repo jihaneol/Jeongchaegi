@@ -75,7 +75,7 @@
 
 .calendar_wrapper {
   height: 80vh;
-  background-color: #D0DDFF;
+  background-color: #d0ddff;
   position: relative;
   display: flex;
   margin-top: 5rem;
@@ -86,7 +86,7 @@
   display: flex;
 }
 
-.list_wrapper {
+/* .list_wrapper {
   width: 44rem;
   padding: 1.2rem;
   display: flex;
@@ -95,7 +95,7 @@
 }
 
 .list_box {
-  background-color: #5383FF;
+  background-color: #5383ff;
   height: 28rem;
   width: 90%;
   display: flex;
@@ -104,7 +104,7 @@
 
 .list_header {
   flex: 1;
-  background-color: #5383FF;
+  background-color: #5383ff;
   color: white;
   text-align: center;
   font-size: 1.2rem;
@@ -113,18 +113,18 @@
 
 .list_content_wrapper {
   flex: 8;
-  background-color: #ADC4FF;
+  background-color: #adc4ff;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   border-radius: 10px 10px 0 0;
-  border-top: 1px solid #5383FF;
+  border-top: 1px solid #5383ff;
 }
 
 .list_content_box {
   padding: 0.3rem;
   margin: 0 0.6rem;
-  max-height: 15%;
+  max-height: 100px;
   background-color: white;
 }
 
@@ -135,7 +135,7 @@
 .list_content_body {
   height: 1.2rem;
   white-space: nowrap;
-  overflow:hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1rem;
-}
+} */

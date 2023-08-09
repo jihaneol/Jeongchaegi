@@ -68,7 +68,7 @@ public class ChatRedisCacheService {
 
 
         redisTemplate.opsForZSet().add(NEW_POLICY_CHAT, savedData, localDateTimeToDoubleVal);
-        //위의 것은 redis에서 한번에 최근의 채팅을 조회하여 sql에 적어야 하는데 정책마다 따로 키값이 있으면 하나하나 찾기 어려우므로
+        //위의 것은 redis에서 한번에 최근의 채팅을 조회하여 sql에 적어야 하는데 CHAT_SORTED_SET_+방만 존재하면 삭제  못함
         redisTemplate.opsForZSet().add("CHAT_SORTED_SET_" + savedData.getPolicyId(), savedData, localDateTimeToDoubleVal);
     }
 
