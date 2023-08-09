@@ -61,7 +61,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .img((String) ((Map) oAuth2User.getAttributes().get("properties")).get("thumbnail_image"))
                     .build();
         }
-        member.setKakoToken(userRequest.getAccessToken().getTokenValue());
+        member.setKakaoToken(userRequest.getAccessToken().getTokenValue());
         memberRepository.save(member);
 
         return new PrincipalDetails(member, oAuth2User.getAttributes());
