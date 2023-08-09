@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import Style from "./styles/Carousel.module.css";
+import style from "./styles/Carousel.module.css";
 
 const Carousel = () => {
   const settings = {
@@ -19,26 +19,25 @@ const Carousel = () => {
   };
 
   return (
-    <div>
-      <h2> 이미지 회전목마 </h2>
+    <div className={style.carousel_wrap}>
       <Slider {...settings}>
-        <div className={Style.carousel_slide}>
+        <div className={style.carousel_slide}>
           <img
-            className={Style.carousel_slide_img}
+            className={style.carousel_slide_img}
             src="/testImg.jpg"
             alt="Image 1"
           />
         </div>
-        <div className={Style.carousel_slide}>
+        <div className={style.carousel_slide}>
           <img
-            className={Style.carousel_slide_img}
+            className={style.carousel_slide_img}
             src="/testImg.jpg"
             alt="Image 2"
           />
         </div>
-        <div className={Style.carousel_slide}>
+        <div className={style.carousel_slide}>
           <img
-            className={Style.carousel_slide_img}
+            className={style.carousel_slide_img}
             src="/testImg.jpg"
             alt="Image 3"
           />
