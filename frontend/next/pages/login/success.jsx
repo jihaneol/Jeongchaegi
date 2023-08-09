@@ -27,6 +27,7 @@ export default function Success() {
 		console.log("api get gogo");
 		api.get("/members/info/").then((res) => {
 			// 로컬스토리지에 정보 저장
+			console.log(res);
 			localStorage.setItem("userNickName", res.data.nickname);
 			localStorage.setItem("userAge", res.data.age);
 			localStorage.setItem("userCity", res.data.city);
