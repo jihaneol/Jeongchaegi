@@ -27,11 +27,13 @@ export default function Success() {
 		console.log("api get gogo");
 		api.get("/members/info/").then((res) => {
 			// 로컬스토리지에 정보 저장
-			localStorage.setItem("userNickName", res.data.nickname);
+			console.log(res);
+			localStorage.setItem("userName", res.data.nickname);
 			localStorage.setItem("userAge", res.data.age);
 			localStorage.setItem("userCity", res.data.city);
-			// localStorage.setItem("userProfilePicture", res.data.)
-			// localStorage.setItem("")
+			localStorage.setItem("userImg", res.data.img);
+			localStorage.setItem("userID", res.data.userId);
+			localStorage.setItem("userPolicy", JSON.stringify(res.data.policyMemberDTO));
 			router.push("/");
 		}).catch((err) => {
 			console.log(err);

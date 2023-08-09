@@ -5,13 +5,13 @@ import Logout from "./Logout";
 import { useEffect, useState } from "react";
 
 export default function Nav() {
-  const [at, setAt] = useState("");
+  const [nickname, setNickname] = useState("");
   const logout = Logout();
 
   useEffect(() => {
-    setAt(localStorage.getItem("accessToken"));
-    console.log(localStorage.getItem("accessToken"));
-  }, []);
+    setNickname(localStorage.getItem("userNickName"));
+    console.log(localStorage.getItem("userNickName"));
+  }, [])
 
   return (
     <div className={style.nav_wrap}>
@@ -31,20 +31,20 @@ export default function Nav() {
         </Link>
 
         {/* 일단 기본값 1로 라우팅 */}
-        <Link href="/mypage/1">
+        <Link href={`/mypage/${nickname}`}>
           <a>My Page</a>
         </Link>
       </div>
 
-      {at ? (
+      {/* {at ? ( */}
         <Link href="/login">
           <a className={style.nav_login}>Login</a>
         </Link>
-      ) : (
-        <button className={style.nav_logout} onClick={logout}>
-          Logout
-        </button>
-      )}
+      {/* // ) : (
+      //   <button className={style.nav_logout} onClick={logout}>
+      //     Logout
+      //   </button>
+      )} */}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.dto.MemberSignUpDTO;
 import com.oppas.entity.Member;
 import com.oppas.entity.PolicyMemberMapped;
+import com.oppas.repository.MemberRepository;
 import com.oppas.service.MemberService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MemberController {
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @ExceptionHandler(RuntimeException.class)
     public Object processValidationError(RuntimeException ex) {
@@ -73,11 +75,13 @@ public class MemberController {
 
     // 회원 정보 전달
     @GetMapping("/info")
-    public MemberResponse info(Authentication authentication) {
+    public ResponseEntity<?> info(Authentication authentication) {
         log.info("회원 정보 전달 하기");
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Member member = principalDetails.getMember();
-        return new MemberResponse(member);
+        Long id = principalDetails.getId();
+        Member member = memberRepository.findMember(id);
+
+        return new ResponseEntity<>(new MemberResponse(member),HttpStatus.OK);
     }
 
     // 회원 정보 수정
@@ -85,13 +89,13 @@ public class MemberController {
     public MemberResponse updateMember(Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
-        System.out.println(member.getId());
+
         return new MemberResponse(member);
     }
 
     @Data
     static class MemberResponse {
-        private Long id;
+        private Long userId;
         private Integer age;
         private String nickname;
         private String city;
@@ -99,7 +103,7 @@ public class MemberController {
         private List<PolicyMemberDTO> policyMemberDTO;
 
         public MemberResponse(Member member) {
-            id = member.getId();
+            userId = member.getId();
             age = member.getAge();
             nickname = member.getNickname();
             city = member.getCity();

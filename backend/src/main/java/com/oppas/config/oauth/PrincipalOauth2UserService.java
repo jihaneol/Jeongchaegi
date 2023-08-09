@@ -27,7 +27,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest); // 카카오의 회원 프로필 조회
-        log.info("카카오 정보 {}", oAuth2User.getAttributes());
 
         return processOAuth2User(userRequest, oAuth2User);
     }
@@ -37,10 +36,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         // Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
         OAuth2UserInfo oAuth2UserInfo = null;
         if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
-            System.out.println("카카오 로그인 요청~~");
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         } else {
-            System.out.println("카카오만 취급한다.");
+            log.info("카카오로그인만 가능");
         }
         Optional<Member> userOptional =
                 memberRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
@@ -63,6 +61,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .img((String) ((Map) oAuth2User.getAttributes().get("properties")).get("thumbnail_image"))
                     .build();
         }
+        member.setKakoToken(userRequest.getAccessToken().getTokenValue());
         memberRepository.save(member);
 
         return new PrincipalDetails(member, oAuth2User.getAttributes());
