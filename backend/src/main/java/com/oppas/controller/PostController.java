@@ -23,10 +23,8 @@ public class PostController {
     @PostMapping//게시글 작성
     public ResponseEntity registPost(Authentication authentication, @RequestBody RequestPostDto requestPostDto) throws Exception {
 
-        System.out.println("들어옴");
+
         postService.savePost(authentication, requestPostDto);
-
-
 
         return new ResponseEntity(HttpStatus.OK);
     }
