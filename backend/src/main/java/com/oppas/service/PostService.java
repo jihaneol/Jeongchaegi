@@ -2,8 +2,8 @@ package com.oppas.service;
 
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.post.PostDetailDto;
 import com.oppas.dto.post.request.RequestPostDto;
+import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
 import com.oppas.entity.Member;
 import com.oppas.entity.Post;
@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
@@ -30,6 +31,16 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
 
+    @PostConstruct
+    private void initializeTypeMaps() {
+        modelMapper.createTypeMap(Post.class, ResponsePostDto.class)
+                .addMappings(m -> {
+                    m.map(src -> src.getMember().getId(), ResponsePostDto::setMemberId);
+                    m.map(src -> src.getMember().getNickname(), ResponsePostDto::setNickname);
+                });
+    }
+
+
     @Transactional
     public void savePost(Authentication authentication, RequestPostDto requestPostDto) throws Exception {
 
@@ -39,14 +50,14 @@ public class PostService {
 
         //1안
         requestPostDto.setMember(member);
-
+//        requestPostDto.setCreatedAt(LocalDateTime.parse(LocalDateTime.now(), DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS")););
         System.out.println(requestPostDto.toString());
         Post post = modelMapper.map(requestPostDto,Post.class );
-        System.out.println(post.toString());
-        //2안
-
 
         postRepository.save(post);
+        Post p = postRepository.findById(6L).get();
+        System.out.println(p.toString());
+
     }
 
     public PostDetailDto getPost(Long postId){
@@ -94,10 +105,7 @@ public class PostService {
         Pageable pageable = PageRequest.of(pageIndex - 1, 10);
 
         Page<Post> postList = postRepository.findAll(pageable);
-        modelMapper.createTypeMap(Post.class, ResponsePostDto.class)
-                .addMappings(mapper -> mapper.map(
-                        src -> src.getMember().getId(),
-                        ResponsePostDto::setMemberId));
+
 
         Page<ResponsePostDto> policyPages = postList.map(post -> modelMapper.map(post, ResponsePostDto.class));
         return policyPages;
