@@ -32,7 +32,7 @@ import java.util.Optional;
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter {
 
-    private static final String NO_CHECK_URL = "/member/logout"; // "/login"으로 들어오는 요청은 Filter 작동 X
+    private static final String NO_CHECK_URL = "api/member/logout"; // "/login"으로 들어오는 요청은 Filter 작동 X
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
 
@@ -141,7 +141,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
                 return ;
             }
         }
-        log.info("토큰 둘다 없거나 에세스토큰 유효하다 ");
+
         filterChain.doFilter(request, response);
     }
 

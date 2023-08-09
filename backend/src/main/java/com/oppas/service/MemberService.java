@@ -1,6 +1,7 @@
 package com.oppas.service;
 
-import com.oppas.dto.MemberSignUpDTO;
+import com.oppas.dto.member.MemberForm;
+import com.oppas.dto.member.MemberSignUpDTO;
 import com.oppas.entity.Member;
 import com.oppas.entity.PolicyMemberMapped;
 import com.oppas.entity.policy.PolicyType;
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.logging.SocketHandler;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,5 +58,21 @@ public class MemberService {
 
     }
 
+    @Transactional
+    public Member updateMember(Long id, MemberForm memberForm) {
+        Member member = memberRepository.findMember(id);
+        member.getPolicyMemberMappeds().clear();
+        member.setCity(memberForm.getCity());
 
+        for (String policyId :memberForm.getPolicyId()) {
+            PolicyType findType = policyTypeRepository.findById(policyId).orElseThrow();
+            PolicyMemberMapped build = PolicyMemberMapped.builder()
+                    .time(LocalDateTime.now())
+                    .policyType(findType)
+                    .member(member)
+                    .build();
+             member.getPolicyMemberMappeds().add(build);
+        }
+        return member;
+    }
 }
