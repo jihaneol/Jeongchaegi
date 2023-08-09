@@ -1,4 +1,4 @@
-package com.oppas.dto;
+package com.oppas.dto.member;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 
 public class MemberSignUpDTO {
-
 
     @NotEmpty
     private List<String> policyId;
