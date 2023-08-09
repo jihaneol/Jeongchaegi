@@ -45,11 +45,13 @@ export default function Success() {
 			await setToken();
 			getLoginData();
 		}
-		fetchData();
+		fetchData().then(() => {
+			router.push("/");
+		});
 	}, []);
 	
 
   return (<div>
-		{!tokenReceive ? <h1>loading...</h1> : <h1>Complete!</h1>}
+		
 	</div>);
 }

@@ -10,7 +10,7 @@ export default function Logout() {
 
   async function Logout() {
     const api = OurAxios();
-    api.post("/members/logout/", {
+    api.delete("/members/logout/", {
       headers: {
         Authorization_refresh: `Bearer ${tokens.refreshToken}`,
       },
