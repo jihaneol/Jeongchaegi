@@ -18,9 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -47,17 +47,12 @@ public class PostService {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
-        System.out.println(member.toString());
 
-        //1안
         requestPostDto.setMember(member);
-//        requestPostDto.setCreatedAt(LocalDateTime.parse(LocalDateTime.now(), DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS")););
-        System.out.println(requestPostDto.toString());
+        requestPostDto.setCreatedAt(LocalDateTime.now());
         Post post = modelMapper.map(requestPostDto,Post.class );
 
         postRepository.save(post);
-        Post p = postRepository.findById(6L).get();
-        System.out.println(p.toString());
 
     }
 

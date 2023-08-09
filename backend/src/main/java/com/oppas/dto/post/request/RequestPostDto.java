@@ -24,13 +24,4 @@ public class RequestPostDto {
         this.member = member;
     }
 
-    @Override
-    public String toString() {
-        return "RequestPostDto{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", member=" + member.getId() +
-                ", content='" + content + '\'' +
-                '}';
-    }
 }
