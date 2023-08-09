@@ -23,6 +23,7 @@ export default function Logout() {
 			localStorage.removeItem("userImg");
 			localStorage.removeItem("userID");
 			localStorage.removeItem("userPolicy");
+		}).then(() => {
 			router.push("/");
 		});
   }

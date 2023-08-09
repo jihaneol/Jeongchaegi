@@ -34,7 +34,6 @@ export default function Success() {
 			localStorage.setItem("userImg", res.data.img);
 			localStorage.setItem("userID", res.data.userId);
 			localStorage.setItem("userPolicy", JSON.stringify(res.data.policyMemberDTO));
-			router.push("/");
 		}).catch((err) => {
 			console.log(err);
 		})
