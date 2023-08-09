@@ -1,4 +1,4 @@
-export default function () {
+export default function Spin() {
   return (
     <svg
       className="w-16 h-16 text-blue-500 animate-spin"
