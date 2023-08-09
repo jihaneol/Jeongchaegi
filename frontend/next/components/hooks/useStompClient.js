@@ -43,7 +43,7 @@ const useStompClient = (connectUrl, subscribe) => {
     };
   }, [connectUrl, subscribe]);
 
-  return { client, messages };
+  return { client, messages, setMessages };
 };
 
 export default useStompClient;

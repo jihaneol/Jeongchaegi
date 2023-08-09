@@ -1,13 +1,19 @@
 package com.oppas.entity.policy;
 
+import com.oppas.dto.policyChat.PolicyChatSaveDto;
 import com.oppas.entity.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
+@NoArgsConstructor// 기본생성자 생성
+@AllArgsConstructor//모든 필드를 파라미터로 가지는 생성자
 @Entity
 @Getter
+@Builder
 public class PolicyChat {
 
     @Id
@@ -24,8 +30,21 @@ public class PolicyChat {
     private Member member;
 
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     private String message;
+
+    public static PolicyChat of(PolicyChatSaveDto policyChatSaveDto,Member member,Policy policy){
+
+        return PolicyChat.builder()
+                .message(policyChatSaveDto.getMessage())
+                .createdAt(policyChatSaveDto.getCreatedAt())
+                .member(member)
+                .policy(policy)
+                .build();
+
+
+    }
+
 
 }

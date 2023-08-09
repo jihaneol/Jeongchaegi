@@ -1,4 +1,4 @@
-package com.oppas.dto;
+package com.oppas.dto.policy;
 
 import com.oppas.entity.policy.PolicyChat;
 import lombok.Getter;
@@ -74,6 +74,5 @@ public class PolicyDetailDTO {
 
     private String srchPolyBizSecd; // 정책 지역 코드
 
-    private List<PolicyChat> policyChats; // 채팅 리스트
 
 }

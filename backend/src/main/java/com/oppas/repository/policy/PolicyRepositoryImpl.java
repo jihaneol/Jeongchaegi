@@ -1,6 +1,6 @@
 package com.oppas.repository.policy;
 
-import com.oppas.dto.PolicyFilterDTO;
+import com.oppas.dto.policy.PolicyFilterDTO;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.QPolicy;
 import com.oppas.entity.policy.QPolicyDate;
