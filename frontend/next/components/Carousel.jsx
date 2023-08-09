@@ -15,7 +15,7 @@ const Carousel = () => {
     // fade: true, // 슬라이드 전환 시 페이드 효과
     adaptiveHeight: true, // 슬라이드의 높이에 따라 Carousel의 높이를 동적으로 조절
     autoplay: true, // 자동 재생 활성화
-    autoplaySpeed: 2000, // 3초 간격으로 사진 변경
+    autoplaySpeed: 3000, // 3초 간격으로 사진 변경
   };
 
   return (
