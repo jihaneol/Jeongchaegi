@@ -1,13 +1,17 @@
 package com.oppas.controller;
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.MemberSignUpDTO;
+import com.oppas.dto.member.MemberForm;
+import com.oppas.dto.member.MemberResponse;
+import com.oppas.dto.member.MemberSignUpDTO;
+import com.oppas.dto.member.PolicyMemberDTO;
 import com.oppas.entity.Member;
-import com.oppas.entity.PolicyMemberMapped;
+import com.oppas.repository.MemberRepository;
 import com.oppas.service.MemberService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -30,6 +34,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MemberController {
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @ExceptionHandler(RuntimeException.class)
     public Object processValidationError(RuntimeException ex) {
@@ -73,54 +78,21 @@ public class MemberController {
 
     // 회원 정보 전달
     @GetMapping("/info")
-    public MemberResponse info(Authentication authentication) {
+    public ResponseEntity<?> info(Authentication authentication) {
         log.info("회원 정보 전달 하기");
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Member member = principalDetails.getMember();
-        return new MemberResponse(member);
+        Long id = principalDetails.getId();
+        Member member = memberRepository.findMember(id);
+
+        return new ResponseEntity<>(new MemberResponse(member),HttpStatus.OK);
     }
 
     // 회원 정보 수정
-    @PutMapping("/{nickName}/edit")
-    public MemberResponse updateMember(Authentication authentication) {
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Member member = principalDetails.getMember();
-        System.out.println(member.getId());
-        return new MemberResponse(member);
+    @PutMapping("/{memberId}/edit")
+    public ResponseEntity<?>  updateMember(@PathVariable("memberId") Long id, @RequestBody MemberForm memberForm) {
+        memberService.updateMember(id, memberForm);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Data
-    static class MemberResponse {
-        private Long id;
-        private Integer age;
-        private String nickname;
-        private String city;
-        private String img;
-        private List<PolicyMemberDTO> policyMemberDTO;
 
-        public MemberResponse(Member member) {
-            id = member.getId();
-            age = member.getAge();
-            nickname = member.getNickname();
-            city = member.getCity();
-            img = member.getImg();
-            policyMemberDTO = member.getPolicyMemberMappeds().stream()
-                    .map(PolicyMemberDTO::new)
-                    .collect(Collectors.toList());
-
-        }
-
-        @Data
-        private class PolicyMemberDTO {
-
-            private String id;
-            private String type;
-
-            public PolicyMemberDTO(PolicyMemberMapped policyMember) {
-                id = policyMember.getPolicyType().getId();
-                type = policyMember.getPolicyType().getType();
-            }
-
-        }
-    }
 }

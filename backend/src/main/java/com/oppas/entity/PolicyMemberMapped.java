@@ -1,6 +1,5 @@
 package com.oppas.entity;
 
-import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.PolicyType;
 import lombok.*;
 
@@ -11,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class PolicyMemberMapped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +29,6 @@ public class PolicyMemberMapped {
     private LocalDateTime time;
 
     //
-    protected PolicyMemberMapped() {
 
-    }
     // 생성 메서드 //
 }

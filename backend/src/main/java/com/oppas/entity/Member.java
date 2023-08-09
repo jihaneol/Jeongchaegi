@@ -1,6 +1,6 @@
 package com.oppas.entity;
 
-import com.oppas.dto.MemberSignUpDTO;
+import com.oppas.dto.member.MemberSignUpDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -35,12 +35,13 @@ public class Member {
     // OAuth를 위해 구성한 추가 필드 2개
     private String provider;
     private String providerId;
+    private String kakoToken;
     @CreationTimestamp
     private Timestamp createDate;
     private String refreshToken; // 리프레시 토큰
     private boolean sign;
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
+    private final List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
 
     //	@ColumnDefault("false")
 //	@Column(columnDefinition = "TINYINT(1)")
@@ -63,5 +64,14 @@ public class Member {
         this.city = userSignUpDTO.getCity();
         this.age = userSignUpDTO.getAge();
         this.nickname = userSignUpDTO.getNickname();
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                '}';
     }
 }

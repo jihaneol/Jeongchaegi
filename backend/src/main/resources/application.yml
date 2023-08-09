@@ -7,7 +7,7 @@ jwt:
   secretKey: asdfasdfasdf56454adfs
 
   access:
-    expiration: 30000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
     header: Authorization
 
   refresh:
@@ -32,8 +32,9 @@ spring:
             client-authentication-method: POST
             client-secret: YKLc4lQmIWKZSzhPcbVeUJckYogzlb0y
             authorization-grant-type: authorization_code
+            response-type: code
 
-            # 로컬 테스트용 카카오 정보
+#             로컬 테스트용 카카오 정보
 #          kakao:
 #            client-id: 5bebd3961cec12296fc72d86729bffe8
 #            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
@@ -44,6 +45,7 @@ spring:
               - profile_nickname
               - account_email
               - profile_image
+              - talk_calendar
             client_name: kakao
 
 

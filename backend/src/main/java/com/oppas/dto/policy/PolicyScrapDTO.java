@@ -1,4 +1,4 @@
-package com.oppas.dto;
+package com.oppas.dto.policy;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

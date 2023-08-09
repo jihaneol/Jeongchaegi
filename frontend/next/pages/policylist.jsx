@@ -33,9 +33,9 @@ export default function PolicyList() {
     Boolean(calendarActive)
   );
 
-  const [pcydata, setpcy] = useState(null);  // 정책리스트 데이터, 수정잦음
-  const [targetDate, setTargetDate] = useState(null);  // 날짜 데이터 상태관리
-  const [isLoadingList, setIsLoadingList] = useState(false)
+  const [pcydata, setpcy] = useState(null); // 정책리스트 데이터, 수정잦음
+  const [targetDate, setTargetDate] = useState(null); // 날짜 데이터 상태관리
+  const [isLoadingList, setIsLoadingList] = useState(false);
 
   // useEffect 관리 모음
   useEffect(() => {
@@ -70,23 +70,23 @@ export default function PolicyList() {
 
   // 검색 클릭시 filter 항목 ================현재 수정중!!!!!!!!!!!!!!!!!!!!!!!!!!!
   function submitParamsToBack() {
-
-    function getToday(){  // 긁어온 yyyy-mm-dd형식으로 바꿔주는 함수
+    function getToday() {
+      // 긁어온 yyyy-mm-dd형식으로 바꿔주는 함수
       if (targetDate) {
         var year = targetDate.getFullYear();
         var month = ("0" + (1 + targetDate.getMonth())).slice(-2);
         var day = ("0" + targetDate.getDate()).slice(-2);
-    
+
         return year + "-" + month + "-" + day;
       }
-      return null
+      return null;
     }
 
     const types = selectPcyTypes.join(",");
     const region = sido;
     const age = searchAge;
     const keyword = mySearchQuery;
-    const date = getToday()
+    const date = getToday();
 
     const paramobj = { types, region, age, keyword, date };
     for (const key in paramobj) {
@@ -95,7 +95,7 @@ export default function PolicyList() {
         delete paramobj[key];
       }
     }
-    console.log(paramobj, '완성 param'); // 완성된 params
+    console.log(paramobj, "완성 param"); // 완성된 params
 
     // 1페이지부터 돌아가서 검색해야됨 그래서 수정
     page = 1;
@@ -111,7 +111,7 @@ export default function PolicyList() {
 
   // policy data 서버에서 받기, 나중에 수정 예정
   function getPcyData(page, paramobj = "") {
-    setIsLoadingList((isLoadingList)=>!isLoadingList)
+    setIsLoadingList((isLoadingList) => !isLoadingList);
     console.log(page);
     console.log(lastPage);
     axios({
@@ -149,10 +149,13 @@ export default function PolicyList() {
 
   // 스크롤 이벤트 감시
   function handleScroll() {
-    const {scrollHeight, scrollTop, clientHeight} = document.documentElement  // 2
-    if (!isLoadingList && Math.abs(scrollHeight - clientHeight - scrollTop) < 1) {
-      page += 1
-      if (page <= lastPage) getPcyData(page, router.query)
+    const { scrollHeight, scrollTop, clientHeight } = document.documentElement; // 2
+    if (
+      !isLoadingList &&
+      Math.abs(scrollHeight - clientHeight - scrollTop) < 1
+    ) {
+      page += 1;
+      if (page <= lastPage) getPcyData(page, router.query);
     }
   }
 
@@ -167,16 +170,18 @@ export default function PolicyList() {
 
   function onClickDay(e) {
     console.log(targetDate, e);
-    if (targetDate) {  // 날짜가 입력되어 있는 경우
-      if (targetDate.getFullYear() == e.getFullYear() && targetDate.getMonth() == e.getMonth() && targetDate.getDate() == e.getDate()){
-        setTargetDate(null)  // 같은 날짜 클릭하는 경우
+    if (targetDate) {
+      // 날짜가 입력되어 있는 경우
+      if (
+        targetDate.getFullYear() == e.getFullYear() &&
+        targetDate.getMonth() == e.getMonth() &&
+        targetDate.getDate() == e.getDate()
+      ) {
+        setTargetDate(null); // 같은 날짜 클릭하는 경우
+      } else {
+        setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate())); // 다른날짜 클릭
       }
-      else {
-        setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));  // 다른날짜 클릭
-      } 
-    }
-    else setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate()));  // 날짜 없으면
-      
+    } else setTargetDate(new Date(e.getFullYear(), e.getMonth(), e.getDate())); // 날짜 없으면
   }
 
   return (
@@ -233,9 +238,7 @@ export default function PolicyList() {
               <h1>loading...</h1>
             </>
           )}
-          {isLoadingList ? <h1>loading list...</h1> : 
-          <p>endpage</p>
-          }
+          {isLoadingList ? <h1>loading list...</h1> : <p>endpage</p>}
         </div>
       </div>
     </div>

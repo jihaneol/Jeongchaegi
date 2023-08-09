@@ -45,17 +45,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
-        http.cors().configurationSource(corsConfigurationSource());
+//        http.cors().configurationSource(corsConfigurationSource());
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-//				.addFilter(corsFilter)
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-//                .antMatchers("/data").authenticated()
                 .antMatchers("/api/v1/user/**").access("hasRole('ROLE_USER')")
-                .antMatchers(HttpMethod.DELETE, "member/logout").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/member/logout","/api/posts/*").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/posts").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/posts").authenticated()
                 .anyRequest().permitAll();
 
         http

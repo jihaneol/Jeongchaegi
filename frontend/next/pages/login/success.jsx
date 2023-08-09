@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import OurAxios from "../../config/ourAxios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { userActions } from "../../store/user";
 
 export default function Success() {
   // useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
@@ -13,6 +14,7 @@ export default function Success() {
 	const userData = useSelector(state => state.user);
 	const api = OurAxios();
 	const router = useRouter();
+	const dispatch = useDispatch();
 
   async function setToken() {
     console.log("setToken in...");
@@ -27,12 +29,15 @@ export default function Success() {
 		console.log("api get gogo");
 		api.get("/members/info/").then((res) => {
 			// 로컬스토리지에 정보 저장
-			localStorage.setItem("userNickName", res.data.nickname);
+			console.log(res);
+			localStorage.setItem("userName", res.data.nickname);
 			localStorage.setItem("userAge", res.data.age);
 			localStorage.setItem("userCity", res.data.city);
-			// localStorage.setItem("userProfilePicture", res.data.)
-			// localStorage.setItem("")
-			router.push("/");
+			localStorage.setItem("userImg", res.data.img);
+			localStorage.setItem("userID", res.data.userId);
+			localStorage.setItem("userPolicy", JSON.stringify(res.data.policyMemberDTO));
+			// 전역으로 로그인 정보 저장
+			dispatch(userActions.setisLogined(true));
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -43,11 +48,13 @@ export default function Success() {
 			await setToken();
 			getLoginData();
 		}
-		fetchData();
+		fetchData().then(() => {
+			router.push("/");
+		});
 	}, []);
 	
 
   return (<div>
-		{!tokenReceive ? <h1>loading...</h1> : <h1>Complete!</h1>}
+		
 	</div>);
 }
