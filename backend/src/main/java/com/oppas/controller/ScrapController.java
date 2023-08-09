@@ -1,7 +1,7 @@
 package com.oppas.controller;
 
-import com.oppas.dto.PolicyScrapDTO;
-import com.oppas.dto.PolicySummaryDTO;
+import com.oppas.dto.policy.PolicyScrapDTO;
+import com.oppas.dto.policy.PolicySummaryDTO;
 import com.oppas.service.ScrapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
