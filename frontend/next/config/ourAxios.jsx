@@ -1,21 +1,21 @@
 import axios from "axios";
 
 export default function OurAxios() {
+  let requestCount = 0;
 
   function getTokens() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const accessToken = localStorage.getItem("accessToken");
       const refreshToken = localStorage.getItem("refreshToken");
-      return {accessToken, refreshToken};
+      return { accessToken, refreshToken };
     }
   }
-  
+
   let tokens = getTokens();
-  console.log(tokens);
-  
+
   // axios 설정
   const api = axios.create({
-    baseURL: "http://3.36.131.236:8081/api",
+    baseURL: "http://3.36.131.236/api",
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
@@ -26,13 +26,17 @@ export default function OurAxios() {
   // 인터셉터 설정
   api.interceptors.request.use(
     async (config) => {
+      requestCount++;
+
+      if (requestCount > 10)
+        return Promise.reject(
+          new Error(`You have axceeded the maximum number of requests.`)
+        );
       tokens = getTokens();
       config.headers.Authorization = `Bearer ${tokens.accessToken}`;
-      console.log("in Our Axios at Request3: ", config.headers.Authorization);
       return config;
     },
     (error) => {
-      console.log("in our axios at request error!!");
       return Promise.reject(error);
     }
   );
@@ -47,7 +51,8 @@ export default function OurAxios() {
     async (error) => {
       const originalRequest = error.config;
       // access Token 만료
-      if (error.response && error.response.status === 401) {
+      console.log("response error 도착!");
+      if (error.response && error.response?.status === 401) {
         // refresh token 전송하기
         api
           .get("/members/refresh-token", {
@@ -57,7 +62,14 @@ export default function OurAxios() {
           })
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
-            tokens = response.headers;
+            const at = response.headers.accesstoken;
+            const rt = response.headers.refreshtoken;
+            tokens = {
+              accessToken: at,
+              refreshToken: rt,
+            };
+            localStorage.setItem("accessToken", tokens.accessToken);
+            localStorage.setItem("refreshToken", tokens.refreshToken);
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);
@@ -70,6 +82,5 @@ export default function OurAxios() {
       }
     }
   );
-
   return api;
 }
