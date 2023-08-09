@@ -32,6 +32,7 @@ spring:
             client-authentication-method: POST
             client-secret: YKLc4lQmIWKZSzhPcbVeUJckYogzlb0y
             authorization-grant-type: authorization_code
+            response-type: code
 
 #             로컬 테스트용 카카오 정보
 #          kakao:
@@ -44,6 +45,7 @@ spring:
               - profile_nickname
               - account_email
               - profile_image
+              - talk_calendar
             client_name: kakao
 
 
