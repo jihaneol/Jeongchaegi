@@ -30,6 +30,66 @@
 
 .status_box {
 	flex: 3;
+	display: flex;
+	flex-direction: column;
+}
+
+.status_header {
+	flex: 0.7;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 35px;
+}
+
+.status_content{
+	flex: 1;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.status_card {
+	margin: 10px;
+	width: 125px;
+	height: 100px;
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	border-radius: 15px;
+	padding: 2px;
+}
+
+.status_card_header {
+	flex: 2;
+	font-weight: bold;
+	font-size: 25px;
+	text-align: center;
+}
+
+.status_card_content {
+	flex: 3;
+	text-align: center;
+	font-size: 30px;
+	color: #5D5A88;
+}
+
+.stastus_footer {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.status_footer_button {
+	width: 200px;
+	height: 50px;
+	border: none;
+	background-color: #5D5A88;
+	color: white;
+	border-radius: 30px;
 }
 
 .articleList_wrapper {
