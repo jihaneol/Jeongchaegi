@@ -1,0 +1,18 @@
+.carousel_slide {
+  display: flex !important; /* 우선순위를 높여 스타일을 강제로 적용 */
+  justify-content: center; /* 가로 방향 중앙 정렬 */
+  align-items: center; /* 세로 방향 중앙 정렬 */
+  height: 400px; /* 원하는 높이 지정 */
+}
+
+/* 이미지 스타일 */
+.carousel_slide_img {
+  width: 70%; /* 이미지가 너무 크면 슬라이드를 벗어나지 않도록 */
+  height: 100%; /* 이미지가 너무 크면 슬라이드를 벗어나지 않도록 */
+}
+
+.img {
+  width: 300px;
+  height: auto;
+  object-fit: cover; /* 이미지가 컨테이너에 꽉 차도록 조절하되, 이미지의 비율을 유지 */
+}

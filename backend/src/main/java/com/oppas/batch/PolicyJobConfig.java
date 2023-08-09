@@ -1,6 +1,6 @@
 package com.oppas.batch;
 
-import com.oppas.dto.PolicyDTO;
+import com.oppas.dto.PolicyApiDTO;
 import com.oppas.service.PolicyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -41,7 +41,7 @@ public class PolicyJobConfig {
     @Bean
     public Step policyUpdateStep() {
         return stepBuilderFactory.get("policyUpdateStep")
-                .<PolicyDTO, PolicyDTO>chunk(1)
+                .<PolicyApiDTO, PolicyApiDTO>chunk(1)
                 .reader(xmlItemReader(0))
                 .writer(xmlItemWriter())
                 .build();
@@ -49,13 +49,13 @@ public class PolicyJobConfig {
 
     @Bean
     @StepScope
-    public StaxEventItemReader<PolicyDTO> xmlItemReader(@Value("#{jobParameters['pageIndex']}") long pageIndex) {
+    public StaxEventItemReader<PolicyApiDTO> xmlItemReader(@Value("#{jobParameters['pageIndex']}") long pageIndex) {
         System.out.println("Page Index: " + pageIndex);
         String apiUrl = "https://www.youthcenter.go.kr/opi/youthPlcyList.do?openApiVlak=839cda72655c1032eea8f071&display=100&pageIndex=" + pageIndex;
 
         // API URL에서 XML 데이터 읽어오기
         try {
-            return new StaxEventItemReaderBuilder<PolicyDTO>()
+            return new StaxEventItemReaderBuilder<PolicyApiDTO>()
                     .name("xmlItemReader")
                     .resource(new UrlResource(apiUrl))
                     .addFragmentRootElements("youthPolicy")
@@ -68,10 +68,10 @@ public class PolicyJobConfig {
     }
 
     @Bean
-    public ItemWriter<PolicyDTO> xmlItemWriter() {
+    public ItemWriter<PolicyApiDTO> xmlItemWriter() {
         return items -> {
-            for (PolicyDTO item : items) {
-                Long policyId = policyService.savePolicy(item);
+            for (PolicyApiDTO item : items) {
+                Long policyId = policyService.updatePolicies(item);
                 if (policyId != null) {
                     System.out.println("Saved policy ID: " + policyId);
                 }
@@ -82,11 +82,11 @@ public class PolicyJobConfig {
     @Bean
     public XStreamMarshaller itemMarshaller() {
         Map<String, Class<?>> aliases = new HashMap<>();
-        aliases.put("youthPolicy", PolicyDTO.class);
+        aliases.put("youthPolicy", PolicyApiDTO.class);
 
         XStreamMarshaller xStreamMarshaller = new XStreamMarshaller();
         xStreamMarshaller.setAliases(aliases);
-        xStreamMarshaller.getXStream().allowTypes(new Class[]{PolicyDTO.class});
+        xStreamMarshaller.getXStream().allowTypes(new Class[]{PolicyApiDTO.class});
 
         return xStreamMarshaller;
     }
