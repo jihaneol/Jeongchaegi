@@ -22,17 +22,15 @@ export default function HomeList({ title }) {
 
   return (
     <div
-      className={`${style.list_wrapper} p-6 bg-gray-100 rounded-lg shadow-lg`}
+      className={`${style.list_wrapper} p-6 bg-gray-200 rounded-lg shadow-lg`}
     >
-      <div className={`${style.list_box} mb-4 bg-gray-200 p-4 rounded-lg`}>
+      <div className={`${style.list_box} mb-4 p-4 rounded-lg`}>
         <div
           className={`${style.list_header} text-2xl font-bold mb-4 text-gray-700`}
         >
           {header}
         </div>
-        <div
-          className={`${style.list_content_wrapper} bg-gray-300 p-4 rounded-lg`}
-        >
+        <div className={`${style.list_content_wrapper} p-4 rounded-lg`}>
           {contents ? (
             contents
               .filter((content) => content.id < 10)
