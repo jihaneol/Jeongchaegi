@@ -20,13 +20,28 @@ export default function Page() {
             </div>
           </div>
           <div className={style.status_box}>
-            <div>
-              마이페이지
+            <div className={style.status_header}>
+              <label>My Status</label>
             </div>
-            <div>
-              {/* {myStatus.map((item) => {
-
-              })} */}
+            <div className={style.status_content}>
+              {myStatus.map((item) => 
+                (<div className={style.status_card} key={item}>
+                  <div className={style.status_card_header}>
+                    {item}
+                  </div>
+                  <div className={style.status_card_content}>
+                    0
+                  </div>
+                </div>)
+              )}
+            </div>
+            <div className={style.stastus_footer}>
+              <button className={style.status_footer_button}>
+                프로필 수정
+              </button>
+              <button className={style.status_footer_button}>
+                알람 설정
+              </button>
             </div>
           </div>
         </div>
