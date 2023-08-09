@@ -43,7 +43,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                     member.updateRefreshToken(refreshToken);
                     memberRepository.saveAndFlush(member);
                 });
-        log.info("로그인 됐다....");
+
         response.sendRedirect("http://3.36.131.236/login/success");
     }
 
