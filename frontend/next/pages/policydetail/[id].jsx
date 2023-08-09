@@ -18,35 +18,26 @@ export default function Page(props) {
   // console.log(keys);
 
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       {post ? (
         <>
-        {/* 이거 되나? */}
-        <Head>  
-        <title>{post.polyBizSjnm}</title>
-        </Head>
-
-
+          <Head>
+            <title>{post.polyBizSjnm}</title>
+          </Head>
           <Nav />
-          <div className={Style.wrap}>
-            <div className={Style.container}>
-              <div className={Style.title}>
-                <div>
-                  <FaBars />
-                </div>
-                <div>
-                  <h3>{post.polyBizSjnm}</h3>
-                </div>
-                <div className={Style.icon}>
-                  <div>
-                    <FaBell />
-                  </div>
-                  <div>
-                    <FaBookmark />
-                  </div>
+          <div className={`${Style.wrap} max-w-6xl mx-auto p-6`}>
+            <div
+              className={`${Style.container} flex justify-between items-center mb-6`}
+            >
+              <div className={`${Style.title} flex items-center`}>
+                <FaBars className="text-gray-600 mr-4" />
+                <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
+                <div className={`${Style.icon} flex items-center`}>
+                  <FaBell className="text-gray-600 mr-2" />
+                  <FaBookmark className="text-gray-600" />
                 </div>
               </div>
-              <div className={Style.making}>
+              <div className={`${Style.making} bg-white rounded-lg p-4 shadow`}>
                 <div className={Style.ctt_title}>
                   <p>{post.polyItcnCn}</p>
                 </div>
@@ -215,23 +206,6 @@ export default function Page(props) {
                   </div>
                 </div>
               </div>
-              {/* <div>
-            <Image
-              className={Style.img}
-              src="/testImg.jpg"
-              alt="testImg"
-              width={500}
-              height={300}
-              objectFit="cover"
-            />
-          </div> */}
-              {/* <ul className={Style.content}>
-            {keys.map((key) => (
-              <li key={key}>
-                {key} : {post[key]}
-              </li>
-            ))}
-          </ul> */}
               <div className={Style.chat_box}>
                 <div className={Style.chat}>
                   <h4>채팅방</h4>
@@ -242,7 +216,9 @@ export default function Page(props) {
           </div>
         </>
       ) : (
-        false
+        <div className="flex justify-center items-center min-h-screen">
+          <p>Loading...</p>
+        </div>
       )}
     </div>
   );
