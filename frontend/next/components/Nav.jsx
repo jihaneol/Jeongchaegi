@@ -9,9 +9,10 @@ export default function Nav() {
   const logout = Logout();
 
   useEffect(() => {
-    setNickname(localStorage.getItem("userNickName"));
-    console.log(localStorage.getItem("userNickName"));
-  }, []);
+    let name = localStorage.getItem("userName");
+    if (!name) name = "";
+    setNickname(name);
+  }, [nickname]);
 
   return (
     <div className={`${style.nav_wrap} bg-gray-800 text-white p-4`}>
@@ -37,18 +38,22 @@ export default function Nav() {
           </Link>
         </div>
         {/* {at ? ( */}
-        <Link href="/login">
-          <a
-            className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
+        {!nickname ? (
+          <Link href="/login">
+            <a
+              className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
+            >
+              Login
+            </a>
+          </Link>
+        ) : (
+          <button
+            className={`${style.nav_logout} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
+            onClick={logout}
           >
-            Login
-          </a>
-        </Link>
-        {/* // ) : (
-      //   <button className={`${style.nav_logout} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`} onClick={logout}>
-      //     Logout
-      //   </button>
-      )} */}
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

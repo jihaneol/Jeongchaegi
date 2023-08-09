@@ -1,6 +1,6 @@
 package com.oppas.entity;
 
-import com.oppas.dto.MemberSignUpDTO;
+import com.oppas.dto.member.MemberSignUpDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
