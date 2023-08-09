@@ -62,6 +62,7 @@ export default function OurAxios() {
           })
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
+            console.log(response);
             const at = response.headers.accesstoken;
             const rt = response.headers.refreshtoken;
             tokens = {
