@@ -28,8 +28,8 @@ export default function CreateArticle() {
   // 함수 목록
   function mySubmit(e) {
     e.preventDefault();
-    console.log(mytitle);
-    console.log(value);
+    console.log('title :', mytitle);
+    console.log('value :', value);
   }
 
   function handleTitle(e) {

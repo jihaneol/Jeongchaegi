@@ -16,6 +16,8 @@ import PolicyListSort from "../components/PolicyListSort";
 import { sido } from "../components/SelectPlace"; // 컴포넌트 변수 가져옴
 import OurAxios from "../config/ourAxios";
 
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";  // 이제 머 삭제해서 전역 아니여도 적용 가능함, 문제 생길수도?
+
 import axios from "axios";
 
 let page = 1;
@@ -112,32 +114,36 @@ export default function PolicyList() {
     setIsLoadingList((isLoadingList)=>!isLoadingList)
     console.log(page);
     console.log(lastPage);
-    api({
+    axios({
       method: "get",
       url: "http://3.36.131.236/api/policies",
       params: {
         ...paramobj,
         pageIndex: page,
       },
+      // headers:{
+      //   lol: 'lol'
+      // },
     })
-      .then((res) => {
-        if (!pcydata) {
-          console.log(res.request.responseURL);
-          lastPage = res.data.totalPages;
-          setpcy([...res.data.content]);
-        } else {
-          console.log(res.request.responseURL);
-          lastPage = res.data.totalPages;
-          setpcy((pcydata) => [...pcydata, ...res.data.content]);
-        }
+    // api.get('/policies?pageIndex=1')
+    .then((res) => {
+      if (!pcydata) {
+        console.log(res.request.responseURL);
+        lastPage = res.data.totalPages;
+        setpcy([...res.data.content]);
+      } else {
+        console.log(res.request.responseURL);
+        lastPage = res.data.totalPages;
+        setpcy((pcydata) => [...pcydata, ...res.data.content]);
       }
-      )
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(()=>{
-        setIsLoadingList((isLoadingList)=>!isLoadingList)
-      })
+    }
+    )
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(()=>{
+      setIsLoadingList((isLoadingList)=>!isLoadingList)
+    })
 
   }
 
