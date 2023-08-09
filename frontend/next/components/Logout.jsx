@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import OurAxios from "../config/ourAxios";
+import { useDispatch } from "react-redux";
+import { userActions } from "../store/user";
 
 export default function Logout() {
 	const [tokens, setTokens] = useState("");
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setTokens(localStorage.getItem("refreshToken"));
@@ -23,8 +26,7 @@ export default function Logout() {
 			localStorage.removeItem("userImg");
 			localStorage.removeItem("userID");
 			localStorage.removeItem("userPolicy");
-		}).then(() => {
-			router.push("/");
+			dispatch(userActions.setisLogined(false));
 		});
   }
 

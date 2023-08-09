@@ -1,8 +1,9 @@
 package com.oppas.dto.post.response;
 
-import com.oppas.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,5 +15,9 @@ public class ResponsePostDto {
 
     private Long memberId;
 
+    private String nickname;
+
     private String content;
+
+    private LocalDateTime createdAt;
 }

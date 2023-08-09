@@ -1,12 +1,9 @@
 package com.oppas.controller;
 
-import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.PolicyFilterDTO;
-import com.oppas.dto.PolicySummaryDTO;
-import com.oppas.dto.post.PostDetailDto;
+
 import com.oppas.dto.post.request.RequestPostDto;
+import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
-import com.oppas.entity.Post;
 import com.oppas.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -27,7 +23,7 @@ public class PostController {
     @PostMapping//게시글 작성
     public ResponseEntity registPost(Authentication authentication, @RequestBody RequestPostDto requestPostDto) throws Exception {
 
-        System.out.println("들어옴");
+
         postService.savePost(authentication, requestPostDto);
 
         return new ResponseEntity(HttpStatus.OK);
@@ -63,15 +59,13 @@ public class PostController {
     }
 
 
-//    @DeleteMapping("/{postId}")
-//    public ResponseEntity deletePost(Authentication authentication, Long postId) {
-//
-//        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-//        long memberId = principalDetails.getId();
-//
-//        postService.removePost(memberId, postId);
-//
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+    @DeleteMapping("/{postId}")
+    public ResponseEntity deletePost(Authentication authentication, @PathVariable Long postId) {
+
+
+        HttpStatus httpStatus =  postService.removePost(authentication, postId);
+
+        return new ResponseEntity(httpStatus);
+    }
 
 }

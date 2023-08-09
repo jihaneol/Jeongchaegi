@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import OurAxios from "../../config/ourAxios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { userActions } from "../../store/user";
 
 export default function Success() {
   // useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
@@ -13,6 +14,7 @@ export default function Success() {
 	const userData = useSelector(state => state.user);
 	const api = OurAxios();
 	const router = useRouter();
+	const dispatch = useDispatch();
 
   async function setToken() {
     console.log("setToken in...");
@@ -34,10 +36,14 @@ export default function Success() {
 			localStorage.setItem("userImg", res.data.img);
 			localStorage.setItem("userID", res.data.userId);
 			localStorage.setItem("userPolicy", JSON.stringify(res.data.policyMemberDTO));
+			// 전역으로 로그인 정보 저장
+			dispatch(userActions.setisLogined(true));
 		}).catch((err) => {
 			console.log(err);
 		})
 	}
+
+	
 
 	useEffect(() => {
 		async function fetchData() {
@@ -45,12 +51,12 @@ export default function Success() {
 			getLoginData();
 		}
 		fetchData().then(() => {
-			router.push("/");
+			// router.push("/");
 		});
 	}, []);
 	
 
   return (<div>
-		
+		<button onClick={getLoginData}>요청!!</button>
 	</div>);
 }

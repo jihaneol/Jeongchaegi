@@ -1,6 +1,6 @@
 package com.oppas.controller;
 
-import com.oppas.dto.*;
+import com.oppas.dto.policy.*;
 import com.oppas.service.PolicyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

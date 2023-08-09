@@ -3,6 +3,7 @@ package com.oppas.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -21,9 +22,14 @@ public class Post {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+
+
     private String title;
 
     private String content;
+
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime createdAt;
 
 
     public void modifyPost(String title, String content){
@@ -37,13 +43,6 @@ public class Post {
 
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                "멤버아이디 = "+ member.getId()+
-                '}';
-    }
+
+
 }

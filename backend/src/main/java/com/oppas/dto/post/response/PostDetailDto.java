@@ -1,8 +1,10 @@
-package com.oppas.dto.post;
+package com.oppas.dto.post.response;
 
 import com.oppas.entity.Post;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -18,6 +20,8 @@ public class PostDetailDto {
 
     private String content;
 
+    private LocalDateTime createdAt;
+
 
     public static PostDetailDto createPostDetailDto(Post post){
 
@@ -26,19 +30,10 @@ public class PostDetailDto {
                 memberId(post.getMember().getId()).
                 nickname(post.getMember().getNickname()).
                 title(post.getTitle()).
-                content(post.getContent()).build();
+                content(post.getContent()).
+                createdAt(post.getCreatedAt()).
+                build();
 
         return dto;
-    }
-
-    @Override
-    public String toString() {
-        return "PostDetailDto{" +
-                "id=" + id +
-                ", memberId=" + memberId +
-                ", nickname='" + nickname + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.oppas.batch;
 
-import com.oppas.dto.PolicyApiDTO;
+import com.oppas.dto.policy.PolicyApiDTO;
 import com.oppas.service.PolicyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
