@@ -22,7 +22,7 @@ export default function Page() {
         <div className={style.profile_wrapper}>
           <div className={style.profile_box}>
             <div className={style.profile_picture}>
-              <Image
+              <img
                 src={userImg}
                 width="240px"
                 height="240px"
