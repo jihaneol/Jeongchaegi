@@ -30,19 +30,10 @@ public class PostDetailDto {
                 memberId(post.getMember().getId()).
                 nickname(post.getMember().getNickname()).
                 title(post.getTitle()).
-                content(post.getContent()).build();
+                content(post.getContent()).
+                createdAt(post.getCreatedAt()).
+                build();
 
         return dto;
-    }
-
-    @Override
-    public String toString() {
-        return "PostDetailDto{" +
-                "id=" + id +
-                ", memberId=" + memberId +
-                ", nickname='" + nickname + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
     }
 }
