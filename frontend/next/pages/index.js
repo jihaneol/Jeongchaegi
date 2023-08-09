@@ -33,7 +33,9 @@ export default function Home() {
       >
         <Carousel />
         <HomeCalendar modalActive={modalActive} getTargetDate={getTargetDate} />
-        <div className={`${style.outer_wrapper} flex space-x-4 mt-4`}>
+        <div
+          className={`${style.outer_wrapper} flex justify-center space-x-4 mt-4`}
+        >
           <HomeList title="마감 임박 정책" />
           <HomeList title="Hot 정책" />
         </div>
