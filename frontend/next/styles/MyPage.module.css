@@ -24,8 +24,28 @@
 }
 
 .profile_box {
-	border-right: 1px solid black;
 	flex: 2;
+	display: flex;
+	flex-direction: column;
+}
+
+.profile_picture {
+	flex: 5;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.profile_picture > span{
+	border-radius: 50%;
+}
+
+.profile_name {
+	flex: 2;
+	text-align: center;
+	line-height: 25px;
+	font-size: 30px;
+	font-weight: bold;
 }
 
 .status_box {
