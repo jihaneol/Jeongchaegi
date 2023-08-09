@@ -2,7 +2,14 @@ import { Router, useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 
-export default function ReactCalendar({ position, year, month, day, modalActive, getTargetDate }) {
+export default function ReactCalendar({
+  position,
+  year,
+  month,
+  day,
+  modalActive,
+  getTargetDate,
+}) {
   const [targetDate, setTargetDate] = useState(new Date());
   const [targetDay, setTargetDay] = useState(day);
 

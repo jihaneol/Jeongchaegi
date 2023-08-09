@@ -19,32 +19,40 @@ const Carousel = () => {
   };
 
   return (
-    <div className={style.carousel_wrap}>
-      <Slider {...settings}>
-        <div className={style.carousel_slide}>
-          <img
-            className={style.carousel_slide_img}
-            src="/testImg.jpg"
-            alt="Image 1"
-          />
-        </div>
-        <div className={style.carousel_slide}>
-          <img
-            className={style.carousel_slide_img}
-            src="/testImg.jpg"
-            alt="Image 2"
-          />
-        </div>
-        <div className={style.carousel_slide}>
-          <img
-            className={style.carousel_slide_img}
-            src="/testImg.jpg"
-            alt="Image 3"
-          />
-        </div>
-        {/* 여러분의 이미지를 계속 추가하세요 */}
-      </Slider>
-    </div>
+    <>
+      <div className="mx-auto my-10 max-w-screen-lg">
+        <Slider {...settings}>
+          <div
+            className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
+          >
+            <img
+              className={`${Style.carousel_slide_img} w-full h-full object-cover`}
+              src="/testImg.jpg"
+              alt="Image 1"
+            />
+          </div>
+          <div
+            className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
+          >
+            <img
+              className={`${Style.carousel_slide_img} w-full h-full object-cover`}
+              src="/testImg.jpg"
+              alt="Image 2"
+            />
+          </div>
+          <div
+            className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
+          >
+            <img
+              className={`${Style.carousel_slide_img} w-full h-full object-cover`}
+              src="/testImg.jpg"
+              alt="Image 3"
+            />
+          </div>
+          {/* 여러분의 이미지를 계속 추가하세요 */}
+        </Slider>
+      </div>
+    </>
   );
 };
 
