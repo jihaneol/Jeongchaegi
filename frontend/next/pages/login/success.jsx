@@ -43,6 +43,8 @@ export default function Success() {
 		})
 	}
 
+	
+
 	useEffect(() => {
 		async function fetchData() {
 			await setToken();
@@ -55,6 +57,6 @@ export default function Success() {
 	
 
   return (<div>
-		
+		<button onClick={getLoginData}>요청!!</button>
 	</div>);
 }
