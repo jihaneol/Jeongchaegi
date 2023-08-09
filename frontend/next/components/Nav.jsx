@@ -63,22 +63,12 @@ export default function Nav() {
         ) : (
           <button
             className={`${style.nav_logout} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
-            onClick={logout}
+            onClick={logoutHandler}
           >
             Logout
           </button>
         )}
       </div>
-
-      {!nickname ? (
-        <Link href="/login">
-          <a className={style.nav_login}>Login</a>
-        </Link>
-      ) : (
-        <button className={style.nav_logout} onClick={logoutHandler}>
-          Logout
-        </button>
-      )}
     </div>
   );
 }
