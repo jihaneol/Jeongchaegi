@@ -2,6 +2,7 @@ package com.oppas.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.oppas.entity.Member;
 import com.oppas.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,8 @@ public class JwtService {
     private static final String USER_CLAIM = "username";
     private static final String BEARER = "Bearer ";
 
-    private final MemberRepository userRepository;
+    private final MemberRepository memberRepository;
+
 
     /**
      * AccessToken 생성 메소드
@@ -89,9 +91,7 @@ public class JwtService {
      */
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken, boolean flag) {
         response.setStatus(HttpServletResponse.SC_OK);
-        System.out.println(accessToken);
-        log.info("에세스 {}",accessToken);
-        log.info("리프레쉬 {}", refreshToken);
+
         setAccessTokenHeader(response, accessToken, flag);
         setRefreshTokenHeader(response, refreshToken, flag);
     }
@@ -103,7 +103,8 @@ public class JwtService {
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
 
-        log.info("리프레쉬 토큰추출");
+        log.info(refreshHeader);
+        log.info(BEARER);
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -149,7 +150,6 @@ public class JwtService {
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken, boolean flag) {
         if (flag) {
             response.setHeader("accessToken", accessToken);
-
         } else {
             Cookie cookie = new Cookie("at", accessToken);
             cookie.setMaxAge(60 * 2);
@@ -174,6 +174,13 @@ public class JwtService {
             response.addCookie(cookie);
 
         }
+    }
+
+    public String reIssueRefreshToken(Member user) {
+        String reIssuedRefreshToken = createRefreshToken();
+        user.updateRefreshToken(reIssuedRefreshToken);
+        memberRepository.saveAndFlush(user);
+        return reIssuedRefreshToken;
     }
 
     /**

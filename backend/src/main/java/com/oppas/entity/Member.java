@@ -35,7 +35,7 @@ public class Member {
     // OAuth를 위해 구성한 추가 필드 2개
     private String provider;
     private String providerId;
-    private String kakoToken;
+    private String kakaoToken;
     @CreationTimestamp
     private Timestamp createDate;
     private String refreshToken; // 리프레시 토큰
