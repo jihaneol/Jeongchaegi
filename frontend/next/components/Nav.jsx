@@ -36,15 +36,15 @@ export default function Nav() {
         </Link>
       </div>
 
-      {at ? (
+      {/* {at ? ( */}
         <Link href="/login">
           <a className={style.nav_login}>Login</a>
         </Link>
-      ) : (
-        <button className={style.nav_logout} onClick={logout}>
-          Logout
-        </button>
-      )}
+      {/* // ) : (
+      //   <button className={style.nav_logout} onClick={logout}>
+      //     Logout
+      //   </button>
+      )} */}
     </div>
   );
 }
