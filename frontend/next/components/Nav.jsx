@@ -4,11 +4,13 @@ import Image from "next/image";
 import Logout from "./Logout";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 export default function Nav() {
   const [nickname, setNickname] = useState("");
   const logout = Logout();
   const userData = useSelector(state => state.user);
+  const router = useRouter();
 
   return (
     <div className={`${style.nav_wrap} bg-gray-800 text-white p-4`}>
@@ -29,9 +31,13 @@ export default function Nav() {
           </Link>
 
           {/* 일단 기본값 1로 라우팅 */}
-          <Link href={userData.isLogined ? `/mypage/${nickname}` : "/login"}>
+          {userData.isLogined ? (<Link href={`/mypage/${nickname}`}>
             <a className="text-2xl hover:text-blue-500">My Page</a>
-          </Link>
+          </Link>) : (() => {
+            alert("로그인이 필요한 페이지입니다.")
+            router.push("/login")
+          })}
+          
         </div>
         {!userData.isLogined ? (
           <Link href="/login">
