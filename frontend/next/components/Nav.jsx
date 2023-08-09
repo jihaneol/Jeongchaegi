@@ -5,24 +5,26 @@ import Logout from "./Logout";
 import { useEffect, useState } from "react";
 
 export default function Nav() {
-  const [nickname, setNickname] = useState("");
-  const logout =  Logout();
+  const [nickname, setNickname] = useState(
+    typeof window !== "undefined" ? localStorage.getItem("userName") || "" : ""
+  );
+  const logout = Logout();
 
   const logoutHandler = () => {
     logout();
     const name = localStorage.getItem("userName");
     setNickname(name || "");
-  }
+  };
 
   useEffect(() => {
     const handleStorageChange = () => {
       const name = localStorage.getItem("userName");
       setNickname(name || "");
       console.log("name : ", name);
-    }
+    };
 
     window.addEventListener("storage", handleStorageChange);
-    
+
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
