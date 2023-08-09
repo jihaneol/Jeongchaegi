@@ -9,9 +9,10 @@ export default function Nav() {
   const logout = Logout();
 
   useEffect(() => {
-    setNickname(localStorage.getItem("userNickName"));
-    console.log(localStorage.getItem("userNickName"));
-  }, [])
+    let name = localStorage.getItem("userName");
+    if (!name) name = "";
+    setNickname(name);
+  }, []);
 
   return (
     <div className={style.nav_wrap}>
@@ -31,20 +32,26 @@ export default function Nav() {
         </Link>
 
         {/* 일단 기본값 1로 라우팅 */}
-        <Link href={`/mypage/${nickname}`}>
-          <a>My Page</a>
-        </Link>
+        {nickname ? (
+          <Link href={`/mypage/${nickname}`}>
+            <a>My Page</a>
+          </Link>
+        ) : (
+          <Link href={`/login`}>
+            <a>My Page</a>
+          </Link>
+        )}
       </div>
 
-      {/* {at ? ( */}
+      {!nickname ? (
         <Link href="/login">
           <a className={style.nav_login}>Login</a>
         </Link>
-      {/* // ) : (
-      //   <button className={style.nav_logout} onClick={logout}>
-      //     Logout
-      //   </button>
-      )} */}
+      ) : (
+        <button className={style.nav_logout} onClick={logout}>
+          Logout
+        </button>
+      )}
     </div>
   );
 }
