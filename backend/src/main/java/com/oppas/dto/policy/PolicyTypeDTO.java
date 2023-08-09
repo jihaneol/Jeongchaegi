@@ -1,4 +1,4 @@
-package com.oppas.dto;
+package com.oppas.dto.policy;
 
 import lombok.Getter;
 import lombok.Setter;

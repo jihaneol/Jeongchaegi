@@ -1,6 +1,6 @@
 package com.oppas.repository.policy;
 
-import com.oppas.dto.PolicyFilterDTO;
+import com.oppas.dto.policy.PolicyFilterDTO;
 import com.oppas.entity.policy.Policy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,6 +1,6 @@
 package com.oppas.service;
 
-import com.oppas.dto.PolicySummaryDTO;
+import com.oppas.dto.policy.PolicySummaryDTO;
 import com.oppas.entity.Member;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.PolicyScrap;
