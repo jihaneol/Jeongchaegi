@@ -1,12 +1,9 @@
 package com.oppas.controller;
 
-import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.PolicyFilterDTO;
-import com.oppas.dto.PolicySummaryDTO;
+
 import com.oppas.dto.post.PostDetailDto;
 import com.oppas.dto.post.request.RequestPostDto;
 import com.oppas.dto.post.response.ResponsePostDto;
-import com.oppas.entity.Post;
 import com.oppas.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")

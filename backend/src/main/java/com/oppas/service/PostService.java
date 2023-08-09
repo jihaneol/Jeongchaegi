@@ -2,16 +2,11 @@ package com.oppas.service;
 
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.PolicySummaryDTO;
 import com.oppas.dto.post.PostDetailDto;
 import com.oppas.dto.post.request.RequestPostDto;
 import com.oppas.dto.post.response.ResponsePostDto;
 import com.oppas.entity.Member;
 import com.oppas.entity.Post;
-import com.oppas.entity.policy.Policy;
-import com.oppas.entity.policy.PolicyDate;
-import com.oppas.entity.policy.PolicyRegion;
-import com.oppas.entity.policy.PolicyType;
 import com.oppas.repository.MemberRepository;
 import com.oppas.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 import java.util.Optional;
 
 @Service
