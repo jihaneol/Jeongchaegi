@@ -35,12 +35,13 @@ public class Member {
     // OAuth를 위해 구성한 추가 필드 2개
     private String provider;
     private String providerId;
+    private String kakoToken;
     @CreationTimestamp
     private Timestamp createDate;
     private String refreshToken; // 리프레시 토큰
     private boolean sign;
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
+    private final List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
 
     //	@ColumnDefault("false")
 //	@Column(columnDefinition = "TINYINT(1)")
