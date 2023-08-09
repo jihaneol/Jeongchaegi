@@ -85,7 +85,7 @@ public class MemberController {
     public MemberResponse updateMember(Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
-        System.out.println(member.getId());
+        System.out.println(member.getPolicyMemberMappeds());
         return new MemberResponse(member);
     }
 
@@ -117,6 +117,7 @@ public class MemberController {
             private String type;
 
             public PolicyMemberDTO(PolicyMemberMapped policyMember) {
+                System.out.println(policyMember.getId());
                 id = policyMember.getPolicyType().getId();
                 type = policyMember.getPolicyType().getType();
             }
