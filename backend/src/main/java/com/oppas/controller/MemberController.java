@@ -75,12 +75,13 @@ public class MemberController {
 
     // 회원 정보 전달
     @GetMapping("/info")
-    public MemberResponse info(Authentication authentication) {
+    public ResponseEntity<?> info(Authentication authentication) {
         log.info("회원 정보 전달 하기");
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Long id = principalDetails.getId();
         Member member = memberRepository.findMember(id);
-        return new MemberResponse(member);
+
+        return new ResponseEntity<>(new MemberResponse(member),HttpStatus.OK);
     }
 
     // 회원 정보 수정
