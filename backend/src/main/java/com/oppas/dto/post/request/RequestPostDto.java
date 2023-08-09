@@ -4,6 +4,8 @@ import com.oppas.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class RequestPostDto {
@@ -15,6 +17,8 @@ public class RequestPostDto {
     private Member member;
 
     private String content;
+
+    private LocalDateTime createdAt;
 
     public void setMember(Member member){
         this.member = member;
