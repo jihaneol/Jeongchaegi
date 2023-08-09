@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import OurAxios from "../config/ourAxios";
 
 export default function Logout() {
-	const [tokens, setTokens] = useState({refreshToken: ""});
+	const [tokens, setTokens] = useState("");
 
 	useEffect(() => {
 		setTokens(localStorage.getItem("refreshToken"));
@@ -12,7 +12,7 @@ export default function Logout() {
     const api = OurAxios();
     api.delete("/members/logout/", {
       headers: {
-        Authorization_refresh: `Bearer ${tokens.refreshToken}`,
+        Authorization_refresh: `Bearer ${tokens}`,
       },
     }).then(() => {
 			localStorage.removeItem("accessToken");

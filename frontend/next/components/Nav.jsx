@@ -12,7 +12,7 @@ export default function Nav() {
     let name = localStorage.getItem("userName");
     if (!name) name = "";
     setNickname(name);
-  }, []);
+  }, [nickname]);
 
   return (
     <div className={style.nav_wrap}>
