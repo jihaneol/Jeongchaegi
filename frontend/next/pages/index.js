@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <div className={style.all_wrapper}>
-      <Nav />
+      <Nav/>
       <Modal modalFlag={modalFlag} onClose={onClose} targetDate={targetDate} />
       <div
         onClick={onClose}
