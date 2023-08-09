@@ -1,13 +1,18 @@
+.carousel_wrap {
+  height: 100vh;
+}
+
 .carousel_slide {
+  margin-top: 20px;
   display: flex !important; /* 우선순위를 높여 스타일을 강제로 적용 */
   justify-content: center; /* 가로 방향 중앙 정렬 */
   align-items: center; /* 세로 방향 중앙 정렬 */
-  height: 400px; /* 원하는 높이 지정 */
+  height: 650px; /* 원하는 높이 지정 */
 }
 
 /* 이미지 스타일 */
 .carousel_slide_img {
-  width: 70%; /* 이미지가 너무 크면 슬라이드를 벗어나지 않도록 */
+  width: 600px; /* 이미지가 너무 크면 슬라이드를 벗어나지 않도록 */
   height: 100%; /* 이미지가 너무 크면 슬라이드를 벗어나지 않도록 */
 }
 
