@@ -53,7 +53,9 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/user/**").access("hasRole('ROLE_USER')")
-                .antMatchers(HttpMethod.DELETE, "member/logout").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/member/logout","/api/posts/*").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/posts").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/posts").authenticated()
                 .anyRequest().permitAll();
 
         http

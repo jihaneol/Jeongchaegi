@@ -9,10 +9,9 @@ export default function Nav() {
   const logout = Logout();
 
   useEffect(() => {
-    let name = localStorage.getItem("userName");
-    if (!name) name = "";
-    setNickname(name);
-  }, [nickname]);
+    const name = localStorage.getItem("userName");
+    setNickname(name || "");
+  }, []);
 
   return (
     <div className={`${style.nav_wrap} bg-gray-800 text-white p-4`}>
