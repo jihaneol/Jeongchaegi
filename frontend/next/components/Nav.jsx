@@ -29,11 +29,10 @@ export default function Nav() {
           </Link>
 
           {/* 일단 기본값 1로 라우팅 */}
-          <Link href={`/mypage/${nickname}`}>
+          <Link href={`userData.isLogined ? /mypage/${nickname} : /login`}>
             <a className="text-2xl hover:text-blue-500">My Page</a>
           </Link>
         </div>
-        {/* {at ? ( */}
         {!userData.isLogined ? (
           <Link href="/login">
             <a
