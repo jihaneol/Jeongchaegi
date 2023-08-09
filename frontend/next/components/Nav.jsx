@@ -3,12 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import Logout from "./Logout";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Nav() {
-  const [nickname, setNickname] = useState(
-    typeof window !== "undefined" ? localStorage.getItem("userName") || "" : ""
-  );
+  const [nickname, setNickname] = useState("");
   const logout = Logout();
+  const userData = useSelector(state => state.user);
 
   return (
     <div className={`${style.nav_wrap} bg-gray-800 text-white p-4`}>
@@ -34,7 +34,7 @@ export default function Nav() {
           </Link>
         </div>
         {/* {at ? ( */}
-        {!nickname ? (
+        {!userData.isLogined ? (
           <Link href="/login">
             <a
               className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}

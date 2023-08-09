@@ -13,6 +13,7 @@ const initialUserState = {
   age: 0,
   nickname: "",
   policyType: [],
+  isLogined: false,
 };
 
 // 유저 리듀서 및 메서드 속성 생성
@@ -20,11 +21,11 @@ const userSlice = createSlice({
   name: "user",
   initialState: initialUserState,
   reducers: {
+    setisLogined(state, action) { 
+      state.isLogined = action.payload;
+      console.log("state-isLogined: ", state.isLogined);
+    },
     setPolicyType(state, action) {
-      // const typeArray = [];
-      // action.payload.map((type) => {
-      //   typeArray.push(type.index);
-      // });
       state.policyType = action.payload;
       console.log(state.policyType);
     },
