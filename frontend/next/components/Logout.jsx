@@ -17,6 +17,13 @@ export default function Logout() {
     }).then(() => {
 			localStorage.removeItem("accessToken");
 			localStorage.removeItem("refreshToken");
+			localStorage.removeItem("userName");
+			localStorage.removeItem("userAge");
+			localStorage.removeItem("userCity");
+			localStorage.removeItem("userImg");
+			localStorage.removeItem("userID");
+			localStorage.removeItem("userPolicy");
+			router.push("/");
 		});
   }
 
