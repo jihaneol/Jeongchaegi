@@ -10,26 +10,6 @@ export default function Nav() {
   );
   const logout = Logout();
 
-  const logoutHandler = () => {
-    logout();
-    const name = localStorage.getItem("userName");
-    setNickname(name || "");
-  };
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const name = localStorage.getItem("userName");
-      setNickname(name || "");
-      console.log("name : ", name);
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
   return (
     <div className={`${style.nav_wrap} bg-gray-800 text-white p-4`}>
       <div className={`${style.nav_menu} flex justify-between items-center`}>
@@ -65,7 +45,7 @@ export default function Nav() {
         ) : (
           <button
             className={`${style.nav_logout} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
-            onClick={logoutHandler}
+            onClick={logout}
           >
             Logout
           </button>
