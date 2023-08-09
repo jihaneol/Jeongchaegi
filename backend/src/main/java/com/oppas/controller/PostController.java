@@ -1,7 +1,6 @@
 package com.oppas.controller;
 
 
-import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.dto.post.request.RequestPostDto;
 import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
@@ -63,14 +62,12 @@ public class PostController {
 
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity deletePost(Authentication authentication, Long postId) {
+    public ResponseEntity deletePost(Authentication authentication, @PathVariable Long postId) {
 
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        long memberId = principalDetails.getId();
 
-        postService.removePost(memberId, postId);
+        HttpStatus httpStatus =  postService.removePost(authentication, postId);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(httpStatus);
     }
 
 }
