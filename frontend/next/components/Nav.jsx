@@ -12,6 +12,11 @@ export default function Nav() {
   const userData = useSelector(state => state.user);
   const router = useRouter();
 
+  const logoutHandler = () => {
+    logout();
+    router.push("/");
+  }
+
   useEffect(() => {
     const name = localStorage.getItem("userName");
     setNickname(name)
@@ -56,7 +61,7 @@ export default function Nav() {
         ) : (
           <button
             className={`${style.nav_logout} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
-            onClick={logout}
+            onClick={logoutHandler}
           >
             Logout
           </button>

@@ -29,7 +29,6 @@ export default function Logout() {
 			dispatch(userActions.setisLogined(false));
 		}).then(() => {
 			alert("정상적으로 로그아웃 되었습니다.")
-			router.push("/");
 		});
   }
 
