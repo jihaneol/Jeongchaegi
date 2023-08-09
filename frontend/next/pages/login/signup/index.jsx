@@ -23,6 +23,10 @@ export default function UserInfo() {
   }
 
   function submitUserInfo() {
+    if (userData.age < 18 || userData.age > 99) {
+      alert(`18세 이상 100세 미만의 회원은 추천 정책을 받아보실 수 없습니다.
+      "마이페이지 -> 회원 정보 수정 탭"에서 수정할 수 있습니다.`)
+    }
     api.post("/members/signup", {
       policyId: userData.policyType,
       age: userData.age,
