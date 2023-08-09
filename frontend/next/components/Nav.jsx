@@ -6,11 +6,26 @@ import { useEffect, useState } from "react";
 
 export default function Nav() {
   const [nickname, setNickname] = useState("");
-  const logout = Logout();
+  const logout =  Logout();
 
-  useEffect(() => {
+  const logoutHandler = () => {
+    logout();
     const name = localStorage.getItem("userName");
     setNickname(name || "");
+  }
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const name = localStorage.getItem("userName");
+      setNickname(name || "");
+      console.log("name : ", name);
+    }
+
+    window.addEventListener("storage", handleStorageChange);
+    
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   return (
@@ -47,7 +62,7 @@ export default function Nav() {
           <a className={style.nav_login}>Login</a>
         </Link>
       ) : (
-        <button className={style.nav_logout} onClick={logout}>
+        <button className={style.nav_logout} onClick={logoutHandler}>
           Logout
         </button>
       )}
