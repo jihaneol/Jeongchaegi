@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,13 +90,16 @@ public class PostService {
     }
 
     @Transactional
-    public void removePost(Long memberId,Long postId){
+    public HttpStatus removePost(Authentication authentication, Long postId){
 
 
         Post post =  postRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
-
-        if(memberId==post.getMember().getId()){
-
+        if(post.getMember().getId()==(((PrincipalDetails)(authentication.getPrincipal())).getMember().getId())){
+            postRepository.delete(post);
+            return HttpStatus.OK;
+        }
+        else{
+            return HttpStatus.FORBIDDEN;
         }
     }
 
