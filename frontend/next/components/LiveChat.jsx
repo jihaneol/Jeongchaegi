@@ -85,12 +85,15 @@ export default function LiveChat(props) {
       <ul className="bg-white shadow-md rounded p-4 mb-4">
         {messages.map((msg, index) => {
           let content = typeof msg === "string" ? JSON.parse(msg) : msg;
+          console.log(typeof content.createdAt);
+          const timePart = content.createdAt.split(" ")[1];
+          const [hours, minutes] = timePart.split(":");
+
+          const timeString = `${hours}:${minutes}`;
           return (
             <li key={index} className="border-b last:border-b-0 pb-2 mb-2">
-              <strong className="text-gray-700">내용:</strong> {content.message}
-              <span className="text-gray-500 ml-4">
-                시간: {content.createdAt}
-              </span>
+              <strong className="text-gray-700">{content.message}</strong>
+              <span className="text-gray-500 ml-4">{timeString}</span>
             </li>
           );
         })}
@@ -98,7 +101,7 @@ export default function LiveChat(props) {
       <div className="flex items-center">
         <input
           onChange={handleMessage}
-          placeholder="응애~"
+          placeholder="채팅을 입력해주세요!!"
           value={inputMessage}
           className="flex-grow p-2 rounded border focus:outline-none focus:border-blue-500 mr-2"
         />
