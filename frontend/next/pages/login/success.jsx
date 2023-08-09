@@ -49,7 +49,7 @@ export default function Success() {
 			getLoginData();
 		}
 		fetchData().then(() => {
-			router.push("/");
+			// router.push("/");
 		});
 	}, []);
 	
