@@ -1,8 +1,10 @@
-package com.oppas.dto.post;
+package com.oppas.dto.post.response;
 
 import com.oppas.entity.Post;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -17,6 +19,8 @@ public class PostDetailDto {
     private String title;
 
     private String content;
+
+    private LocalDateTime createdAt;
 
 
     public static PostDetailDto createPostDetailDto(Post post){
