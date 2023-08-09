@@ -12,6 +12,13 @@ export default function Nav() {
   const userData = useSelector(state => state.user);
   const router = useRouter();
 
+  function myPageRoute() {
+    userData.isLogined ? (router.push(`/mypage/${nickname}`)) : (() => {
+      alert("로그인이 필요한 페이지입니다.");
+      router.push("/login")
+    })
+  }
+
   return (
     <div className={`${style.nav_wrap} bg-gray-800 text-white p-4`}>
       <div className={`${style.nav_menu} flex justify-between items-center`}>
@@ -31,13 +38,7 @@ export default function Nav() {
           </Link>
 
           {/* 일단 기본값 1로 라우팅 */}
-          {userData.isLogined ? (<Link href={`/mypage/${nickname}`}>
-            <a className="text-2xl hover:text-blue-500">My Page</a>
-          </Link>) : (() => {
-            alert("로그인이 필요한 페이지입니다.")
-            router.push("/login")
-          })}
-          
+          <button className="text-2xl hover:text-blue-500" onClick={myPageRoute}>MyPage</button>
         </div>
         {!userData.isLogined ? (
           <Link href="/login">
