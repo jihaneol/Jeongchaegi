@@ -35,6 +35,7 @@ export default function UserInfo() {
         "마이페이지 -> 회원 정보 수정 탭"에서 수정할 수 있습니다.`)
       }
       router.push("/login/signup/success");
+      localStorage.removeItem("accessToken");
     }).catch((err) => {
       console.log(err);
     });
