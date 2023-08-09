@@ -64,6 +64,7 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
       </div>
       <div className={style.policy_filter_list_wrapper}>
         <div className="d-flex">
+          {/* 정책 타입 필터 */}
           <h1>types</h1>
           {typedata
             ? typedata.map((item) => (
@@ -82,13 +83,15 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
               ))
             : "loading..."}
         </div>
+        {/* 지역 필터, 컴포넌트 */}
         <div className="d-flex">
           <h1>region</h1>
           <SelectPlace />
         </div>
+        {/* 나이 필터, 인풋 */}
         <div className="d-flex">
           <h1>age</h1>
-          <input type="text" onChange={handleAge} />
+          <input type="number" onChange={handleAge} />
         </div>
       </div>
     </div>

@@ -112,9 +112,9 @@ export default function PolicyList() {
     setIsLoadingList((isLoadingList)=>!isLoadingList)
     console.log(page);
     console.log(lastPage);
-    axios({
+    api({
       method: "get",
-      url: "http://3.36.131.236:8081/api/policies",
+      url: "http://3.36.131.236/api/policies",
       params: {
         ...paramobj,
         pageIndex: page,
