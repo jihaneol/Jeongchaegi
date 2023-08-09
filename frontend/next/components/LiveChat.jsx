@@ -72,30 +72,43 @@ export default function LiveChat(props) {
   };
 
   return (
-    <div>
-      <div>
-        <button type="button" onClick={onClick}>
+    <div className="bg-gray-100 min-h-screen p-5">
+      <div className="mb-4">
+        <button
+          type="button"
+          onClick={onClick}
+          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 focus:outline-none"
+        >
           이전 내역
         </button>
       </div>
-      <ul>
+      <ul className="bg-white shadow-md rounded p-4 mb-4">
         {messages.map((msg, index) => {
           let content = typeof msg === "string" ? JSON.parse(msg) : msg;
           return (
-            <li key={index}>
-              내용: {content.message} !!!!!!! 시간: {content.createdAt}
+            <li key={index} className="border-b last:border-b-0 pb-2 mb-2">
+              <strong className="text-gray-700">내용:</strong> {content.message}
+              <span className="text-gray-500 ml-4">
+                시간: {content.createdAt}
+              </span>
             </li>
           );
         })}
       </ul>
-      <input
-        onChange={handleMessage}
-        placeholder="응애~"
-        value={inputMessage}
-      ></input>
-      <button onClick={() => sendMessage("super sexy 심경섭!")}>
-        Send Message
-      </button>
+      <div className="flex items-center">
+        <input
+          onChange={handleMessage}
+          placeholder="응애~"
+          value={inputMessage}
+          className="flex-grow p-2 rounded border focus:outline-none focus:border-blue-500 mr-2"
+        />
+        <button
+          onClick={sendMessage}
+          className="bg-green-500 text-white p-2 rounded hover:bg-green-700 focus:outline-none"
+        >
+          Send Message
+        </button>
+      </div>
     </div>
   );
 }

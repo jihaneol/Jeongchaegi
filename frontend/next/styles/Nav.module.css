@@ -1,10 +1,9 @@
-.nav_wrap {
+/* .nav_wrap {
   display: flex;
   justify-content: space-between;
   min-width: 100%;
   min-height: 5rem;
   align-items: center;
-  background-color: #5383ff;
   position: fixed;
   z-index: 500;
   top: 0px;
@@ -17,9 +16,9 @@
   min-width: 60%;
 }
 
-.nav_logo {
-  /* background-image: url("../../img/Logo.png"); */
-  background-size: cover;
+.nav_logo { */
+/* background-image: url("../../img/Logo.png"); */
+/* background-size: cover;
   min-height: 4.5rem;
   min-width: 10.5rem;
   height: inherit;
@@ -55,4 +54,4 @@
   text-decoration: none;
   border: none;
   background-color: #5383ff;
-}
+} */

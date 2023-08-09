@@ -11,40 +11,45 @@ export default function Nav() {
   useEffect(() => {
     setNickname(localStorage.getItem("userNickName"));
     console.log(localStorage.getItem("userNickName"));
-  }, [])
+  }, []);
 
   return (
-    <div className={style.nav_wrap}>
-      <div className={style.nav_menu}>
-        <Link href="/">
-          <a>
-            <Image src="/Logo.PNG" width="130px" height="64px" alt="정채기" />
+    <div className={`${style.nav_wrap} bg-gray-800 text-white p-4`}>
+      <div className={`${style.nav_menu} flex justify-between items-center`}>
+        <div className="flex items-center space-x-6">
+          <Link href="/">
+            <a>
+              <Image src="/Logo.PNG" width="130px" height="64px" alt="정채기" />
+            </a>
+          </Link>
+
+          <Link href="/articlelist">
+            <a className="text-2xl hover:text-blue-500">게시판</a>
+          </Link>
+
+          <Link href="/policylist">
+            <a className="text-2xl hover:text-blue-500">정책 리스트</a>
+          </Link>
+
+          {/* 일단 기본값 1로 라우팅 */}
+          <Link href={`/mypage/${nickname}`}>
+            <a className="text-2xl hover:text-blue-500">My Page</a>
+          </Link>
+        </div>
+        {/* {at ? ( */}
+        <Link href="/login">
+          <a
+            className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
+          >
+            Login
           </a>
         </Link>
-
-        <Link href="/articlelist">
-          <a>게시판</a>
-        </Link>
-
-        <Link href="/policylist">
-          <a>정책 리스트</a>
-        </Link>
-
-        {/* 일단 기본값 1로 라우팅 */}
-        <Link href={`/mypage/${nickname}`}>
-          <a>My Page</a>
-        </Link>
-      </div>
-
-      {/* {at ? ( */}
-        <Link href="/login">
-          <a className={style.nav_login}>Login</a>
-        </Link>
-      {/* // ) : (
-      //   <button className={style.nav_logout} onClick={logout}>
+        {/* // ) : (
+      //   <button className={`${style.nav_logout} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`} onClick={logout}>
       //     Logout
       //   </button>
       )} */}
+      </div>
     </div>
   );
 }
