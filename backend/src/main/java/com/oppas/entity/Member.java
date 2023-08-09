@@ -65,4 +65,13 @@ public class Member {
         this.age = userSignUpDTO.getAge();
         this.nickname = userSignUpDTO.getNickname();
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                '}';
+    }
 }
