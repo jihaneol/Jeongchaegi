@@ -1,15 +1,17 @@
 package com.oppas.controller;
 
 
+import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.dto.post.request.RequestPostDto;
 import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
+import com.oppas.service.CommentService;
 import com.oppas.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,12 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
     @PostMapping//게시글 작성
-    public ResponseEntity registPost(Authentication authentication, @RequestBody RequestPostDto requestPostDto) throws Exception {
+    public ResponseEntity registPost(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody RequestPostDto requestPostDto) throws Exception {
 
 
-        postService.savePost(authentication, requestPostDto);
+        postService.savePost(principalDetails, requestPostDto);
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -43,16 +46,18 @@ public class PostController {
         PostDetailDto postDetailDto = postService.getPost(postId);
 
         if (postDetailDto != null) {
+//            List<Comment> commentList = commentService.getListComment();
+
             return new ResponseEntity(postDetailDto, HttpStatus.OK);
         } else
             return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping
-    public ResponseEntity updatePost(Authentication authentication, @RequestBody RequestPostDto requestPostDto) {
+    public ResponseEntity updatePost(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody RequestPostDto requestPostDto) {
 
 
-        postService.modifyPost(authentication, requestPostDto);
+        postService.modifyPost(principalDetails, requestPostDto);
 
         return new ResponseEntity(HttpStatus.OK);
 
@@ -60,10 +65,10 @@ public class PostController {
 
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity deletePost(Authentication authentication, @PathVariable Long postId) {
+    public ResponseEntity deletePost(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long postId) {
 
 
-        HttpStatus httpStatus =  postService.removePost(authentication, postId);
+        HttpStatus httpStatus =  postService.removePost(principalDetails, postId);
 
         return new ResponseEntity(httpStatus);
     }
