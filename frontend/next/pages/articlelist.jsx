@@ -18,6 +18,8 @@ export default function ArticleList() {
 
   // 시작할때 데이터 받고 시작
   useEffect(() => {
+    page = 1;
+    lastPage = 999999;
     getArticleData(page);
   }, []);
   
@@ -53,7 +55,7 @@ export default function ArticleList() {
   function btnNextPage() {
     if (page < lastPage) {
       page += 1;
-      getArticleData();
+      getArticleData(page);
     }
   }
 
