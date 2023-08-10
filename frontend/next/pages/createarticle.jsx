@@ -38,7 +38,7 @@ export default function CreateArticle() {
     }).catch((err) => {
       console.log(err);
     });
-    router.reload('/articlelist')
+    router.push('/articlelist')
   }
 
   function handleTitle(e) {
