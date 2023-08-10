@@ -74,7 +74,7 @@ export default function OurAxios() {
             };
             localStorage.setItem("accessToken", tokens.accessToken);
             localStorage.setItem("refreshToken", tokens.refreshToken);
-            localStoragesetItem("kakaoToken", tokens.kakaoToken);
+            localStorage.setItem("kakaoToken", tokens.kakaoToken);
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);
