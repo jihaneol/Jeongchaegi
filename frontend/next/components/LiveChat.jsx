@@ -1,15 +1,16 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import useStompClient from "./hooks/useStompClient";
 import axios from "axios";
 
 export default function LiveChat(props) {
   const [inputMessage, setInputMessage] = useState("");
   const { client, messages, setMessages } = useStompClient(
-    "http://localhost:8081/api/policychat",
+    "http://3.36.131.236/api/policychat",
     `/sub/policychat${props.pageId}`
   );
-  // ws://3.36.131.236:8081/api/policy
-  // http://localhost:8081/api/policy
+  // ws://3.36.131.236/api/policychat
+  // http://localhost/api/policychat
 
   const handleMessage = (e) => {
     setInputMessage(e.target.value);
