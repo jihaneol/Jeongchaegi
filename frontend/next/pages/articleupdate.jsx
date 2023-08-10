@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import OurAxios from "../config/ourAxios";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -13,14 +14,18 @@ const MDEditor = dynamic(
 
 export default function ArticleUpdate() {
   const [mytitle, setTitle] = useState("");
-  const [value, setValue] = useState("**Hello world!!!**");
+  const [value, setValue] = useState("");
   const api = OurAxios();
+  const router = useRouter()
 
   // usestate(업데이트 할때 기본 데이터 넣어줘야 함)
   useEffect(() => {
     axios({
-      url:``
-    });
+      url:`http://3.36.131.236/api/posts/${router.query}`
+    })
+    .then((res)=>{
+      console.log(res);
+    })
   }, []);
 
   // 함수 목록
