@@ -39,6 +39,8 @@
 
 .card_wrapper {
 	border-top: 1px solid black;
+	padding: 10px;
+	line-height: 70px;
 }
 
 .card_box_wrap {
@@ -48,6 +50,7 @@
 
 .card_box_id {
 	width: 50px;
+	text-align: center;
 }
 
 .card_box_center {
@@ -63,6 +66,7 @@
 }
 
 .card_box_notice {
+	text-align: center;
 	width: 50px;
 }
 
