@@ -5,8 +5,9 @@ export default function ArticleListItem({ obj, onItemClick }) {
   return (
     <>
       {obj.map((item) => (
-        <div key={item.id} onClick={() => onItemClick(item.id)}>
-          <p>{item.title}</p>
+        <div key={item.id} onClick={() => onItemClick(item.id)} className='d-flex'>
+          <p>제목 : {item.title ? item.title : '제목 없음'}/</p>
+          <p>작성자 : {item.nickname}</p>
         </div>
       ))}
     </>
