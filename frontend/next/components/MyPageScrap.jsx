@@ -45,27 +45,23 @@ export default function MyPageScrap() {
 
   return (
     <div className={style.scrap_wrapper}>
-      {!isLoading ? (
-        !myScrap ? (
-          <div>스크랩한 정책이 없습니다.</div>
-        ) : (
-          <div className={style.scrap_content}>
-            <div className={style.scrap_card_wrapper}>
-              {myScrap.slice(0, 4).map((item) => {
-                return (
-                  <div key={item.id} className={style.scrap_card}>
-                    {item.polyBizSjnm}
-                  </div>
-                );
-              })}
-            </div>
-            <Link href={`/myscrap/${userName}`}>
-              <a className={style.scrap_seeMore}>더보기</a>
-            </Link>
-          </div>
-        )
+      {!myScrap ? (
+        <div>스크랩한 정책이 없습니다.</div>
       ) : (
-        <Spin />
+        <div className={style.scrap_content}>
+          <div className={style.scrap_card_wrapper}>
+            {myScrap.slice(0, 4).map((item) => {
+              return (
+                <div key={item.id} className={style.scrap_card}>
+                  {item.polyBizSjnm}
+                </div>
+              );
+            })}
+          </div>
+          <Link href={`/myscrap/${userName}`}>
+            <a className={style.scrap_seeMore}>더보기</a>
+          </Link>
+        </div>
       )}
     </div>
   );
