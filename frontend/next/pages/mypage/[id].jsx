@@ -2,41 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Nav from "../../components/Nav";
 import style from "../../styles/MyPage.module.css";
-import OurAxios from "../../config/ourAxios";
+import MyPageScrap from "../../components/MyPageScrap";
 
 export default function Page() {
   // 변수
   const router = useRouter();
   const myStatus = ["스크랩수", "작성글", "팔로우", "팔로워"];
-  const api = OurAxios();
 
   // state
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
   const [policyType, setPolicyType] = useState(false) // false == 스크랩, true == 알림
-  const [myScrap, setMyScrap] = useState([]);
   const [myNotice, setMyNotice] = useState([]);
   
   async function getUserData() {
     setUserImg(localStorage.getItem("userImg"))
     setUserName(localStorage.getItem("userName"))
-    setUserId(localStorage.getItem("userID"))
-  }
-
-  async function getScrapList() {
-    const id = localStorage.getItem("userID");
-    console.log("id: ", id);
-    api.get(`/scraps/my-scrap/members/${id}/`, {
-      params: {
-        pageIndex: 1,
-      }
-    }).then((res) => {
-      setMyScrap(res);
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-    })
   }
   
   function scrapClick() {
@@ -48,7 +29,7 @@ export default function Page() {
   }
 
   useEffect(() => {
-    getUserData().then(getScrapList());
+    getUserData();
   }, [])
   
   return (
@@ -94,7 +75,9 @@ export default function Page() {
               <button onClick={noticeClick} className={!policyType ? style.off : ""}>알림</button>
             </div>
           </div>
-          <div className={style.policyList_content}>정책 리스트</div>
+          <div className={style.policyList_content}>
+            {!policyType ? (<MyPageScrap />) : ("")}
+          </div>
         </div>
         <div className={style.followerList_wrapper}>
           <div className={style.followerList_header}>팔로워 목록</div>
