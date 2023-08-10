@@ -8,7 +8,7 @@
 	position: absolute;
 	background-color: #99B5FF;
 	top: 15%;
-	width: 1050px;
+	width: 50%;
 	height: 1000px;
 	left: 50%;
 	transform: translateX(-50%);
@@ -60,7 +60,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 35px;
+	font-size: 30px;
 }
 
 .status_content{
@@ -72,7 +72,7 @@
 
 .status_card {
 	margin: 10px;
-	width: 125px;
+	width: 100px;
 	height: 100px;
 	display: flex;
 	flex-direction: column;
@@ -84,7 +84,7 @@
 .status_card_header {
 	flex: 2;
 	font-weight: bold;
-	font-size: 25px;
+	font-size: 20px;
 	text-align: center;
 }
 
@@ -104,30 +104,44 @@
 }
 
 .status_footer_button {
-	width: 200px;
-	height: 50px;
+	width: 280px;
+	height: 45px;
 	border: none;
 	background-color: #5D5A88;
 	color: white;
 	border-radius: 30px;
 }
 
-.articleList_wrapper {
+.policyList_wrapper {
 	height: 330px;
 	width: 100%;
 	border: 1px solid black;
 }
 
-.articleList_header {
+.policyList_header {
 	border-bottom: 1px solid black;
 	height: 70px;
-	font-size: 50px;
+	font-size: 30px;
 	line-height: 70px;
 	font-weight: bold;
-	padding-left: 20px;
+	padding: 0px 20px;
+	display: flex;
+	justify-content: space-between;
 }
 
-.articleList_content {
+.polisyList_type{
+	display: flex;
+	font-size: 20px;
+	line-height: 100px;
+	justify-content: space-evenly;
+	width: 20%;
+}
+
+.off {
+	color: gray;
+}
+
+.policyList_content {
 	height: 260px;
 }
 
@@ -139,8 +153,8 @@
 
 .followerList_header {
 	border-bottom: 1px solid black;
-	height: 70px;
-	font-size: 50px;
+	height: 70px;	
+	font-size: 30px;
 	line-height: 70px;
 	font-weight: bold;
 	padding-left: 20px;

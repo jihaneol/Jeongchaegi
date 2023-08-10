@@ -40,7 +40,7 @@ export default function PolicyList() {
 
   // useEffect 관리 모음
   useEffect(() => {
-    console.log('why?', router);
+    console.log("why?", router);
     page = 1;
     lastPage = 9999999;
     setpcy([]);
@@ -122,26 +122,24 @@ export default function PolicyList() {
       //   lol: 'lol'
       // },
     })
-    // api.get('/policies?pageIndex=1')
-    .then((res) => {
-      if (!pcydata) {
-        console.log(res.request.responseURL);  // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
-        lastPage = res.data.totalPages;  // 그래도 처음꺼 더 바꾸기 귀찮아서 내버려 둠
-        setpcy([...res.data.content]);
-      } else {
-        console.log(res.request.responseURL);
-        lastPage = res.data.totalPages;
-        setpcy((pcydata) => [...pcydata, ...res.data.content]);
-      }
-    }
-    )
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(()=>{
-      setIsLoadingList((isLoadingList)=>!isLoadingList)
-    })
-
+      // api.get('/policies?pageIndex=1')
+      .then((res) => {
+        if (!pcydata) {
+          console.log(res.request.responseURL); // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
+          lastPage = res.data.totalPages; // 그래도 처음꺼 더 바꾸기 귀찮아서 내버려 둠
+          setpcy([...res.data.content]);
+        } else {
+          console.log(res.request.responseURL);
+          lastPage = res.data.totalPages;
+          setpcy((pcydata) => [...pcydata, ...res.data.content]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoadingList((isLoadingList) => !isLoadingList);
+      });
   }
 
   // 스크롤 이벤트 감시
@@ -216,13 +214,9 @@ export default function PolicyList() {
         <PolicyListSort />
 
         {/* pcylist */}
-        <div className={!pcydata ? style.loading : style.pcylist}>
-          {pcydata ? (
-            <PcyListItem obj={pcydata} onItemClick={handleItemClick} /> // 그냥 리스트 통째로 프롭함
-          ) : (
-            <Spin />
-          )}
-          {isLoadingList ? "" : ""}
+        <div className={isLoadingList ? style.loading : style.pcylist}>
+          <PcyListItem obj={pcydata} onItemClick={handleItemClick} />
+          {isLoadingList ? (<Spin />) : ""}
         </div>
       </div>
     </div>

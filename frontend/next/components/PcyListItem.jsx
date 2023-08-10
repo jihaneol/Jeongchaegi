@@ -6,7 +6,7 @@ export default function PcyListItem({ obj, onItemClick }) {
 
   return (
     <>
-      {obj.map((item, index) => (
+      {obj?.map((item, index) => (
         <div
           className={`card ${styles.card_wrapper}`}
           onClick={() => onItemClick(item.id)}
