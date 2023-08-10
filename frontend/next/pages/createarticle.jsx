@@ -20,6 +20,14 @@ export default function CreateArticle() {
   // 함수 목록
   function mySubmit(e) {
     e.preventDefault();
+    if (!mytitle) {
+      alert('제목을 입력하세요!')
+      return
+    }
+    else if(!value){
+      alert('내용을 입력하세요!')
+      return
+    }
     console.log('title :', mytitle);
     console.log('value :', value);
     api.post("/posts", {
