@@ -60,6 +60,12 @@
     min-height: 8rem;
 }
 
+.loading {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
 .search_query{
     padding: 1rem;
 }
