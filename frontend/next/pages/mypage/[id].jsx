@@ -22,7 +22,7 @@ export default function Page() {
   useEffect(() => {
     setUserImg(localStorage.getItem("userImg"))
     setUserName(localStorage.getItem("userName"))
-    setUserId(localStorage.getItem("userId"))
+    setUserId(localStorage.getItem("userID"))
   }, [])
 
   async function getScrapList() {
