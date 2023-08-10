@@ -18,12 +18,11 @@ export default function Page() {
   const [myScrap, setMyScrap] = useState([]);
   const [myNotice, setMyNotice] = useState([]);
   
-
-  useEffect(() => {
+  async function getUserData() {
     setUserImg(localStorage.getItem("userImg"))
     setUserName(localStorage.getItem("userName"))
     setUserId(localStorage.getItem("userID"))
-  }, [])
+  }
 
   async function getScrapList() {
     api.get(`/scraps/my-scrap/members/${userId}/`, {
@@ -37,19 +36,19 @@ export default function Page() {
       console.log(err);
     })
   }
-
-  useEffect(() => {
-    getScrapList();
-  }, [])
-
+  
   function scrapClick() {
     setPolicyType(false);
   }
-
+  
   function noticeClick() {
     setPolicyType(true);
   }
 
+  useEffect(() => {
+    getUserData().then(getScrapList());
+  }, [])
+  
   return (
     <div className={style.all_wrapper}>
       <Nav />
