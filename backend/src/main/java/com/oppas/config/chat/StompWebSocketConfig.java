@@ -21,8 +21,8 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("api/policychat").setAllowedOrigins("http://localhost:3000", "http://localhost:8080","http://localhost:8088","http://3.36.131.236:443","http://3.36.131.236:80","https://3.36.131.236:443","https://3.36.131.236:80").withSockJS();
-    registry.addEndpoint("api/personalchat").setAllowedOrigins("http://localhost:3000", "http://localhost:8080","http://localhost:8088","http://3.36.131.236:443","http://3.36.131.236:80","https://3.36.131.236:443","https://3.36.131.236:80").withSockJS();
+    registry.addEndpoint("api/policychat").withSockJS();
+    registry.addEndpoint("api/personalchat").withSockJS();
     }
 
     
