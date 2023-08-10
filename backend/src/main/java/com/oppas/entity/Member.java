@@ -23,7 +23,6 @@ public class Member {
     private Long id;
     private Integer age;
     private String city;
-    private String password;
     private String img;
     @Column(nullable = false)
     private String name;
