@@ -86,18 +86,30 @@ export default function Page(props) {
               className={`${Style.container} flex justify-between items-center mb-6`}
             >
               <div className={`${Style.title} flex items-center`}>
-                <FaBars className="text-gray-600 mr-4" />
+                <FaBars className="text-gray-600 mr-4 cursor-pointer" />
                 <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
                 <div className={`${Style.icon} flex items-center`}>
-                  {chkBookmark ? <FaBellSlash /> : <FaBell />}
                   {chkBookmark ? (
-                    <FaRegBookmark onClick={handleCancelBookmark} />
+                    <FaBellSlash className="cursor-pointer" />
                   ) : (
-                    <FaBookmark onClick={handleAddBookmark} />
+                    <FaBell className="cursor-pointer" />
+                  )}
+                  {chkBookmark ? (
+                    <FaRegBookmark
+                      className="cursor-pointer"
+                      onClick={handleCancelBookmark}
+                    />
+                  ) : (
+                    <FaBookmark
+                      className="cursor-pointer"
+                      onClick={handleAddBookmark}
+                    />
                   )}
                 </div>
               </div>
-              <div className={`${Style.making} bg-white rounded-lg p-4 shadow`}>
+              <div
+                className={`${Style.making} bg-white rounded-lg p-4 shadow h-[desiredValue]`}
+              >
                 <div className={Style.ctt_title}>
                   <p>{post.polyItcnCn}</p>
                 </div>
@@ -266,10 +278,10 @@ export default function Page(props) {
                   </div>
                 </div>
               </div>
-              <div className={Style.chat_box}>
-                <div className={Style.chat}>
+              <div className={`${Style.chat_box} max-w-6xl mx-auto p-6`}>
+                <div className={`${Style.chat}`}>
                   <h4>채팅방</h4>
-                  <LiveChat pageId={post.id} />
+                  <LiveChat pageId={post.id} userId={userId} />
                 </div>
               </div>
             </div>
