@@ -1,11 +1,13 @@
 .scrap_content {
 	display: flex;
+	flex-direction: column;
+	height: 260px;
 }
 
 .scrap_card_wrapper {
-	flex: 2;
+	flex: 4;
 	display: flex;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 
 }
 
