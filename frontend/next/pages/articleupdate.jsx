@@ -67,7 +67,7 @@ export default function ArticleUpdate() {
         console.log(err);
       })
       .finally(()=>{
-        router.reload('/articlelist')
+        router.push('/articlelist')
       })
   }
 
