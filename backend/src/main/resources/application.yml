@@ -45,7 +45,7 @@ spring:
               - profile_nickname
               - account_email
               - profile_image
-#              - talk_calendar
+              - talk_calendar
             client_name: kakao
 
 
