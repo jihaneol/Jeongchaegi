@@ -59,7 +59,7 @@ export default function LiveChat(props) {
 
       console.log(data);
       const response = await axios.post(
-        `http://localhost:8081/ws/chats/${props.pageId}`,
+        `http://3.36.131.236/ws/chats/${props.pageId}`,
         data
       );
       console.log(response.data); // 객체 배열
