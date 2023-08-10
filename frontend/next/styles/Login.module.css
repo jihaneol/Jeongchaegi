@@ -48,9 +48,12 @@
 	flex: 1;
 }
 
-
-
-
 .footer_wrapper {
 	flex: 1;
+}
+
+.success_wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
