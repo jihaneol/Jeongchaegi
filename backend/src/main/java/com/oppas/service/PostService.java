@@ -14,10 +14,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -43,9 +44,8 @@ public class PostService {
 
 
     @Transactional
-    public void savePost(Authentication authentication, RequestPostDto requestPostDto) throws Exception {
+    public void savePost(PrincipalDetails principalDetails, RequestPostDto requestPostDto) throws Exception {
 
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Member member = principalDetails.getMember();
 
         requestPostDto.setMember(member);
@@ -70,12 +70,11 @@ public class PostService {
         }
     }
 
-    @Transactional
-    public void modifyPost(Authentication authentication, RequestPostDto requestPostDto){
+    @Transactional//수저 필요 유저의 정보와 게시물 작성자 일치 여부 확인 필요
+    public void modifyPost(PrincipalDetails principalDetails, RequestPostDto requestPostDto){
 
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+
         Member member = principalDetails.getMember();
-
 
         Post post =  postRepository.findById(requestPostDto.getId()).orElseThrow(EntityNotFoundException::new);
 
@@ -85,12 +84,15 @@ public class PostService {
     }
 
     @Transactional
-    public HttpStatus removePost(Authentication authentication, Long postId){
+    public HttpStatus removePost(PrincipalDetails principalDetails, Long postId){
 
 
         Post post =  postRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
-        if(post.getMember().getId()==(((PrincipalDetails)(authentication.getPrincipal())).getMember().getId())){
+
+        if(post.getMember().getId()==(principalDetails.getMember().getId())){
+
             postRepository.delete(post);
+
             return HttpStatus.OK;
         }
         else{
@@ -101,7 +103,7 @@ public class PostService {
     public Page<ResponsePostDto> getPostList(int pageIndex){
 
 
-        Pageable pageable = PageRequest.of(pageIndex - 1, 10);
+        Pageable pageable = PageRequest.of(pageIndex - 1, 10, Sort.by("id").descending());
 
         Page<Post> postList = postRepository.findAll(pageable);
 
