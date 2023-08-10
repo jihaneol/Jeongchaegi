@@ -1,4 +1,59 @@
 .all_wrapper {
-    background-color: #d0ddff;
+    /* background-color: #d0ddff; */
     padding-top: 120px;
+	min-height: 100vh;
+}
+
+.title {
+	font-size: 30px;
+	font-weight: bold;
+	height: 70px;
+}
+
+.content_wrapper{
+	position:absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 1200px;
+}
+
+.content_header {
+	border-top: 2px solid black;
+	text-align: center;
+	display: flex;
+	padding: 10px;
+	font-weight: bold;
+}
+
+.header_id {
+	width: 50px;
+}
+
+.header_title {
+	width: 1100px;
+}
+
+.header_notice {
+	width: 50px;
+}
+
+.card_wrapper {
+	border-top: 1px solid black;
+}
+
+.card_content {
+	border-top: 1px solid black;
+}
+
+.card_title {
+	font-size: 20px;
+}
+
+.card_content {
+	font-size: 15px;
+}
+
+.pageButton_wrapper {
+	border-top: 1px solid black;
+	border-bottom: 2px solid black;
 }
