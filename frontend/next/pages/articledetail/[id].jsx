@@ -65,7 +65,9 @@ export default function Page({ params }) {
   // 수정, 삭제 버튼 함수
 
   function updateArticle() {
-    
+    if (localStorage.getItem("userID") == detailData.memberId){
+      router.push(`/articleupdate?${router.query.id}`)
+    }
   }
   function deleteArticle() {
     console.log(typeof localStorage.getItem("userID"));
@@ -80,6 +82,9 @@ export default function Page({ params }) {
       .finally(()=>{
         router.push('/articlelist')
       })
+    }
+    else{
+      alert('삭제할수 없습니다!!!')
     }
   }
 
