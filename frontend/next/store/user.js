@@ -21,7 +21,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: initialUserState,
   reducers: {
-    setisLogined(state, action) { 
+    setisLogined(state, action) {
       state.isLogined = action.payload;
       console.log("state-isLogined: ", state.isLogined);
     },
@@ -54,7 +54,7 @@ const userSlice = createSlice({
     setNickName(state, action) {
       state.nickname = action.payload;
       console.log(state.nickname);
-    }
+    },
   },
 });
 
