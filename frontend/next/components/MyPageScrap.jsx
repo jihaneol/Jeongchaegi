@@ -36,6 +36,7 @@ export default function MyPageScrap() {
   }
 
   useEffect(() => {
+		getName();
     getScrapList().then(() => {
       setIsLoading(false);
       console.log(myScrap);
