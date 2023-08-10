@@ -65,7 +65,10 @@ export default function ArticleUpdate() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(()=>{
+        router.reload('/articlelist')
+      })
   }
 
   function handleTitle(e) {
