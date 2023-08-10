@@ -7,7 +7,8 @@ export default function OurAxios() {
     if (typeof window !== "undefined") {
       const accessToken = localStorage.getItem("accessToken");
       const refreshToken = localStorage.getItem("refreshToken");
-      return { accessToken, refreshToken };
+      const kakaoToken = localStorage.getItem("kakaoToken");
+      return { accessToken, refreshToken, kakaoToken };
     }
   }
 
@@ -62,14 +63,18 @@ export default function OurAxios() {
           })
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
-            const at = response.headers.accesstoken;
-            const rt = response.headers.refreshtoken;
+            console.log(response);
+            const at = response.data.accesstoken;
+            const rt = response.data.refreshtoken;
+            const kt = response.data.kakaotoken;
             tokens = {
               accessToken: at,
               refreshToken: rt,
+              kakaoToken: kt,
             };
             localStorage.setItem("accessToken", tokens.accessToken);
             localStorage.setItem("refreshToken", tokens.refreshToken);
+            localStoragesetItem("kakaoToken", tokens.kakaoToken);
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);

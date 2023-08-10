@@ -31,12 +31,12 @@ export default function Nav() {
   }
 
   return (
-    <div className={`${style.nav_wrap} bg-gray-800 text-white p-4`}>
-      <div className={`${style.nav_menu} flex justify-between items-center`}>
+    <div className={`${style.nav_wrap} bg-gray-800 text-white p-3`}>
+      <div className={`flex justify-between items-center`}>
         <div className="flex items-center space-x-6">
           <Link href="/">
             <a>
-              <Image src="/Logo.PNG" width="130px" height="64px" alt="정채기" />
+              <Image src="/Logo.PNG" width="130px" height="64px" alt="정채기" style={{borderRadius:"10px"}}/>
             </a>
           </Link>
 

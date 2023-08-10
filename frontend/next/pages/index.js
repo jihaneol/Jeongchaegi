@@ -24,7 +24,7 @@ export default function Home() {
   };
 
   return (
-    <div className={style.all_wrapper}>
+    <div className={`${style.all_wrapper} bg-gray-100 min-h-screen p-4`}>
       <Nav />
       <Modal modalFlag={modalFlag} onClose={onClose} targetDate={targetDate} />
       <div
@@ -33,7 +33,9 @@ export default function Home() {
       >
         <Carousel />
         <HomeCalendar modalActive={modalActive} getTargetDate={getTargetDate} />
-        <div className={style.outer_wrapper}>
+        <div
+          className={`${style.outer_wrapper} flex justify-center space-x-4 mt-4`}
+        >
           <HomeList title="마감 임박 정책" />
           <HomeList title="Hot 정책" />
         </div>

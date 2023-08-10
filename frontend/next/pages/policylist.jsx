@@ -19,6 +19,7 @@ import OurAxios from "../config/ourAxios";
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";  // 이제 머 삭제해서 전역 아니여도 적용 가능함, 문제 생길수도?
 
 import axios from "axios";
+import Spin from "../components/Spin";
 
 let page = 1;
 let lastPage = 999999999999;
@@ -215,26 +216,13 @@ export default function PolicyList() {
         <PolicyListSort />
 
         {/* pcylist */}
-        <div className={style.pcylist}>
+        <div className={!pcydata ? style.loading : style.pcylist}>
           {pcydata ? (
             <PcyListItem obj={pcydata} onItemClick={handleItemClick} /> // 그냥 리스트 통째로 프롭함
           ) : (
-            <>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-            </>
+            <Spin />
           )}
-          {isLoadingList ? <h1>loading list...</h1> : <p>endpage</p>}
+          {isLoadingList ? "" : ""}
         </div>
       </div>
     </div>

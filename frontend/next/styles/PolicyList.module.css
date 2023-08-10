@@ -1,11 +1,10 @@
 .wrapper {
-    padding: 0 0 1rem 0;
     background-color: #d0ddff;
-    margin-top: 5rem;
+    padding-top: 120px;
 }
 
 .list_wrap_container {
-    margin: 0 auto;
+    margin: 0px auto;
     width: 45rem;
     border-radius: 1rem;
     background-color: #adc4ff;
@@ -58,6 +57,14 @@
     width: auto;
     margin: 0 1rem;
     min-height: 8rem;
+    padding-bottom: 10px;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding-bottom: 40px;
 }
 
 .search_query{

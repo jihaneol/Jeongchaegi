@@ -4,22 +4,20 @@ import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.dto.member.MemberForm;
 import com.oppas.dto.member.MemberResponse;
 import com.oppas.dto.member.MemberSignUpDTO;
-import com.oppas.dto.member.PolicyMemberDTO;
 import com.oppas.entity.Member;
+import com.oppas.jwt.JwtResponse;
+import com.oppas.jwt.JwtService;
 import com.oppas.repository.MemberRepository;
 import com.oppas.service.MemberService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 스프링 시큐리티
@@ -35,6 +33,7 @@ import java.util.stream.Collectors;
 public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final JwtService jwtService;
 
     @ExceptionHandler(RuntimeException.class)
     public Object processValidationError(RuntimeException ex) {
@@ -54,9 +53,13 @@ public class MemberController {
     }
 
     @GetMapping("/refresh-token")
-    public ResponseEntity<?> refreshToekn() {
-        log.info("토큰 재발급");
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> refreshToekn(HttpServletRequest request) {
+        Member member = memberRepository.findByRefreshToken(jwtService.extractRefreshToken(request).get()).get();
+        String reIssueRefreshToken = jwtService.reIssueRefreshToken(member);
+        String accessToken = jwtService.createAccessToken(member.getName());
+        JwtResponse jwtResponse = new JwtResponse(reIssueRefreshToken,accessToken,member.getKakaoToken());
+
+        return new ResponseEntity<>(jwtResponse,HttpStatus.OK);
     }
 
     @DeleteMapping("/logout")
@@ -82,7 +85,7 @@ public class MemberController {
         log.info("회원 정보 전달 하기");
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Long id = principalDetails.getId();
-        Member member = memberRepository.findMember(id);
+        Member member = memberRepository.findById(id).get();
 
         return new ResponseEntity<>(new MemberResponse(member),HttpStatus.OK);
     }
