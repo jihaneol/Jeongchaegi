@@ -5,7 +5,7 @@ import axios from "axios";
 export default function LiveChat(props) {
   const [inputMessage, setInputMessage] = useState("");
   const { client, messages, setMessages } = useStompClient(
-    "http://3.36.131.236:8081/api/policychat",
+    "http://3.36.131.236:8081/ws/policychat",
     `/sub/policychat${props.pageId}`
   );
   // ws://3.36.131.236/api/policychat
@@ -59,7 +59,7 @@ export default function LiveChat(props) {
 
       console.log(data);
       const response = await axios.post(
-        `http://localhost:8081/api/chats/${props.pageId}`,
+        `http://localhost:8081/ws/chats/${props.pageId}`,
         data
       );
       console.log(response.data); // 객체 배열

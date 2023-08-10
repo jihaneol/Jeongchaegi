@@ -1,0 +1,25 @@
+.scrap_content {
+	display: flex;
+}
+
+.scrap_card_wrapper {
+	flex: 2;
+	display: flex;
+	flex-wrap: nowrap;
+
+}
+
+.scrap_card {
+	width: 40%;
+	border: 1px solid black;
+	border-radius: 10px;
+	margin: 10px;
+	background-color: white;
+	text-align: center;
+	height: 40%;
+}
+
+.scrap_seeMore {
+	flex: 1;
+	background-color: rgb(194, 194, 194);
+}
