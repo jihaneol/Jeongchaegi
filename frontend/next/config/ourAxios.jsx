@@ -1,5 +1,4 @@
 import axios from "axios";
-import style from "../styles/Login.module.css"
 
 export default function OurAxios() {
   let requestCount = 0;
