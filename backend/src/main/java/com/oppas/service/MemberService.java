@@ -5,6 +5,7 @@ import com.oppas.dto.member.MemberSignUpDTO;
 import com.oppas.entity.Member;
 import com.oppas.entity.PolicyMemberMapped;
 import com.oppas.entity.policy.PolicyType;
+import com.oppas.repository.FollowRepository;
 import com.oppas.repository.MemberRepository;
 import com.oppas.repository.PolicyMemberMappedRepository;
 import com.oppas.repository.policy.PolicyTypeRepository;
@@ -23,6 +24,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PolicyMemberMappedRepository policyMemberMappedRepository;
     private final PolicyTypeRepository policyTypeRepository;
+    private final FollowRepository followRepository;
 
     @Transactional
     public void signUp(MemberSignUpDTO memberSignUpDTO,long id) {
@@ -40,7 +42,6 @@ public class MemberService {
             member.getPolicyMemberMappeds().add(mapped);
         }
         member.updateJoin(true);
-//        this.memberRepository.save(member);
     }
 
     public boolean findNickName(String nickname) {
@@ -73,4 +74,6 @@ public class MemberService {
         }
         return member;
     }
+
+
 }

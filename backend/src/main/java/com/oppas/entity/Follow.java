@@ -1,11 +1,12 @@
 package com.oppas.entity;
 
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Follow {
 
     @Id
@@ -14,11 +15,16 @@ public class Follow {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "follower_id", nullable = false)
+    @JoinColumn(name = "follower_id")
     private Member followerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "followee_id", nullable = false)
+    @JoinColumn(name = "followee_id")
     private Member followeeId;
+
+    public Follow(Member to, Member from){
+        this.followerId = to;
+        this.followeeId = from;
+    }
 
 }

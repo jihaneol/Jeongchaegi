@@ -1,6 +1,7 @@
 package com.oppas.controller;
 
 import com.oppas.config.auth.PrincipalDetails;
+import com.oppas.dto.member.FollowInfo;
 import com.oppas.dto.member.MemberForm;
 import com.oppas.dto.member.MemberResponse;
 import com.oppas.dto.member.MemberSignUpDTO;
@@ -8,12 +9,13 @@ import com.oppas.entity.Member;
 import com.oppas.jwt.JwtResponse;
 import com.oppas.jwt.JwtService;
 import com.oppas.repository.MemberRepository;
+import com.oppas.service.FollowService;
 import com.oppas.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,10 +36,11 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final JwtService jwtService;
+    private final FollowService followService;
 
     @ExceptionHandler(RuntimeException.class)
     public Object processValidationError(RuntimeException ex) {
-        log.info("에러 확인 {}", ex.getMessage());
+        log.info("에러 확인 {}", ex.getStackTrace());
         return ResponseEntity.badRequest().build();
 //        return ApiResponse.error(ApiStatus.SYSTEM_ERROR, ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
@@ -57,9 +60,9 @@ public class MemberController {
         Member member = memberRepository.findByRefreshToken(jwtService.extractRefreshToken(request).get()).get();
         String reIssueRefreshToken = jwtService.reIssueRefreshToken(member);
         String accessToken = jwtService.createAccessToken(member.getName());
-        JwtResponse jwtResponse = new JwtResponse(reIssueRefreshToken,accessToken,member.getKakaoToken());
+        JwtResponse jwtResponse = new JwtResponse(reIssueRefreshToken, accessToken, member.getKakaoToken());
 
-        return new ResponseEntity<>(jwtResponse,HttpStatus.OK);
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/logout")
@@ -69,8 +72,7 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO, Authentication authentication) {
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+    public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         long id = principalDetails.getId();
         memberService.signUp(memberSignUpDTO, id);
         log.info("회원가입 성공");
@@ -81,21 +83,43 @@ public class MemberController {
 
     // 회원 정보 전달
     @GetMapping("/info")
-    public ResponseEntity<?> info(Authentication authentication) {
+    public ResponseEntity<?> info(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         log.info("회원 정보 전달 하기");
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Long id = principalDetails.getId();
         Member member = memberRepository.findById(id).get();
 
-        return new ResponseEntity<>(new MemberResponse(member),HttpStatus.OK);
+        return new ResponseEntity<>(new MemberResponse(member), HttpStatus.OK);
     }
 
     // 회원 정보 수정
     @PutMapping("/{memberId}/edit")
-    public ResponseEntity<?>  updateMember(@PathVariable("memberId") Long id, @RequestBody MemberForm memberForm) {
+    public ResponseEntity<?> updateMember(@PathVariable("memberId") Long id, @RequestBody MemberForm memberForm) {
         memberService.updateMember(id, memberForm);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/{toMemberId}/follow")
+    public ResponseEntity<?> followMember(@PathVariable("toMemberId") Long to, @AuthenticationPrincipal PrincipalDetails principalDetails ) {
+        Long from = principalDetails.getId();
+        followService.follow(to,from);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{toMemberId}/unFollow")
+    public ResponseEntity<?> unFollowMember(@PathVariable("toMemberId") Long to, @AuthenticationPrincipal PrincipalDetails principalDetails ) {
+        Long from = principalDetails.getId();
+        followService.unFollow(to,from);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/followInfo")
+    public ResponseEntity<?> followerInfo(@AuthenticationPrincipal PrincipalDetails principalDetails ) {
+        Long id = principalDetails.getId();
+        Member member = memberRepository.findById(id).get();
+        FollowInfo followInfo = new FollowInfo(member.followCount(), member.followeeCount());
+        return new ResponseEntity<>(followInfo,HttpStatus.OK);
+    }
+
 
 
 }
