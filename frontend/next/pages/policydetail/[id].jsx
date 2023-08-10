@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Nav from "../../components/Nav";
-import { FaBell, IFaBellSlash, FaBars, FaBookmark } from "react-icons/fa";
+import {
+  FaBell,
+  FaBellSlash,
+  FaBars,
+  FaBookmark,
+  FaRegBookmark,
+} from "react-icons/fa";
 import Image from "next/image";
 
 import Head from "next/head";
@@ -12,10 +18,59 @@ import LiveChat from "../../components/LiveChat";
 
 export default function Page(props) {
   // const router = useRouter();
+  console.log(props);
   const post = props.post;
   console.log(post);
   // const keys = Object.keys(post);
   // console.log(keys);
+
+  // 북마크 상태 관리
+  const [chkBookmark, setchkBookmark] = useState(null);
+
+  useEffect(() => {
+    // 북마크 체크 확인
+    const userId = localStorage.getItem("userID");
+
+    if (post && post.id) {
+      axios
+        .get(
+          `http://3.36.131.236/api/scraps/check/members/${userId}/policies/${post.id}`
+        )
+        .then((response) => {
+          setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
+        })
+        .catch((error) => {
+          console.error("API 호출 중 오류 발생:", error.message);
+        });
+    }
+  }, [post]); // post가 변경될 때만 이 훅을 실행합니다.
+
+  // 북마크 추가
+  const handleCancelBookmark = () => {
+    axios
+      .delete(
+        `http://3.36.131.236:8081/api/scraps/cancel/members/${userId}/policies/${post.id}`
+      )
+      .then((response) => {
+        setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error.message);
+      });
+  };
+
+  const handleAddBookmark = () => {
+    axios
+      .post(
+        `http://3.36.131.236:8081/api/scraps/scrap/members/${userId}/policies/${post.id}`
+      )
+      .then((response) => {
+        setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
+      })
+      .catch((error) => {
+        console.error("API 호출 중 오류 발생:", error.message);
+      });
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -33,8 +88,12 @@ export default function Page(props) {
                 <FaBars className="text-gray-600 mr-4" />
                 <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
                 <div className={`${Style.icon} flex items-center`}>
-                  <FaBell className="text-gray-600 mr-2" />
-                  <FaBookmark className="text-gray-600" />
+                  {chkBookmark ? <FaBellSlash /> : <FaBell />}
+                  {chkBookmark ? (
+                    <FaRegBookmark onClick={handleCancelBookmark} />
+                  ) : (
+                    <FaBookmark onClick={handleAddBookmark} />
+                  )}
                 </div>
               </div>
               <div className={`${Style.making} bg-white rounded-lg p-4 shadow`}>
