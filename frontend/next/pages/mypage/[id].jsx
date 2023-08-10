@@ -26,7 +26,7 @@ export default function Page() {
   }, [])
 
   async function getScrapList() {
-    api.get(`/scraps/my-scrap/members/${userId}`, {
+    api.get(`/scraps/my-scrap/members/${userId}/`, {
       params: {
         pageIndex: 1,
       }
