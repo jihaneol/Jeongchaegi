@@ -1,5 +1,6 @@
 .all_wrapper {
   position: relative;
+  padding: 0px !important;
 }
 
 .modal_on {

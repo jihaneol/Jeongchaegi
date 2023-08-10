@@ -20,7 +20,7 @@ const Carousel = () => {
 
   return (
     <>
-      <div className="mx-auto my-10 max-w-screen-lg">
+      <div className="mx-auto max-w-screen-lg">
         <Slider {...settings}>
           <div
             className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
