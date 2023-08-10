@@ -62,7 +62,6 @@
 
 .loading {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-content: center;
     padding-bottom: 40px;
