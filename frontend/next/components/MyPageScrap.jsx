@@ -20,7 +20,7 @@ export default function MyPageScrap() {
         },
       })
       .then((res) => {
-        setMyScrap(res);
+        setMyScrap(res.data.content);
         console.log(res);
       })
       .catch((err) => {
