@@ -37,8 +37,10 @@ export default function CreateArticle() {
       console.log(res);
     }).catch((err) => {
       console.log(err);
-    });
-    router.push('/articlelist')
+    })
+    .finally(()=>{
+      router.push('/articlelist')
+    })
   }
 
   function handleTitle(e) {
