@@ -76,7 +76,7 @@ export default function ArticleList() {
   return (
     <>
       <Nav />
-      <div style={{ marginTop: "5rem" }}>articlelist</div>
+      <div style={{ marginTop: "120px" }}>articlelist</div>
       {/* 게시글 리스트 */}
       {articleData ? <ArticleListItem obj={articleData} onItemClick={handleItemClick} /> : 'loading...'}
       <button onClick={btnNextPage}>more data</button>
