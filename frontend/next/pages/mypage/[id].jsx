@@ -25,8 +25,9 @@ export default function Page() {
   }
 
   async function getScrapList() {
-    console.log(userId);
-    api.get(`/scraps/my-scrap/members/${userId}/`, {
+    const id = localStorage.getItem("userID");
+    console.log("id: ", id);
+    api.get(`/scraps/my-scrap/members/${id}/`, {
       params: {
         pageIndex: 1,
       }
