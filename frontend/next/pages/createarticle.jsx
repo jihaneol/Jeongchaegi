@@ -20,11 +20,6 @@ export default function CreateArticle() {
     e.preventDefault();
     console.log('title :', mytitle);
     console.log('value :', value);
-  }
-
-  function handleTitle(e) {
-    const curTitle = e.target.value
-    setTitle(curTitle)
     api.post("/posts", {
       title: mytitle,
       content: value,
@@ -33,6 +28,11 @@ export default function CreateArticle() {
     }).catch((err) => {
       console.log(err);
     });
+  }
+
+  function handleTitle(e) {
+    const curTitle = e.target.value
+    setTitle(curTitle)
   }
 
   return (
