@@ -31,6 +31,9 @@ export default function MyPageScrap() {
   useEffect(() => {
     getScrapList().then(() => {
       setIsLoading(false);
+			console.log(myScrap);
+			console.log(Array.isArray(myScrap)); // true면 배열입니다.
+
     });
   }, []);
 
