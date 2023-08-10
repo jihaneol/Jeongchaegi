@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function MyPageScrap() {
   const [myScrap, setMyScrap] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-	const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("");
 
   const api = OurAxios();
 
@@ -31,9 +31,9 @@ export default function MyPageScrap() {
       });
   }
 
-	function getName() {
-		setUserName(localStorage.getItem("userName"));
-	}
+  function getName() {
+    setUserName(localStorage.getItem("userName"));
+  }
 
   useEffect(() => {
     getScrapList().then(() => {
@@ -50,14 +50,18 @@ export default function MyPageScrap() {
           <div>스크랩한 정책이 없습니다.</div>
         ) : (
           <div className={style.scrap_content}>
-            {myScrap.slice(0, 4).map((item) => {
-              return <div key={item.id} className={style.scrap_card}>{item.polyBizSjnm}</div>;
-            })}
-						<Link href={`/myscrap/${userName}`}>
-							<a className={style.scrap_seeMore}>
-								더보기
-							</a>
-						</Link>
+            <div className={style.scrap_card_wrapper}>
+              {myScrap.slice(0, 4).map((item) => {
+                return (
+                  <div key={item.id} className={style.scrap_card}>
+                    {item.polyBizSjnm}
+                  </div>
+                );
+              })}
+            </div>
+            <Link href={`/myscrap/${userName}`}>
+              <a className={style.scrap_seeMore}>더보기</a>
+            </Link>
           </div>
         )
       ) : (
