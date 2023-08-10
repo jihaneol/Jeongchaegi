@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import Nav from "../components/Nav";
 import OurAxios from "../config/ourAxios";
+import { useRouter } from "next/router";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -11,9 +12,10 @@ const MDEditor = dynamic(
 );
 
 export default function CreateArticle() {
-  const [mytitle, setTitle] = useState("");
-  const [value, setValue] = useState("**Hello world!!!**");
-  const api = OurAxios();
+  const [mytitle, setTitle] = useState("")
+  const [value, setValue] = useState("**Hello world!!!**")
+  const api = OurAxios()
+  const router = useRouter()
 
   // 함수 목록
   function mySubmit(e) {
@@ -28,6 +30,7 @@ export default function CreateArticle() {
     }).catch((err) => {
       console.log(err);
     });
+    router.push('/articlelist')
   }
 
   function handleTitle(e) {
