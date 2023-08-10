@@ -1,7 +1,7 @@
 package com.oppas.service;
 
-import com.oppas.entity.event.Calendar;
 import com.oppas.entity.Member;
+import com.oppas.entity.event.Calendar;
 import com.oppas.repository.CalendarRepository;
 import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +26,13 @@ public class CalendarService {
     }
 
     /**
-     * 캘린더가 없는 회원 캘린더 생성하기
+     * 생성된 캘린더 저장하기
      */
-    public void createCalendar(String calendarId, Long memberId) throws Exception {
+    public String saveCalendar(String calendarId, Long memberId) throws Exception {
         Member member = memberRepository.findById(memberId).orElseThrow(EntityExistsException::new);
         Calendar calendar = new Calendar(calendarId, member);
         calendarRepository.save(calendar);
+        return calendarId;
     }
 
 }
