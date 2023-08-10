@@ -20,11 +20,6 @@ export default function CreateArticle() {
     e.preventDefault();
     console.log('title :', mytitle);
     console.log('value :', value);
-  }
-
-  function handleTitle(e) {
-    const curTitle = e.target.value
-    setTitle(curTitle)
     api.post("/posts", {
       title: mytitle,
       content: value,
@@ -35,10 +30,15 @@ export default function CreateArticle() {
     });
   }
 
+  function handleTitle(e) {
+    const curTitle = e.target.value
+    setTitle(curTitle)
+  }
+
   return (
     <>
       <Nav />
-      <form onSubmit={mySubmit}>
+      <form onSubmit={mySubmit} style={{ marginTop: "5rem" }}>
         {/* 제목은 그냥 텍스트 */}
         <div className="d-flex">
           <h1>title</h1>

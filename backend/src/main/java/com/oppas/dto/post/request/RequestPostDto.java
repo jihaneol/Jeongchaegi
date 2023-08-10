@@ -14,14 +14,14 @@ public class RequestPostDto {
 
     private String title;
 
-    private Member member;
+    private Long memberId;
 
     private String content;
 
     private LocalDateTime createdAt;
 
     public void setMember(Member member){
-        this.member = member;
+        this.memberId = member.getId();
     }
 
 }
