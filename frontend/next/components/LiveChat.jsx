@@ -1,5 +1,4 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import useStompClient from "./hooks/useStompClient";
 import axios from "axios";
 
@@ -60,7 +59,7 @@ export default function LiveChat(props) {
 
       console.log(data);
       const response = await axios.post(
-        `http://localhost:8081/api/chats/${props.pageId}`,
+        `http://3.36.131.236/api/chats/${props.pageId}`,
         data
       );
       console.log(response.data); // 객체 배열

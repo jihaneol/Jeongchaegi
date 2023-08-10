@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Nav from "../../components/Nav";
 import style from "../../styles/MyPage.module.css";
 import MyPageScrap from "../../components/MyPageScrap";
+import Spin from "../../components/Spin";
 
 export default function Page() {
   // 변수
