@@ -77,7 +77,7 @@ export default function Page() {
             </div>
           </div>
           <div className={style.policyList_content}>
-            {!policyType ? (<MyPageScrap />) : (<Spin />)}
+            {!policyType ? (<MyPageScrap />) : ("")}
           </div>
         </div>
         <div className={style.followerList_wrapper}>
