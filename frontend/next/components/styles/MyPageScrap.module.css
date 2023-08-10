@@ -8,7 +8,6 @@
 	flex: 4;
 	display: flex;
 	flex-wrap: wrap;
-
 }
 
 .scrap_card {
@@ -24,4 +23,11 @@
 .scrap_seeMore {
 	flex: 1;
 	background-color: rgb(194, 194, 194);
+}
+
+.scrap_loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 260px;
 }

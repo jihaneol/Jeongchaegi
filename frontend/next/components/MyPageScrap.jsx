@@ -44,8 +44,8 @@ export default function MyPageScrap() {
   }, []);
 
   return (
-    <div className={style.scrap_wrapper}>
-      {!myScrap ? (
+    <div className={!isLoading ? style.scrap_wrapper : style.scrap_loading}>
+      {!isLoading ? (!myScrap ? (
         <div>스크랩한 정책이 없습니다.</div>
       ) : (
         <div className={style.scrap_content}>
@@ -62,7 +62,7 @@ export default function MyPageScrap() {
             <a className={style.scrap_seeMore}>더보기</a>
           </Link>
         </div>
-      )}
+      )) : <Spin />}
     </div>
   );
 }
