@@ -23,7 +23,7 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
 
-    @PostMapping("/save")
+    @PostMapping("/save/policies/{policyId}")
     public ResponseEntity<String> saveEvent(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                             @PathVariable Long policyId, @RequestParam String eventId) throws Exception {
         Member member = principalDetails.getMember();

@@ -31,8 +31,8 @@ public class EventService {
      */
     public EventDTO getEventCreateForm(Long policyId) throws Exception {
         PolicyDate policyDate = policyDateRepository.findByPolicyId(policyId).orElseThrow();
-        String startAt = policyDate.getRqutPrdBegin().toString() + "T03:00:00Z";
-        String endAt = policyDate.getRqutPrdEnd().toString() + "T03:00:00Z";
+        String startAt = policyDate.getRqutPrdBegin().toString() + "T00:00:00Z";
+        String endAt = policyDate.getRqutPrdEnd().toString() + "T00:00:00Z";
         TimeDTO time = new TimeDTO(startAt, endAt, "Asia/Seoul", true, false);
 
         Policy policy = policyDate.getPolicy();
