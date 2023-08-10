@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { userActions } from "../../store/user";
 import Spin from "../../components/Spin";
+import style from "../styles/Login.module.css"
 
 export default function Success() {
   // useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
