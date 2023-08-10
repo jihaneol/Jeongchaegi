@@ -1,12 +1,14 @@
 .scrap_content {
 	display: flex;
+	flex-direction: column;
+	height: 260px;
 }
 
 .scrap_card_wrapper {
-	flex: 2;
+	flex: 4;
 	display: flex;
-	flex-wrap: nowrap;
-
+	flex-wrap: wrap;
+	justify-content: space-evenly;
 }
 
 .scrap_card {
@@ -21,5 +23,17 @@
 
 .scrap_seeMore {
 	flex: 1;
-	background-color: rgb(194, 194, 194);
+	background-color: #5696f6;
+	color: white;
+    font-size: 20px;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;
+}
+
+.scrap_loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 260px;
 }

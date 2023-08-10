@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import OurAxios from "../config/ourAxios";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -12,24 +14,47 @@ const MDEditor = dynamic(
 );
 
 export default function ArticleUpdate() {
-  const [mytitle, setTitle] = useState("");
-  const [value, setValue] = useState("**Hello world!!!**");
+  const [detailData, setDetailData] = useState(null)
+  const [mytitle, setTitle] = useState(null);
+  const [value, setValue] = useState(null);
   const api = OurAxios();
+  const router = useRouter();
+  const userData = useSelector(state => state.user);
 
   // usestate(업데이트 할때 기본 데이터 넣어줘야 함)
   useEffect(() => {
     axios({
-      url:``
-    });
+      method:'get',
+      url: `http://3.36.131.236/api/posts/${router.query.id}`,
+    })
+    .then((res) => {
+      console.log(res);
+      setDetailData(res.data)
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
   }, []);
 
   // 함수 목록
   function mySubmit(e) {
+    if (localStorage.getItem("userID") != detailData.memberId) {
+      alert('수정할 수 없습니다!')
+      router.push('/articlelist')
+    }
     e.preventDefault();
-    console.log("title :", mytitle);
-    console.log("value :", value);
+    if (!mytitle) {
+      alert('제목을 입력하세요!')
+      return
+    }
+    else if(!value){
+      alert('내용을 입력하세요!')
+      return
+    }
     api
-      .post("/posts", {
+      .put("/posts", {
+        id:router.query.id,
+        memberId:localStorage.getItem("userID"),
         title: mytitle,
         content: value,
       })
@@ -38,7 +63,10 @@ export default function ArticleUpdate() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(()=>{
+        router.push('/articlelist')
+      })
   }
 
   function handleTitle(e) {
@@ -49,23 +77,29 @@ export default function ArticleUpdate() {
   return (
     <>
       <Nav />
-      <form onSubmit={mySubmit} style={{ marginTop: "5rem" }}>
-        {/* 제목은 그냥 텍스트 */}
-        <div className="d-flex">
-          <h1>title</h1>
-          <input type="text" onChange={handleTitle} value={mytitle} />
-        </div>
-        {/* md editor */}
-        <div data-color-mode="dark">
-          <MDEditor
-            value={value}
-            onChange={setValue}
-            visibleDragbar={false}
-            height={500}
-          />
-        </div>
-        <button>submit</button>
-      </form>
+      {detailData ? (
+        <>
+          <form onSubmit={mySubmit} style={{ marginTop: "120px" }}>
+            {/* 제목은 그냥 텍스트 */}
+            <div className="d-flex">
+              <h1>title</h1>
+              <input type="text" onChange={handleTitle} value={mytitle} />
+            </div>
+            {/* md editor */}
+            <div data-color-mode="dark">
+              <MDEditor
+                value={value}
+                onChange={setValue}
+                visibleDragbar={false}
+                height={500}
+              />
+            </div>
+            <button>submit</button>
+          </form>
+        </>
+      ) : (
+        false
+      )}
     </>
   );
 }
