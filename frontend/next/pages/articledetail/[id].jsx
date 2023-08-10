@@ -66,7 +66,10 @@ export default function Page({ params }) {
 
   function updateArticle() {
     if (localStorage.getItem("userID") == detailData.memberId){
-      router.push(`/articleupdate?${router.query.id}`)
+      router.push(`/articleupdate?id=${router.query.id}`)
+    }
+    else{
+      alert('수정할수 없습니다!!!!!!!!!!')
     }
   }
   function deleteArticle() {

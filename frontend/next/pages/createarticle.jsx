@@ -41,7 +41,7 @@ export default function CreateArticle() {
   return (
     <>
       <Nav />
-      <form onSubmit={mySubmit} style={{ marginTop: "5rem" }}>
+      <form onSubmit={mySubmit} style={{ marginTop: "120px" }}>
         {/* 제목은 그냥 텍스트 */}
         <div className="d-flex">
           <h1>title</h1>
