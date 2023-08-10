@@ -64,9 +64,9 @@ export default function OurAxios() {
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
             console.log(response);
-            const at = response.data.accesstoken;
-            const rt = response.data.refreshtoken;
-            const kt = response.data.kakaotoken;
+            const at = response?.data.accesstoken;
+            const rt = response?.data.refreshtoken;
+            const kt = response?.data.kakaotoken;
             tokens = {
               accessToken: at,
               refreshToken: rt,
@@ -74,7 +74,7 @@ export default function OurAxios() {
             };
             localStorage.setItem("accessToken", tokens.accessToken);
             localStorage.setItem("refreshToken", tokens.refreshToken);
-            localStoragesetItem("kakaoToken", tokens.kakaoToken);
+            localStorage.setItem("kakaoToken", tokens.kakaoToken);
             originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
             // 원래 액션을 axios 를 통해 다시 요청함
             return api(originalRequest);
