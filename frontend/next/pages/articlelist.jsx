@@ -5,12 +5,16 @@ import ArticleListItem from "../components/ArticleListItem";
 import axios from "axios";
 import { useRouter } from "next/router";
 
+// 인증 관련
+import { useDispatch, useSelector } from "react-redux";
+
 let page = 1;
 let lastPage = 999999;
 
 export default function ArticleList() {
   const [articleData, setArticleData] = useState(null);
   const router = useRouter()
+  const userData = useSelector(state => state.user);
 
   // 시작할때 데이터 받고 시작
   useEffect(() => {
@@ -58,6 +62,15 @@ export default function ArticleList() {
     // Do whatever you want with the clicked item ID
   }
 
+  function myPageRoute() {
+    userData.isLogined ? (router.push(`/createarticle`)) : (() => {
+      alert("로그인이 필요한 페이지입니다.");
+      router.push("/login")
+    })();
+  }
+
+  // 렌더링 되는 곳
+
   return (
     <>
       <Nav />
@@ -67,11 +80,8 @@ export default function ArticleList() {
       <button onClick={btnNextPage}>more data</button>
       <br />
       {/* 게시글 생성 페이지로 이동 */}
-      <Link href={"/createarticle"}>
-        <a>
-          <button>create</button>
-        </a>
-      </Link>
+      <button onClick={myPageRoute}>create</button>
+
     </>
   );
 }

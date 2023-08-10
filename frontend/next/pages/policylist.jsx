@@ -39,10 +39,11 @@ export default function PolicyList() {
 
   // useEffect 관리 모음
   useEffect(() => {
+    console.log('why?', router);
     page = 1;
     lastPage = 9999999;
+    setpcy([]);
 
-    console.log(router.query);
     getPcyData(page, router.query);
   }, [router.query]); // url 쿼리 바뀔 시 실행,
 
@@ -97,11 +98,6 @@ export default function PolicyList() {
     }
     console.log(paramobj, "완성 param"); // 완성된 params
 
-    // 1페이지부터 돌아가서 검색해야됨 그래서 수정
-    page = 1;
-    lastPage = 999999999999999;
-    setpcy(); // 그리고 검색시 기존 데이터는 비울거임
-
     router.replace({
       // url 변경함 그리고 가져올거임
       pathname: "/policylist",
@@ -128,8 +124,8 @@ export default function PolicyList() {
     // api.get('/policies?pageIndex=1')
     .then((res) => {
       if (!pcydata) {
-        console.log(res.request.responseURL);
-        lastPage = res.data.totalPages;
+        console.log(res.request.responseURL);  // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
+        lastPage = res.data.totalPages;  // 그래도 처음꺼 더 바꾸기 귀찮아서 내버려 둠
         setpcy([...res.data.content]);
       } else {
         console.log(res.request.responseURL);
