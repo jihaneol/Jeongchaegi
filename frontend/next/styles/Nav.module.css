@@ -1,10 +1,11 @@
-/* .nav_wrap {
+.nav_wrap {
   position: fixed;
   width: 100%;
   z-index: 500;
   top: 0%;
 }
 
+/*
 .nav_menu {
   display: flex;
   justify-content: space-evenly;
