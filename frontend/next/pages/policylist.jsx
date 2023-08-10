@@ -37,7 +37,7 @@ export default function PolicyList() {
   const [pcydata, setpcy] = useState(null); // 정책리스트 데이터, 수정잦음
   const [targetDate, setTargetDate] = useState(null); // 날짜 데이터 상태관리
   const [isLoadingList, setIsLoadingList] = useState(false);
-  const [isFirstLoadingList, setIsFirstLoadingList] = useState(false);
+  const [isFirstLoadingList, setIsFirstLoadingList] = useState(true);
 
   // useEffect 관리 모음
   useEffect(() => {
@@ -140,7 +140,7 @@ export default function PolicyList() {
       })
       .finally(() => {
         setIsLoadingList((isLoadingList) => !isLoadingList);
-        setIsFirstLoadingList(true);
+        setIsFirstLoadingList(false);
       });
   }
 
