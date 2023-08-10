@@ -17,6 +17,7 @@ import { sido } from "../components/SelectPlace"; // 컴포넌트 변수 가져�
 import OurAxios from "../config/ourAxios";
 
 import axios from "axios";
+import Spin from "../components/Spin";
 
 let page = 1;
 let lastPage = 999999999999;
@@ -211,26 +212,13 @@ export default function PolicyList() {
         <PolicyListSort />
 
         {/* pcylist */}
-        <div className={style.pcylist}>
+        <div className={!pcydata ? style.loading : style.pcylist}>
           {pcydata ? (
             <PcyListItem obj={pcydata} onItemClick={handleItemClick} /> // 그냥 리스트 통째로 프롭함
           ) : (
-            <>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-            </>
+            <Spin />
           )}
-          {isLoadingList ? <h1>loading list...</h1> : <p>endpage</p>}
+          {isLoadingList ? "" : <p>endpage</p>}
         </div>
       </div>
     </div>
