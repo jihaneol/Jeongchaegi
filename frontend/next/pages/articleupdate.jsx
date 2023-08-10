@@ -6,6 +6,7 @@ import Nav from "../components/Nav";
 import OurAxios from "../config/ourAxios";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -13,10 +14,12 @@ const MDEditor = dynamic(
 );
 
 export default function ArticleUpdate() {
+  const [detailData, setDetailData] = useState(null)
   const [mytitle, setTitle] = useState(null);
   const [value, setValue] = useState(null);
   const api = OurAxios();
   const router = useRouter();
+  const userData = useSelector(state => state.user);
 
   // usestate(업데이트 할때 기본 데이터 넣어줘야 함)
   useEffect(() => {
@@ -28,6 +31,7 @@ export default function ArticleUpdate() {
       console.log(res);
       setTitle(res.data.title);
       setValue(res.data.content);
+      setDetailData(res.data)
     })
     .catch((err)=>{
       console.log(err);
@@ -36,11 +40,23 @@ export default function ArticleUpdate() {
 
   // 함수 목록
   function mySubmit(e) {
+    if (localStorage.getItem("userID") != detailData.memberId) {
+      alert('수정할 수 없습니다!')
+      router.push('/articlelist')
+    }
     e.preventDefault();
-    console.log("title :", mytitle);
-    console.log("value :", value);
+    if (!mytitle) {
+      alert('제목을 입력하세요!')
+      return
+    }
+    else if(!value){
+      alert('내용을 입력하세요!')
+      return
+    }
     api
-      .post("/posts", {
+      .put("/posts", {
+        id:router.query.id,
+        memberId:localStorage.getItem("userID"),
         title: mytitle,
         content: value,
       })
