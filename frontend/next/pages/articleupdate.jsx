@@ -29,6 +29,8 @@ export default function ArticleUpdate() {
     })
     .then((res) => {
       console.log(res);
+      setTitle(res.data.title);
+      setValue(res.data.content);
       setDetailData(res.data)
     })
     .catch((err)=>{
@@ -83,12 +85,12 @@ export default function ArticleUpdate() {
             {/* 제목은 그냥 텍스트 */}
             <div className="d-flex">
               <h1>title</h1>
-              <input type="text" onChange={handleTitle} value={detailData.title} />
+              <input type="text" onChange={handleTitle} value={mytitle} />
             </div>
             {/* md editor */}
             <div data-color-mode="dark">
               <MDEditor
-                value={detailData.content}
+                value={value}
                 onChange={setValue}
                 visibleDragbar={false}
                 height={500}
