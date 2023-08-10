@@ -8,6 +8,7 @@
 	flex: 4;
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-evenly;
 }
 
 .scrap_card {
