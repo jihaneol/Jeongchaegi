@@ -218,7 +218,7 @@ export default function PolicyList() {
           ) : (
             <Spin />
           )}
-          {isLoadingList ? "" : <p>endpage</p>}
+          {isLoadingList ? "" : ""}
         </div>
       </div>
     </div>
