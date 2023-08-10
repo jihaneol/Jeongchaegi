@@ -24,14 +24,15 @@ export default function Page(props) {
   // const keys = Object.keys(post);
   // console.log(keys);
 
-  // 북마크 상태 관리
+  // 북마크, 유저ID 상태 관리
   const [chkBookmark, setchkBookmark] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     // 북마크 체크 확인
-    const userId = localStorage.getItem("userID");
+    setUserId(localStorage.getItem("userID"));
 
-    if (post && post.id) {
+    if (post && post.id && userId) {
       axios
         .get(
           `http://3.36.131.236/api/scraps/check/members/${userId}/policies/${post.id}`
