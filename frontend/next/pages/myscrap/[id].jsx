@@ -55,14 +55,18 @@ export default function MyScrap () {
 				</div>
 				{/* 카드 목록 */}
 				<div className={style.card_wrapper}>
-					{isLoading ? (<Spin />) : (myScrap.map((scrap) => {
-						return (<div key={scrap.id} className={style.card_content}>
-							<div className={style.card_title}>
-								{scrap.polyBizSjnm}
+					{isLoading ? (<Spin />) : (myScrap.map((scrap, idx) => {
+						return (<div key={scrap.id} className={style.card_box_wrap}>
+							<div className={style.card_box_id}>{idx + 1}</div>
+							<div className={style.card_box_center}>
+								<div className={style.card_title}>
+									{scrap.polyBizSjnm}
+								</div>
+								<div className={style.card_content}>
+									{scrap.polyItcnCn}
+								</div>
 							</div>
-							<div className={style.card_content}>
-								{scrap.polyItcnCn}
-							</div>
+							<div className={style.card_box_notice}>X</div>
 						</div>)
 					}))}
 				</div>
