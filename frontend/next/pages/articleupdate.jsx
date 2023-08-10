@@ -29,8 +29,6 @@ export default function ArticleUpdate() {
     })
     .then((res) => {
       console.log(res);
-      setTitle(res.data.title);
-      setValue(res.data.content);
       setDetailData(res.data)
     })
     .catch((err)=>{
@@ -79,7 +77,7 @@ export default function ArticleUpdate() {
   return (
     <>
       <Nav />
-      {mytitle ? (
+      {detailData ? (
         <>
           <form onSubmit={mySubmit} style={{ marginTop: "120px" }}>
             {/* 제목은 그냥 텍스트 */}
