@@ -14,6 +14,8 @@ public class RequestPostDto {
 
     private String title;
 
+    private Member member;
+
     private Long memberId;
 
     private String content;
@@ -21,7 +23,17 @@ public class RequestPostDto {
     private LocalDateTime createdAt;
 
     public void setMember(Member member){
-        this.memberId = member.getId();
+        this.member = member;
     }
 
+    @Override
+    public String toString() {
+        return "RequestPostDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", memberId=" + memberId +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

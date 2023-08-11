@@ -1,11 +1,14 @@
 package com.oppas.dto.comment.response;
 
-import com.oppas.entity.Post;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 public class CommentResponseDto {
@@ -16,10 +19,20 @@ public class CommentResponseDto {
 
     private String nickname;
 
-    private Post post;
+    private String postId;
 
     private String comment;
 
     private LocalDateTime time;
 
+    @Override
+    public String toString() {
+        return "CommentResponseDto{" +
+                "id=" + id +
+                ", memberId=" + memberId +
+                ", nickname='" + nickname + '\'' +
+                ", comment='" + comment + '\'' +
+                ", time=" + time +
+                '}';
+    }
 }
