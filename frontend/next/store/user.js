@@ -14,6 +14,7 @@ const initialUserState = {
   nickname: "",
   policyType: [],
   isLogined: false,
+  timer: null,
 };
 
 // 유저 리듀서 및 메서드 속성 생성
@@ -54,7 +55,17 @@ const userSlice = createSlice({
     setNickName(state, action) {
       state.nickname = action.payload;
       console.log(state.nickname);
-    }
+    },
+    setLogout: (state) => {
+			if (state.timer) {
+				clearTimeout(state.timer);
+			}
+			state.isLogined = false;
+			state.timer = null;
+		},
+		setTimer: (state, action) => {
+			state.timer = action.payload;
+		}
   },
 });
 
