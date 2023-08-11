@@ -48,7 +48,7 @@ export default function ArticleList() {
         console.log(err);
       })
       .finally(() => {
-        console.log("finish article list request!!!!");
+        // console.log("finish article list request!!!!");
       });
   }
 
