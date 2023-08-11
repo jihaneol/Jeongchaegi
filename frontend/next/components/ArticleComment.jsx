@@ -42,6 +42,7 @@ export default function ArticleComment() {
       lastpage = res.data.totalPages
       if (res.status===204) {
         setArticleComment(null)
+        lastpage = 1
       }
       else{
         setArticleComment([...articleComment, ...res.data.content])
@@ -68,7 +69,7 @@ export default function ArticleComment() {
           method:'get',
           url:`http://3.36.131.236/api/comments/${router.query.id}`,
           params:{
-          pageIdx:lastpage
+            pageIdx:lastpage
           }
         })
         .then((res)=>{
