@@ -29,8 +29,8 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/{postId}/{pageIdx}") // 답글 리스트
-    public ResponseEntity<?> listComment(@PathVariable Long postId,@PathVariable int pageIdx) {
+    @GetMapping("/{postId}") // 답글 리스트
+    public ResponseEntity<?> listComment(@PathVariable Long postId,@RequestParam int pageIdx) {
         System.out.println(1111);
         System.out.println("결과는"+postId+"  "+ pageIdx);
         Page<CommentResponseDto> pageComment = commentService.getListComment(postId,pageIdx);
