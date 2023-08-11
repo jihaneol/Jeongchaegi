@@ -1,0 +1,17 @@
+.wholewrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #d0ddff;
+  }
+
+.headwrapper{
+  justify-content: space-around;
+  display: flex;
+}
+
+.listwrapper{
+  
+}
