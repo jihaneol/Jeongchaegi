@@ -23,7 +23,6 @@ public class Member {
     private Long id;
     private Integer age;
     private String city;
-    private String password;
     private String img;
     @Column(nullable = false)
     private String name;
@@ -43,13 +42,14 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
 
-    //	@ColumnDefault("false")
-//	@Column(columnDefinition = "TINYINT(1)")
-//	private boolean join;
-    // 유저 권한 설정 메소드
-    public void authorizeUser() {
-        this.role = "ROLE_USER";
-    }
+    @OneToMany(mappedBy = "follower",cascade = CascadeType.ALL)
+    private final List<Follow> followerList = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "followee",cascade = CascadeType.ALL)
+    private final List<Follow> followeeList = new ArrayList<>();
+
+
 
 
     public void updateRefreshToken(String updateRefreshToken) {
@@ -65,6 +65,15 @@ public class Member {
         this.age = userSignUpDTO.getAge();
         this.nickname = userSignUpDTO.getNickname();
     }
+
+    public int followCount() {
+        return this.followerList.size();
+    }
+
+    public int followeeCount() {
+        return this.followeeList.size();
+    }
+
 
     @Override
     public String toString() {

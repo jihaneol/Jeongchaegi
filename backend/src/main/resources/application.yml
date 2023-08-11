@@ -45,7 +45,7 @@ spring:
               - profile_nickname
               - account_email
               - profile_image
-              - talk_calendar
+#              - talk_calendar
             client_name: kakao
 
 
@@ -60,7 +60,7 @@ spring:
   # Database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.36.131.236:3306/jeongchaegi?serverTimezone=UTC
+    url: jdbc:mysql://3.36.131.236:3306/jeongchaegi?serverTimezone=Asia/Seoul
 #    url: jdbc:mysql://localhost:3306/jeongchaegi?serverTimezone=UTC
     username: root
     password: ssafy
