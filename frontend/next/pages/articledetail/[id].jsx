@@ -97,6 +97,7 @@ export default function Page({ params }) {
   return (
     <>
       <Nav />
+      {/* 컨텐츠 보여주는 곳 */}
       <div className="flex flex-col items-center p-4 space-y-6 mt-24">
         <div className="w-full max-w-4xl mt-12">
           {detailData ? (
@@ -113,7 +114,7 @@ export default function Page({ params }) {
           ) : (
             <div className="text-center py-4 text-gray-400">Loading...</div>
           )}
-
+          {/* 수정, 삭제 버튼/ 로그인한 사용자한테만 보임/ 근데 다른사람이면 경고 */}
           {userData.isLogined && (
             <div className="mt-6 space-x-4">
               <button
