@@ -1,12 +1,11 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import useStompClient from "./hooks/useStompClient";
 import axios from "axios";
 
 export default function LiveChat(props) {
   const [inputMessage, setInputMessage] = useState("");
   const { client, messages, setMessages } = useStompClient(
-    "http://3.36.131.236:8081/api/policychat",
+    "http://3.36.131.236/ws/policychat",
     `/sub/policychat${props.pageId}`
   );
   // ws://3.36.131.236/api/policychat
@@ -17,11 +16,11 @@ export default function LiveChat(props) {
   };
 
   const sendMessage = () => {
-    if (client && client.connected && inputMessage) {
+    if (client && client.connected && inputMessage && props.userId) {
       const data = {
         message: inputMessage,
-        memberId: 13,
-        nickname: "zzankor",
+        memberId: props.userId,
+        nickname: localStorage.getItem("userName"),
         policyId: props.pageId,
       };
       client.publish({
@@ -60,7 +59,7 @@ export default function LiveChat(props) {
 
       console.log(data);
       const response = await axios.post(
-        `http://localhost:8081/api/chats/${props.pageId}`,
+        `http://3.36.131.236/api/chats/${props.pageId}`,
         data
       );
       console.log(response.data); // 객체 배열
@@ -73,7 +72,7 @@ export default function LiveChat(props) {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-5">
+    <div className="bg-gray-100 min-h-screen p-5 h-96">
       <div className="mb-4">
         <button
           type="button"
@@ -83,7 +82,7 @@ export default function LiveChat(props) {
           이전 내역
         </button>
       </div>
-      <ul className="bg-white shadow-md rounded p-4 mb-4">
+      <ul className="bg-white shadow-md rounded p-4 mb-4 overflow-y-auto max-h-150">
         {messages.map((msg, index) => {
           let content = typeof msg === "string" ? JSON.parse(msg) : msg;
           console.log(typeof content.createdAt);
@@ -91,10 +90,37 @@ export default function LiveChat(props) {
           const [hours, minutes] = timePart.split(":");
 
           const timeString = `${hours}:${minutes}`;
+
+          const isCurrentUser = content.memberId === props.userId;
           return (
-            <li key={index} className="border-b last:border-b-0 pb-2 mb-2">
-              <strong className="text-gray-700">{content.message}</strong>
-              <span className="text-gray-500 ml-4">{timeString}</span>
+            <li key={index} className="mb-2">
+              <div
+                className={
+                  isCurrentUser
+                    ? "flex justify-end items-end"
+                    : "flex items-end"
+                }
+              >
+                {isCurrentUser && (
+                  <span className="text-gray-500 text-xs mr-2">
+                    {timeString}
+                  </span>
+                )}
+                <div
+                  className={
+                    isCurrentUser
+                      ? "bg-yellow-100 text-gray-700 p-2 rounded-bl rounded-tl rounded-tr max-w-xs"
+                      : "bg-gray-200 text-gray-700 p-2 rounded-br rounded-tr rounded-tl max-w-xs"
+                  }
+                >
+                  {content.message}
+                </div>
+                {!isCurrentUser && (
+                  <span className="text-gray-500 text-xs ml-2">
+                    {timeString}
+                  </span>
+                )}
+              </div>
             </li>
           );
         })}

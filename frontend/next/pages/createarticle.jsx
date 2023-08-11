@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import Nav from "../components/Nav";
 import OurAxios from "../config/ourAxios";
+import { useRouter } from "next/router";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -11,13 +12,22 @@ const MDEditor = dynamic(
 );
 
 export default function CreateArticle() {
-  const [mytitle, setTitle] = useState("");
-  const [value, setValue] = useState("**Hello world!!!**");
-  const api = OurAxios();
+  const [mytitle, setTitle] = useState("")
+  const [value, setValue] = useState("**Hello world!!!**")
+  const api = OurAxios()
+  const router = useRouter()
 
   // 함수 목록
   function mySubmit(e) {
     e.preventDefault();
+    if (!mytitle) {
+      alert('제목을 입력하세요!')
+      return
+    }
+    else if(!value){
+      alert('내용을 입력하세요!')
+      return
+    }
     console.log('title :', mytitle);
     console.log('value :', value);
     api.post("/posts", {
@@ -27,7 +37,10 @@ export default function CreateArticle() {
       console.log(res);
     }).catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(()=>{
+      router.push('/articlelist')
+    })
   }
 
   function handleTitle(e) {
@@ -38,7 +51,7 @@ export default function CreateArticle() {
   return (
     <>
       <Nav />
-      <form onSubmit={mySubmit} style={{ marginTop: "5rem" }}>
+      <form onSubmit={mySubmit} style={{ marginTop: "120px" }}>
         {/* 제목은 그냥 텍스트 */}
         <div className="d-flex">
           <h1>title</h1>
