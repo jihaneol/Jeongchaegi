@@ -59,7 +59,7 @@ export default function Nav() {
 
   return (
     <div className={`${style.nav_wrap} bg-gray-800 text-white p-3`}>
-      <div className={`flex items-center`}>
+      <div className={`flex justify-space-between items-center`}>
         <div className="flex items-center space-x-6">
           <Link href="/">
             <a>
