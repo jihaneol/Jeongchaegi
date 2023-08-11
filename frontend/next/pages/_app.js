@@ -1,12 +1,58 @@
-// import '../styles/globals.css'  // 일단 글로벌 스타일 제거
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import Head from "next/head"; // 검색 엔진 최적화용, 전역 페이지 타이틀 먹임, 나중에 페이지별로 적용하거나
-import "../styles/HomeCalendar.css"; // 글로벌이라 잠만 구조파악하기 전까지만 쓸게여
-import { Provider } from "react-redux";
+import Head from "next/head";
+import "../styles/HomeCalendar.css";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import store from "../store/index";
-import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import "../styles/globals.css";
+import { useEffect } from "react";
+import Logout from "../components/Logout";
+import { userActions } from "../store/user";
+
+// const LOGOUT_TIME_SET = 600000; // 10 * 60 * 1000 (10분)
+
+const LOGOUT_TIME_SET = 10000; // 10 * 1000 (10초)
+
+function AppContent({ Component, pageProps }) {
+  // 로그아웃 관련 변수
+  const dispatch = useDispatch();
+  const userData = useSelector(state => state.user);
+  const logout = Logout();
+
+  const handleActivity = () => {
+    if (userData.timer) {
+      clearTimeout(userData.timer);
+    }
+    
+    const logoutTimer = setTimeout(() => {
+      dispatch(userActions.setLogout());
+      logout();
+    }, LOGOUT_TIME_SET);
+
+    dispatch(userActions.setTimer(logoutTimer));
+  };
+
+  useEffect(() => {
+    if (userData.isLogined && !userData.timer) {
+      handleActivity();
+    }
+
+    window.addEventListener('click', handleActivity);
+    window.addEventListener('keydown', handleActivity);
+    window.addEventListener('mousemove', handleActivity);
+    
+    return () => {
+      if (userData.timer) {
+        clearTimeout(userData.timer);
+      }
+      window.removeEventListener('click', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+      window.removeEventListener('mousemove', handleActivity);
+    };
+  }, [userData.isLogined, userData.timer, dispatch]);
+
+  return <Component {...pageProps} />;
+}
 
 function MyApp({ Component, pageProps }) {
   let persistor = persistStore(store);
@@ -14,15 +60,12 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>new app</title>
+        <title>섹시 경섭</title>
       </Head>
-      {/* <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Component {...pageProps} />
-        </PersistGate>
-      </Provider> */}
       <Provider store={store}>
-        <Component {...pageProps} />
+        {/* <PersistGate loading={null} persistor={persistor}> */}
+          <AppContent Component={Component} pageProps={pageProps} />
+        {/* </PersistGate> */}
       </Provider>
     </>
   );
