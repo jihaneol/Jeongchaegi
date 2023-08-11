@@ -16,7 +16,10 @@ import PolicyListSort from "../components/PolicyListSort";
 import { sido } from "../components/SelectPlace"; // 컴포넌트 변수 가져옴
 import OurAxios from "../config/ourAxios";
 
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";  // 이제 머 삭제해서 전역 아니여도 적용 가능함, 문제 생길수도?
+
 import axios from "axios";
+import Spin from "../components/Spin";
 
 let page = 1;
 let lastPage = 999999999999;
@@ -34,13 +37,15 @@ export default function PolicyList() {
   const [pcydata, setpcy] = useState(null); // 정책리스트 데이터, 수정잦음
   const [targetDate, setTargetDate] = useState(null); // 날짜 데이터 상태관리
   const [isLoadingList, setIsLoadingList] = useState(false);
+  const [isFirstLoadingList, setIsFirstLoadingList] = useState(true);
 
   // useEffect 관리 모음
   useEffect(() => {
+    console.log("why?", router);
     page = 1;
     lastPage = 9999999;
+    setpcy([]);
 
-    console.log(router.query);
     getPcyData(page, router.query);
   }, [router.query]); // url 쿼리 바뀔 시 실행,
 
@@ -95,11 +100,6 @@ export default function PolicyList() {
     }
     console.log(paramobj, "완성 param"); // 완성된 params
 
-    // 1페이지부터 돌아가서 검색해야됨 그래서 수정
-    page = 1;
-    lastPage = 999999999999999;
-    setpcy(); // 그리고 검색시 기존 데이터는 비울거임
-
     router.replace({
       // url 변경함 그리고 가져올거임
       pathname: "/policylist",
@@ -119,11 +119,15 @@ export default function PolicyList() {
         ...paramobj,
         pageIndex: page,
       },
+      // headers:{
+      //   lol: 'lol'
+      // },
     })
+      // api.get('/policies?pageIndex=1')
       .then((res) => {
         if (!pcydata) {
-          console.log(res.request.responseURL);
-          lastPage = res.data.totalPages;
+          console.log(res.request.responseURL); // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
+          lastPage = res.data.totalPages; // 그래도 처음꺼 더 바꾸기 귀찮아서 내버려 둠
           setpcy([...res.data.content]);
         } else {
           console.log(res.request.responseURL);
@@ -136,6 +140,7 @@ export default function PolicyList() {
       })
       .finally(() => {
         setIsLoadingList((isLoadingList) => !isLoadingList);
+        setIsFirstLoadingList(false);
       });
   }
 
@@ -211,26 +216,9 @@ export default function PolicyList() {
         <PolicyListSort />
 
         {/* pcylist */}
-        <div className={style.pcylist}>
-          {pcydata ? (
-            <PcyListItem obj={pcydata} onItemClick={handleItemClick} /> // 그냥 리스트 통째로 프롭함
-          ) : (
-            <>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-              <h1>loading...</h1>
-            </>
-          )}
-          {isLoadingList ? <h1>loading list...</h1> : <p>endpage</p>}
+        <div className={isFirstLoadingList ? style.loading : style.pcylist}>
+          <PcyListItem obj={pcydata} onItemClick={handleItemClick} />
+          {isFirstLoadingList ? (<Spin />) : ""}
         </div>
       </div>
     </div>

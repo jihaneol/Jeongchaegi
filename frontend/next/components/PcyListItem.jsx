@@ -6,20 +6,44 @@ export default function PcyListItem({ obj, onItemClick }) {
 
   return (
     <>
-      {obj.map((item, index)=>(
-      <div
-        className={`card ${styles.card_wrapper}`}
-        onClick={() => onItemClick(item.id)}
-        key={item.id}
-      >
-        <div className="card-header">{item.polyBizSjnm}</div>
-        <div className="card-body">
-          <div>{item.mngtMson}</div>
-          <div>{item.cnsgNmor}</div>
-          <div>{item.polyItcnCn}</div>
-          {item.id}
+      {obj?.map((item, index) => (
+        <div
+          className={`card ${styles.card_wrapper}`}
+          onClick={() => onItemClick(item.id)}
+          key={item.id}
+        >
+          <div className="card-header">{item.polyBizSjnm}</div>
+          <div className="card-body">
+            <div>{item.mngtMson}</div>
+            <div>{item.cnsgNmor}</div>
+            <div>{item.polyItcnCn}</div>
+            {/* 날짜가 있을때만 보여줌 */}
+            {item.rqutPrdBegin ? (
+              <div>
+                <p>
+                  일시 : {item.rqutPrdBegin} ~ {item.rqutPrdEnd}
+                </p>
+              </div>
+            ) : (
+              false
+            )}
+            <div>
+              <p>
+                나이 : {item.minAge} ~ {item.maxAge}
+              </p>
+            </div>
+            <div>
+              <p>
+                분야 : {item.type}
+              </p>
+            </div>
+            <div>
+              <p>
+                지역 : {item.region}
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
       ))}
     </>
   );

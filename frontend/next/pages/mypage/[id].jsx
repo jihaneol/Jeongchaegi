@@ -2,19 +2,37 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Nav from "../../components/Nav";
 import style from "../../styles/MyPage.module.css";
-import Image from "next/image";
+import MyPageScrap from "../../components/MyPageScrap";
+import Spin from "../../components/Spin";
 
 export default function Page() {
+  // 변수
   const router = useRouter();
   const myStatus = ["스크랩수", "작성글", "팔로우", "팔로워"];
+
+  // state
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
-
-  useEffect(() => {
+  const [policyType, setPolicyType] = useState(false) // false == 스크랩, true == 알림
+  const [myNotice, setMyNotice] = useState([]);
+  
+  async function getUserData() {
     setUserImg(localStorage.getItem("userImg"))
     setUserName(localStorage.getItem("userName"))
-  }, [])
+  }
+  
+  function scrapClick() {
+    setPolicyType(false);
+  }
+  
+  function noticeClick() {
+    setPolicyType(true);
+  }
 
+  useEffect(() => {
+    getUserData();
+  }, [])
+  
   return (
     <div className={style.all_wrapper}>
       <Nav />
@@ -24,8 +42,8 @@ export default function Page() {
             <div className={style.profile_picture}>
               <img
                 src={userImg}
-                width="240px"
-                height="240px"
+                width="200px"
+                height="200px"
               />
             </div>
             <div className={style.profile_name}>{userName}</div>
@@ -50,9 +68,17 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className={style.articleList_wrapper}>
-          <div className={style.articleList_header}>작성 글 목록</div>
-          <div className={style.articleList_content}>글 리스트</div>
+        <div className={style.policyList_wrapper}>
+          <div className={style.policyList_header}>
+            <div>My 정책</div>
+            <div className={style.polisyList_type}>
+              <button onClick={scrapClick} className={policyType ? style.off : ""}>스크랩</button>
+              <button onClick={noticeClick} className={!policyType ? style.off : ""}>알림</button>
+            </div>
+          </div>
+          <div className={style.policyList_content}>
+            {!policyType ? (<MyPageScrap />) : ("")}
+          </div>
         </div>
         <div className={style.followerList_wrapper}>
           <div className={style.followerList_header}>팔로워 목록</div>

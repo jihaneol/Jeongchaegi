@@ -1,14 +1,11 @@
-/* .nav_wrap {
-  display: flex;
-  justify-content: space-between;
-  min-width: 100%;
-  min-height: 5rem;
-  align-items: center;
+.nav_wrap {
   position: fixed;
+  width: 100%;
   z-index: 500;
-  top: 0px;
+  top: 0%;
 }
 
+/*
 .nav_menu {
   display: flex;
   justify-content: space-evenly;
@@ -16,9 +13,8 @@
   min-width: 60%;
 }
 
-.nav_logo { */
-/* background-image: url("../../img/Logo.png"); */
-/* background-size: cover;
+.nav_logo {
+  background-size: cover;
   min-height: 4.5rem;
   min-width: 10.5rem;
   height: inherit;
@@ -26,7 +22,7 @@
   margin-right: 3rem;
 }
 
-.nav_menu > a {
+.nav_menu>a {
   font-size: 1.5rem;
   color: white;
   font-weight: bold;
