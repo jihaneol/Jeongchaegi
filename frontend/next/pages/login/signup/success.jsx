@@ -9,8 +9,6 @@ export default function Success() {
   const userData = useSelector((state) => state.user);
   const router = useRouter();
 
-  console.log("login/signup/success");
-
   return (
     <div className={style.success_wrap}>
       <div className={style.success_container}>

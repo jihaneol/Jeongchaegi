@@ -57,9 +57,9 @@ public class PostController {
     public ResponseEntity updatePost(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody RequestPostDto requestPostDto) {
 
 
-        postService.modifyPost(principalDetails, requestPostDto);
+        HttpStatus status = postService.modifyPost(principalDetails, requestPostDto);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(status);
 
     }
 
