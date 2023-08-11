@@ -28,20 +28,18 @@ export default function Nav() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (seconds > 0)
-        setSeconds(prev => prev - 1);
+      if (seconds > 0) setSeconds((prev) => prev - 1);
       else if (minutes > 0) {
-        setMinutes(prev => prev - 1);
+        setMinutes((prev) => prev - 1);
         setSeconds(59);
-      }
-      else {
+      } else {
         clearInterval(interval);
         alert("로그아웃 되었습니다.");
         logout();
       }
-    }, 1000)
+    }, 1000);
     return () => clearInterval(interval);
-  }, [minutes, seconds])
+  }, [minutes, seconds]);
 
   function resetTimer() {
     setMinutes(30);
@@ -88,24 +86,24 @@ export default function Nav() {
           >
             MyPage
           </button>
-        </div >
+        </div>
         {!userData.isLogined ? (
           <Link href="/login">
             <a
               className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
-              >
+            >
               Login
             </a>
           </Link>
         ) : (
           <div className={style.nav_logout_box}>
             <div className={style.nav_reset_box}>
-              로그인 유지 시간 
+              로그인 유지 시간
               {` ${minutes} : `}
               {seconds < 10 ? "0" : ""}
               {seconds}
-              <button  onClick={resetTimer}>재설정</button>
-            </div> 
+              <button onClick={resetTimer}>재설정</button>
+            </div>
             <button
               className={` bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
               onClick={logoutHandler}
