@@ -26,6 +26,7 @@ function AppContent({ Component, pageProps }) {
     
     const logoutTimer = setTimeout(() => {
       dispatch(userActions.setLogout());
+      alert("로그아웃 되었습니다.");
       logout();
     }, LOGOUT_TIME_SET);
 
