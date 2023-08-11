@@ -13,7 +13,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class EventDTO {
-    private String calendarId;
-    private EventCreateDTO event;
+    private String title;
+    private TimeDTO time;
+    private String rrule;
+    private String description;
+    private LocationDTO location;
+    private Integer[] reminders;
+    private String color;
 }
-

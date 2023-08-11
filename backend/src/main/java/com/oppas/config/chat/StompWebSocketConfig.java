@@ -3,9 +3,10 @@ package com.oppas.config.chat;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -21,8 +22,8 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("api/policychat").setAllowedOrigins("http://localhost:3000", "http://localhost:8080","http://localhost:8088","http://3.36.131.236:443","http://3.36.131.236:80","https://3.36.131.236:443","https://3.36.131.236:80","https://3.36.131.236:3000").withSockJS();
-        registry.addEndpoint("api/personalchat").setAllowedOrigins("http://localhost:3000", "http://localhost:8080","http://localhost:8088","http://3.36.131.236:443","http://3.36.131.236:80","https://3.36.131.236:443","https://3.36.131.236:80","https://3.36.131.236:3000").withSockJS();
+        registry.addEndpoint("ws/policychat").setAllowedOrigins("http://localhost:3000","http://3.36.131.236:443","http://3.36.131.236:80","http://3.36.131.236:3000").withSockJS();
+    
     }
 
     
