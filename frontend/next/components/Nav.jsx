@@ -58,7 +58,7 @@ export default function Nav() {
   }
 
   return (
-    <div className={`${style.nav_wrap} bg-gray-800 text-white p-3`}>
+    <div className={`${style.nav_wrap} bg-gray-800 text-white p-2`}>
       <div className={`${style.nav_menu}`}>
         <div className="flex items-center space-x-6 flex-1">
           <Link href="/">

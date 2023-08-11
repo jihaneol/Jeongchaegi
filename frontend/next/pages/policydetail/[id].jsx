@@ -15,18 +15,31 @@ import Head from "next/head";
 
 import Style from "../../styles/PolicyDetail.module.css";
 import LiveChat from "../../components/LiveChat";
+import OurAxios from "../../config/ourAxios";
+import CantNoticeRegister from "../../components/CantNoticeRegister";
+import CanNoticeRegister from "../../components/CanNoticeRegister";
 
 export default function Page(props) {
   // const router = useRouter();
-  console.log(props);
   const post = props.post;
-  console.log(post);
+  const api = OurAxios();
   // const keys = Object.keys(post);
   // console.log(keys);
 
   // 북마크, 유저ID 상태 관리
   const [chkBookmark, setchkBookmark] = useState(null);
   const [userId, setUserId] = useState(null);
+
+  // 알람 상태 관리
+  const [chkNotice, setChkNotice] = useState(false);
+
+  // 알림 설정 가능 여부
+  useEffect(() => {
+    api.get(`/events/posible/policies/${post}`).then((res) => {
+      setChkNotice(res.data);
+      console.log(res);
+    });
+  });
 
   useEffect(() => {
     // 북마크 체크 확인
@@ -89,10 +102,13 @@ export default function Page(props) {
                 <FaBars className="text-gray-600 mr-4 cursor-pointer" />
                 <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
                 <div className={`${Style.icon} flex items-center`}>
-                  {chkBookmark ? (
-                    <FaBellSlash className="cursor-pointer" />
+                  {/* 알림 설정 파트 */}
+                  {/* 알림 설정 되어 있는지 여부는 여기 파일에서 확인 */}
+                  {/* 나머지 작업은 컴포넌트 만들어야 함 */}
+                  {!chkNotice ? (
+                    <CantNoticeRegister className="cursor-pointer" />
                   ) : (
-                    <FaBell className="cursor-pointer" />
+                    <CanNoticeRegister postNum={post} className="cursor-pointer" />
                   )}
                   {chkBookmark ? (
                     <FaRegBookmark

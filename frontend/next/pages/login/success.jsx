@@ -11,6 +11,7 @@ export default function Success() {
   // useCookies 훅을 사용하여 쿠키 객체를 받아옵니다.
   const [atCookies, setCookie, removeCookie] = useCookies(["at"]);
   const [rtCookies, setrtCookie, removertCookie] = useCookies(["rt"]);
+  const [ktCookies, setktCookie, removektCookie] = useCookies(["kt"]);
   const [tokenReceive, setTokenReceive] = useCookies(false);
 
 	const userData = useSelector(state => state.user);
@@ -23,6 +24,7 @@ export default function Success() {
     if (atCookies && rtCookies) {
       localStorage.setItem("accessToken", atCookies.at);
       localStorage.setItem("refreshToken", rtCookies.rt);
+      localStorage.setItem("kakaoToken", ktCookies.kt);
 			setTokenReceive(true);
     }
   }
