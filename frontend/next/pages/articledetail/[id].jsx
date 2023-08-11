@@ -7,7 +7,6 @@ import html from "remark-html";
 import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
-import style from "../../styles/ArticleDetail.module.css";
 
 // 잠깐 테스트용, 나중에 가능하면 ssr로 바꿀거임========================================================
 
