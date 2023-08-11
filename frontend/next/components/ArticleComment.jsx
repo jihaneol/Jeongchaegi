@@ -65,7 +65,13 @@ export default function ArticleComment() {
         console.log(err);
       })
       .finally(()=>{
-        setArticleComment([...ArticleComment, {nickname:localStorage.getItem('userName'), comment:newComment, memberId:localStorage.getItem('userID')}])
+        const newdata = {
+          nickname:localStorage.getItem('userName'),
+          comment:newComment,
+          memberId:localStorage.getItem('userID'),
+        }
+        if (articleComment) setArticleComment([...ArticleComment, newdata])
+        else setArticleComment([newdata])
         setNewComment('')
       })
     }
