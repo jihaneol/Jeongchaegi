@@ -8,5 +8,4 @@ import lombok.Data;
 public class JwtResponse {
     private String refreshToken;
     private String accessToken;
-    private String kakaoToken;
 }
