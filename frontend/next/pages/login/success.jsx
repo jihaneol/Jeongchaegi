@@ -45,8 +45,6 @@ export default function Success() {
 		})
 	}
 
-	
-
 	useEffect(() => {
 		async function fetchData() {
 			await setToken();

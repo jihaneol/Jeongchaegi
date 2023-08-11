@@ -5,6 +5,30 @@
   top: 0%;
 }
 
+.nav_logout_box{
+  display: flex;
+}
+
+.nav_reset_box {
+  font-size: 13px;
+  line-height: 1z0px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10%;
+
+}
+
+.nav_reset_box > button {
+  font-size: 13px;
+  line-height: 50px;
+  margin: 0px 10px;
+  height: 20px;
+  background-color: #7474e9;
+  line-height: 0px;
+  border-radius: 5px !important;
+  padding: 3px;
+}
 /*
 .nav_menu {
   display: flex;
