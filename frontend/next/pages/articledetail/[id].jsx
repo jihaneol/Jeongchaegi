@@ -45,14 +45,14 @@ export default function Page({ params }) {
         url: `http://3.36.131.236/api/posts/${router.query.id}`,
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setDetailData(res.data);
         })
         .catch((err) => {
           console.log(err);
         })
         .finally(() => {
-          console.log("end detail data!");
+          // console.log("end detail data!");
         });
     }
     else{
@@ -72,12 +72,11 @@ export default function Page({ params }) {
   }
   function deleteArticle() {
     // 사용자가 같으면 삭제 가능, 다르면 삭제 불가
-    console.log(typeof localStorage.getItem("userID"));
     if (localStorage.getItem("userID") == detailData.memberId) {
       api
         .delete(`/posts/${router.query.id}`)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
         })
         .catch((err) => {
           console.log(err);

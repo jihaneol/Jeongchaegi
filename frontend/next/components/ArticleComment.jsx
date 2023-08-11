@@ -70,7 +70,7 @@ export default function ArticleComment() {
           comment:newComment,
           memberId:localStorage.getItem('userID'),
         }
-        if (articleComment) setArticleComment([...ArticleComment, newdata])
+        if (articleComment) setArticleComment([...articleComment, newdata])
         else setArticleComment([newdata])
         setNewComment('')
       })
@@ -84,7 +84,7 @@ export default function ArticleComment() {
       <div>ArticleComment</div>
       {articleComment ? articleComment.map((item, index)=>(
         <div key={index} className='flex'>
-          <p>{item.nickname}</p>
+          <p>{item.nickname}:</p>
           <p>{item.comment}</p>
         </div>
       )): 'no comment'}
