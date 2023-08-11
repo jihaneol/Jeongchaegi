@@ -6,6 +6,7 @@ import OurAxios from '../config/ourAxios'
 import { useDispatch, useSelector } from "react-redux";
 
 let page = 1
+let lastpage = 999
 
 export default function ArticleComment() {
   // state list ==============================================
@@ -18,14 +19,18 @@ export default function ArticleComment() {
 
   // effect list ==============================================
   useEffect(()=>{
+    page = 1
+    lastpage = 999
+  }, [])
+  
+  useEffect(()=>{
     if (router.query.id) {
-      getComment()
+      getComment(page)
     }
   },[router.query.id])
-
   // function list ===================================
 
-  function getComment() {
+  function getComment(page) {
     axios({
       method:'get',
       url:`http://3.36.131.236/api/comments/${router.query.id}`,
@@ -34,11 +39,11 @@ export default function ArticleComment() {
       }
     })
     .then((res)=>{
+      lastpage = res.data.totalPages
       if (res.status===204) {
         setArticleComment(null)
       }
       else{
-        console.log(res.data.content);
         setArticleComment([...articleComment, ...res.data.content])
       }
     })
@@ -52,33 +57,40 @@ export default function ArticleComment() {
 
   function commentSubmit(e) {
     e.preventDefault()
-    console.log(newComment);
     if (newComment.trim()) {
       api.post(`/comments`, {
         postId:router.query.id,
         comment:newComment
       })
       .then((res)=>{
-        console.log(res);
+        let newdata = null
+        axios({
+          method:'get',
+          url:`http://3.36.131.236/api/comments/${router.query.id}`,
+          params:{
+          pageIdx:lastpage
+          }
+        })
+        .then((res)=>{
+          console.log(res.data.slice(-1)[0]);
+          newdata = res.data.slice(-1)[0]
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
+        .finally(()=>{
+          if (articleComment) {
+            setArticleComment([...articleComment, newdata])
+          }
+          else {
+            setArticleComment([newdata])
+          }
+        })
       })
       .catch((err)=>{
         console.log(err);
       })
       .finally(()=>{
-        const newdata = {
-          nickname:localStorage.getItem('userName'),
-          comment:newComment,
-          memberId:localStorage.getItem('userID'),
-        }
-        if (articleComment) {
-          console.log('article comment 있슴');
-          console.log(articleComment, newdata);
-          setArticleComment([...articleComment, newdata])
-        }
-        else {
-          console.log('코멘트 없음');
-          setArticleComment([newdata])
-        }
         setNewComment('')
       })
     }
