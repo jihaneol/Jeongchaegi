@@ -90,6 +90,14 @@ export default function Nav() {
           </button>
         </div >
         {!userData.isLogined ? (
+          <Link href="/login">
+            <a
+              className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
+              >
+              Login
+            </a>
+          </Link>
+        ) : (
           <div className={style.nav_logout_box}>
             <div className={style.nav_reset_box}>
               로그인 유지 시간 
@@ -98,16 +106,6 @@ export default function Nav() {
               {seconds}
               <button  onClick={resetTimer}>재설정</button>
             </div> 
-            <Link href="/login">
-              <a
-                className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
-                >
-                Login
-              </a>
-            </Link>
-          </div>
-        ) : (
-          <div className={style.nav_logout_box}>
             <button
               className={` bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
               onClick={logoutHandler}
