@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,18 +53,27 @@ public class EventService {
     /**
      * 정책 정보를 통해 일정 생성 폼 반환
      */
-    public EventDTO getEventCreateForm(Long policyId) throws Exception {
+    public List<EventDTO> getEventCreateForm(Long policyId) throws Exception {
+        List<EventDTO> events = new ArrayList<>();
         PolicyDate policyDate = policyDateRepository.findByPolicyId(policyId).orElseThrow();
-        String startAt = policyDate.getRqutPrdBegin().toString() + "T00:00:00Z";
-        String endAt = policyDate.getRqutPrdEnd().toString() + "T00:00:00Z";
-        TimeDTO time = new TimeDTO(startAt, endAt, "Asia/Seoul", true, false);
+
+        String dateBegin1 = policyDate.getRqutPrdBegin() + "T00:00:00Z";
+        String dateBegin2 = policyDate.getRqutPrdBegin().plusDays(1) + "T00:00:00Z";
+        String dateEnd1 = policyDate.getRqutPrdEnd() + "T00:00:00Z";
+        String dateEnd2 = policyDate.getRqutPrdEnd().plusDays(1) + "T00:00:00Z";
+        TimeDTO time1 = new TimeDTO(dateBegin1, dateBegin2, "Asia/Seoul", true, false);
+        TimeDTO time2 = new TimeDTO(dateEnd1, dateEnd2, "Asia/Seoul", true, false);
 
         Policy policy = policyDate.getPolicy();
-        String title = policy.getPolyBizSjnm();
+        String title1 = policy.getPolyBizSjnm() + " (신청 시작일)";
+        String title2 = policy.getPolyBizSjnm() + " (신청 마감일)";
         String description = policy.getPolyItcnCn();
         Integer[] reminders = new Integer[]{900, -540};
 
-        return new EventDTO(title, time, null, description, null, reminders, "ROYAL_BLUE");
+        events.add(new EventDTO(title1, time1, null, description, null, reminders, "ROYAL_BLUE"));
+        events.add(new EventDTO(title2, time2, null, description, null, reminders, "ROYAL_BLUE"));
+
+        return events;
     }
 
     /**

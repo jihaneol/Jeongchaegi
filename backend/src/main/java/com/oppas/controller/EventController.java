@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/events")
 @RequiredArgsConstructor
@@ -35,9 +37,9 @@ public class EventController {
     }
 
     @GetMapping("/form/policies/{policyId}")
-    public ResponseEntity<EventDTO> getEventCreateForm(@PathVariable Long policyId) throws Exception {
-        EventDTO event = eventService.getEventCreateForm(policyId);
-        return ResponseEntity.ok(event);
+    public ResponseEntity<List<EventDTO>> getEventCreateForm(@PathVariable Long policyId) throws Exception {
+        List<EventDTO> events = eventService.getEventCreateForm(policyId);
+        return ResponseEntity.ok(events);
     }
 
     @PostMapping("/{eventId}/save/policies/{policyId}")
