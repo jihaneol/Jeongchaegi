@@ -70,8 +70,15 @@ export default function ArticleComment() {
           comment:newComment,
           memberId:localStorage.getItem('userID'),
         }
-        if (articleComment) setArticleComment([...articleComment, newdata])
-        else setArticleComment([newdata])
+        if (articleComment) {
+          console.log('article comment 있슴');
+          console.log(articleComment, newdata);
+          setArticleComment([...articleComment, newdata])
+        }
+        else {
+          console.log('코멘트 없음');
+          setArticleComment([newdata])
+        }
         setNewComment('')
       })
     }
