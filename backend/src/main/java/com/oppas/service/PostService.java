@@ -71,16 +71,28 @@ public class PostService {
     }
 
     @Transactional//수저 필요 유저의 정보와 게시물 작성자 일치 여부 확인 필요
-    public void modifyPost(PrincipalDetails principalDetails, RequestPostDto requestPostDto){
+    public HttpStatus modifyPost(PrincipalDetails principalDetails, RequestPostDto requestPostDto){
 
-
+        System.out.println(requestPostDto);
         Member member = principalDetails.getMember();
+        System.out.println(member.toString());
+        if(requestPostDto.getMemberId()==null||member==null||!(requestPostDto.getMemberId().equals(member.getId()))) {
+            System.out.println("forbidden");
+            return HttpStatus.FORBIDDEN;
+        }
+        Optional<Post> postOptional = postRepository.findById(requestPostDto.getId());
 
-        Post post =  postRepository.findById(requestPostDto.getId()).orElseThrow(EntityNotFoundException::new);
+        if(postOptional.isEmpty()){
+            System.out.println("nocon");
+            return HttpStatus.NO_CONTENT;
+        }
+        System.out.println("최종");
+        Post post = postOptional.get();
+        System.out.println(post.toString());
+        post.modifyPost(requestPostDto.getTitle(), requestPostDto.getContent());
+        System.out.println(post.toString());
 
-        post.modifyPost(requestPostDto.getTitle(),requestPostDto.getContent());
-
-
+        return HttpStatus.OK;
     }
 
     @Transactional
