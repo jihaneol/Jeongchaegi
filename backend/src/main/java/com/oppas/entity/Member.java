@@ -42,11 +42,11 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
 
-    @OneToMany(mappedBy = "followerId",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "follower",cascade = CascadeType.ALL)
     private final List<Follow> followerList = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "followeeId",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "followee",cascade = CascadeType.ALL)
     private final List<Follow> followeeList = new ArrayList<>();
 
 

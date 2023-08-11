@@ -75,6 +75,9 @@ public class JwtService {
                 .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
                 .sign(Algorithm.HMAC512(secretKey));
     }
+    public void sendkakaoToken(HttpServletResponse response, String kakaoToken) {
+        setKakaoTokenHeader(response, kakaoToken);
+    }
 
     /**
      * AccessToken 헤더에 실어서 보내기
@@ -142,6 +145,13 @@ public class JwtService {
             log.error("액세스 토큰이 유효하지 않습니다.");
             return Optional.empty();
         }
+    }
+
+    public void setKakaoTokenHeader(HttpServletResponse response, String kakaoToken) {
+        Cookie cookie = new Cookie("kt", kakaoToken);
+        cookie.setMaxAge(60 * 2);
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 
     /**

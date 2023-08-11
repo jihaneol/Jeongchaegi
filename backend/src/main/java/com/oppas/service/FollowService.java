@@ -1,13 +1,17 @@
 package com.oppas.service;
 
+import com.oppas.dto.member.FollowInfo;
+import com.oppas.dto.member.FollowListDTO;
 import com.oppas.entity.Follow;
 import com.oppas.entity.Member;
 import com.oppas.repository.FollowRepository;
 import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +21,10 @@ public class FollowService {
 
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
+    private final ModelMapper modelMapper;
+    /**
+     * 팔로우 하기
+     */
     @Transactional
     public void follow(Long to, Long from) {
 
@@ -28,25 +36,51 @@ public class FollowService {
         Follow follower = new Follow(toMember,fromMember);
 
         toMember.getFollowerList().add(follower);
-//        followRepository.save(follower);
     }
+
+    /**
+     * 팔로우 취소
+     */
 
     @Transactional
     public void unFollow(Long to, Long from) {
 
-        // 남이 구독당함
-        Member toMember = memberRepository.findById(to).get();
-        // 내가 구독누름
-        Member fromMember = memberRepository.findById(from).get();
+        followRepository.deleteByFolloweeIdAndFollowerId(from,to);
+    }
 
-        toMember.getFollowerList().stream()
-                        .filter(o -> o.getFollowerId().getId()==to)
-                                .collect(Collectors.toList())
-                                        .forEach(li -> toMember.getFollowerList().remove(li.getId()));
+    /**
+     * 팔로우 수
+     */
+    public FollowInfo Info(Long id) {
+        Member member = memberRepository.findById(id).get();
+        return new FollowInfo(member.followCount(),member.followeeCount());
+    }
 
-        fromMember.getFolloweeList().stream()
-                .filter(o -> o.getFollowerId().getId()==from)
-                .collect(Collectors.toList())
-                .forEach(li -> toMember.getFolloweeList().remove(li.getId()));
+    /**
+     * 팔로우 했는지 확인하기
+     */
+    public boolean checkFollow(Long toId, Long fromId) {
+        boolean result = followRepository.findAllByFollowerId(toId).stream()
+                .anyMatch(o -> o.getFollowee().getId() == fromId);
+        return result;
+    }
+
+    public List<FollowListDTO> getfollowerList(Long id) {
+//        PageRequest pageable = PageRequest.of(pageIndex - 1, 1000, Sort.by("id").descending());
+        List<Member> followerMember = followRepository.findAllByFolloweeId(id).stream()
+                .map(o -> o.getFollower())
+                .collect(Collectors.toList());
+        return followerMember.stream()
+                .map(member -> new FollowListDTO(member.getId(),member.getNickname(),member.getImg()))
+                .collect(Collectors.toList());
+    }
+
+    public List<FollowListDTO> getfolloweeList( Long id) {
+        List<Member> followeeMember = followRepository.findAllByFollowerId(id).stream()
+                .map(o -> o.getFollowee())
+                .collect(Collectors.toList());
+        return followeeMember.stream()
+                .map(member -> new FollowListDTO(member.getId(),member.getNickname(),member.getImg()))
+                .collect(Collectors.toList());
     }
 }

@@ -1,8 +1,12 @@
 package com.oppas.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,15 +20,18 @@ public class Follow {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "follower_id")
-    private Member followerId;
+    private Member follower;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "followee_id")
-    private Member followeeId;
+    private Member followee;
+
+    @CreationTimestamp
+    private LocalDateTime followTime;
 
     public Follow(Member to, Member from){
-        this.followerId = to;
-        this.followeeId = from;
+        this.follower = to;
+        this.followee = from;
     }
 
 }

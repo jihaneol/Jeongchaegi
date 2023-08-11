@@ -26,14 +26,16 @@ public class MemberService {
     private final PolicyTypeRepository policyTypeRepository;
     private final FollowRepository followRepository;
 
+    /**
+     * 회원 가입
+     */
     @Transactional
-    public void signUp(MemberSignUpDTO memberSignUpDTO,long id) {
+    public void signUp(MemberSignUpDTO memberSignUpDTO, long id) {
         Member member = memberRepository.findById(id).get();
         member.join(memberSignUpDTO);
-        for(String policyId: memberSignUpDTO.getPolicyId()){
+        for (String policyId : memberSignUpDTO.getPolicyId()) {
             // Type 찾기
             PolicyType findType = policyTypeRepository.findById(policyId).orElseThrow();
-            // PolicyMemberMapped 생성자?
             PolicyMemberMapped mapped = PolicyMemberMapped.builder()
                     .policyType(findType)
                     .member(member)
@@ -43,6 +45,10 @@ public class MemberService {
         }
         member.updateJoin(true);
     }
+
+    /**
+     * 닉네임 중복 검사
+     */
 
     public boolean findNickName(String nickname) {
         Optional<Member> member = memberRepository.findByNickname(nickname);
@@ -57,20 +63,24 @@ public class MemberService {
 
     }
 
+    /**
+     * 회원 정보 수정
+     */
+
     @Transactional
     public Member updateMember(Long id, MemberForm memberForm) {
         Member member = memberRepository.findById(id).get();
         member.getPolicyMemberMappeds().clear();
         member.setCity(memberForm.getCity());
 
-        for (String policyId :memberForm.getPolicyId()) {
+        for (String policyId : memberForm.getPolicyId()) {
             PolicyType findType = policyTypeRepository.findById(policyId).orElseThrow();
             PolicyMemberMapped build = PolicyMemberMapped.builder()
                     .time(LocalDateTime.now())
                     .policyType(findType)
                     .member(member)
                     .build();
-             member.getPolicyMemberMappeds().add(build);
+            member.getPolicyMemberMappeds().add(build);
         }
         return member;
     }
