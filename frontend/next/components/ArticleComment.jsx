@@ -72,8 +72,8 @@ export default function ArticleComment() {
           }
         })
         .then((res)=>{
-          console.log(res.data.slice(-1)[0]);
-          newdata = res.data.slice(-1)[0]
+          console.log(res.data.content.slice(-1)[0]);
+          newdata = res.data.content.slice(-1)[0]
         })
         .catch((err)=>{
           console.log(err);
