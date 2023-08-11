@@ -7,7 +7,6 @@ import com.oppas.entity.event.Event;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.PolicyDate;
 import com.oppas.repository.EventRepository;
-import com.oppas.repository.MemberRepository;
 import com.oppas.repository.policy.PolicyDateRepository;
 import com.oppas.repository.policy.PolicyRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,25 +24,56 @@ import javax.persistence.EntityNotFoundException;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final MemberRepository memberRepository;
     private final PolicyRepository policyRepository;
     private final PolicyDateRepository policyDateRepository;
 
     /**
+     * 해당 정책에 대해 일정 등록 가능 여부 파악
+     */
+    public Boolean isPossibleEvent(Long policyId) throws Exception {
+        Optional<PolicyDate> policyDate = policyDateRepository.findByPolicyId(policyId);
+        return policyDate.isPresent();
+    }
+
+    /**
+     * 정책에 대한 일정 가져오기
+     */
+    public String checkEvent(Long memberId, Long policyId) throws Exception {
+        Optional<Event> event = eventRepository.findByMemberIdAndPolicyId(memberId, policyId);
+        return event.map(Event::getId).orElse(null);
+    }
+
+    /**
+     * 해당 정책 일정을 등록한 사용자의 수
+     */
+    public Long countMyEvents(Long policyId) throws Exception {
+        return eventRepository.countByPolicyId(policyId);
+    }
+
+    /**
      * 정책 정보를 통해 일정 생성 폼 반환
      */
-    public EventDTO getEventCreateForm(Long policyId) throws Exception {
+    public List<EventDTO> getEventCreateForm(Long policyId) throws Exception {
+        List<EventDTO> events = new ArrayList<>();
         PolicyDate policyDate = policyDateRepository.findByPolicyId(policyId).orElseThrow();
-        String startAt = policyDate.getRqutPrdBegin().toString() + "T03:00:00Z";
-        String endAt = policyDate.getRqutPrdEnd().toString() + "T03:00:00Z";
-        TimeDTO time = new TimeDTO(startAt, endAt, "Asia/Seoul", true, false);
+
+        String dateBegin1 = policyDate.getRqutPrdBegin() + "T00:00:00Z";
+        String dateBegin2 = policyDate.getRqutPrdBegin().plusDays(1) + "T00:00:00Z";
+        String dateEnd1 = policyDate.getRqutPrdEnd() + "T00:00:00Z";
+        String dateEnd2 = policyDate.getRqutPrdEnd().plusDays(1) + "T00:00:00Z";
+        TimeDTO time1 = new TimeDTO(dateBegin1, dateBegin2, "Asia/Seoul", true, false);
+        TimeDTO time2 = new TimeDTO(dateEnd1, dateEnd2, "Asia/Seoul", true, false);
 
         Policy policy = policyDate.getPolicy();
-        String title = policy.getPolyBizSjnm();
+        String title1 = policy.getPolyBizSjnm() + " (신청 시작일)";
+        String title2 = policy.getPolyBizSjnm() + " (신청 마감일)";
         String description = policy.getPolyItcnCn();
         Integer[] reminders = new Integer[]{900, -540};
 
-        return new EventDTO(title, time, null, description, null, reminders, "ROYAL_BLUE");
+        events.add(new EventDTO(title1, time1, null, description, null, reminders, "ROYAL_BLUE"));
+        events.add(new EventDTO(title2, time2, null, description, null, reminders, "ROYAL_BLUE"));
+
+        return events;
     }
 
     /**
@@ -52,4 +85,11 @@ public class EventService {
         eventRepository.save(event);
     }
 
+    /**
+     * 일정을 캘린더에서 지우기
+     */
+    public String deleteEvent(String eventId) throws Exception {
+        eventRepository.deleteById(eventId);
+        return eventId;
+    }
 }
