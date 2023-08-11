@@ -4,8 +4,6 @@ import Link from "next/link";
 import ArticleListItem from "../components/ArticleListItem";
 import axios from "axios";
 import { useRouter } from "next/router";
-import style from "../styles/ArticleList.module.css";
-import Spin from "../components/Spin";
 
 // 인증 관련
 import { useDispatch, useSelector } from "react-redux";
