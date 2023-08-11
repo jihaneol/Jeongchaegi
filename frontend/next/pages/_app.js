@@ -65,7 +65,8 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Provider store={store}>
         {/* <PersistGate loading={null} persistor={persistor}> */}
-          <AppContent Component={Component} pageProps={pageProps} />
+          {/* <AppContent Component={Component} pageProps={pageProps} /> */}
+          <Component {...pageProps} />
         {/* </PersistGate> */}
       </Provider>
     </>

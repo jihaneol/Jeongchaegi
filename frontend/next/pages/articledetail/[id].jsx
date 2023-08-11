@@ -97,35 +97,40 @@ export default function Page({ params }) {
   return (
     <>
       <Nav />
-      <div className="flex flex-col items-center p-4 space-y-6">
+      <div className="flex flex-col items-center p-4 space-y-6 mt-24">
+        <div className="w-full max-w-4xl mt-12">
+          {detailData ? (
+            <>
+              <h1 className="text-4xl font-bold text-center text-black-700 mb-6">
+                {detailData.title}
+              </h1>
+              <div className="bg-white shadow-md p-6 rounded-lg space-y-4">
+                <div className="p-4 bg-gray-100 rounded">
+                  <EditerMarkdown source={detailData.content} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-4 text-gray-400">Loading...</div>
+          )}
 
-        {detailData ? (
-          <div className="w-full max-w-4xl bg-white shadow-md p-6 rounded-lg space-y-4 mt-24">
-            <h1 className="text-2xl font-semibold">{detailData.title}</h1>
-            <div className="p-4 bg-gray-100 rounded">
-              <EditerMarkdown source={detailData.content} />
+          {userData.isLogined && (
+            <div className="mt-6 space-x-4">
+              <button
+                onClick={updateArticle}
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+              >
+                수정
+              </button>
+              <button
+                onClick={deleteArticle}
+                className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200"
+              >
+                삭제
+              </button>
             </div>
-          </div>
-        ) : (
-          <div className="text-center py-4 text-gray-400">Loading...</div>
-        )}
-
-        {userData.isLogined && (
-          <div className="space-x-4">
-            <button
-              onClick={updateArticle}
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-            >
-              수정
-            </button>
-            <button
-              onClick={deleteArticle}
-              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200"
-            >
-              삭제
-            </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );
