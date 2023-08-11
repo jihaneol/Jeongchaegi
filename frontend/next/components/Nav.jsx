@@ -59,8 +59,8 @@ export default function Nav() {
 
   return (
     <div className={`${style.nav_wrap} bg-gray-800 text-white p-3`}>
-      <div className={`flex justify-space-between items-center`}>
-        <div className="flex items-center space-x-6">
+      <div className={`${style.nav_menu}`}>
+        <div className="flex items-center space-x-6 flex-1">
           <Link href="/">
             <a>
               <Image
@@ -91,6 +91,13 @@ export default function Nav() {
         </div >
         {!userData.isLogined ? (
           <div className={style.nav_logout_box}>
+            <div className={style.nav_reset_box}>
+              로그인 유지 시간 
+              {` ${minutes} : `}
+              {seconds < 10 ? "0" : ""}
+              {seconds}
+              <button  onClick={resetTimer}>재설정</button>
+            </div> 
             <Link href="/login">
               <a
                 className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
@@ -101,14 +108,6 @@ export default function Nav() {
           </div>
         ) : (
           <div className={style.nav_logout_box}>
-            <div className={style.nav_reset_box}>
-              로그인 유지 시간 
-              <br></br>
-              {` ${minutes} : `}
-              {seconds < 10 ? "0" : ""}
-              {seconds}
-              <button  onClick={resetTimer}>재설정</button>
-            </div> 
             <button
               className={` bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
               onClick={logoutHandler}
