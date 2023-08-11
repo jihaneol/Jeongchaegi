@@ -58,7 +58,7 @@ public class CommentService {
 
     public Page<CommentResponseDto> getListComment(Long postId, int pageIdx) {
 
-        Pageable pageable = PageRequest.of(pageIdx - 1, 10, Sort.by("id").descending());
+        Pageable pageable = PageRequest.of(pageIdx - 1, 10, Sort.by("id").ascending());
 
         Post post = postRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
 
