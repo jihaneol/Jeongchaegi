@@ -11,13 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 // 잠깐 테스트용, 나중에 가능하면 ssr로 바꿀거임========================================================
 
 // 일단 react-md 라이브러리 프리뷰는 주석처리, nextjs에서 말하는 renark라이브러리 써볼거임
-// const EditerMarkdown = dynamic(
-//   () =>
-//     import("@uiw/react-md-editor").then((mod) => {
-//       return mod.default.Markdown;
-//     }),
-//   { ssr: false }
-// );
 // const Markdown = dynamic(
 //   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
 //   { ssr: false }
@@ -27,6 +20,8 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import OurAxios from "../../config/ourAxios";
+import ArticleComment from "../../components/ArticleComment";
+
 
 const EditerMarkdown = dynamic(
   () =>
@@ -42,24 +37,28 @@ export default function Page({ params }) {
   const [detailData, setDetailData] = useState(null);
   const userData = useSelector((state) => state.user);
   const api = OurAxios();
-  console.log(params);
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `http://3.36.131.236/api/posts/${router.query.id}`,
-    })
-      .then((res) => {
-        console.log(res);
-        setDetailData(res.data);
+    if (router.query.id) {
+      axios({
+        method: "get",
+        url: `http://3.36.131.236/api/posts/${router.query.id}`,
       })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        console.log("end detail data!");
-      });
-  }, []);
+        .then((res) => {
+          console.log(res);
+          setDetailData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          console.log("end detail data!");
+        });
+    }
+    else{
+      return
+    }
+  }, [router.query.id]);
 
   // 수정, 삭제 버튼 함수
 
@@ -131,6 +130,7 @@ export default function Page({ params }) {
             </div>
           )}
         </div>
+      <ArticleComment />
       </div>
     </>
   );
