@@ -74,7 +74,7 @@ export default function Page(props) {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div>
       {post ? (
         <>
           <Head>
@@ -278,8 +278,10 @@ export default function Page(props) {
                   </div>
                 </div>
               </div>
-              <div className={`${Style.chat_box} max-w-6xl mx-auto p-6`}>
-                <div className={`${Style.chat}`}>
+              <div className={`max-w-6xl p-6`}>
+                <div
+                  className={`flex flex-col w-full m-4 mt-0 min-h-[24rem] bg-[#adc4ff]`}
+                >
                   <h4>채팅방</h4>
                   <LiveChat pageId={post.id} userId={userId} />
                 </div>
