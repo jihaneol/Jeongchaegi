@@ -151,6 +151,8 @@ public class JwtService {
         Cookie cookie = new Cookie("kt", kakaoToken);
         cookie.setMaxAge(60 * 2);
         cookie.setPath("/");
+        // =============================================잠깜만 수정좀
+        cookie.setDomain("www.jeongchaegi.com")
         response.addCookie(cookie);
     }
 
@@ -164,6 +166,8 @@ public class JwtService {
             Cookie cookie = new Cookie("at", accessToken);
             cookie.setMaxAge(60 * 2);
             cookie.setPath("/");
+            // =============================================잠깜만 수정좀
+            cookie.setDomain("www.jeongchaegi.com")
             //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
@@ -180,6 +184,8 @@ public class JwtService {
             Cookie cookie = new Cookie("rt", refreshToken);
             cookie.setMaxAge(2 * 60);
             cookie.setPath("/");
+            // =============================================잠깜만 수정좀
+            cookie.setDomain("www.jeongchaegi.com")
             //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
