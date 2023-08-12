@@ -1,26 +1,81 @@
+import React, { useEffect, useState } from "react";
 import OurAxios from "../../config/ourAxios";
+import Nav from "../../components/Nav";
 
 export default function follower() {
+  const [followNum, setFollowNum] = useState(0);
+  const [followList, setFollowList] = useState([]);
+  const userInfo = [
+    {
+      refreshToken: "Token",
+      userName: "심경섭",
+      userAge: 26,
+      userCity: "파주",
+      userImg: "/testImg.jpg",
+      userID: 17,
+      userPolicy: [123, 322, 111],
+    },
+    {
+      refreshToken: "Token",
+      userName: "김창희",
+      userAge: 27,
+      userCity: "서울",
+      userImg: "/testImg.jpg",
+      userID: 18,
+      userPolicy: [123, 322, 111],
+    },
+  ];
+
+  // ①팔로우 수 ②팔로우 리스트 받아오기
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const ourAxios = OurAxios();
+        const responseNum = await ourAxios.get("/members/followInfo");
+        setFollowNum(responseNum.data);
+        const responseList = await ourAxios.get("/members/followeeList");
+        setFollowList(responseList.data);
+      } catch (error) {
+        console.error("There was an error fetching the data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // console.log(followLIst);
+  console.log(userInfo);
   return (
-    <svg
-      className="w-16 h-16 text-blue-500 animate-spin"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      ></circle>
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      ></path>
-    </svg>
+    <>
+      <Nav />
+      <div className="bg-gray-100 h-screen p-4 mt-24">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-gray-800">팔로워 리스트</h1>
+        </div>
+        {userInfo.map((user) => {
+          return (
+            <div
+              className="flex items-center bg-white p-4 mb-4 rounded-md shadow-sm"
+              key={user.userID}
+            >
+              <img
+                src={user.userImg}
+                alt={user.userName}
+                className="w-12 h-12 rounded-full mr-4"
+              />
+              <div className="flex-grow">
+                <div className="font-semibold text-gray-700">
+                  {user.userName}
+                </div>
+                <div className="text-sm text-gray-500">{user.userCity}</div>
+              </div>
+              <button className="text-white bg-blue-500 py-1 px-4 rounded-md">
+                팔로우
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 }
