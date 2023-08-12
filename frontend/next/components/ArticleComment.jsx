@@ -12,6 +12,7 @@ export default function ArticleComment() {
   // state list ==============================================
   const [articleComment, setArticleComment] = useState([])
   const [newComment, setNewComment] = useState('')
+  const [updateComment, setUpdateComment] = useState('')
   const router = useRouter()
   const api = OurAxios()
 
@@ -75,17 +76,15 @@ export default function ArticleComment() {
         .then((res)=>{
           console.log(res.data.content.slice(-1)[0]);
           newdata = res.data.content.slice(-1)[0]
-        })
-        .catch((err)=>{
-          console.log(err);
-        })
-        .finally(()=>{
           if (articleComment) {
             setArticleComment([...articleComment, newdata])
           }
           else {
             setArticleComment([newdata])
           }
+        })
+        .catch((err)=>{
+          console.log(err);
         })
       })
       .catch((err)=>{
@@ -97,26 +96,63 @@ export default function ArticleComment() {
     }
   }
 
+  function commentDel(cmtid, mbid) {
+    if (mbid === localStorage.getItem("userID")) {
+      api.delete(`/comments/${cmtid}`)
+      .then(()=>{
+        console.log('success')
+        setArticleComment(articleComment.filter(cmt => cmt.id !== cmtid))
+      })
+      .catch((err)=>{
+        console.log(err);
+        alert('delete fail')
+      })
+    }
+    else alert('cannot delete')
+  }
+
+  function commentUpdate(cmtid, mbid) {
+    if (mbid === localStorage.getItem("userID")) {
+    }
+    else alert('cannot delete')
+  }
+
   // rendering the page ================================    
   return (
 
     <>
-      <div>ArticleComment</div>
+      <div className="text-2xl font-bold mb-4">ArticleComment</div>
+      
       {articleComment ? articleComment.map((item, index)=>(
-        <div key={index} className='flex'>
-          <p>{item.nickname}:</p>
-          <p>{item.comment}</p>
+        <div key={item.id} className='flex items-center space-x-4 mb-2 bg-gray-100 p-2 rounded'>
+          <p className="font-semibold">{item.nickname}:</p>
+          <p className="flex-1">{item.comment}</p>
+          <button onClick={()=>commentDel(item.id, item.memberId)} className="bg-red-500 text-white rounded px-2 py-1">
+            delete comment
+          </button>
+          <button onClick={()=>commentUpdate(item.id, item.memberId)} className="bg-blue-500 text-white rounded px-2 py-1">
+            update comment
+          </button>
         </div>
-      )): 'no comment'}
+      )): 
+      <div className="bg-red-200 p-4 rounded mt-2">
+        No comments
+      </div>}
+
       {userData.isLogined ? 
-      <form onSubmit={commentSubmit}>
-        <input type="text" onChange={handleComment} value={newComment}/>
-        <button>submit</button>
+      <form onSubmit={commentSubmit} className="mt-4">
+        <input 
+          type="text" 
+          onChange={handleComment} 
+          value={newComment} 
+          className="border p-2 rounded w-full mb-2"
+          placeholder="Write your comment here..."
+        />
+        <button className="bg-green-500 text-white rounded px-4 py-2">Submit</button>
       </form>
       :
-      <p>login to submit comment</p>
+      <p className="mt-4 text-red-500">Login to submit a comment</p>
       }
-      
     </>
   )
 }
