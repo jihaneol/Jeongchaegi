@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Nav from "../../components/Nav";
 import {
-  FaBell,
-  FaBellSlash,
   FaBars,
   FaBookmark,
   FaRegBookmark,
+  FaCalendarCheck,
+  FaRegCalendar,
 } from "react-icons/fa";
 import Image from "next/image";
 
@@ -90,17 +90,17 @@ export default function Page(props) {
                 <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
                 <div className={`${Style.icon} flex items-center`}>
                   {chkBookmark ? (
-                    <FaBellSlash className="cursor-pointer" />
+                    <FaCalendarCheck className="cursor-pointer" />
                   ) : (
-                    <FaBell className="cursor-pointer" />
+                    <FaRegCalendar className="cursor-pointer" />
                   )}
                   {chkBookmark ? (
-                    <FaRegBookmark
+                    <FaBookmark
                       className="cursor-pointer"
                       onClick={handleCancelBookmark}
                     />
                   ) : (
-                    <FaBookmark
+                    <FaRegBookmark
                       className="cursor-pointer"
                       onClick={handleAddBookmark}
                     />

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Nav from "../../components/Nav";
 import style from "../../styles/MyPage.module.css";
 import MyPageScrap from "../../components/MyPageScrap";
+import Link from "next/link";
 import Spin from "../../components/Spin";
 
 export default function Page() {
@@ -13,26 +14,62 @@ export default function Page() {
   // state
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
-  const [policyType, setPolicyType] = useState(false) // false == 스크랩, true == 알림
+  const [policyType, setPolicyType] = useState(false); // false == 스크랩, true == 알림
   const [myNotice, setMyNotice] = useState([]);
-  
+
   async function getUserData() {
-    setUserImg(localStorage.getItem("userImg"))
-    setUserName(localStorage.getItem("userName"))
+    setUserImg(localStorage.getItem("userImg"));
+    setUserName(localStorage.getItem("userName"));
   }
-  
+
   function scrapClick() {
     setPolicyType(false);
   }
-  
+
   function noticeClick() {
     setPolicyType(true);
   }
 
   useEffect(() => {
     getUserData();
-  }, [])
-  
+  }, []);
+
+  // 팔로우, 팔로워 페이지 이동
+  function handleStatusCard(item) {
+    switch (item) {
+      case "팔로우":
+        return (
+          <Link href="/follow/1">
+            <a className="hover:bg-gray-200 hover:cursor-pointer transition-all duration-300">
+              <div className={style.status_card}>
+                <div className={style.status_card_header}>{item}</div>
+                <div className={style.status_card_content}>0</div>
+              </div>
+            </a>
+          </Link>
+        );
+      case "팔로워":
+        return (
+          <Link href="/follower/1">
+            <a className="hover:bg-gray-200 hover:cursor-pointer transition-all duration-300">
+              <div className={style.status_card}>
+                <div className={style.status_card_header}>{item}</div>
+                <div className={style.status_card_content}>0</div>
+              </div>
+            </a>
+          </Link>
+        );
+      default:
+        return (
+          <div className={style.status_card}>
+            <div className={style.status_card_header}>{item}</div>
+            <div className={style.status_card_content}>0</div>
+          </div>
+        );
+    }
+  }
+  // 팔로우, 팔로워 페이지 이동
+
   return (
     <div className={style.all_wrapper}>
       <Nav />
@@ -40,11 +77,7 @@ export default function Page() {
         <div className={style.profile_wrapper}>
           <div className={style.profile_box}>
             <div className={style.profile_picture}>
-              <img
-                src={userImg}
-                width="200px"
-                height="200px"
-              />
+              <img src={userImg} width="200px" height="200px" />
             </div>
             <div className={style.profile_name}>{userName}</div>
           </div>
@@ -52,14 +85,15 @@ export default function Page() {
             <div className={style.status_header}>
               <label>My Status</label>
             </div>
+            {/* 팔로우, 팔로워 페이지 이동 */}
             <div className={style.status_content}>
               {myStatus.map((item) => (
-                <div className={style.status_card} key={item}>
-                  <div className={style.status_card_header}>{item}</div>
-                  <div className={style.status_card_content}>0</div>
-                </div>
+                <React.Fragment key={item}>
+                  {handleStatusCard(item)}
+                </React.Fragment>
               ))}
             </div>
+            {/* 팔로우, 팔로워 페이지 이동 */}
             <div className={style.stastus_footer}>
               <button className={style.status_footer_button}>
                 프로필 수정
@@ -72,12 +106,22 @@ export default function Page() {
           <div className={style.policyList_header}>
             <div>My 정책</div>
             <div className={style.polisyList_type}>
-              <button onClick={scrapClick} className={policyType ? style.off : ""}>스크랩</button>
-              <button onClick={noticeClick} className={!policyType ? style.off : ""}>알림</button>
+              <button
+                onClick={scrapClick}
+                className={policyType ? style.off : ""}
+              >
+                스크랩
+              </button>
+              <button
+                onClick={noticeClick}
+                className={!policyType ? style.off : ""}
+              >
+                알림
+              </button>
             </div>
           </div>
           <div className={style.policyList_content}>
-            {!policyType ? (<MyPageScrap />) : ("")}
+            {!policyType ? <MyPageScrap /> : ""}
           </div>
         </div>
         <div className={style.followerList_wrapper}>
