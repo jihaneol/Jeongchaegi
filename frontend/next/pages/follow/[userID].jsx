@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import OurAxios from "../../config/ourAxios";
 import Nav from "../../components/Nav";
+import Image from "next/image";
 
-export default function follow() {
+export default function Follow() {
   const [followNum, setFollowNum] = useState(0);
   const [followList, setFollowList] = useState([]);
   const userInfo = [
@@ -58,7 +59,7 @@ export default function follow() {
               className="flex items-center bg-white p-4 mb-4 rounded-md shadow-sm"
               key={user.userID}
             >
-              <img
+              <Image
                 src={user.userImg}
                 alt={user.userName}
                 className="w-12 h-12 rounded-full mr-4"
