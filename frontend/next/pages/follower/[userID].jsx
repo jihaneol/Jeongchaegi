@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import OurAxios from "../../config/ourAxios";
 import Nav from "../../components/Nav";
 
-export default function follower() {
+export default function Follower() {
   const [followNum, setFollowNum] = useState(0);
   const [followList, setFollowList] = useState([]);
   const userInfo = [
