@@ -36,6 +36,7 @@ export default function ArticleUpdate() {
     .catch((err)=>{
       console.log(err);
     })
+    
   }, []);
 
   // 함수 목록
@@ -79,29 +80,37 @@ export default function ArticleUpdate() {
   return (
     <>
       <Nav />
-      {detailData ? (
-        <>
-          <form onSubmit={mySubmit} style={{ marginTop: "120px" }}>
-            {/* 제목은 그냥 텍스트 */}
-            <div className="d-flex">
-              <h1>title</h1>
-              <input type="text" onChange={handleTitle} value={mytitle} />
+      <div className="container mx-auto mt-24">
+        {detailData ? (
+          <form onSubmit={mySubmit} className="max-w-3xl mx-auto">
+            <div className="mb-4">
+              <h1 className="text-2xl font-semibold mb-2">Update Title</h1>
+              <input 
+                type="text" 
+                onChange={handleTitle} 
+                value={mytitle} 
+                className="w-full border rounded p-2"
+                placeholder="Update article title here..."
+              />
             </div>
-            {/* md editor */}
-            <div data-color-mode="dark">
+            <div className="mb-4" data-color-mode="dark">
               <MDEditor
                 value={value}
                 onChange={setValue}
                 visibleDragbar={false}
-                height={500}
+                height={400}
               />
             </div>
-            <button>submit</button>
+            <button className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600">
+              Update
+            </button>
           </form>
-        </>
-      ) : (
-        false
-      )}
+        ) : (
+          <div className="text-center py-8">
+            Loading...
+          </div>
+        )}
+      </div>
     </>
   );
 }

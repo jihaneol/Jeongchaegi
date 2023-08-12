@@ -37,6 +37,7 @@ export default function CreateArticle() {
       console.log(res);
     }).catch((err) => {
       console.log(err);
+      alert('제출할 수 없습니다!')
     })
     .finally(()=>{
       router.push('/articlelist')
@@ -51,23 +52,31 @@ export default function CreateArticle() {
   return (
     <>
       <Nav />
-      <form onSubmit={mySubmit} style={{ marginTop: "120px" }}>
-        {/* 제목은 그냥 텍스트 */}
-        <div className="d-flex">
-          <h1>title</h1>
-          <input type="text" onChange={handleTitle} value={mytitle} />
-        </div>
-        {/* md editor */}
-        <div data-color-mode="dark">
-          <MDEditor
-            value={value}
-            onChange={setValue}
-            visibleDragbar={false}
-            height={500}
-          />
-        </div>
-        <button>submit</button>
-      </form>
+      <div className="container mx-auto mt-24">
+        <form onSubmit={mySubmit} className="max-w-3xl mx-auto">
+          <div className="mb-4">
+            <h1 className="text-2xl font-semibold mb-2">Title</h1>
+            <input 
+              type="text" 
+              onChange={handleTitle} 
+              value={mytitle} 
+              className="w-full border rounded p-2"
+              placeholder="Enter article title here..."
+            />
+          </div>
+          <div className="mb-4" data-color-mode="dark">
+            <MDEditor
+              value={value}
+              onChange={setValue}
+              visibleDragbar={false}
+              height={400}
+            />
+          </div>
+          <button className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600">
+            Submit
+          </button>
+        </form>
+      </div>
     </>
   );
 }
