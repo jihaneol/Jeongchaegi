@@ -46,11 +46,11 @@ export default function Page(props) {
     }
   }, [post]); // post가 변경될 때만 이 훅을 실행합니다.
 
-  // 북마크 추가
+  // 스크랩 제거
   const handleCancelBookmark = () => {
     axios
       .delete(
-        `http://3.36.131.236:8081/api/scraps/cancel/members/${userId}/policies/${post.id}`
+        `http://3.36.131.236/api/scraps/cancel/members/${userId}/policies/${post.id}`
       )
       .then((response) => {
         setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
@@ -60,10 +60,11 @@ export default function Page(props) {
       });
   };
 
+  // 스크랩 추가
   const handleAddBookmark = () => {
     axios
       .post(
-        `http://3.36.131.236:8081/api/scraps/scrap/members/${userId}/policies/${post.id}`
+        `http://3.36.131.236/api/scraps/scrap/members/${userId}/policies/${post.id}`
       )
       .then((response) => {
         setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.

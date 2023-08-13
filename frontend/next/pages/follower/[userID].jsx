@@ -62,9 +62,11 @@ export default function Follower() {
               <Image
                 src={user.userImg}
                 alt={user.userName}
-                className="w-12 h-12 rounded-full mr-4"
+                width={48}
+                height={48}
+                className="rounded-full mr-6"
               />
-              <div className="flex-grow">
+              <div className="flex-grow ml-6">
                 <div className="font-semibold text-gray-700">
                   {user.userName}
                 </div>

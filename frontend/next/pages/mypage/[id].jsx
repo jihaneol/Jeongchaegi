@@ -77,7 +77,12 @@ export default function Page() {
         <div className={style.profile_wrapper}>
           <div className={style.profile_box}>
             <div className={style.profile_picture}>
-              <img src={userImg} width="200px" height="200px" />
+              <img
+                className="rounded-full"
+                src={userImg}
+                width="200px"
+                height="200px"
+              />
             </div>
             <div className={style.profile_name}>{userName}</div>
           </div>
