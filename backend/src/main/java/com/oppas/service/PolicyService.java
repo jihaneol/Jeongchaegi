@@ -39,9 +39,12 @@ public class PolicyService {
     public Long updatePolicies(PolicyApiDTO policyDTO) throws Exception {
         Policy policy = policyDTO.createPolicy(modelMapper);
 
-        // 이미 저장된 정책인 경우, 기존 지역 코드를 가져오기
+        // 이미 저장된 정책인 경우, 기존 정책의 속성 가져오기
         Optional<Policy> savedPolicy = policyRepository.findById(policy.getId());
-        savedPolicy.ifPresent(value -> policy.setSrchPolyBizSecd(value.getSrchPolyBizSecd()));
+        savedPolicy.ifPresent(value -> {
+            policy.setSrchPolyBizSecd(value.getSrchPolyBizSecd());
+            policy.setIsOngoing(value.getIsOngoing());
+        });
 
         policyRepository.save(policy);
         return policy.getId();

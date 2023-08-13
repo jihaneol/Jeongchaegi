@@ -6,7 +6,6 @@ import com.oppas.entity.policy.QPolicy;
 import com.oppas.entity.policy.QPolicyDate;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -53,7 +52,7 @@ public class PolicyRepositoryImpl implements PolicyRepositoryCustom {
         } else if (policyDate.rqutPrdEnd != null) {
             return policyDate.rqutPrdEnd.after(date);
         }
-        return Expressions.asBoolean(false);
+        return policy.rqutPrdCn.like("%상시%");
     }
 
     @Override
@@ -74,7 +73,7 @@ public class PolicyRepositoryImpl implements PolicyRepositoryCustom {
                 .where(ageBetween(age))
                 .where(keywordLike(keyword))
                 .where(dateBetween(date))
-                .orderBy(policy.id.desc())
+                .orderBy(policy.isOngoing.desc(), policyDate.rqutPrdBegin.desc(), policyDate.rqutPrdEnd.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
