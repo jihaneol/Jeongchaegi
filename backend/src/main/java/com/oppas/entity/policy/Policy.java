@@ -104,7 +104,7 @@ public class Policy {
     
     private Boolean isOngoing; // 정책 신청 진행 여부
 
-    @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "policy")
     private List<PolicyDate> policyDates = new ArrayList<>(); // 신청 날짜 리스트
 
 }
