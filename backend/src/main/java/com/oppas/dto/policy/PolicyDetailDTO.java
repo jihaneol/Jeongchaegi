@@ -1,10 +1,7 @@
 package com.oppas.dto.policy;
 
-import com.oppas.entity.policy.PolicyChat;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -74,5 +71,6 @@ public class PolicyDetailDTO {
 
     private String srchPolyBizSecd; // 정책 지역 코드
 
+    private Boolean isOngoing; // 정책 신청 진행 여부
 
 }

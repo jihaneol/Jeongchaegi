@@ -101,6 +101,8 @@ public class Policy {
     private String polyRlmCd; // 정책 분야 코드
 
     private String srchPolyBizSecd; // 정책 지역 코드
+    
+    private Boolean isOngoing; // 정책 신청 진행 여부
 
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PolicyDate> policyDates = new ArrayList<>(); // 신청 날짜 리스트
