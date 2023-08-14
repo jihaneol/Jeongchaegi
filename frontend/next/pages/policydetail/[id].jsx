@@ -33,26 +33,31 @@ export default function Page(props) {
 
   // 알람 상태 관리
   const [chkNotice, setChkNotice] = useState(false);
-  const [registerFlag, setRegisterFlag] = useState(false);
+  const [registerFlag, setRegisterFlag] = useState();
   const [modalFlag, setModalFlag] = useState(false);
 
   // 알림 설정 가능 여부
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    api
-      .get(`/events/possible/policies/${post?.id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((res) => {
-        setChkNotice(res.data);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log("알림 설정 가능 여부 에러(policy detail)");
-        console.log(err);
-      });
+    if (accessToken) {
+      api
+        .get(`/events/possible/policies/${post?.id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => {
+          setChkNotice(res.data);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log("알림 설정 가능 여부 에러(policy detail)");
+          console.log(err);
+        });
+    }
+    else {
+      console.log("로그아웃 상태");
+    }
   });
 
   useEffect(() => {
