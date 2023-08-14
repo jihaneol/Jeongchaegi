@@ -114,11 +114,11 @@ public class MemberController {
     }
 
     @GetMapping("/followInfo")
-    public ResponseEntity<?> followerInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long id = principalDetails.getId();
+    public ResponseEntity<?> followerInfo(@RequestParam("memberId") Long id) {
         FollowInfo followInfo = followService.Info(id);
         return new ResponseEntity<>(followInfo, HttpStatus.OK);
     }
+
 
     @GetMapping("/{toUserId}/check/follow")
     public ResponseEntity<?> checkFollow(@PathVariable("toUserId") Long toId,
