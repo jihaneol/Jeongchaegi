@@ -4,7 +4,7 @@ import OurAxios from "../config/ourAxios";
 import axios from "axios";
 import { getEventID }from "./GetEventID";
 
-export default function CanRegistNotice({ postNum, registerSet }) {
+export default function CanRegistNotice({ postNum, registerSet, refreshFlag }) {
   const api = OurAxios();
   const [registerFlag, setRegisterFlag] = useState(false); // true 면 등록됨, false 면 등록 안됨
 
@@ -67,7 +67,7 @@ export default function CanRegistNotice({ postNum, registerSet }) {
       setRegisterFlag(false);
     else
       getEventDetail(eventID);
-  }, []);
+  }, [refreshFlag]);
 
   function onClickImg() {
     registerSet(true, registerFlag);
