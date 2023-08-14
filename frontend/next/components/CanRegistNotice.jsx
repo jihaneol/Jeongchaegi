@@ -8,7 +8,7 @@ export default function CanRegistNotice({ postNum, registerSet }) {
   const api = OurAxios();
   const [registerFlag, setRegisterFlag] = useState(false); // true 면 등록됨, false 면 등록 안됨
 
-  const getEventID = getEventID();
+  let eventID = "";
 
   function getEventDetail(eventId) {
     const kakaoToken = localStorage.getItem("kakaoToken");
@@ -62,7 +62,11 @@ export default function CanRegistNotice({ postNum, registerSet }) {
   // }
 
   useEffect(() => {
-    getEventID();
+    eventID = getEventID(postNum);
+    if (eventID === null)
+      setRegisterFlag(false);
+    else
+      getEventDetail(eventID);
   }, []);
 
   function onClickImg() {
