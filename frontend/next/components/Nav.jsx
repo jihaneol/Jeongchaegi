@@ -41,6 +41,10 @@ export default function Nav() {
     return () => clearInterval(interval);
   }, [minutes, seconds]);
 
+  useEffect(() => {
+    console.log("Nav: ", userData.isLogined);
+  }, [userData.isLogined]);
+
   function resetTimer() {
     setMinutes(30);
     setSeconds(0);
