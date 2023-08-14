@@ -3,7 +3,7 @@ import style from "./styles/NoticeModal.module.css";
 import { useEffect } from "react";
 import { useState } from "react";
 
-export default function NoticeModal({ type, title, modalClose }) {
+export default function NoticeModal({ type, title, modalClose, setRefreshFlag }) {
 	const [mention, setMention] = useState("등록");
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 
@@ -12,7 +12,7 @@ export default function NoticeModal({ type, title, modalClose }) {
 	}
 
   function unregist() {
-		
+
 	}
 
 	useEffect(() => {
