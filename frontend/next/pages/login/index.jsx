@@ -26,7 +26,7 @@ function KakaoLoginOrSignup() {
             카카오 로그인으로 모든 기능 이용하기
           </div>
           <div className={styles.kakao_wrapper}>
-            <a href="http://3.36.131.236:8081/oauth2/authorization/kakao">
+            <a href="http://www.jeongchaegi.com:8081/oauth2/authorization/kakao">
               <Image
                 src="/kakao_login_large_wide.png"
                 width="420px"
