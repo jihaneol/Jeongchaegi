@@ -35,9 +35,12 @@ export default function Page(props) {
 
   // 알림 설정 가능 여부
   useEffect(() => {
-    api.get(`/events/posible/policies/${post}`).then((res) => {
+    api.get(`/events/posible/policies/${post.id}`).then((res) => {
       setChkNotice(res.data);
       console.log(res);
+    }).catch((err) => {
+      console.log("알림 설정 가능 여부 에러(policy detail)");
+      console.log(err);
     });
   });
 
