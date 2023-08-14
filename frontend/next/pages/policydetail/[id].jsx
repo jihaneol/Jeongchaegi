@@ -16,8 +16,9 @@ import Head from "next/head";
 import Style from "../../styles/PolicyDetail.module.css";
 import LiveChat from "../../components/LiveChat";
 import OurAxios from "../../config/ourAxios";
-import CantNoticeRegister from "../../components/CantNoticeRegister";
-import CanNoticeRegister from "../../components/CanNoticeRegister";
+import CannotRegistNotice from "../../components/CannotRegistNotice";
+import CanRegistNotice from "../../components/CanRegistNotice";
+import NoticeModal from "../../components/NoticeModal";
 
 export default function Page(props) {
   // const router = useRouter();
@@ -32,16 +33,26 @@ export default function Page(props) {
 
   // 알람 상태 관리
   const [chkNotice, setChkNotice] = useState(false);
+  const [registerFlag, setRegisterFlag] = useState(false);
+  const [modalFlag, setModalFlag] = useState(false);
 
   // 알림 설정 가능 여부
   useEffect(() => {
-    api.get(`/events/posible/policies/${post.id}`).then((res) => {
-      setChkNotice(res.data);
-      console.log(res);
-    }).catch((err) => {
-      console.log("알림 설정 가능 여부 에러(policy detail)");
-      console.log(err);
-    });
+    const accessToken = localStorage.getItem("accessToken");
+    api
+      .get(`/events/posible/policies/${post?.id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        setChkNotice(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("알림 설정 가능 여부 에러(policy detail)");
+        console.log(err);
+      });
   });
 
   useEffect(() => {
@@ -90,8 +101,18 @@ export default function Page(props) {
       });
   };
 
+  function modalClose() {
+    if (modalFlag === true) setModalFlag(false);
+  }
+
+  function registerSet(val, type) {
+    // type : true -> 삭제, false -> 등록
+    setModalFlag(val);
+    setRegisterFlag(type);
+  }
+
   return (
-    <div>
+    <div className={modalFlag ? Style.on : ""}>
       {post ? (
         <>
           <Head>
@@ -109,11 +130,21 @@ export default function Page(props) {
                   {/* 알림 설정 파트 */}
                   {/* 알림 설정 되어 있는지 여부는 여기 파일에서 확인 */}
                   {/* 나머지 작업은 컴포넌트 만들어야 함 */}
-                  {!chkNotice ? (
-                    <CantNoticeRegister className="cursor-pointer" />
+                  {chkNotice ? (
+                    <>
+                      <CannotRegistNotice className="cursor-pointer" />
+                    </>
                   ) : (
-                    <CanNoticeRegister postNum={post} className="cursor-pointer" />
+                    <div>
+                      <CanRegistNotice
+                        className="cursor-pointer"
+                        postNum={post.id}
+                        registerSet={registerSet}
+                      />
+                      {modalFlag ? <NoticeModal type={registerFlag} title={post.polyBizSjnm} modalClose={modalClose}/> : null}
+                    </div>
                   )}
+                  {/* 알림 끝 */}
                   {chkBookmark ? (
                     <FaBookmark
                       className="cursor-pointer"

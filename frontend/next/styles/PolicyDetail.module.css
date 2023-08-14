@@ -1,3 +1,9 @@
+.on {
+  /* opacity: 0.5; */
+  background-color: rgba(208, 221, 255, 0.5);
+}
+
+
 .wrap {
   display: flex;
   justify-content: center;
