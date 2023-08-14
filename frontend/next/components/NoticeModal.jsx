@@ -8,7 +8,7 @@ import axios from "axios";
 export default function NoticeModal({ type, title, modalClose, setRefreshFlag, eventIdProp, listIdProp }) {
 	const [mention, setMention] = useState("등록");
 	const [eventId, setEventId] = useState("");
-	const [eventForm, setEventForm] = useEffect([]);
+	const [eventForm, setEventForm] = useState([]);
 	const [calendarID, setCalendarID] = useState("");
 	const api = OurAxios();
   // type 을 받아와서, type 이 true면 삭제, false면 등록
