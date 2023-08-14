@@ -40,7 +40,7 @@ export default function Page(props) {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     api
-      .get(`/events/posible/policies/${post?.id}`, {
+      .get(`/events/possible/policies/${post?.id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
