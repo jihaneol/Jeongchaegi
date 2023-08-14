@@ -7,9 +7,13 @@ export default function NoticeModal({ type, title, modalClose }) {
 	const [mention, setMention] = useState("등록");
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 
-  function regist() {}
+  function regist() {
 
-  function unregist() {}
+	}
+
+  function unregist() {
+		
+	}
 
 	useEffect(() => {
 		if (type === true)
