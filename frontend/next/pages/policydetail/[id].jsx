@@ -63,7 +63,7 @@ export default function Page(props) {
           console.log(err);
         });
     }
-  }, []);
+  }, [userData.isLogined]);
 
   useEffect(() => {
     // 북마크 체크 확인
