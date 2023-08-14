@@ -84,4 +84,26 @@ public class FollowService {
                 .map(member -> new FollowListDTO(member.getId(), member.getNickname(), member.getImg()))
                 .collect(Collectors.toList());
     }
+    public List<FollowListDTO> searchNicknameFollower(String name,Long id) {
+        List<Member> collect = followRepository.findLikeFollowerByname(name, id).stream()
+                .map(o -> o.getFollower())
+                .collect(Collectors.toList());
+        for(Member m : collect){
+            System.out.println(m.getNickname());
+        }
+        return collect.stream()
+                .map(member -> new FollowListDTO(member.getId(), member.getNickname(), member.getImg()))
+                .collect(Collectors.toList());
+    }
+
+    public List<FollowListDTO> searchNicknameFollowee(String name, Long id) {
+        List<Member> collect = followRepository.findLikeFolloweeByname(name, id).stream()
+                .map(o -> o.getFollowee())
+                .collect(Collectors.toList());
+
+        return collect.stream()
+                .map(member -> new FollowListDTO(member.getId(), member.getNickname(), member.getImg()))
+                .collect(Collectors.toList());
+
+    }
 }

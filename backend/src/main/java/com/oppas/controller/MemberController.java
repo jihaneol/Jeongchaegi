@@ -142,6 +142,21 @@ public class MemberController {
         return new ResponseEntity<>(followListDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/search/follower")
+    public ResponseEntity<?> searchNicknameFollower(@RequestParam("nickname") String name, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long id = principalDetails.getId();
+        log.info(name);
+        List<FollowListDTO> followListDTOS = followService.searchNicknameFollower(name, id);
+        return new ResponseEntity<>(followListDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/followee")
+    public ResponseEntity<?> searchNicknameFollowee(@RequestParam("nickname") String name, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long id = principalDetails.getId();
+        log.info(name);
+        List<FollowListDTO> followListDTOS = followService.searchNicknameFollowee(name, id);
+        return new ResponseEntity<>(followListDTOS, HttpStatus.OK);
+    }
 
 
 }
