@@ -43,6 +43,7 @@ export default function Page(props) {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     console.log("At : " , accessToken);
+    console.log("policyDetail: ", userData.isLogined);
     if (!userData.isLogined) {
       console.log("로그아웃 상태");
     }
