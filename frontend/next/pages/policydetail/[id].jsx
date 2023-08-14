@@ -149,7 +149,7 @@ export default function Page(props) {
                         className="cursor-pointer"
                         postNum={post.id}
                         registerSet={registerSet}
-                        setRefreshFlag={setRefreshFlag}
+                        refreshFlag={refreshFlag}
                       />
                       {modalFlag ? (
                         <NoticeModal
