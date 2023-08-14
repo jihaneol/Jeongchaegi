@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import OurAxios from "../../config/ourAxios";
+import axios from "axios";
 import Nav from "../../components/Nav";
 import Image from "next/image";
 import FollowPage from "../../components/FollowPage";
 
 export default function Follow() {
-  const ourAxios = OurAxios();
+  const
+  const apiClient = axios.create({
+    baseURL: "http://3.36.131.236/api",
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${}` }, // if needed
+  });
   const [search, setSearch] = useState(""); // 검색어
   const [followNum, setFollowNum] = useState(0); // 팔로우 수
   const [followList, setFollowList] = useState([]); // 팔로우 리스트
@@ -16,7 +21,6 @@ export default function Follow() {
   // ①팔로워 수 ②팔로워 리스트 받아오기
   useEffect(() => {
     const fetchData = async () => {
-      ourAxios = OurAxios();
       ourAxios
         .get("/members/followInfo")
         .then((responseNum) => {
@@ -94,18 +98,6 @@ export default function Follow() {
           </div>
         </div>
         {showList.map((user, index) => {
-          ourAxios
-            .get("/members/followInfo", {
-              params: {
-                nickname: search,
-              },
-            })
-            .then((responseSearch) => {
-              setShowList(responseSearch.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
           return (
             <div
               className="relative flex items-center bg-white p-4 mb-4 rounded-md shadow-sm"
