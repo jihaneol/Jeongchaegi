@@ -5,14 +5,18 @@ import { useState } from "react";
 
 export default function NoticeModal({ type, title, modalClose, setRefreshFlag }) {
 	const [mention, setMention] = useState("등록");
+	let eventID = "";
+	let calendarID = "";
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 
   function regist() {
 
+		setRefreshFlag(prev => !prev);
 	}
-
+	
   function unregist() {
-
+		
+		setRefreshFlag(prev => !prev);
 	}
 
 	useEffect(() => {
