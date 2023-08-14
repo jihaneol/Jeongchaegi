@@ -10,7 +10,7 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag }) {
 
   let eventID = "";
 
-  function getEventDetail(eventId) {
+  async function getEventDetail(eventId) {
     const kakaoToken = localStorage.getItem("kakaoToken");
     console.log("getEventDetail 호출! (이벤트 ID 있음)");
     axios
@@ -63,16 +63,21 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag }) {
 
   useEffect(() => {
     async function fetchEventID() {
-      eventID = await getEventID(postNum);
-      console.log("useEffect getEventID");
-      console.log(eventID);
-      if (eventID === null)
-        setRegisterFlag(false);
-      else {
-        console.log("Event ID 있음, useEffect");
-        getEventDetail(eventID);
+      try {
+        eventID = await getEventID(postNum);
+        console.log("useEffect getEventID");
+        console.log(eventID);
+        if (eventID === null)
+          setRegisterFlag(false);
+        else {
+          console.log("Event ID 있음, useEffect");
+          await getEventDetail(eventID);
+        }
+      } catch (error) {
+        console.log("getEventID 호출 실패");
+        console.log(error);
       }
-    }
+    } 
 
     fetchEventID();
   }, [refreshFlag]);
