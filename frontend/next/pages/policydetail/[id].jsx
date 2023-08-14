@@ -37,6 +37,7 @@ export default function Page(props) {
   const [registerFlag, setRegisterFlag] = useState(false);
   const [modalFlag, setModalFlag] = useState(false);
   const userData = useSelector(state => state.user);
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   // 알림 설정 가능 여부
   useEffect(() => {
@@ -148,8 +149,16 @@ export default function Page(props) {
                         className="cursor-pointer"
                         postNum={post.id}
                         registerSet={registerSet}
+                        setRefreshFlag={setRefreshFlag}
                       />
-                      {modalFlag ? <NoticeModal type={registerFlag} title={post.polyBizSjnm} modalClose={modalClose}/> : null}
+                      {modalFlag ? (
+                        <NoticeModal
+                          type={registerFlag}
+                          title={post.polyBizSjnm}
+                          modalClose={modalClose}
+                          setRefreshFlag={setRefreshFlag}
+                        />
+                      ) : null}
                     </div>
                   )}
                   {/* 알림 끝 */}
