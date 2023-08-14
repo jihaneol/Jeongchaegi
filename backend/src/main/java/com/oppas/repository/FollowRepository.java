@@ -2,14 +2,19 @@ package com.oppas.repository;
 
 
 import com.oppas.entity.Follow;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     void  deleteByFolloweeIdAndFollowerId(Long followeeId, Long followerId);
-    List<Follow> findAllByFollowerId(Long toId);
 
-    List<Follow> findAllByFolloweeId(Long id);
+    @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fr.id = :toId")
+    List<Follow> findAllByFollowerId(@Param("toId") Long toId);
+
+    @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fe.id = :toId")
+    List<Follow> findAllByFolloweeId(@Param("toId") Long toId);
 }
