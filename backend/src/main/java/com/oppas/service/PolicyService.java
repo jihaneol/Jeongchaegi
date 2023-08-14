@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,14 +38,35 @@ public class PolicyService {
      * 공공 API에서 데이터를 받아와 정책 정보를 업데이트
      */
     public Long updatePolicies(PolicyApiDTO policyDTO) throws Exception {
-        Policy policy = policyDTO.createPolicy(modelMapper);
+        Policy apiPolicy = policyDTO.createPolicy(modelMapper);
+        Optional<Policy> policy = policyRepository.findById(apiPolicy.getId());
 
-        // 이미 저장된 정책인 경우, 기존 지역 코드를 가져오기
-        Optional<Policy> savedPolicy = policyRepository.findById(policy.getId());
-        savedPolicy.ifPresent(value -> policy.setSrchPolyBizSecd(value.getSrchPolyBizSecd()));
+        // 저장되어있는 정책의 경우
+        if (policy.isPresent()) {
+            // 저장된 데이터 불러오기
+            Policy savedPolicy = policy.get();
+            apiPolicy.setSrchPolyBizSecd(savedPolicy.getSrchPolyBizSecd());
+            apiPolicy.setIsOngoing(savedPolicy.getIsOngoing());
 
-        policyRepository.save(policy);
-        return policy.getId();
+            // 현재 날짜와 비교하여, 신청 진행 여부 업데이트
+            Optional<PolicyDate> policyDate = policyDateRepository.findByPolicyId(apiPolicy.getId());
+            if (policyDate.isPresent()) {
+                PolicyDate date = policyDate.get();
+                LocalDate beginDate = date.getRqutPrdBegin();
+                LocalDate endDate = date.getRqutPrdEnd();
+                LocalDate currentDate = LocalDate.now();
+                apiPolicy.setIsOngoing(!currentDate.isBefore(beginDate) && !currentDate.isAfter(endDate));
+            }
+
+            // 정책 정보 업데이트
+            modelMapper.map(apiPolicy, savedPolicy);
+        }
+        // 저장되지 않은 정책의 경우
+        else {
+            policyRepository.save(apiPolicy);
+        }
+
+        return apiPolicy.getId();
     }
 
     /**

@@ -42,9 +42,10 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                 .ifPresent(member -> {
                     member.updateRefreshToken(refreshToken);
                     memberRepository.saveAndFlush(member);
+                    jwtService.sendkakaoToken(response,member.getKakaoToken());
                 });
 
-        response.sendRedirect("http://3.36.131.236/login/success");
+        response.sendRedirect("http://www.jeongchaegi.com/login/success");
     }
 
     private String extractUsername(Authentication authentication) {

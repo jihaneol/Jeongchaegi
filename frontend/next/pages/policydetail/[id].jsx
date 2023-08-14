@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Nav from "../../components/Nav";
 import {
-  FaBell,
-  FaBellSlash,
   FaBars,
   FaBookmark,
   FaRegBookmark,
+  FaCalendarCheck,
+  FaRegCalendar,
 } from "react-icons/fa";
 import Image from "next/image";
 
@@ -59,11 +59,11 @@ export default function Page(props) {
     }
   }, [post]); // post가 변경될 때만 이 훅을 실행합니다.
 
-  // 북마크 추가
+  // 스크랩 제거
   const handleCancelBookmark = () => {
     axios
       .delete(
-        `http://3.36.131.236:8081/api/scraps/cancel/members/${userId}/policies/${post.id}`
+        `http://3.36.131.236/api/scraps/cancel/members/${userId}/policies/${post.id}`
       )
       .then((response) => {
         setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
@@ -73,10 +73,11 @@ export default function Page(props) {
       });
   };
 
+  // 스크랩 추가
   const handleAddBookmark = () => {
     axios
       .post(
-        `http://3.36.131.236:8081/api/scraps/scrap/members/${userId}/policies/${post.id}`
+        `http://3.36.131.236/api/scraps/scrap/members/${userId}/policies/${post.id}`
       )
       .then((response) => {
         setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
@@ -87,7 +88,7 @@ export default function Page(props) {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div>
       {post ? (
         <>
           <Head>
@@ -111,12 +112,12 @@ export default function Page(props) {
                     <CanNoticeRegister postNum={post} className="cursor-pointer" />
                   )}
                   {chkBookmark ? (
-                    <FaRegBookmark
+                    <FaBookmark
                       className="cursor-pointer"
                       onClick={handleCancelBookmark}
                     />
                   ) : (
-                    <FaBookmark
+                    <FaRegBookmark
                       className="cursor-pointer"
                       onClick={handleAddBookmark}
                     />
@@ -294,8 +295,10 @@ export default function Page(props) {
                   </div>
                 </div>
               </div>
-              <div className={`${Style.chat_box} max-w-6xl mx-auto p-6`}>
-                <div className={`${Style.chat}`}>
+              <div className={`max-w-6xl p-6`}>
+                <div
+                  className={`flex flex-col w-full m-4 mt-0 min-h-[24rem] bg-[#adc4ff]`}
+                >
                   <h4>채팅방</h4>
                   <LiveChat pageId={post.id} userId={userId} />
                 </div>

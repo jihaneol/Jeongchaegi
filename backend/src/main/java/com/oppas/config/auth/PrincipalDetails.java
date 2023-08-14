@@ -43,7 +43,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User { //2개 구현
 
     @Override
     public String getPassword() {
-        return member.getPassword();
+        return null;
     }
 
     @Override
@@ -97,7 +97,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User { //2개 구현
     public String getName() {
         return String.valueOf(member.getId());
     }
-    public  long getId() {
+    public  Long getId() {
         return member.getId();
     }
 
