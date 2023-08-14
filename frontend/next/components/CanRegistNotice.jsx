@@ -67,7 +67,7 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag }) {
         eventID = await getEventID(postNum);
         console.log("useEffect getEventID");
         console.log(eventID);
-        if (eventID === null)
+        if (!eventID)
           setRegisterFlag(false);
         else {
           console.log("Event ID 있음, useEffect");
@@ -77,7 +77,7 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag }) {
         console.log("getEventID 호출 실패");
         console.log(error);
       }
-    } 
+    }
 
     fetchEventID();
   }, [refreshFlag]);
