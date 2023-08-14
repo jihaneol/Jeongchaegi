@@ -39,6 +39,7 @@ export default function Page(props) {
   const [modalFlag, setModalFlag] = useState(false);
   const userData = useSelector(state => state.user);
   const [refreshFlag, setRefreshFlag] = useState(false);
+  const [eventID, setEventID] = useState("");
 
   // 알림 설정 가능 여부
   useEffect(() => {
@@ -126,6 +127,10 @@ export default function Page(props) {
     setRegisterFlag(type);
   }
 
+  function getEventID(val) {
+    setEventID(val);
+  }
+
   return (
     <div className={modalFlag ? Style.on : ""}>
       {post ? (
@@ -156,6 +161,7 @@ export default function Page(props) {
                         postNum={post.id}
                         registerSet={registerSet}
                         refreshFlag={refreshFlag}
+                        getEventID={getEventID}
                       />
                       {modalFlag ? (
                         <NoticeModal
@@ -163,6 +169,7 @@ export default function Page(props) {
                           title={post.polyBizSjnm}
                           modalClose={modalClose}
                           setRefreshFlag={setRefreshFlag}
+                          eventIdProp={eventID}
                         />
                       ) : null}
                     </div>

@@ -10,7 +10,7 @@ export async function getEventID(postNum) {
 
 	api.get(`/events/check/policies/${postNum}`).then((res) => {
 		// null 이면 아직 일정 등록 안된것
-		console.log("getEventID.res");
+		console.log("getEventID 요청 성공");
 		console.log(res);
 		if (res.data === "") {
 			console.log("이벤트ID 없음!");
