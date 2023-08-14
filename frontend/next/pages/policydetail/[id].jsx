@@ -39,6 +39,7 @@ export default function Page(props) {
   // 알림 설정 가능 여부
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
+    console.log("At : " , accessToken);
     if (accessToken) {
       api
         .get(`/events/possible/policies/${post?.id}`, {
@@ -47,8 +48,8 @@ export default function Page(props) {
           },
         })
         .then((res) => {
-          setChkNotice(res.data);
           console.log(res);
+          setChkNotice(res.data);
         })
         .catch((err) => {
           console.log("알림 설정 가능 여부 에러(policy detail)");
