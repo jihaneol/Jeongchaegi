@@ -27,4 +27,6 @@ public class PolicySummaryDTO {
 
     private String region; // 정책 지역
 
+    private Boolean isOngoing; // 정책 신청 진행 여부
+
 }
