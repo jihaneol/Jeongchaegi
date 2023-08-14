@@ -15,18 +15,61 @@ import Head from "next/head";
 
 import Style from "../../styles/PolicyDetail.module.css";
 import LiveChat from "../../components/LiveChat";
+import OurAxios from "../../config/ourAxios";
+import CannotRegistNotice from "../../components/CannotRegistNotice";
+import CanRegistNotice from "../../components/CanRegistNotice";
+import NoticeModal from "../../components/NoticeModal";
+import { useSelector } from "react-redux";
 
 export default function Page(props) {
-  // const router = useRouter();
-  console.log(props);
+  const router = useRouter();
   const post = props.post;
-  console.log(post);
+  const listId = router.query;
+  const api = OurAxios();
   // const keys = Object.keys(post);
   // console.log(keys);
 
   // 북마크, 유저ID 상태 관리
   const [chkBookmark, setchkBookmark] = useState(null);
   const [userId, setUserId] = useState(null);
+
+  // 알람 상태 관리
+  const [chkNotice, setChkNotice] = useState();
+  const [registerFlag, setRegisterFlag] = useState(false);
+  const [modalFlag, setModalFlag] = useState(false);
+  const userData = useSelector(state => state.user);
+  const [refreshFlag, setRefreshFlag] = useState(false);
+  const [eventID, setEventID] = useState("");
+
+  // 알림 설정 가능 여부
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    console.log("At : ", accessToken);
+    console.log("policyDetail: ", userData.isLogined);
+    if (!userData.isLogined) {
+      console.log("로그아웃 상태");
+    } else {
+      console.log(listId);
+      if (!listId.id) {
+        console.log("listId 없음!");
+      } else {
+        api
+          .get(`/events/possible/policies/${listId.id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            setChkNotice(res.data);
+          })
+          .catch((err) => {
+            console.log("알림 설정 가능 여부 에러(policy detail)");
+            console.log(err);
+          });
+      }
+    }
+  }, [userData.isLogined, listId]);
 
   useEffect(() => {
     // 북마크 체크 확인
@@ -74,8 +117,22 @@ export default function Page(props) {
       });
   };
 
+  function modalClose() {
+    if (modalFlag === true) setModalFlag(false);
+  }
+
+  function registerSet(val, type) {
+    // type : true -> 삭제, false -> 등록
+    setModalFlag(val);
+    setRegisterFlag(type);
+  }
+
+  function getEventID(val) {
+    setEventID(val);
+  }
+
   return (
-    <div>
+    <div className={modalFlag ? Style.on : ""}>
       {post ? (
         <>
           <Head>
@@ -90,11 +147,35 @@ export default function Page(props) {
                 <FaBars className="text-gray-600 mr-4 cursor-pointer" />
                 <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
                 <div className={`${Style.icon} flex items-center`}>
-                  {chkBookmark ? (
-                    <FaCalendarCheck className="cursor-pointer" />
+                  {/* 알림 설정 파트 */}
+                  {/* 알림 설정 되어 있는지 여부는 여기 파일에서 확인 */}
+                  {/* 나머지 작업은 컴포넌트 만들어야 함 */}
+                  {!chkNotice ? (
+                    <>
+                      <CannotRegistNotice className="cursor-pointer" />
+                    </>
                   ) : (
-                    <FaRegCalendar className="cursor-pointer" />
+                    <div>
+                      <CanRegistNotice
+                        className="cursor-pointer"
+                        postNum={post.id}
+                        registerSet={registerSet}
+                        refreshFlag={refreshFlag}
+                        getEventID={getEventID}
+                      />
+                      {modalFlag ? (
+                        <NoticeModal
+                          type={registerFlag}
+                          title={post.polyBizSjnm}
+                          modalClose={modalClose}
+                          setRefreshFlag={setRefreshFlag}
+                          eventIdProp={eventID}
+                          listIdProp={listId.id}
+                        />
+                      ) : null}
+                    </div>
                   )}
+                  {/* 알림 끝 */}
                   {chkBookmark ? (
                     <FaBookmark
                       className="cursor-pointer"

@@ -40,12 +40,13 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
   }
 
   return (
-    <div className={style.filter_wrapper}>
-      <div className={style.filter_header}>
-        Filter
-        <div className={`${style.filter_calendar_wrapper} d-none d-lg-flex`}>
-          {/* 캘린더 토글 버튼 */}
-          <div>calendar</div>
+    <div className="p-2">
+      <div className="m-3 p-2 border border-gray-300 rounded bg-white" style={{padding :'1rem'}}>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold">필터</h2>
+          <div className="flex items-center">
+            {/* 캘린더 토글 버튼 */}
+          <span>달력</span>
           <button
             className={`${style.filter_calendar_btn} ${
               isCalendarActive === true
@@ -60,38 +61,34 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
               }`}
             />
           </button>
+          </div>
         </div>
-      </div>
-      <div className={style.policy_filter_list_wrapper}>
-        <div className="d-flex">
-          {/* 정책 타입 필터 */}
-          <h1>types</h1>
-          {typedata
-            ? typedata.map((item) => (
-                <div className="form-check" key={item.id}>
+        <div className="space-y-4">
+          <div className="flex items-center space-x-4">
+            <p className="text-md font-medium">분야 : </p>
+            {typedata
+              ? typedata.map((item) => (
+                <label key={item.id} className="inline-flex items-center space-x-2">
                   <input
-                    className="form-check-input"
+                    className="form-checkbox rounded"
                     type="checkbox"
-                    value=""
                     id={item.id}
                     onClick={handleTypeChange}
                   />
-                  <label className="form-check-label" htmlFor={item.id}>
-                    {item.type}
-                  </label>
-                </div>
+                  <span>{item.type}</span>
+                </label>
               ))
-            : "loading..."}
-        </div>
-        {/* 지역 필터, 컴포넌트 */}
-        <div className="d-flex">
-          <h1>region</h1>
-          <SelectPlace />
-        </div>
-        {/* 나이 필터, 인풋 */}
-        <div className="d-flex">
-          <h1>age</h1>
-          <input type="number" onChange={handleAge} />
+              : "loading..."}
+          </div>
+          <div className="flex items-center space-x-4">
+            {/* 줄바꿈나서 강제로 크기 더 줌, 이게 맞나.... */}
+            <p className="text-md font-medium" style={{width : '3rem'}}>지역 : </p>
+            <SelectPlace />
+          </div>
+          <div className="flex items-center space-x-4">
+            <p className="text-md font-medium">나이 : </p>
+            <input className="border p-2 rounded" type="number" onChange={handleAge} />
+          </div>
         </div>
       </div>
     </div>

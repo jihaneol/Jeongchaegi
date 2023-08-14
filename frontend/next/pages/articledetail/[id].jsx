@@ -5,60 +5,61 @@ import Nav from "../../components/Nav";
 import { remark } from "remark";
 import html from "remark-html";
 import axios from "axios";
+import OurAxios from "../../config/ourAxios";
+import ArticleComment from "../../components/ArticleComment";
 
 import { useDispatch, useSelector } from "react-redux";
+import style from '../../styles/ArticleDetail.module.css'
 
 // 잠깐 테스트용, 나중에 가능하면 ssr로 바꿀거임========================================================
-
 // 일단 react-md 라이브러리 프리뷰는 주석처리, nextjs에서 말하는 renark라이브러리 써볼거임
 // const Markdown = dynamic(
 //   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
 //   { ssr: false }
 // );
 
-import "@uiw/react-md-editor/markdown-editor.css";
-import "@uiw/react-markdown-preview/markdown.css";
-import dynamic from "next/dynamic";
-import OurAxios from "../../config/ourAxios";
-import ArticleComment from "../../components/ArticleComment";
+// import "@uiw/react-md-editor/markdown-editor.css";
+// import "@uiw/react-markdown-preview/markdown.css";
+// import dynamic from "next/dynamic";
 
 
-const EditerMarkdown = dynamic(
-  () =>
-    import("@uiw/react-md-editor").then((mod) => {
-      return mod.default.Markdown;
-    }),
-  { ssr: false }
-);
+// const EditerMarkdown = dynamic(
+//   () =>
+//     import("@uiw/react-md-editor").then((mod) => {
+//       return mod.default.Markdown;
+//     }),
+//   { ssr: false }
+// );
 // 테스트용 마지막줄 ======================================================================================
 
-export default function Page({ params }) {
+export default function Page({ detailData, contentHtml }) {
   const router = useRouter();
-  const [detailData, setDetailData] = useState(null);
+  // const [detailData, setDetailData] = useState(null);
   const userData = useSelector((state) => state.user);
   const api = OurAxios();
 
-  useEffect(() => {
-    if (router.query.id) {
-      axios({
-        method: "get",
-        url: `http://3.36.131.236/api/posts/${router.query.id}`,
-      })
-        .then((res) => {
-          // console.log(res);
-          setDetailData(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          // console.log("end detail data!");
-        });
-    }
-    else{
-      return
-    }
-  }, [router.query.id]);
+  // ssr 적용해서 이제 필요 없음
+  // useEffect(() => {
+  //   if (router.query.id) {
+  //     axios({
+  //       method: "get",
+  //       url: `http://3.36.131.236/api/posts/${router.query.id}`,
+  //     })
+  //       .then((res) => {
+  //         // console.log(res);
+  //         setDetailData(res.data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       })
+  //       .finally(() => {
+  //         // console.log("end detail data!");
+  //       });
+  //   }
+  //   else{
+  //     return
+  //   }
+  // }, [router.query.id]);
 
   // 수정, 삭제 버튼 함수
 
@@ -76,7 +77,6 @@ export default function Page({ params }) {
       api
         .delete(`/posts/${router.query.id}`)
         .then((res) => {
-          // console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -104,7 +104,8 @@ export default function Page({ params }) {
               </h1>
               <div className="bg-white shadow-md p-6 rounded-lg space-y-4">
                 <div className="p-4 bg-gray-100 rounded">
-                  <EditerMarkdown source={detailData.content} />
+                  {/* tailwind는 브라우저 기본 제공 css 날려먹음, 그래서 그냥 깃헙에 있는 마크다운 스타일 훔쳐옴 */}
+                  <div dangerouslySetInnerHTML={{__html: contentHtml}} className={style.markdown_body}/>
                 </div>
               </div>
             </>
@@ -133,4 +134,28 @@ export default function Page({ params }) {
       </div>
     </>
   );
+}
+
+
+export async function getServerSideProps({params}) {
+  try {
+    const response = await axios.get(
+      `http://www.jeongchaegi.com/api/posts/${params.id}`
+    );
+    const detailData = response.data;
+  
+    // md to html
+    const processdContent = await remark()
+      .use(html)
+      .process(detailData.content)
+    const contentHtml = processdContent.toString()
+    return {
+      props: {detailData, contentHtml}
+    }
+    
+  } catch (error) {
+    return{
+      notFound: true
+    }
+  }
 }

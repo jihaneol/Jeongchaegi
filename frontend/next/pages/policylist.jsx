@@ -157,7 +157,10 @@ export default function PolicyList() {
   }
 
   function handleItemClick(itemId) {
-    router.push(`/policydetail/${itemId}`);
+    router.push({
+      pathname: `/policydetail/${itemId}`,
+      query: { itemId: itemId },
+    });
     // Do whatever you want with the clicked item ID
   }
 
@@ -187,7 +190,7 @@ export default function PolicyList() {
       <Nav />
       {/* fixed calendar */}
       {isCalendarActive ? (
-        <div className={`${style.calendar_wrap} d-none d-lg-flex`}>
+        <div className={`${style.calendar_wrap}`}>
           <div className={style.calendar_wrap_header}>날짜를 설정하세요</div>
           {isCalendarActive === true ? (
             <PolicyListCalendar
@@ -203,14 +206,13 @@ export default function PolicyList() {
         className={`${style.list_wrap_container}
           ${isCalendarActive ? style.list_wrap_on : style.list_wrap_off}`}
       >
-        {/* 검색창 */}
-        <PolicyListSearch submitParamsToBack={submitParamsToBack} />
-
         {/* 필터 */}
         <PolicyFilter
           isCalendarActive={isCalendarActive}
           calendarBtnClick={calendarBtnClick}
         />
+        {/* 검색창 */}
+        <PolicyListSearch submitParamsToBack={submitParamsToBack} />
 
         {/* 정렬 기능 */}
         <PolicyListSort />
@@ -220,6 +222,9 @@ export default function PolicyList() {
           <PcyListItem obj={pcydata} onItemClick={handleItemClick} />
           {isFirstLoadingList ? (<Spin />) : ""}
         </div>
+        <span className={style.loading}>
+          {!isFirstLoadingList && isLoadingList ? (<Spin />) : ""}
+        </span>
       </div>
     </div>
   );

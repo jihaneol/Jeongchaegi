@@ -23,7 +23,7 @@ export default function PolicyListSearch({ submitParamsToBack }) {
   return (
     <form
       action=""
-      className={`input-group mb-3 ${style.search_query}`}
+      className={`input-group px-4`}
       onSubmit={submitParams}
     >
       <input
