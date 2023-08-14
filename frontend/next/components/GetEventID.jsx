@@ -1,10 +1,13 @@
 import React from 'react'
+import OurAxios from '../config/ourAxios';
 
 export default function GetEventID() {
 	return;
 }
 
 export function getEventID(postNum) {
+	const api = OurAxios();
+	
 	api.get(`/events/check/policies/${postNum}`).then((res) => {
 		// null 이면 아직 일정 등록 안된것
 		console.log("getEventID.res");
