@@ -30,7 +30,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         if (!user.isSign()) {
             // 회원 가입 x
             jwtService.sendAccessToken(response, accessToken);
-            response.sendRedirect("http://3.36.131.236/login/signup");
+            response.sendRedirect("http://www.jeongchaegi.com/login/signup");
             return;
         }
         // 회원 가입 완료
