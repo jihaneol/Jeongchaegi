@@ -5,15 +5,34 @@ import { useState } from "react";
 import OurAxios from "../config/ourAxios";
 import axios from "axios";
 
-export default function NoticeModal({ type, title, modalClose, setRefreshFlag, eventIdProp }) {
+export default function NoticeModal({ type, title, modalClose, setRefreshFlag, eventIdProp, listIdProp }) {
 	const [mention, setMention] = useState("등록");
 	const [eventId, setEventId] = useState("");
 	const [calendarID, setCalendarID] = useState("");
 	const api = OurAxios();
   // type 을 받아와서, type 이 true면 삭제, false면 등록
-
+	
   function regist() {
-
+		const accessToken = localStorage.getItem("accessToken");
+		// 캘린더 목록 가져오기
+		axios({
+			method: "get",
+			url: "https://kapi.kakao.com/v2/api/calendar/calendars",
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			}
+		}).then((res) => {
+			console.log("캘린더 목록 가져오기 성공!");
+			console.log(res);
+		}).catch((err) => {
+			console.log("캘린더 목록 가져오기 실패");
+			console.log(err);
+		});
+		// 캘린더 이름이 "정채기"인 거 찾기
+		// 정책 아이디(listIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
+		// 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급
+		// 일정 아이디와 정책 아이디로 일정 저장
+		alert("성공적으로 등록되었습니다.");
 		setRefreshFlag(prev => !prev);
 		modalClose();
 	}
@@ -41,6 +60,7 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
 				console.log(err);
 			})
 		}
+		alert("성공적으로 삭제되었습니다.");
 		setRefreshFlag(prev => !prev);
 		modalClose();
 	}
