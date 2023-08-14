@@ -73,20 +73,21 @@ export default function Nav() {
             </a>
           </Link>
 
+          <Link href="/policylist">
+            <a className="text-2xl hover:text-blue-500">정책</a>
+          </Link>
+
           <Link href="/articlelist">
             <a className="text-2xl hover:text-blue-500">게시판</a>
           </Link>
 
-          <Link href="/policylist">
-            <a className="text-2xl hover:text-blue-500">정책 리스트</a>
-          </Link>
 
           {/* 일단 기본값 1로 라우팅 */}
           <button
             className="text-2xl hover:text-blue-500"
             onClick={myPageRoute}
           >
-            MyPage
+            마이페이지
           </button>
         </div >
         {!userData.isLogined ? (
@@ -94,7 +95,7 @@ export default function Nav() {
             <a
               className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
               >
-              Login
+              로그인
             </a>
           </Link>
         ) : (
@@ -110,7 +111,7 @@ export default function Nav() {
               className={` bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
               onClick={logoutHandler}
             >
-              Logout
+              로그아웃
             </button>
           </div>
         )}
