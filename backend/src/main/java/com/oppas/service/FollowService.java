@@ -54,7 +54,8 @@ public class FollowService {
      */
     public FollowInfo Info(Long id) {
         Member member = memberRepository.findById(id).get();
-        return new FollowInfo(member.followCount(), member.followeeCount());
+
+        return new FollowInfo(member.followCount(), member.followeeCount(), member.postCount());
     }
 
     /**
@@ -84,11 +85,12 @@ public class FollowService {
                 .map(member -> new FollowListDTO(member.getId(), member.getNickname(), member.getImg()))
                 .collect(Collectors.toList());
     }
-    public List<FollowListDTO> searchNicknameFollower(String name,Long id) {
+
+    public List<FollowListDTO> searchNicknameFollower(String name, Long id) {
         List<Member> collect = followRepository.findLikeFollowerByname(name, id).stream()
                 .map(o -> o.getFollower())
                 .collect(Collectors.toList());
-        for(Member m : collect){
+        for (Member m : collect) {
             System.out.println(m.getNickname());
         }
         return collect.stream()
