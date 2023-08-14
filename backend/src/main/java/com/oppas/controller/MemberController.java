@@ -114,7 +114,7 @@ public class MemberController {
     }
 
     @GetMapping("/followInfo")
-    public ResponseEntity<?> followerInfo(@RequestParam("Id") Long id) {
+    public ResponseEntity<?> followerInfo(@RequestParam("memberId") Long id) {
         FollowInfo followInfo = followService.Info(id);
         return new ResponseEntity<>(followInfo, HttpStatus.OK);
     }
