@@ -19,6 +19,7 @@ import OurAxios from "../../config/ourAxios";
 import CannotRegistNotice from "../../components/CannotRegistNotice";
 import CanRegistNotice from "../../components/CanRegistNotice";
 import NoticeModal from "../../components/NoticeModal";
+import { useSelector } from "react-redux";
 
 export default function Page(props) {
   // const router = useRouter();
@@ -32,15 +33,16 @@ export default function Page(props) {
   const [userId, setUserId] = useState(null);
 
   // 알람 상태 관리
-  const [chkNotice, setChkNotice] = useState(false);
-  const [registerFlag, setRegisterFlag] = useState();
+  const [chkNotice, setChkNotice] = useState();
+  const [registerFlag, setRegisterFlag] = useState(false);
   const [modalFlag, setModalFlag] = useState(false);
+  const userData = useSelector(state => state.user);
 
   // 알림 설정 가능 여부
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     console.log("At : " , accessToken);
-    if (!accessToken) {
+    if (!userData.isLogined) {
       console.log("로그아웃 상태");
     }
     else {
@@ -59,7 +61,7 @@ export default function Page(props) {
           console.log(err);
         });
     }
-  });
+  }, []);
 
   useEffect(() => {
     // 북마크 체크 확인
@@ -136,7 +138,7 @@ export default function Page(props) {
                   {/* 알림 설정 파트 */}
                   {/* 알림 설정 되어 있는지 여부는 여기 파일에서 확인 */}
                   {/* 나머지 작업은 컴포넌트 만들어야 함 */}
-                  {chkNotice ? (
+                  {!chkNotice ? (
                     <>
                       <CannotRegistNotice className="cursor-pointer" />
                     </>
