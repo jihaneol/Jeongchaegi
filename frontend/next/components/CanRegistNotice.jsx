@@ -62,17 +62,19 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag }) {
   // }
 
   useEffect(() => {
-    getEventID(postNum).then((res) => {
+    async function fetchEventID() {
+      eventID = await getEventID(postNum);
       console.log("useEffect getEventID");
-      console.log(res);
-      eventID = res;
+      console.log(eventID);
       if (eventID === null)
         setRegisterFlag(false);
       else {
         console.log("Event ID 있음, useEffect");
         getEventDetail(eventID);
       }
-    })
+    }
+
+    fetchEventID();
   }, [refreshFlag]);
 
   function onClickImg() {
