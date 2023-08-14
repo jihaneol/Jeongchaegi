@@ -8,17 +8,18 @@ import axios from "axios";
 export default function NoticeModal({ type, title, modalClose, setRefreshFlag, eventIdProp, listIdProp }) {
 	const [mention, setMention] = useState("등록");
 	const [eventId, setEventId] = useState("");
-	const [calendars, setCalendars] = useState([]);
+	const [eventForm, setEventForm] = useEffect([]);
 	const [calendarID, setCalendarID] = useState("");
 	const api = OurAxios();
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 	
-	async function findJCG() {
+	function findJCG(calendars) {
 		const flag = calendars.some(calendar => calendar.name === "정채기")
 		return flag;
 	}
 
   async function regist() {
+		let flag;
 		const kakaoToken = localStorage.getItem("kakaoToken");
 		// 캘린더 목록 가져오기
 		await axios({
@@ -30,18 +31,18 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
 		}).then((res) => {
 			console.log("캘린더 목록 가져오기 성공!");
 			console.log(res);
-			setCalendars(res.data.calendars);
+			flag = findJCG(res.data.calendars);
 		}).catch((err) => {
 			console.log("캘린더 목록 가져오기 실패");
 			console.log(err);
 		});
 		// 캘린더 이름이 "정채기"인 거 찾기
-		const flag = await findJCG();
 		console.log("정채기인 거 찾았어?");
 		console.log(flag);
 		// 정책 아이디(listIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
-		// 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급
-		// 일정 아이디와 정책 아이디로 일정 저장
+		// await api.get(`/api/events/form/policies/${listIdProp}/`)
+		// 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급 ([0]: 시작일, [1]: 마감일 -> 2번 요청보내야함)
+		// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
 		alert("성공적으로 등록되었습니다.");
 		setRefreshFlag(prev => !prev);
 		modalClose();
