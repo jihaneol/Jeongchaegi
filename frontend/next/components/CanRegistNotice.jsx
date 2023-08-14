@@ -43,7 +43,10 @@ export default function CanRegistNotice({ postNum, registerSet }) {
   function getEventID() {
     api.get(`/events/check/policies/${postNum}`).then((res) => {
       // null 이면 아직 일정 등록 안된것
-      if (res.data === null) setRegisterFlag(false);
+      console.log("getEventID.res"+res);
+      if (res.data === null) {
+        setRegisterFlag(false);
+      }   
       // 이벤트 아이디 있으면 일정 상세 확인
       else getEventDetail(res.data);
     }).catch((err) => {

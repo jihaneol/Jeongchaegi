@@ -79,15 +79,15 @@ export default function LiveChat(props) {
         console.log(firstMessage);
       }
 
-      console.log(data);
+      // console.log(data);
       const response = await axios.post(
         `http://www.jeongchaegi.com/api/chats/${props.pageId}`,
         data
       );
-      console.log(response.data); // 객체 배열
+      // console.log(response.data); // 객체 배열
       if (response.data.length !== 0)
         setMessages([...response.data, ...messages]);
-      console.log(messages);
+      // console.log(messages);
     } catch (error) {
       console.error("Error sending POST request:", error);
     }
