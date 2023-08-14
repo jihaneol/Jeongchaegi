@@ -40,7 +40,10 @@ export default function Page(props) {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     console.log("At : " , accessToken);
-    if (accessToken) {
+    if (!accessToken) {
+      console.log("로그아웃 상태");
+    }
+    else {
       api
         .get(`/events/possible/policies/${post?.id}`, {
           headers: {
@@ -55,9 +58,6 @@ export default function Page(props) {
           console.log("알림 설정 가능 여부 에러(policy detail)");
           console.log(err);
         });
-    }
-    else {
-      console.log("로그아웃 상태");
     }
   });
 
