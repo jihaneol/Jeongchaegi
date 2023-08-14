@@ -13,13 +13,13 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 	
   function regist() {
-		const accessToken = localStorage.getItem("accessToken");
+		const kakaoToken = localStorage.getItem("kakaoToken");
 		// 캘린더 목록 가져오기
 		axios({
 			method: "get",
 			url: "https://kapi.kakao.com/v2/api/calendar/calendars",
 			headers: {
-				Authorization: `Bearer ${accessToken}`,
+				Authorization: `Bearer ${kakaoToken}`,
 			}
 		}).then((res) => {
 			console.log("캘린더 목록 가져오기 성공!");
