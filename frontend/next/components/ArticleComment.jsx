@@ -34,16 +34,16 @@ export default function ArticleComment() {
 
   // 댓 리스트 첨에 가져오는 함수, 그리고 페이지 해줌
   // 그냥 전역에 설정해놓은 page 변수 가져와서 씀, 상태관리 따위 안함
-  function getComment() {
-    axios({
-      method:'get',
-      url:`http://3.36.131.236/api/comments/${router.query.id}`,
-      params:{
-        pageIdx:page
-      }
-    })
-    .then((res)=>{
-      console.log('머임;');
+  async function getComment() {
+    try{
+      const res = await axios({
+        method:'get',
+        url:`http://3.36.131.236/api/comments/${router.query.id}`,
+        params:{
+          pageIdx:page
+        }
+      })
+      
       // 댓글들 가져옴, 근데 
       if (res.status===204) {  //만약 댓이 없는 상태면 댓없다고 표시하고 막페이지 1을 줌
         setArticleComment(null)
@@ -64,19 +64,18 @@ export default function ArticleComment() {
           console.log('lastpage bigger page');
           page += 1
         }
-        /*
-        그러니까 현재 페이지가 막페이지랑 같은데 댓글 목록 요청을 보냈다면 아직 페이지내이션 안쪽에 있다는 뜻,
-        그러니까 현재 페이지 값을 추가하면 안됨, 왜냐면 댓글이 5개인데 그 사이 8개가 된 경우,
-        아직 나머지 댓글은 1페이지에 생성될 것이기 때문/
-
-        댓글 생성시에는 무조건 자기 댓글을 확인해야 함, 원래는 그 하나만 보여줄려 했는데 좀 이상해서 그 사이 생성된 모든 댓 보여줄려고 결정
-        그렇기 때문에 댓글 생성 요청시 그 사이 모든 댓글을 표시하기 위해 반복해서 돌림
-        */
       }
-    })
-    .catch((err)=>{
+      /*
+      그러니까 현재 페이지가 막페이지랑 같은데 댓글 목록 요청을 보냈다면 아직 페이지내이션 안쪽에 있다는 뜻,
+      그러니까 현재 페이지 값을 추가하면 안됨, 왜냐면 댓글이 5개인데 그 사이 8개가 된 경우,
+      아직 나머지 댓글은 1페이지에 생성될 것이기 때문/
+  
+      댓글 생성시에는 무조건 자기 댓글을 확인해야 함, 원래는 그 하나만 보여줄려 했는데 좀 이상해서 그 사이 생성된 모든 댓 보여줄려고 결정
+      그렇기 때문에 댓글 생성 요청시 그 사이 모든 댓글을 표시하기 위해 반복해서 돌림
+      */
+    } catch(err){
       console.log(err);
-    })
+    }
   }
 
   // 댓글 추가 상태관리 함수
@@ -96,11 +95,7 @@ export default function ArticleComment() {
         comment:newComment
       })
       .then((res)=>{  // 댓글을 입력하면 댓글을 몇개 불러오던 자기 댓글을 무조건 확인해야 함
-        // while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
-        //   getComment()
-        //   console.log(page)
-        // }
-        // if (page === lastpage) getComment()
+        fetchComment()
       })
       .catch((err)=>{
         console.log(err);
@@ -127,12 +122,15 @@ export default function ArticleComment() {
   }
 
   function loadReply() {
-    // getComment()
-    // while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
-    //   getComment()
-    //   console.log(page)
-    // }
-    // if (page === lastpage) getComment()
+    getComment()
+  }
+
+  async function fetchComment(params) {  // 비동기 처리
+    while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
+      await getComment()
+      console.log(page)
+    }
+    if (page === lastpage) getComment()
   }
 
   // function commentUpdate(cmtid, mbid) {  // 생각해보니 댓 업뎃이 필요한가...?
