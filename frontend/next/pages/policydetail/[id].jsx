@@ -22,8 +22,9 @@ import NoticeModal from "../../components/NoticeModal";
 import { useSelector } from "react-redux";
 
 export default function Page(props) {
-  // const router = useRouter();
+  const router = useRouter();
   const post = props.post;
+  const listId = router.query;
   const api = OurAxios();
   // const keys = Object.keys(post);
   // console.log(keys);
@@ -38,31 +39,37 @@ export default function Page(props) {
   const [modalFlag, setModalFlag] = useState(false);
   const userData = useSelector(state => state.user);
   const [refreshFlag, setRefreshFlag] = useState(false);
+  const [eventID, setEventID] = useState("");
 
   // 알림 설정 가능 여부
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log("At : " , accessToken);
+    console.log("At : ", accessToken);
+    console.log("policyDetail: ", userData.isLogined);
     if (!userData.isLogined) {
       console.log("로그아웃 상태");
+    } else {
+      console.log(listId);
+      if (!listId.id) {
+        console.log("listId 없음!");
+      } else {
+        api
+          .get(`/events/possible/policies/${listId.id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            setChkNotice(res.data);
+          })
+          .catch((err) => {
+            console.log("알림 설정 가능 여부 에러(policy detail)");
+            console.log(err);
+          });
+      }
     }
-    else {
-      api
-        .get(`/events/possible/policies/${post?.id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          setChkNotice(res.data);
-        })
-        .catch((err) => {
-          console.log("알림 설정 가능 여부 에러(policy detail)");
-          console.log(err);
-        });
-    }
-  }, []);
+  }, [userData.isLogined, listId]);
 
   useEffect(() => {
     // 북마크 체크 확인
@@ -120,6 +127,10 @@ export default function Page(props) {
     setRegisterFlag(type);
   }
 
+  function getEventID(val) {
+    setEventID(val);
+  }
+
   return (
     <div className={modalFlag ? Style.on : ""}>
       {post ? (
@@ -150,6 +161,7 @@ export default function Page(props) {
                         postNum={post.id}
                         registerSet={registerSet}
                         refreshFlag={refreshFlag}
+                        getEventID={getEventID}
                       />
                       {modalFlag ? (
                         <NoticeModal
@@ -157,6 +169,8 @@ export default function Page(props) {
                           title={post.polyBizSjnm}
                           modalClose={modalClose}
                           setRefreshFlag={setRefreshFlag}
+                          eventIdProp={eventID}
+                          listIdProp={listId.id}
                         />
                       ) : null}
                     </div>

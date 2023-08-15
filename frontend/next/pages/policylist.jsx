@@ -158,7 +158,10 @@ export default function PolicyList() {
   }
 
   function handleItemClick(itemId) {
-    router.push(`/policydetail/${itemId}`);
+    router.push({
+      pathname: `/policydetail/${itemId}`,
+      query: { itemId: itemId },
+    });
     // Do whatever you want with the clicked item ID
   }
 

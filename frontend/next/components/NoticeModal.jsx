@@ -2,21 +2,78 @@ import React from "react";
 import style from "./styles/NoticeModal.module.css";
 import { useEffect } from "react";
 import { useState } from "react";
+import OurAxios from "../config/ourAxios";
+import axios from "axios";
 
-export default function NoticeModal({ type, title, modalClose, setRefreshFlag }) {
+export default function NoticeModal({ type, title, modalClose, setRefreshFlag, eventIdProp, listIdProp }) {
 	const [mention, setMention] = useState("등록");
-	let eventID = "";
-	let calendarID = "";
+	const [eventId, setEventId] = useState("");
+	const [eventForm, setEventForm] = useState([]);
+	const [calendarID, setCalendarID] = useState("");
+	const api = OurAxios();
   // type 을 받아와서, type 이 true면 삭제, false면 등록
+	
+	function findJCG(calendars) {
+		const flag = calendars.some(calendar => calendar.name === "정채기")
+		return flag;
+	}
 
-  function regist() {
-
+  async function regist() {
+		let flag;
+		const kakaoToken = localStorage.getItem("kakaoToken");
+		// 캘린더 목록 가져오기
+		await axios({
+			method: "get",
+			url: "https://kapi.kakao.com/v2/api/calendar/calendars",
+			headers: {
+				Authorization: `Bearer ${kakaoToken}`,
+			}
+		}).then((res) => {
+			console.log("캘린더 목록 가져오기 성공!");
+			console.log(res);
+			flag = findJCG(res.data.calendars);
+		}).catch((err) => {
+			console.log("캘린더 목록 가져오기 실패");
+			console.log(err);
+		});
+		// 캘린더 이름이 "정채기"인 거 찾기
+		console.log("정채기인 거 찾았어?");
+		console.log(flag);
+		// 정책 아이디(listIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
+		// await api.get(`/api/events/form/policies/${listIdProp}/`)
+		// 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급 ([0]: 시작일, [1]: 마감일 -> 2번 요청보내야함)
+		// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
+		alert("성공적으로 등록되었습니다.");
 		setRefreshFlag(prev => !prev);
+		modalClose();
 	}
 	
   function unregist() {
-		
+		const accessToken = localStorage.getItem("accessToken");
+		if (!eventId) {
+			console.log("eventId 없음");
+		}
+		else {
+			axios({
+				method: "delete",
+				url: "https://kapi.kakao.com/v2/api/calendar/delete/event",
+				params: {
+					event_id: eventId,
+				},
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				}
+			}).then((res) => {
+				console.log("일정 삭제 성공!");
+				console.log(res);
+			}).catch((err) => {
+				console.log("일정 삭제 실패!");
+				console.log(err);
+			})
+		}
+		alert("성공적으로 삭제되었습니다.");
 		setRefreshFlag(prev => !prev);
+		modalClose();
 	}
 
 	useEffect(() => {
@@ -25,6 +82,11 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag })
 		else
 			setMention("등록");
 	}, [type])
+
+	useEffect(() => {
+		setEventId(eventIdProp);
+		console.log("event_id 있는 경우");
+	}, [eventIdProp])
 
   return (
     <div className={style.modal_box}>

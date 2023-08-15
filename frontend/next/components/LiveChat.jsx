@@ -5,7 +5,7 @@ import axios from "axios";
 export default function LiveChat(props) {
   const [inputMessage, setInputMessage] = useState("");
   const { client, messages, setMessages } = useStompClient(
-    "http://www.jeongchaegi.com/ws/policychat",  
+    "http://www.jeongchaegi.com/ws/policychat",
     `/sub/policychat${props.pageId}`
   );
   // "http://3.36.131.236/ws/policychat", 서버
