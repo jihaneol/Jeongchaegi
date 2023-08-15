@@ -2,6 +2,7 @@ package com.oppas.controller;
 
 
 import com.oppas.config.auth.PrincipalDetails;
+import com.oppas.dto.post.request.PostFilterDTO;
 import com.oppas.dto.post.request.RequestPostDto;
 import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
@@ -71,6 +72,19 @@ public class PostController {
         HttpStatus httpStatus =  postService.removePost(principalDetails, postId);
 
         return new ResponseEntity(httpStatus);
+    }
+
+
+
+    @GetMapping("/search")
+    public ResponseEntity searchPost(@ModelAttribute PostFilterDTO filter,
+                                     @RequestParam int pageIndex){
+      
+        Page<ResponsePostDto> posts = postService.getSearchList(filter,pageIndex);
+        if(posts.isEmpty()){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(posts,HttpStatus.OK);
     }
 
 }
