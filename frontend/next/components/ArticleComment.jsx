@@ -27,13 +27,14 @@ export default function ArticleComment() {
   
   useEffect(()=>{
     if (router.query.id) {
-      getComment(page)
+      getComment()
     }
   },[router.query.id])
   // function list ===================================
 
-  // 댓 리스트 첨에 가져오는 함수, 그리고 페이지 해줌, 재활용하려 했는디 생각 잘못씀
-  function getComment(page) {
+  // 댓 리스트 첨에 가져오는 함수, 그리고 페이지 해줌
+  // 그냥 전역에 설정해놓은 page 변수 가져와서 씀, 상태관리 따위 안함
+  function getComment() {
     axios({
       method:'get',
       url:`http://3.36.131.236/api/comments/${router.query.id}`,
@@ -49,17 +50,17 @@ export default function ArticleComment() {
         lastpage = 1
       }
       else{  // 댓이 잇으면 for문 돌려서 id가 같거나 작으면 삭제하고 추가함
-        const newreply = res.data.content
-        newreply.forEach(element => {
-          console.log(element.id);
-          if (lastpage !== 999 && element.id <= articleComment.slice(-1)[0].id) {
-            newreply.shift()
-          }
-        });
+        const newreply = [...res.data.content]  // 깊은 복사 필요
+        if (lastpage !== 999) {  // 적어도 두번째 요청일 때
+          res.data.content.forEach(element => {
+            if (element.id <= articleComment.slice(-1)[0].id) newreply.shift()
+          });
+        }
         lastpage = res.data.totalPages  // 일단 막페이지 표시
         setArticleComment([...articleComment, ...newreply])
         setTotalComments(res.data.totalElements)
         if (lastpage > page) {  // 막페이지가 현재 페이지보다 크면 페이지 +1을 해줌
+          console.log('lastpage bigger page');
           page += 1
         }
         /*
@@ -80,6 +81,7 @@ export default function ArticleComment() {
   // 댓글 추가 상태관리 함수
   function handleComment(e) {
     setNewComment(e.target.value)
+    console.log(e.target.value.length);
   }
 
 
@@ -95,7 +97,7 @@ export default function ArticleComment() {
       .then((res)=>{  // 댓글을 입력하면 댓글을 몇개 불러오던 자기 댓글을 무조건 확인해야 함
         const getSyncComment = async()=>{
           while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
-            await getComment(page)
+            await getComment()
             console.log(page);
           }
         }
@@ -150,7 +152,7 @@ export default function ArticleComment() {
   }
 
   function loadReply() {
-    getComment(page)
+    getComment()
   }
 
   // function commentUpdate(cmtid, mbid) {  // 생각해보니 댓 업뎃이 필요한가...?
