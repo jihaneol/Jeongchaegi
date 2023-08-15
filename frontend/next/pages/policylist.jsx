@@ -45,6 +45,7 @@ export default function PolicyList() {
     page = 1;
     lastPage = 9999999;
     setpcy([]);
+    setTargetDate(null)
 
     getPcyData(page, router.query);
   }, [router.query]); // url 쿼리 바뀔 시 실행,
@@ -224,6 +225,9 @@ export default function PolicyList() {
         </div>
         <span className={style.loading}>
           {!isFirstLoadingList && isLoadingList ? (<Spin />) : ""}
+        </span>
+        <span className={`${style.loading} font-bold`}>
+          {lastPage <= page ? '마지막 페이지 입니다.' : false}
         </span>
       </div>
     </div>
