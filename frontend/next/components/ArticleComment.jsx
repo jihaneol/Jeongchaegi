@@ -43,6 +43,7 @@ export default function ArticleComment() {
       }
     })
     .then((res)=>{
+      console.log('머임;');
       // 댓글들 가져옴, 근데 
       if (res.status===204) {  //만약 댓이 없는 상태면 댓없다고 표시하고 막페이지 1을 줌
         setArticleComment(null)
@@ -95,35 +96,11 @@ export default function ArticleComment() {
         comment:newComment
       })
       .then((res)=>{  // 댓글을 입력하면 댓글을 몇개 불러오던 자기 댓글을 무조건 확인해야 함
-        while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
-          getComment()
-          console.log(page)
-        }
-        if (page === lastpage) getComment()
-        // 만약 댓 추가 요청이 성공했다면
-        // axios({
-        //   method:'get',
-        //   url:`http://3.36.131.236/api/comments/${router.query.id}`,
-        //   params:{
-        //     pageIdx:page
-        //   }
-        // })
-        // .then((res)=>{
-        //   // 댓글 리스트 다시 요청해서 마지막 데이터만 가져옴
-        //   console.log(res.data.content.slice(-1)[0]);
-        //   newdata = res.data.content.slice(-1)[0]
-        //   if (articleComment) {  // 만약 댓이 있었다면 댓 리스트 마지막에 추가
-        //     setArticleComment([...articleComment, newdata])
-        //     setTotalComments(res.data.totalElements)
-        //   }
-        //   else {  // 댓이 없으면 첫댓이니 그냥 추가
-        //     setArticleComment([newdata])
-        //     setTotalComments(res.data.totalElements)
-        //   }
-        // })
-        // .catch((err)=>{
-        //   console.log(err);
-        // })
+        // while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
+        //   getComment()
+        //   console.log(page)
+        // }
+        // if (page === lastpage) getComment()
       })
       .catch((err)=>{
         console.log(err);
@@ -150,7 +127,12 @@ export default function ArticleComment() {
   }
 
   function loadReply() {
-    getComment()
+    // getComment()
+    // while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
+    //   getComment()
+    //   console.log(page)
+    // }
+    // if (page === lastpage) getComment()
   }
 
   // function commentUpdate(cmtid, mbid) {  // 생각해보니 댓 업뎃이 필요한가...?
