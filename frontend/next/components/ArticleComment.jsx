@@ -95,14 +95,11 @@ export default function ArticleComment() {
         comment:newComment
       })
       .then((res)=>{  // 댓글을 입력하면 댓글을 몇개 불러오던 자기 댓글을 무조건 확인해야 함
-        const getSyncComment = async()=>{
-          while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
-            await getComment()
-            console.log(page)
-          }
-          if (page === lastpage) getComment()
+        while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
+          getComment()
+          console.log(page)
         }
-        getSyncComment()
+        if (page === lastpage) getComment()
         // 만약 댓 추가 요청이 성공했다면
         // axios({
         //   method:'get',
