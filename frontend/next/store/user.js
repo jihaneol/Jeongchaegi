@@ -57,15 +57,15 @@ const userSlice = createSlice({
       console.log(state.nickname);
     },
     setLogout: (state) => {
-			if (state.timer) {
-				clearTimeout(state.timer);
-			}
-			state.isLogined = false;
-			state.timer = null;
-		},
-		setTimer: (state, action) => {
-			state.timer = action.payload;
-		}
+      if (state.timer) {
+        clearTimeout(state.timer);
+      }
+      state.isLogined = false;
+      state.timer = null;
+    },
+    setTimer: (state, action) => {
+      state.timer = action.payload;
+    },
   },
 });
 
