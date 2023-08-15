@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import style from '../../styles/ArticleDetail.module.css'
 
 // 잠깐 테스트용, 나중에 가능하면 ssr로 바꿀거임========================================================
-// 일단 react-md 라이브러리 프리뷰는 주석처리, nextjs에서 말하는 renark라이브러리 써볼거임
+// 일단 react-md 라이브러리 프리뷰는 주석처리, nextjs에서 말하는 renark라이브러리 써ㅅ기에 주석처리, 
 // const Markdown = dynamic(
 //   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
 //   { ssr: false }
@@ -38,31 +38,7 @@ export default function Page({ detailData, contentHtml }) {
   const userData = useSelector((state) => state.user);
   const api = OurAxios();
 
-  // ssr 적용해서 이제 필요 없음
-  // useEffect(() => {
-  //   if (router.query.id) {
-  //     axios({
-  //       method: "get",
-  //       url: `http://3.36.131.236/api/posts/${router.query.id}`,
-  //     })
-  //       .then((res) => {
-  //         // console.log(res);
-  //         setDetailData(res.data);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       })
-  //       .finally(() => {
-  //         // console.log("end detail data!");
-  //       });
-  //   }
-  //   else{
-  //     return
-  //   }
-  // }, [router.query.id]);
-
   // 수정, 삭제 버튼 함수
-
   function updateArticle() {
     // 다음 같은 사용자가 요청하는가
     if (localStorage.getItem("userID") == detailData.memberId) {
@@ -102,6 +78,11 @@ export default function Page({ detailData, contentHtml }) {
               <h1 className="text-4xl font-bold text-center text-black-700 mb-6">
                 {detailData.title}
               </h1>
+              {/* 사용자, 작성 시간 */}
+              <div className="font-bold text-gray-500 m-1">
+                <p>{detailData.nickname} | {detailData.createdAt.slice(0,10)} {detailData.createdAt.slice(11,)}</p>
+              </div>
+              <hr />
               <div className="bg-white shadow-md p-6 rounded-lg space-y-4">
                 <div className="p-4 bg-gray-100 rounded">
                   {/* tailwind는 브라우저 기본 제공 css 날려먹음, 그래서 그냥 깃헙에 있는 마크다운 스타일 훔쳐옴 */}
@@ -130,13 +111,16 @@ export default function Page({ detailData, contentHtml }) {
             </div>
           )}
         </div>
-      <ArticleComment />
+      <div className="w-full max-w-4xl">
+        <ArticleComment />
+      </div>
       </div>
     </>
   );
 }
 
 
+// ssr 적용
 export async function getServerSideProps({params}) {
   try {
     const response = await axios.get(

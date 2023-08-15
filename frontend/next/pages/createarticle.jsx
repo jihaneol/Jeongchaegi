@@ -13,7 +13,7 @@ const MDEditor = dynamic(
 
 export default function CreateArticle() {
   const [mytitle, setTitle] = useState("")
-  const [value, setValue] = useState("**Hello world!!!**")
+  const [value, setValue] = useState("")
   const api = OurAxios()
   const router = useRouter()
 
