@@ -81,12 +81,12 @@ export default function ArticleComment() {
   // 댓글 추가 상태관리 함수
   function handleComment(e) {
     setNewComment(e.target.value)
-    console.log(e.target.value.length);
   }
 
 
   // 댓 추가하는 함수
   function commentSubmit(e) {
+    console.log(e.target.value.length);
     e.preventDefault()
     // 댓글에 내용 있을때만 추가
     if (newComment.trim()) {
@@ -98,8 +98,9 @@ export default function ArticleComment() {
         const getSyncComment = async()=>{
           while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
             await getComment()
-            console.log(page);
+            console.log(page)
           }
+          if (page === lastpage) getComment()
         }
         getSyncComment()
         // 만약 댓 추가 요청이 성공했다면
