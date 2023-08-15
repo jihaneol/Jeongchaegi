@@ -86,8 +86,8 @@ export default function ArticleComment() {
 
   // 댓 추가하는 함수
   function commentSubmit(e) {
-    console.log(e.target.value.length);
     e.preventDefault()
+    console.log(e.target.value.length);
     // 댓글에 내용 있을때만 추가
     if (newComment.trim()) {
       api.post(`/comments`, {
