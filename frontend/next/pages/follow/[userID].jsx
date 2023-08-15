@@ -4,12 +4,20 @@ import Nav from "../../components/Nav";
 import Image from "next/image";
 import FollowPage from "../../components/FollowPage";
 
+// 쿠키 이름을 사용하여 해당 쿠키의 값을 반환하는 함수
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null;
+}
+
 export default function Follow() {
-  const
-  const apiClient = axios.create({
+  const token = getCookie("at");
+  const api = axios.create({
     baseURL: "http://3.36.131.236/api",
     timeout: 1000,
-    headers: { Authorization: `Bearer ${}` }, // if needed
+    headers: { Authorization: `Bearer ${token}` }, // if needed
   });
   const [search, setSearch] = useState(""); // 검색어
   const [followNum, setFollowNum] = useState(0); // 팔로우 수
@@ -21,7 +29,7 @@ export default function Follow() {
   // ①팔로워 수 ②팔로워 리스트 받아오기
   useEffect(() => {
     const fetchData = async () => {
-      ourAxios
+      api
         .get("/members/followInfo")
         .then((responseNum) => {
           setFollowNum(responseNum.data);
@@ -30,7 +38,7 @@ export default function Follow() {
           console.log(err);
         });
 
-      ourAxios
+      api
         .get("/members/followerList")
         .then((responseList) => {
           setFollowList(responseList.data);
@@ -44,7 +52,7 @@ export default function Follow() {
   }, []);
 
   const handleFollow = (id) => {
-    ourAxios
+    api
       .delete(`/${id}/unFollow`)
       .then((res) => {
         const afterList = followList.filter((user) => user.id !== id);
@@ -61,7 +69,7 @@ export default function Follow() {
   };
 
   const searchName = async () => {
-    ourAxios
+    api
       .get("/members/followerList", {
         params: {
           nickname: search,
