@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import axios from "axios";
 import Nav from "../../components/Nav";
 import Image from "next/image";
 import FollowPage from "../../components/FollowPage";
 
-// 쿠키 이름을 사용하여 해당 쿠키의 값을 반환하는 함수
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-  return null;
-}
-
 export default function Follow() {
-  const token = getCookie("at");
+  const token = Cookies.get("at");
   const api = axios.create({
     baseURL: "http://3.36.131.236/api",
     timeout: 1000,
