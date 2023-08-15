@@ -58,7 +58,7 @@ export default function ArticleComment() {
           });
         }
         lastpage = res.data.totalPages  // 일단 막페이지 표시
-        setArticleComment([...articleComment, ...newreply])
+        setArticleComment(articleComment => [...articleComment, ...newreply])
         setTotalComments(res.data.totalElements)
         if (lastpage > page) {  // 막페이지가 현재 페이지보다 크면 페이지 +1을 해줌
           console.log('lastpage bigger page');
@@ -71,7 +71,7 @@ export default function ArticleComment() {
       아직 나머지 댓글은 1페이지에 생성될 것이기 때문/
   
       댓글 생성시에는 무조건 자기 댓글을 확인해야 함, 원래는 그 하나만 보여줄려 했는데 좀 이상해서 그 사이 생성된 모든 댓 보여줄려고 결정
-      그렇기 때문에 댓글 생성 요청시 그 사이 모든 댓글을 표시하기 위해 반복해서 돌림
+      즉 댓글 생성시 페이지네이션 무시하고 모든 댓글을 표시
       */
     } catch(err){
       console.log(err);
@@ -125,12 +125,12 @@ export default function ArticleComment() {
     getComment()
   }
 
-  async function fetchComment(params) {  // 비동기 처리
+  async function fetchComment() {  // 비동기 처리
     while (page < lastpage) {  // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
       await getComment()
       console.log(page)
     }
-    if (page === lastpage) getComment()
+    if (page === lastpage) await getComment()
   }
 
   // function commentUpdate(cmtid, mbid) {  // 생각해보니 댓 업뎃이 필요한가...?
