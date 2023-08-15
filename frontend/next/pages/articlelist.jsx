@@ -103,12 +103,18 @@ export default function ArticleList() {
             <div className="text-center py-4 text-gray-400">Loading...</div>
           )}
 
-          <button
-            onClick={btnNextPage}
-            className="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200"
-          >
-            More Data
-          </button>
+          {lastPage !== page ? (
+            <div>
+              <button
+                onClick={btnNextPage}
+                className="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200"
+              >
+                다음 페이지
+              </button>
+            </div>
+          ) : (
+            false
+          )}
         </div>
       </div>
     </>
