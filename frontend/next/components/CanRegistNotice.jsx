@@ -41,6 +41,8 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag, get
         }).catch((err) => {
           console.log("delete 요청 실패");
           console.log(err);
+          if (err.response.status === 500)
+            setRegisterFlag(false);
         });
       });
   }
