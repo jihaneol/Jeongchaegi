@@ -14,20 +14,10 @@ export default function Page() {
   // state
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
-  const [policyType, setPolicyType] = useState(false); // false == 스크랩, true == 알림
-  const [myNotice, setMyNotice] = useState([]);
 
   async function getUserData() {
     setUserImg(localStorage.getItem("userImg"));
     setUserName(localStorage.getItem("userName"));
-  }
-
-  function scrapClick() {
-    setPolicyType(false);
-  }
-
-  function noticeClick() {
-    setPolicyType(true);
   }
 
   useEffect(() => {
@@ -109,24 +99,10 @@ export default function Page() {
         </div>
         <div className={style.policyList_wrapper}>
           <div className={style.policyList_header}>
-            <div>My 정책</div>
-            <div className={style.polisyList_type}>
-              <button
-                onClick={scrapClick}
-                className={policyType ? style.off : ""}
-              >
-                스크랩
-              </button>
-              <button
-                onClick={noticeClick}
-                className={!policyType ? style.off : ""}
-              >
-                알림
-              </button>
-            </div>
+            <div>My 스크랩</div>
           </div>
           <div className={style.policyList_content}>
-            {!policyType ? <MyPageScrap /> : ""}
+            <MyPageScrap />
           </div>
         </div>
         <div className={style.followerList_wrapper}>

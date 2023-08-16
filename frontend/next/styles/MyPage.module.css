@@ -130,11 +130,10 @@
 }
 
 .polisyList_type{
-	display: flex;
 	font-size: 20px;
 	line-height: 100px;
-	justify-content: space-evenly;
 	width: 20%;
+	text-align: center;
 }
 
 .off {
