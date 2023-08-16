@@ -2,7 +2,6 @@ package com.oppas.controller;
 
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.post.request.PostFilterDTO;
 import com.oppas.dto.post.request.RequestPostDto;
 import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
@@ -45,7 +44,6 @@ public class PostController {
 
 
         PostDetailDto postDetailDto = postService.getPost(postId);
-
         if (postDetailDto != null) {
 //            List<Comment> commentList = commentService.getListComment();
 
@@ -77,10 +75,11 @@ public class PostController {
 
 
     @GetMapping("/search")
-    public ResponseEntity searchPost(@ModelAttribute PostFilterDTO filter,
+    public ResponseEntity searchPost(String keyword,
                                      @RequestParam int pageIndex){
-      
-        Page<ResponsePostDto> posts = postService.getSearchList(filter,pageIndex);
+
+        System.out.println(keyword);
+        Page<ResponsePostDto> posts = postService.getSearchList(keyword,pageIndex);
         if(posts.isEmpty()){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
