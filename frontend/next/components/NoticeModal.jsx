@@ -188,6 +188,7 @@ export default function NoticeModal({
   useEffect(() => {
     setEventId(eventIdProp);
     console.log("event_id 있는 경우");
+		console.log(eventIdProp);
   }, [eventIdProp]);
 
   return (
