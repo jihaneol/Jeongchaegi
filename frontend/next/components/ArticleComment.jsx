@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Image } from "@mui/icons-material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import OurAxios from "../config/ourAxios";
+import Image from "next/image";
 
 import { useDispatch, useSelector } from "react-redux";
 
