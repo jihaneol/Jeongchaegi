@@ -28,9 +28,11 @@ export default function NoticeModal({
 
   async function createKakaoEvent(events, index, kakaoToken, calendarId) {
 		console.log("카카오 일정 생성 시도! -> event 객체");
-		console.log(events);
 		const event = events[index];
 		console.log(event);
+
+		const accessToken = localStorage.getItem("accessToken");
+
 		await axios({
 			method: "post",
 			url: "https://kapi.kakao.com/v2/api/calendar/create/event",
@@ -46,7 +48,11 @@ export default function NoticeModal({
 			console.log(res);
 			// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
 			api
-        .post(`/events/${res.data}/save/policies/${policyIdProp}/`)
+        .post(`/events/${res.data}/save/policies/${policyIdProp}/`, {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					}
+				})
         .then((res) => {
           console.log("일정 저장 성공!");
 					console.log(res);
@@ -135,6 +141,7 @@ export default function NoticeModal({
 
   function unregist() {
     const accessToken = localStorage.getItem("accessToken");
+    const kakaoToken = localStorage.getItem("kakaoToken");
     if (!eventId) {
       console.log("eventId 없음");
     } else {
@@ -145,15 +152,26 @@ export default function NoticeModal({
           event_id: eventId,
         },
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${kakaoToken}`,
         },
       })
         .then((res) => {
-          console.log("일정 삭제 성공!");
+          console.log("카카오 일정 삭제 성공!");
           console.log(res);
+					api.delete(`/events/${eventId}/`, {
+						headers: {
+							Authorization: `Bearer ${accessToken}`,
+						}
+					}).then((res) => {
+						console.log("일정 저장 성공!");
+						console.log(res);
+					}).catch((err) => {
+						console.log("일정 저장 실패");
+						console.log(err);
+					})
         })
         .catch((err) => {
-          console.log("일정 삭제 실패!");
+          console.log("카카오 일정 삭제 실패!");
           console.log(err);
         });
     }
