@@ -4,7 +4,7 @@ import OurAxios from "../config/ourAxios";
 import axios from "axios";
 import { getEventID }from "./GetEventID";
 
-export default function CanRegistNotice({ postNum, registerSet, refreshFlag, getEventIdPros }) {
+export default function CanRegistNotice({ postNum, registerSet, refreshFlag, getEventIdProps }) {
   const api = OurAxios();
   const [registerFlag, setRegisterFlag] = useState(false); // true 면 등록됨, false 면 등록 안됨
 
@@ -55,7 +55,7 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag, get
           setRegisterFlag(false);
         else {
           console.log("Event ID 있음, useEffect");
-          getEventIdPros(eventID);
+          getEventIdProps(eventID);
           await getEventDetail(eventID);
         }
       } catch (error) {
