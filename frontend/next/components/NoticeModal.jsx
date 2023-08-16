@@ -55,7 +55,7 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
 				method: "post",
 				url: "https://kapi.kakao.com/v2/api/calendar/create/calendar",
 				headers: {
-					Authorization: `Berer ${kakaoToken}`,
+					Authorization: `Bearer ${kakaoToken}`,
 				},
 				params: {
 					name: "정채기",
