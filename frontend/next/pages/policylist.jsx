@@ -64,7 +64,7 @@ export default function PolicyList() {
     // 스크롤 이벤트는 처음 했던거 기준으로만 됨 그래서 계속 함수 최신화 할거임 근데 계속 함수 생성하니까 문제, 어떻게 하지?
     const timer = setInterval(() => {
       window.addEventListener("scroll", handleScroll);
-    }, 500);
+    }, 100);
     return () => {
       // 컴포넌트 생성시 스크롤 이벤트, 끝날때 없애기
       clearInterval(timer);
@@ -215,7 +215,7 @@ export default function PolicyList() {
         <PolicyListSearch submitParamsToBack={submitParamsToBack} />
 
         {/* 정렬 기능 */}
-        <PolicyListSort />
+        {/* <PolicyListSort /> */}
 
         {/* pcylist */}
         <div className={isFirstLoadingList ? style.loading : style.pcylist}>
