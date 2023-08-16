@@ -36,6 +36,15 @@ const Carousel = () => {
           >
             <img
               className={`${Style.carousel_slide_img} w-full h-full object-contain`}
+              src="/A510.png"
+              alt="SSAFY 9기 청년들"
+            />
+          </div>
+          <div
+            className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
+          >
+            <img
+              className={`${Style.carousel_slide_img} w-full h-full object-contain`}
               src="/보증금지원.png"
               alt="청년정책②: 보증금지원"
             />

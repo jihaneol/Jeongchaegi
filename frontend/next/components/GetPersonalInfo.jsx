@@ -48,17 +48,15 @@ export default function GetPersonalInfo() {
         })
         .catch((err) => {
           console.log(err);
-          if (err.response?.status === 404) {
+          if (err.response.status === 404) {
             dispatch(userActions.setNickName(""));
             setIsOverlap(1);
             nickNameRef.current.focus();
             setNickName("");
-            if (nickNameRef.current)
-              nickNameRef.current.value = "";
+            if (nickNameRef.current) nickNameRef.current.value = "";
           }
         });
-    }
-    else {
+    } else {
       setIsOverlap(2);
       dispatch(userActions.setNickName(""));
     }
@@ -78,9 +76,9 @@ export default function GetPersonalInfo() {
           ref={nickNameRef}
         />
         <button onClick={overlapCheck}> 중복 체크 </button>
-          <div style={{ color: "red", lineHeight: "30px", marginLeft: "5px" }}>
-            {overlapMsg[isOverlap]}
-          </div>
+        <div style={{ color: "red", lineHeight: "30px", marginLeft: "5px" }}>
+          {overlapMsg[isOverlap]}
+        </div>
       </div>
       <div className={`${style.birth_wrapper} ${style.wrapper}`}>
         <GetBirth getBirth={getBirth} />
