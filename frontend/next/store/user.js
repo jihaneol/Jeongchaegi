@@ -35,7 +35,7 @@ const userSlice = createSlice({
       console.log("state-isLogined: ", state.isLogined);
     },
     setPolicyType(state, action) {
-      const arr = action.payload.slice(); // 복사를 통해 새로운 배열 생성
+      const arr = (action.payload || []).slice(); // action.payload 값이 유효하면 그 값을 사용하고, 아니면 빈 배열([])을 사용
       state.policyType = arr;
       console.log(state.policyType);
     },
@@ -47,7 +47,7 @@ const userSlice = createSlice({
       const birthMonth = parseInt(action.payload.split("-")[1]);
       const birthDay = parseInt(action.payload.split("-")[2]);
 
-      const age = parseInt(today_year) - birthYear;
+      let age = parseInt(today_year) - birthYear;
       if (
         today_month < birthMonth ||
         (today_month === birthMonth && today_day < birthDay)
@@ -74,7 +74,13 @@ const userSlice = createSlice({
       }
       state.isLogined = false;
       state.timer = null;
-      return initialUserState;
+      state.id = 0;
+      state.img = "";
+      state.city = "";
+      state.birth = `${today_year}-${today_month}-${today_day}`;
+      state.age = 0;
+      state.nickname = "";
+      policyType = [];
     },
     setTimer: (state, action) => {
       state.timer = action.payload;
