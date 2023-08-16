@@ -29,7 +29,7 @@ export default function PolicyListSearch({ submitParamsToBack }) {
       <input
         type="text"
         className="form-control"
-        placeholder="search query"
+        placeholder="Search..."
         onChange={handleQuery}
       />
       <button className={`btn btn-outline-secondary btn-light`}>search</button>

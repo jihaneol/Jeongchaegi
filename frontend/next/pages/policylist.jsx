@@ -26,7 +26,7 @@ let lastPage = 999999999999;
 
 export default function PolicyList() {
   const router = useRouter();
-  const { calendarActive } = router.query;
+  const { calendarActive, date } = router.query;
   const api = OurAxios();
 
   // State 모음
@@ -53,9 +53,9 @@ export default function PolicyList() {
   useEffect(() => {
     // 컴포넌트 생성시 할것들
 
-    // if (calendarDate) {
-    //   setTargetDate(new Date(calendarDate));
-    // } else setTargetDate(new Date());
+    if (date) {
+      setTargetDate(new Date(date));
+    }
     page = 1;
     lastPage = 9999999;
   }, []);
@@ -170,7 +170,6 @@ export default function PolicyList() {
   }
 
   function onClickDay(e) {
-    console.log(targetDate, e);
     if (targetDate) {
       // 날짜가 입력되어 있는 경우
       if (

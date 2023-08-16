@@ -73,6 +73,11 @@ export default function ArticleList() {
         })();
   }
 
+  // 게시판 검색 기능
+  function articleSearch(params) {
+    
+  }
+
   // 렌더링 되는 곳
 
   return (
@@ -83,7 +88,7 @@ export default function ArticleList() {
           {/* Header section */}
           <div className="flex justify-between items-center mb-6 border-b pb-4">
             {/* gpt님이 만들어주신 개이쁜 검색창 */}
-            <form className="relative">
+            <form className="relative" onSubmit={articleSearch}>
               <input
                 type="text"
                 placeholder="Search..."
