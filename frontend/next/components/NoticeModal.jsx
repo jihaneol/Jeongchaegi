@@ -36,7 +36,7 @@ export default function NoticeModal({
         headers: {
           Authorization: `Bearer ${kakaoToken}`,
         },
-        params: {
+        data: {
           calendar_id: calendarId,
           event: event,
         },
@@ -94,7 +94,7 @@ export default function NoticeModal({
       })
         .then((res) => {
           console.log("캘린더 생성 성공!");
-          setCalendarID(res.data);
+          calendarId = res.data;
         })
         .catch((err) => {
           console.log("캘린더 생성 실패");
