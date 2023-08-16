@@ -20,7 +20,7 @@ export default function ArticleListItem({ obj, onItemClick }) {
               alt={item.nickname}
               width={24}
               height={24}
-              className="rounded-full mr-5"
+              className="rounded-full"
             />
             {item.nickname}
           </td>

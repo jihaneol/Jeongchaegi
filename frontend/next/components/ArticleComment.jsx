@@ -132,9 +132,9 @@ export default function ArticleComment() {
     } else alert("다른 사용자의 댓글을 삭제할 수 없습니다.");
   }
 
-  function handleUserClick(item) {
-    router.push(`/mypage/${item.nickname}`);
-  }
+  // function handleUserClick(item) {
+  //   router.push(`/mypage/${item.nickname}`);
+  // }
 
   function loadReply() {
     getComment();
@@ -167,16 +167,14 @@ export default function ArticleComment() {
             key={item.id}
             className="flex items-center space-x-4 mb-2 bg-gray-100 p-2 rounded"
           >
-            {/* <Image
+            <Image
               src={item.memberImg}
               alt={item.nickname}
               width={24}
               height={24}
-              className="rounded-full mr-3"
-            /> */}
-            <p className="font-semibold" onClick={handleUserClick(item)}>
-              {item.nickname}:
-            </p>
+              className="rounded-full"
+            />
+            <p className="font-semibold">{item.nickname}:</p>
             <p className="flex-1">{item.comment}</p>
             <button
               onClick={() => commentDel(item.id, item.memberId)}
