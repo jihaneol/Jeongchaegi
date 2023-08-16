@@ -2,7 +2,6 @@ package com.oppas.service;
 
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.post.request.PostFilterDTO;
 import com.oppas.dto.post.request.RequestPostDto;
 import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
@@ -60,7 +59,6 @@ public class PostService {
     public PostDetailDto getPost(Long postId){
 
         Optional<Post>postOption =  postRepository.findById(postId) ;
-
 
         if(postOption.isPresent()) {
             PostDetailDto postDetailDto = PostDetailDto.createPostDetailDto(postOption.get());
@@ -126,12 +124,12 @@ public class PostService {
 
     }
 
-    public Page<ResponsePostDto> getSearchList(PostFilterDTO filter, int pageIndex){
+    public Page<ResponsePostDto> getSearchList(String keyword, int pageIndex){
 
 
         Pageable pageable = PageRequest.of(pageIndex - 1, 10);
 
-        Page<Post> postList = postRepository.findPosts(filter,pageable);
+        Page<Post> postList = postRepository.findPosts(keyword,pageable);
 
 
         Page<ResponsePostDto> policyPages = postList.map(post -> modelMapper.map(post, ResponsePostDto.class));
