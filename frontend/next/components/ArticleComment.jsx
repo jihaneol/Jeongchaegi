@@ -58,7 +58,8 @@ export default function ArticleComment() {
           });
         }
         lastpage = res.data.totalPages  // 일단 막페이지 표시
-        setArticleComment(articleComment => [...articleComment, ...newreply])
+        if (articleComment) setArticleComment(articleComment => [...articleComment, ...newreply])
+        else setArticleComment([...newreply])
         setTotalComments(res.data.totalElements)
         if (lastpage > page) {  // 막페이지가 현재 페이지보다 크면 페이지 +1을 해줌
           console.log('lastpage bigger page');
