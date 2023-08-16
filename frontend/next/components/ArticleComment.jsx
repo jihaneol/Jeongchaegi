@@ -45,14 +45,14 @@ export default function ArticleComment() {
       })
       
       // 댓글들 가져옴, 근데 
-      if (res.status===204) {  //만약 댓이 없는 상태면 댓없다고 표시하고 막페이지 1을 줌
+      if (res.status===204) {  //만약 db에 댓이 없는 상태면 댓없다고 표시하고 막페이지 1을 줌
         setArticleComment(null)
         setTotalComments(0)
         lastpage = 1
       }
-      else{  // 댓이 잇으면 for문 돌려서 id가 같거나 작으면 삭제하고 추가함
+      else{  // 댓이 db에 잇으면 for문 돌려서 id가 같거나 작으면 삭제하고 추가함
         const newreply = [...res.data.content]  // 깊은 복사 필요
-        if (lastpage !== 999) {  // 적어도 두번째 요청일 때
+        if (articleComment && lastpage !== 999) {  // 적어도 두번째 요청일 때 / 댓글이 있을때만 자를 필요가 있음
           res.data.content.forEach(element => {
             if (element.id <= articleComment.slice(-1)[0].id) newreply.shift()
           });
