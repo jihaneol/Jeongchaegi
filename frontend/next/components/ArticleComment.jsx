@@ -173,7 +173,6 @@ export default function ArticleComment() {
               width={24}
               height={24}
               className="rounded-full mr-3"
-              onClick={handleUserClick(item)}
             />
             <p className="font-semibold" onClick={handleUserClick}>
               {item.nickname}:
