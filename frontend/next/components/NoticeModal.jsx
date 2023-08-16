@@ -107,18 +107,18 @@ export default function NoticeModal({
     // 정책 아이디(listIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
     await api
       .get(`/events/form/policies/${listIdProp}/`)
-      .then((res) => {
+      .then(async (res) => {
         console.log("생성폼 얻기 성공!");
         console.log(res);
         setEventForm(res.data);
+				await createKakaoEvent(eventForm[0], 1, kakaoToken);
+				await createKakaoEvent(eventForm[1], 2, kakaoToken);
       })
       .catch((err) => {
         console.log("생성폼 얻기 실패!");
         console.log(err);
       });
     // 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급 ([0]: 시작일, [1]: 마감일 -> 2번 요청보내야함
-		await createKakaoEvent(eventForm[0], 1, kakaoToken);
-		await createKakaoEvent(eventForm[1], 2, kakaoToken);
     // 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
     alert("성공적으로 등록되었습니다.");
     setRefreshFlag((prev) => !prev);
