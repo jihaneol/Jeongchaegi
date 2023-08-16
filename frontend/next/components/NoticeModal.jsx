@@ -36,9 +36,9 @@ export default function NoticeModal({
         headers: {
           Authorization: `Bearer ${kakaoToken}`,
         },
-        data: {
+        params: {
           calendar_id: calendarId,
-          event: event,
+          event: JSON.stringify(event),
         },
       });
       console.log(`카카오 일정${index} 생성 성공!`);
