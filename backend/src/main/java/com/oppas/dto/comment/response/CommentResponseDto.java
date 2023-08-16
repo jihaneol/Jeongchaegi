@@ -19,6 +19,8 @@ public class CommentResponseDto {
 
     private String nickname;
 
+    private String memberImg;
+
     private String postId;
 
     private String comment;
