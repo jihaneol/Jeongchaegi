@@ -14,6 +14,10 @@ public class PostDetailDto {
 
     private Long memberId;
 
+    private Long policyId;
+    
+    private String polyBizSjnm;// 정책명
+    
     private String nickname;
 
     private String title;
@@ -35,5 +39,10 @@ public class PostDetailDto {
                 build();
 
         return dto;
+    }
+
+    public void setPolicy(Long policyId, String polyBizSjnm){
+        this.policyId = policyId;
+        this.polyBizSjnm = polyBizSjnm;
     }
 }

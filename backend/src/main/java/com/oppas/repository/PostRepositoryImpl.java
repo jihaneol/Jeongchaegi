@@ -1,7 +1,6 @@
 package com.oppas.repository;
 
 
-import com.oppas.dto.post.request.PostFilterDTO;
 import com.oppas.entity.Post;
 import com.oppas.entity.QMember;
 import com.oppas.entity.QPost;
@@ -23,33 +22,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final QPost post = QPost.post;
     private final QMember member = QMember.member;
 
-    private BooleanBuilder search(PostFilterDTO filter) {
+    private BooleanBuilder search(String keyword) {
 
-
-        String nickname = filter.getNickname();
-        String title = filter.getTitle();
-        String content = filter.getContent();
 
         BooleanBuilder builder = new BooleanBuilder();
-        BooleanExpression expression = null;
 
-        if (nickname != null) {
-            expression = post.member.nickname.contains(nickname);
-            builder.or(expression);
-        }
+       if(keyword != null || keyword.isEmpty()) {
 
-        else if (title != null) {
-            String[] titleArray = title.split("\\s+");
-            for (String word : titleArray) {
-                expression = post.title.containsIgnoreCase(word);
-                builder.and(expression);
-            }
-        } else if (content == null) return null;
-        else {
-            String[] contentArray = content.split("\\s+");
+            String[] contentArray = keyword.split("\\s+");
             for (String word : contentArray) {
-                expression = post.content.containsIgnoreCase(word);
-                builder.and(expression);
+                BooleanExpression contentExpression = post.content.containsIgnoreCase(word);
+                BooleanExpression titleExpression = post.title.containsIgnoreCase(word);
+                builder.or(contentExpression).or(titleExpression);
             }
 
 
@@ -58,11 +42,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<Post> findPosts(PostFilterDTO filter, Pageable pageable) {
+    public Page<Post> findPosts(String keyword, Pageable pageable) {
 
         QueryResults<Post> queryResults = queryFactory
                 .selectFrom(post)
-                .where(search(filter))
+                .where(search(keyword))
                 .orderBy(post.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
