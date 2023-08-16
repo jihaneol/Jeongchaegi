@@ -48,7 +48,7 @@ export default function GetPersonalInfo() {
         })
         .catch((err) => {
           console.log(err);
-          if (err.response.status == 404 || err.response.status == 401) {
+          if (err.response.status === 404) {
             dispatch(userActions.setNickName(""));
             setIsOverlap(1);
             nickNameRef.current.focus();
