@@ -32,8 +32,6 @@ public class PostDetailDto {
         PostDetailDto dto = PostDetailDto.builder().
                 id(post.getId()).
                 memberId(post.getMember().getId()).
-                policyId(post.getPolicy().getId()).
-                polyBizSjnm(post.getPolicy().getPolyBizSjnm()).
                 nickname(post.getMember().getNickname()).
                 title(post.getTitle()).
                 content(post.getContent()).
@@ -41,5 +39,10 @@ public class PostDetailDto {
                 build();
 
         return dto;
+    }
+
+    public void setPolicy(Long policyId, String polyBizSjnm){
+        this.policyId = policyId;
+        this.polyBizSjnm = polyBizSjnm;
     }
 }
