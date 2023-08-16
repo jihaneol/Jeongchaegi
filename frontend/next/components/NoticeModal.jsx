@@ -14,12 +14,12 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 	
 	function findJCG(calendars) {
-		const flag = calendars.some(calendar => calendar.name === "정채기")
-		return flag;
+		const calendar = calendars.find(calendar => calendar.name === "정채기")
+		return calendar.id;
 	}
 
   async function regist() {
-		let flag;
+		let calendarRet;
 		const kakaoToken = localStorage.getItem("kakaoToken");
 		// 캘린더 목록 가져오기
 		await axios({
@@ -32,13 +32,42 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
 			console.log("캘린더 목록 가져오기 성공!");
 			console.log(res);
 			// 캘린더 이름이 "정채기"인 거 찾기
-			flag = findJCG(res.data.calendars);
+			calendarRet = findJCG(res.data.calendars);
 		}).catch((err) => {
 			console.log("캘린더 목록 가져오기 실패");
 			console.log(err);
 		});
 		console.log("정채기인 거 찾았어?");
-		console.log(flag);
+		console.log(calendarRet);
+		// 정채기인거 있으면 캘린더 아이디 가져오기
+		if (calendarID !== undefined) {
+			console.log("캘린더 있음! 아이디 가져오기");
+			console.log(calendarRet);
+			setCalendarID(calendarRet);
+		}
+		// 없으면 캘린더 생성해야함
+		else {
+			console.log("캘린더 없음! 생성필요");
+			await axios({
+				method: "post",
+				url: "https://kapi.kakao.com/v2/api/calendar/create/calendar",
+				headers: {
+					Authorization: `Berer ${kakaoToken}`,
+				},
+				params: {
+					name: "정채기",
+					color: "ROTAL_BLUE",
+					reminder: null,
+					reminder_all_day: null,
+				}
+			}).then((res) => {
+				console.log("캘린더 생성 성공!");
+				setCalendarID(res.data);
+			}).catch((err) => {
+				console.log("캘린더 생성 실패");
+				console.log(err);
+			})
+		}
 		// 정책 아이디(listIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
 		await api.get(`/events/form/policies/${listIdProp}/`).then((res) => {
 			console.log("생성폼 얻기 성공!");
