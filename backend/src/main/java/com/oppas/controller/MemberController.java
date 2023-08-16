@@ -36,11 +36,12 @@ public class MemberController {
     private final JwtService jwtService;
     private final FollowService followService;
 
+    static String reIssueRefreshToken, accessToken;
+
     @ExceptionHandler(RuntimeException.class)
     public Object processValidationError(RuntimeException ex) {
         log.info("에러 확인 {}", ex.getStackTrace());
         return ResponseEntity.badRequest().build();
-//        return ApiResponse.error(ApiStatus.SYSTEM_ERROR, ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
     @GetMapping("/find/{nickname}")
@@ -54,10 +55,16 @@ public class MemberController {
     }
 
     @GetMapping("/refresh-token")
-    public ResponseEntity<?> refreshToekn(HttpServletRequest request) {
-        Member member = memberRepository.findByRefreshToken(jwtService.extractRefreshToken(request).get()).get();
-        String reIssueRefreshToken = jwtService.reIssueRefreshToken(member);
-        String accessToken = jwtService.createAccessToken(member.getName());
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+
+        jwtService.extractRefreshToken(request)
+                .ifPresent(refreshtoken -> memberRepository.findByRefreshToken(refreshtoken)
+                        .ifPresent(member -> {
+                            reIssueRefreshToken = jwtService.reIssueRefreshToken(member);
+                            accessToken = jwtService.createAccessToken(member.getName());
+                        })
+                );
+
         JwtResponse jwtResponse = new JwtResponse(reIssueRefreshToken, accessToken);
 
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
@@ -85,7 +92,6 @@ public class MemberController {
     public ResponseEntity<?> info(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long id = principalDetails.getId();
         Member member = memberRepository.findById(id).get();
-
         return new ResponseEntity<>(new MemberResponse(member), HttpStatus.OK);
     }
 
