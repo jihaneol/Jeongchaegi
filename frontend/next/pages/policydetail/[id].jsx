@@ -39,7 +39,7 @@ export default function Page(props) {
   const [modalFlag, setModalFlag] = useState(false);
   const userData = useSelector(state => state.user);
   const [refreshFlag, setRefreshFlag] = useState(false);
-  const [eventID, setEventID] = useState("");
+  const [eventID, setEventID] = useState([]);
 
   // 알림 설정 가능 여부
   useEffect(() => {
@@ -161,7 +161,7 @@ export default function Page(props) {
                         postNum={post.id}
                         registerSet={registerSet}
                         refreshFlag={refreshFlag}
-                        getEventID={getEventID}
+                        getEventIdProps={getEventID}
                       />
                       {modalFlag ? (
                         <NoticeModal

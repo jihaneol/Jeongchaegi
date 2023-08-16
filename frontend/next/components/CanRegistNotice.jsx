@@ -4,7 +4,7 @@ import OurAxios from "../config/ourAxios";
 import axios from "axios";
 import { getEventID }from "./GetEventID";
 
-export default function CanRegistNotice({ postNum, registerSet, refreshFlag, getEventIdPros }) {
+export default function CanRegistNotice({ postNum, registerSet, refreshFlag, getEventIdProps }) {
   const api = OurAxios();
   const [registerFlag, setRegisterFlag] = useState(false); // true 면 등록됨, false 면 등록 안됨
 
@@ -28,19 +28,21 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag, get
       .then((res) => {
         // 200이면 이미 일정 등록되어 있는 경우
         console.log("이미 일정 등록 되어 있음!");
-        getEventID(eventID);
+        getEventIdProps(eventID);
         setRegisterFlag(true);
       })
       .catch((err) => {
         // 400이면 일정이 없는 것. delete 요청 보내야함.
         console.log("일정이 없음 -> delete 요청");
-        api.delete(`/api/events/${eventId}`).then((res) => {
+        api.delete(`/events/${eventId}`).then((res) => {
           console.log("delete 요청 성공!");
           console.log(res);
           setRegisterFlag(false);
         }).catch((err) => {
           console.log("delete 요청 실패");
           console.log(err);
+          if (err.response.status === 500)
+            setRegisterFlag(false);
         });
       });
   }
@@ -55,8 +57,8 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag, get
           setRegisterFlag(false);
         else {
           console.log("Event ID 있음, useEffect");
-          getEventIdPros(eventID);
-          await getEventDetail(eventID);
+          await getEventDetail(eventID[0]);
+          await getEventDetail(eventID[1]);
         }
       } catch (error) {
         console.log("getEventID 호출 실패");

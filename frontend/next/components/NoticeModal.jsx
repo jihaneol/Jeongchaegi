@@ -14,7 +14,7 @@ export default function NoticeModal({
   policyIdProp,
 }) {
   const [mention, setMention] = useState("등록");
-  const [eventId, setEventId] = useState("");
+  const [eventId, setEventId] = useState([]);
   const api = OurAxios();
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 
@@ -142,14 +142,14 @@ export default function NoticeModal({
   function unregist() {
     const accessToken = localStorage.getItem("accessToken");
     const kakaoToken = localStorage.getItem("kakaoToken");
-    if (!eventId) {
+    if (eventId.length === 0) {
       console.log("eventId 없음");
     } else {
       axios({
         method: "delete",
         url: "https://kapi.kakao.com/v2/api/calendar/delete/event",
         params: {
-          event_id: eventId,
+          event_id: eventId[0],
         },
         headers: {
           Authorization: `Bearer ${kakaoToken}`,
@@ -158,7 +158,36 @@ export default function NoticeModal({
         .then((res) => {
           console.log("카카오 일정 삭제 성공!");
           console.log(res);
-					api.delete(`/events/${eventId}/`, {
+					api.delete(`/events/${eventId[0]}/`, {
+						headers: {
+							Authorization: `Bearer ${accessToken}`,
+						}
+					}).then((res) => {
+						console.log("일정 삭제 성공!");
+						console.log(res);
+					}).catch((err) => {
+						console.log("일정 삭제 실패");
+						console.log(err);
+					})
+        })
+        .catch((err) => {
+          console.log("카카오 일정 삭제 실패!");
+          console.log(err);
+        });
+      axios({
+        method: "delete",
+        url: "https://kapi.kakao.com/v2/api/calendar/delete/event",
+        params: {
+          event_id: eventId[1],
+        },
+        headers: {
+          Authorization: `Bearer ${kakaoToken}`,
+        },
+      })
+        .then((res) => {
+          console.log("카카오 일정 삭제 성공!");
+          console.log(res);
+					api.delete(`/events/${eventId[1]}/`, {
 						headers: {
 							Authorization: `Bearer ${accessToken}`,
 						}

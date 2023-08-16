@@ -48,7 +48,7 @@ export default function GetPersonalInfo() {
         })
         .catch((err) => {
           console.log(err);
-          if (err.response.status === 404) {
+          if (err.response?.status === 404) {
             dispatch(userActions.setNickName(""));
             setIsOverlap(1);
             nickNameRef.current.focus();
@@ -66,7 +66,6 @@ export default function GetPersonalInfo() {
 
   return (
     <div className={style.container}>
-      get Info!
       <br></br>
       <div className={`${style.nickname_wrapper} ${style.wrapper}`}>
         <label htmlFor="nickNameInput">닉네임: </label>
