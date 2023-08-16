@@ -80,7 +80,7 @@ const userSlice = createSlice({
       state.birth = `${today_year}-${today_month}-${today_day}`;
       state.age = 0;
       state.nickname = "";
-      policyType = [];
+      state.policyType = [];
       console.log("persist 초기화!!");
     },
     setTimer: (state, action) => {
