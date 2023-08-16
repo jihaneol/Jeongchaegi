@@ -11,7 +11,7 @@ export default function NoticeModal({
   modalClose,
   setRefreshFlag,
   eventIdProp,
-  listIdProp,
+  policyIdProp,
 }) {
   const [mention, setMention] = useState("등록");
   const [eventId, setEventId] = useState("");
@@ -43,8 +43,18 @@ export default function NoticeModal({
 			},
 		}).then((res) => {
 			console.log(`카카오 일정${index} 생성 성공!`);
-			// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
 			console.log(res);
+			// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
+			api
+        .post(`/events/${res.data}/save/policies/${policyIdProp}/`)
+        .then((res) => {
+          console.log("일정 저장 성공!");
+					console.log(res);
+        })
+        .catch((err) => {
+          console.log("일정 저장 실패");
+          console.log(err);
+        });
 		}).catch ((err) => {
 		console.log(`카카오 일정${index} 생성 실패`);
 		console.log(err);
@@ -104,9 +114,9 @@ export default function NoticeModal({
           console.log(err);
         });
     }
-    // 정책 아이디(listIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
+    // 정책 아이디(policyIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
     await api
-      .get(`/events/form/policies/${listIdProp}/`)
+      .get(`/events/form/policies/${policyIdProp}/`)
       .then(async (res) => {
         console.log("생성폼 얻기 성공!");
         console.log(res);
