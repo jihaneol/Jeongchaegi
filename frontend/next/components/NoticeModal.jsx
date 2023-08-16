@@ -40,7 +40,7 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
 		console.log("정채기인 거 찾았어?");
 		console.log(flag);
 		// 정책 아이디(listIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
-		await api.get(`/api/events/form/policies/${listIdProp}/`).then((res) => {
+		await api.get(`/events/form/policies/${listIdProp}/`).then((res) => {
 			console.log("생성폼 얻기 성공!");
 			console.log(res);
 		}).catch((err) => {
