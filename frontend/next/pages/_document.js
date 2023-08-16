@@ -8,10 +8,7 @@ export default function Document() {
       <Head>
         <meta name="description" content="i just want increase SEO" />
       </Head>
-      <body
-        className={`bg-center bg-no-repeat bg-cover min-h-screen p-4`}
-        style={{ backgroundImage: "url('/배경.webp')" }}
-      >
+      <body className={`bg-aliceblue min-h-screen`}>
         <Main />
         <NextScript />
       </body>

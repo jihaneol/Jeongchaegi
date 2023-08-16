@@ -81,6 +81,7 @@ const userSlice = createSlice({
       state.age = 0;
       state.nickname = "";
       policyType = [];
+      console.log("persist 초기화!!");
     },
     setTimer: (state, action) => {
       state.timer = action.payload;
