@@ -7,6 +7,7 @@ import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
 import com.oppas.entity.Member;
 import com.oppas.entity.Post;
+import com.oppas.entity.policy.Policy;
 import com.oppas.repository.MemberRepository;
 import com.oppas.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,10 @@ public class PostService {
 
         if(postOption.isPresent()) {
             PostDetailDto postDetailDto = PostDetailDto.createPostDetailDto(postOption.get());
+            Policy relatePolicy = postOption.get().getPolicy();
+            if(relatePolicy!=null){
+                postDetailDto.setPolicy(relatePolicy.getId(),relatePolicy.getPolyBizSjnm());
+            }
             return postDetailDto;
         }
         else{
@@ -72,7 +77,6 @@ public class PostService {
     @Transactional//수저 필요 유저의 정보와 게시물 작성자 일치 여부 확인 필요
     public HttpStatus modifyPost(PrincipalDetails principalDetails, RequestPostDto requestPostDto){
 
-        System.out.println(requestPostDto);
         Member member = principalDetails.getMember();
         System.out.println(member.toString());
         if(requestPostDto.getMemberId()==null||member==null||!(requestPostDto.getMemberId().equals(member.getId()))) {
