@@ -37,7 +37,7 @@ export default function Page(props) {
   const [chkNotice, setChkNotice] = useState();
   const [registerFlag, setRegisterFlag] = useState(false);
   const [modalFlag, setModalFlag] = useState(false);
-  const userData = useSelector(state => state.user);
+  const userData = useSelector((state) => state.user);
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [eventID, setEventID] = useState([]);
 
@@ -132,14 +132,16 @@ export default function Page(props) {
   }
 
   return (
-    <div className={modalFlag ? Style.on : ""}>
+    <div className={`text-gray-800 ${modalFlag ? Style.on : ""}`}>
       {post ? (
         <>
           <Head>
             <title>{post.polyBizSjnm}</title>
           </Head>
           <Nav />
-          <div className={`${Style.wrap} max-w-6xl mx-auto p-6`}>
+          <div
+            className={`${Style.wrap} container mx-auto p-6 bg-white text-gray-800`}
+          >
             <div
               className={`${Style.container} flex justify-between items-center mb-6`}
             >
@@ -196,7 +198,7 @@ export default function Page(props) {
                   <p>{post.polyItcnCn}</p>
                 </div>
                 <div className={Style.summary}>
-                  <h2>한 눈에 보는 정책 요약</h2>
+                  <h2 className="font-bold">한 눈에 보는 정책 요약</h2>
                 </div>
                 <div className={Style.summary_box}>
                   <div className={Style.summary_ctt}>
@@ -239,7 +241,7 @@ export default function Page(props) {
                   </div>
                 </div>
                 <div className={Style.summary}>
-                  <h2>신청자격</h2>
+                  <h2 className="font-bold">신청자격</h2>
                 </div>
                 <div className={Style.summary_box}>
                   <div className={Style.summary_ctt}>
@@ -290,7 +292,7 @@ export default function Page(props) {
                   </div>
                 </div>
                 <div className={Style.summary}>
-                  <h2>신청방법</h2>
+                  <h2 className="font-bold">신청방법</h2>
                 </div>
                 <div className={Style.summary_box}>
                   <div className={Style.summary_ctt}>
@@ -319,7 +321,7 @@ export default function Page(props) {
                   </div>
                 </div>
                 <div className={Style.summary}>
-                  <h2>기타</h2>
+                  <h2 className="font-bold">기타</h2>
                 </div>
                 <div className={Style.summary_box}>
                   <div className={Style.summary_ctt}>
@@ -343,7 +345,9 @@ export default function Page(props) {
                       사업관련 참고 사이트1
                     </div>
                     <div className={Style.summary_ctt_right}>
-                    <a href={post.rfcSiteUrla1} target="_blank">{post.rfcSiteUrla1}</a>
+                      <a href={post.rfcSiteUrla1} target="_blank">
+                        {post.rfcSiteUrla1}
+                      </a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
@@ -351,7 +355,9 @@ export default function Page(props) {
                       사업관련 참고 사이트2
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      <a href={post.rfcSiteUrla2} target="_blank">{post.rfcSiteUrla2}</a>
+                      <a href={post.rfcSiteUrla2} target="_blank">
+                        {post.rfcSiteUrla2}
+                      </a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
@@ -372,7 +378,7 @@ export default function Page(props) {
           </div>
         </>
       ) : (
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex justify-center items-center min-h-screen bg-white text-gray-800">
           <p>Loading...</p>
         </div>
       )}
