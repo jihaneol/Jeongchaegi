@@ -161,7 +161,7 @@ export default function Page(props) {
                         postNum={post.id}
                         registerSet={registerSet}
                         refreshFlag={refreshFlag}
-                        getEventID={getEventID}
+                        getEventIdProps={getEventID}
                       />
                       {modalFlag ? (
                         <NoticeModal
