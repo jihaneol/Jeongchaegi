@@ -132,7 +132,7 @@ export default function ArticleComment() {
     } else alert("다른 사용자의 댓글을 삭제할 수 없습니다.");
   }
 
-  function handleUserClick() {
+  function handleUserClick(item) {
     router.push(`/mypage/${item.nickname}`);
   }
 
@@ -173,7 +173,7 @@ export default function ArticleComment() {
               width={24}
               height={24}
               className="rounded-full mr-3"
-              onClick={handleUserClick}
+              onClick={handleUserClick(item)}
             />
             <p className="font-semibold" onClick={handleUserClick}>
               {item.nickname}:
