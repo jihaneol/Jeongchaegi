@@ -29,6 +29,8 @@ export default function NoticeModal({
   }
 
   async function createKakaoEvent(event, index, kakaoToken) {
+		console.log("카카오 일정 생성 시도! -> event 객체");
+		console.log(event); 
     try {
       await axios({
         method: "post",
