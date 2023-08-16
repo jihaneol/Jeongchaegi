@@ -59,7 +59,7 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
 				},
 				params: {
 					name: "정채기",
-					color: "ROTAL_BLUE",
+					color: "ROYAL_BLUE",
 					reminder: null,
 					reminder_all_day: null,
 				}
