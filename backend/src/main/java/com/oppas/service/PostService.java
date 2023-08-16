@@ -2,12 +2,12 @@ package com.oppas.service;
 
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.post.request.PostFilterDTO;
 import com.oppas.dto.post.request.RequestPostDto;
 import com.oppas.dto.post.response.PostDetailDto;
 import com.oppas.dto.post.response.ResponsePostDto;
 import com.oppas.entity.Member;
 import com.oppas.entity.Post;
+import com.oppas.entity.policy.Policy;
 import com.oppas.repository.MemberRepository;
 import com.oppas.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +40,7 @@ public class PostService {
                 .addMappings(m -> {
                     m.map(src -> src.getMember().getId(), ResponsePostDto::setMemberId);
                     m.map(src -> src.getMember().getNickname(), ResponsePostDto::setNickname);
+                    m.map(src -> src.getMember().getImg(), ResponsePostDto::setMemberImg);
                 });
     }
 
@@ -61,9 +62,12 @@ public class PostService {
 
         Optional<Post>postOption =  postRepository.findById(postId) ;
 
-
         if(postOption.isPresent()) {
             PostDetailDto postDetailDto = PostDetailDto.createPostDetailDto(postOption.get());
+            Policy relatePolicy = postOption.get().getPolicy();
+            if(relatePolicy!=null){
+                postDetailDto.setPolicy(relatePolicy.getId(),relatePolicy.getPolyBizSjnm());
+            }
             return postDetailDto;
         }
         else{
@@ -74,7 +78,6 @@ public class PostService {
     @Transactional//수저 필요 유저의 정보와 게시물 작성자 일치 여부 확인 필요
     public HttpStatus modifyPost(PrincipalDetails principalDetails, RequestPostDto requestPostDto){
 
-        System.out.println(requestPostDto);
         Member member = principalDetails.getMember();
         System.out.println(member.toString());
         if(requestPostDto.getMemberId()==null||member==null||!(requestPostDto.getMemberId().equals(member.getId()))) {
@@ -126,12 +129,12 @@ public class PostService {
 
     }
 
-    public Page<ResponsePostDto> getSearchList(PostFilterDTO filter, int pageIndex){
+    public Page<ResponsePostDto> getSearchList(String keyword, int pageIndex){
 
 
         Pageable pageable = PageRequest.of(pageIndex - 1, 10);
 
-        Page<Post> postList = postRepository.findPosts(filter,pageable);
+        Page<Post> postList = postRepository.findPosts(keyword,pageable);
 
 
         Page<ResponsePostDto> policyPages = postList.map(post -> modelMapper.map(post, ResponsePostDto.class));
