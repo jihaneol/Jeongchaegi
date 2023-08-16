@@ -20,4 +20,6 @@ public class ResponsePostDto {
     private String content;
 
     private LocalDateTime createdAt;
+
+    private String memberImg;
 }
