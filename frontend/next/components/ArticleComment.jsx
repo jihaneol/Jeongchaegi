@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Image } from "@mui/icons-material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import OurAxios from "../config/ourAxios";
+import Image from "next/image";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -173,7 +173,6 @@ export default function ArticleComment() {
               width={24}
               height={24}
               className="rounded-full mr-3"
-              onClick={handleUserClick(item)}
             />
             <p className="font-semibold" onClick={handleUserClick}>
               {item.nickname}:
