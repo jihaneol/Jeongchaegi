@@ -167,13 +167,13 @@ export default function ArticleComment() {
             key={item.id}
             className="flex items-center space-x-4 mb-2 bg-gray-100 p-2 rounded"
           >
-            <Image
+            {/* <Image
               src={item.memberImg}
               alt={item.nickname}
               width={24}
               height={24}
               className="rounded-full mr-3"
-            />
+            /> */}
             <p className="font-semibold" onClick={handleUserClick(item)}>
               {item.nickname}:
             </p>

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function ArticleListItem({ obj, onItemClick }) {
   console.log(obj);
@@ -14,7 +15,13 @@ export default function ArticleListItem({ obj, onItemClick }) {
             {item.title ? item.title : "제목 없음"}
           </td>
           <td className="w-1/12 px-2 py-4 border-b border-gray-300 text-sm text-gray-600 truncate">
-            {item.memberImg}
+            <Image
+              src={item.memberImg}
+              alt={item.nickname}
+              width={24}
+              height={24}
+              className="rounded-full mr-5"
+            />
             {item.nickname}
           </td>
           <td className="w-3/12 pl-6 py-4 border-b border-gray-300 text-sm text-gray-600 truncate">
