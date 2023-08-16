@@ -1,15 +1,38 @@
-// import '../styles/globals.css'  // 일단 글로벌 스타일 제거
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import Head from "next/head"; // 검색 엔진 최적화용, 전역 페이지 타이틀 먹임, 나중에 페이지별로 적용하거나
-import "../styles/HomeCalendar.css"; // 글로벌이라 잠만 구조파악하기 전까지만 쓸게여
+import Head from "next/head";
+import "../styles/HomeCalendar.css";
+import { useState, useEffect } from "react";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import store from "../store/index";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import "../styles/globals.css";
+
+// const LOGOUT_TIME_SET = 600000; // 10 * 60 * 1000 (10분)
+const persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }) {
+  const [isClient, setIsClient] = useState(false); // ssr 동안 PersistGate를 무시하도록 설정
+
+  useEffect(() => {
+    // 클라이언트에서만 이 훅이 실행됩니다.
+    setIsClient(true);
+  }, []);
+
   return (
     <>
       <Head>
-        <title>new app</title>
+        <title>정채기</title>
       </Head>
-      <Component {...pageProps} />
+      <Provider store={store}>
+        {isClient ? (
+          <PersistGate loading={<div />} persistor={persistor}>
+            <Component {...pageProps} />
+          </PersistGate>
+        ) : (
+          <Component {...pageProps} />
+        )}
+      </Provider>
     </>
   );
 }

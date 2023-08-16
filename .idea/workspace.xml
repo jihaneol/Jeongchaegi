@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="b48e27ab-08a7-4036-87fa-3a2a1c6815ab" name="Changes" comment="" />
+    <list default="true" id="b48e27ab-08a7-4036-87fa-3a2a1c6815ab" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/next/components/FollowPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/next/components/FollowPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/next/components/LiveChat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/next/components/LiveChat.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/next/pages/follow/[userID].jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/next/pages/follow/[userID].jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +22,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
   <component name="ProjectId" id="2SgkYghBPBfOkon1umBxHdhFpPc" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -20,7 +32,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feature/frontend/follow",
     "last_opened_file_path": "C:/Users/SSAFY/Desktop/SSAFY/S09P12A510/backend"
   }
 }]]></component>
