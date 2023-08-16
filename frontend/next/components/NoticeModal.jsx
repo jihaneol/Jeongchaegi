@@ -15,7 +15,10 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
 	
 	function findJCG(calendars) {
 		const calendar = calendars.find(calendar => calendar.name === "정채기")
-		return calendar.id;
+		if (calendar) {
+			return calendar.id
+		}
+		return calendar;
 	}
 
   async function regist() {
