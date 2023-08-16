@@ -14,6 +14,8 @@ public class PostDetailDto {
 
     private Long memberId;
 
+    private String memberImg;
+
     private Long policyId;
     
     private String polyBizSjnm;// 정책명
@@ -32,6 +34,7 @@ public class PostDetailDto {
         PostDetailDto dto = PostDetailDto.builder().
                 id(post.getId()).
                 memberId(post.getMember().getId()).
+                memberImg(post.getMember().getImg()).
                 nickname(post.getMember().getNickname()).
                 title(post.getTitle()).
                 content(post.getContent()).
