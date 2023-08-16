@@ -62,6 +62,13 @@ public class ScrapService {
     }
 
     /**
+     * 사용자가 스크랩한 정책 수 반환
+     */
+    public Long getMyScrapCount(Long memberId) throws Exception {
+        return policyScrapRepository.countByMemberId(memberId);
+    }
+
+    /**
      * 각 정책별로 스크랩 여부를 확인
      */
     public Boolean checkPolicyScrap(Long memberId, Long policyId) throws Exception {
