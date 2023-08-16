@@ -26,26 +26,28 @@ export default function NoticeModal({
     return calendar;
   }
 
-  async function createKakaoEvent(event, index, kakaoToken, calendarId) {
+  async function createKakaoEvent(events, index, kakaoToken, calendarId) {
 		console.log("카카오 일정 생성 시도! -> event 객체");
-		console.log(event); 
-    try {
-      await axios({
-        method: "post",
-        url: "https://kapi.kakao.com/v2/api/calendar/create/event",
-        headers: {
-          Authorization: `Bearer ${kakaoToken}`,
-        },
-        params: {
-          calendar_id: calendarId,
-          event: JSON.stringify(event),
-        },
-      });
-      console.log(`카카오 일정${index} 생성 성공!`);
-    } catch (err) {
-      console.log(`카카오 일정${index} 생성 실패`);
-      console.log(err);
-    }
+		console.log(events);
+		const event = events[index];
+		await axios({
+			method: "post",
+			url: "https://kapi.kakao.com/v2/api/calendar/create/event",
+			headers: {
+				Authorization: `Bearer ${kakaoToken}`,
+			},
+			params: {
+				calendar_id: calendarId,
+				event: JSON.stringify(event),
+			},
+		}).then((res) => {
+			console.log(`카카오 일정${index} 생성 성공!`);
+			// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
+			console.log(res);
+		}).catch ((err) => {
+		console.log(`카카오 일정${index} 생성 실패`);
+		console.log(err);
+    })
   }
 
   async function regist() {
@@ -107,15 +109,14 @@ export default function NoticeModal({
       .then(async (res) => {
         console.log("생성폼 얻기 성공!");
         console.log(res);
-				await createKakaoEvent(res.data[0], 1, kakaoToken, calendarId);
-				await createKakaoEvent(res.data[1], 2, kakaoToken, calendarId);
+				// 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급 ([0]: 시작일, [1]: 마감일 -> 2번 요청보내야함
+				await createKakaoEvent(res.data[0], 0, kakaoToken, calendarId);
+				await createKakaoEvent(res.data[1], 1, kakaoToken, calendarId);
       })
       .catch((err) => {
         console.log("생성폼 얻기 실패!");
         console.log(err);
       });
-    // 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급 ([0]: 시작일, [1]: 마감일 -> 2번 요청보내야함
-    // 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
     alert("성공적으로 등록되었습니다.");
     setRefreshFlag((prev) => !prev);
     modalClose();
