@@ -3,6 +3,7 @@ import Head from "next/head";
 import "../styles/HomeCalendar.css";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import store from "../store/index";
+import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import "../styles/globals.css";
 
