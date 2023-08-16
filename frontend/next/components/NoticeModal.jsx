@@ -15,7 +15,6 @@ export default function NoticeModal({
 }) {
   const [mention, setMention] = useState("등록");
   const [eventId, setEventId] = useState("");
-  const [calendarID, setCalendarID] = useState("");
   const api = OurAxios();
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 
@@ -27,7 +26,7 @@ export default function NoticeModal({
     return calendar;
   }
 
-  async function createKakaoEvent(event, index, kakaoToken) {
+  async function createKakaoEvent(event, index, kakaoToken, calendarId) {
 		console.log("카카오 일정 생성 시도! -> event 객체");
 		console.log(event); 
     try {
@@ -38,7 +37,7 @@ export default function NoticeModal({
           Authorization: `Bearer ${kakaoToken}`,
         },
         params: {
-          calendar_id: calendarID,
+          calendar_id: calendarId,
           event: event,
         },
       });
@@ -50,7 +49,7 @@ export default function NoticeModal({
   }
 
   async function regist() {
-    let calendarRet;
+    let calendarId;
     const kakaoToken = localStorage.getItem("kakaoToken");
     // 캘린더 목록 가져오기
     await axios({
@@ -64,19 +63,18 @@ export default function NoticeModal({
         console.log("캘린더 목록 가져오기 성공!");
         console.log(res);
         // 캘린더 이름이 "정채기"인 거 찾기
-        calendarRet = findJCG(res.data.calendars);
+        calendarId = findJCG(res.data.calendars);
       })
       .catch((err) => {
         console.log("캘린더 목록 가져오기 실패");
         console.log(err);
       });
     console.log("정채기인 거 찾았어?");
-    console.log(calendarRet);
+    console.log(calendarId);
     // 정채기인거 있으면 캘린더 아이디 가져오기
-    if (calendarRet !== undefined) {
+    if (calendarId !== undefined) {
       console.log("캘린더 있음! 아이디 가져오기");
-      console.log(calendarRet);
-      setCalendarID(calendarRet);
+      console.log(calendarId);
     }
     // 없으면 캘린더 생성해야함
     else {
@@ -109,8 +107,8 @@ export default function NoticeModal({
       .then(async (res) => {
         console.log("생성폼 얻기 성공!");
         console.log(res);
-				await createKakaoEvent(res.data[0], 1, kakaoToken);
-				await createKakaoEvent(res.data[1], 2, kakaoToken);
+				await createKakaoEvent(res.data[0], 1, kakaoToken, calendarId);
+				await createKakaoEvent(res.data[1], 2, kakaoToken, calendarId);
       })
       .catch((err) => {
         console.log("생성폼 얻기 실패!");
