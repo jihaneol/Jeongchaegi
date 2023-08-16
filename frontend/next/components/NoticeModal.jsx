@@ -163,10 +163,10 @@ export default function NoticeModal({
 							Authorization: `Bearer ${accessToken}`,
 						}
 					}).then((res) => {
-						console.log("일정 저장 성공!");
+						console.log("일정 삭제 성공!");
 						console.log(res);
 					}).catch((err) => {
-						console.log("일정 저장 실패");
+						console.log("일정 삭제 실패");
 						console.log(err);
 					})
         })
