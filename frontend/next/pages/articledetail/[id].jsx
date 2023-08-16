@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Nav from "../../components/Nav";
 
 import { remark } from "remark";
@@ -82,7 +83,14 @@ export default function Page({ detailData, contentHtml }) {
               </h1>
               {/* 사용자, 작성 시간 */}
               <div className="font-bold text-gray-500 m-1">
-                <p onClick={handleUserClick}>
+                <p className="cursor-pointer" onClick={handleUserClick}>
+                  <Image
+                    src={detailData.memberImg}
+                    alt={detailData.nickname}
+                    width={24}
+                    height={24}
+                    className="rounded-full mr-3"
+                  />
                   {detailData.nickname} | {detailData.createdAt.slice(0, 10)}{" "}
                   {detailData.createdAt.slice(11)}
                 </p>
