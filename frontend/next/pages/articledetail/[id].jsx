@@ -91,6 +91,11 @@ export default function Page({ detailData, contentHtml }) {
                     height={24}
                     className="rounded-full mr-3"
                   />
+                  <img
+                    src={detailData.memberImg}
+                    alt={detailData.nickname}
+                    className="rounded-full mr-3"
+                  />
                   {detailData.nickname} | {detailData.createdAt.slice(0, 10)}{" "}
                   {detailData.createdAt.slice(11)}
                 </p>
