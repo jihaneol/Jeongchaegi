@@ -23,30 +23,39 @@ const Carousel = () => {
       <div className="mx-auto max-w-screen-lg">
         <Slider {...settings}>
           <div
-            className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
+            className={`${Style.carousel_slide} relative w-full h-48 overflow-hidden rounded-lg shadow-lg`}
           >
             <img
-              className={`${Style.carousel_slide_img} w-full h-full object-cover`}
-              src="/testImg.jpg"
-              alt="Image 1"
+              className={`${Style.carousel_slide_img} w-full h-full object-contain`}
+              src="/괜찮아.jpg"
+              alt="청년정책①: 괜찮아"
             />
           </div>
           <div
             className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
           >
             <img
-              className={`${Style.carousel_slide_img} w-full h-full object-cover`}
-              src="/testImg.jpg"
-              alt="Image 2"
+              className={`${Style.carousel_slide_img} w-full h-full object-contain`}
+              src="/보증금지원.png"
+              alt="청년정책②: 보증금지원"
             />
           </div>
           <div
             className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
           >
             <img
-              className={`${Style.carousel_slide_img} w-full h-full object-cover`}
-              src="/testImg.jpg"
-              alt="Image 3"
+              className={`${Style.carousel_slide_img} w-full h-full object-contain`}
+              src="/서울영테크.png"
+              alt="청년정책③: 서울영테크"
+            />
+          </div>
+          <div
+            className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
+          >
+            <img
+              className={`${Style.carousel_slide_img} w-full h-full object-contain`}
+              src="/청년들.png"
+              alt="청년들"
             />
           </div>
           {/* 여러분의 이미지를 계속 추가하세요 */}
