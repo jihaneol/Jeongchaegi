@@ -9,10 +9,10 @@ import OurAxios from "../../config/ourAxios";
 import ArticleComment from "../../components/ArticleComment";
 
 import { useDispatch, useSelector } from "react-redux";
-import style from '../../styles/ArticleDetail.module.css'
+import style from "../../styles/ArticleDetail.module.css";
 
 // 잠깐 테스트용, 나중에 가능하면 ssr로 바꿀거임========================================================
-// 일단 react-md 라이브러리 프리뷰는 주석처리, nextjs에서 말하는 renark라이브러리 써ㅅ기에 주석처리, 
+// 일단 react-md 라이브러리 프리뷰는 주석처리, nextjs에서 말하는 renark라이브러리 써ㅅ기에 주석처리,
 // const Markdown = dynamic(
 //   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
 //   { ssr: false }
@@ -21,7 +21,6 @@ import style from '../../styles/ArticleDetail.module.css'
 // import "@uiw/react-md-editor/markdown-editor.css";
 // import "@uiw/react-markdown-preview/markdown.css";
 // import dynamic from "next/dynamic";
-
 
 // const EditerMarkdown = dynamic(
 //   () =>
@@ -52,8 +51,7 @@ export default function Page({ detailData, contentHtml }) {
     if (localStorage.getItem("userID") == detailData.memberId) {
       api
         .delete(`/posts/${router.query.id}`)
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch((err) => {
           console.log(err);
         })
@@ -63,6 +61,10 @@ export default function Page({ detailData, contentHtml }) {
     } else {
       alert("삭제할수 없습니다!!!");
     }
+  }
+
+  function handleUserClick() {
+    router.push(`/mypage/${detailData.nickname}`);
   }
 
   // 렌더링 태그들...
@@ -80,13 +82,19 @@ export default function Page({ detailData, contentHtml }) {
               </h1>
               {/* 사용자, 작성 시간 */}
               <div className="font-bold text-gray-500 m-1">
-                <p>{detailData.nickname} | {detailData.createdAt.slice(0,10)} {detailData.createdAt.slice(11,)}</p>
+                <p onClick={handleUserClick}>
+                  {detailData.nickname} | {detailData.createdAt.slice(0, 10)}{" "}
+                  {detailData.createdAt.slice(11)}
+                </p>
               </div>
               <hr />
               <div className="bg-white shadow-md p-6 rounded-lg space-y-4">
                 <div className="p-4 bg-gray-100 rounded">
                   {/* tailwind는 브라우저 기본 제공 css 날려먹음, 그래서 그냥 깃헙에 있는 마크다운 스타일 훔쳐옴 */}
-                  <div dangerouslySetInnerHTML={{__html: contentHtml}} className={style.markdown_body}/>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: contentHtml }}
+                    className={style.markdown_body}
+                  />
                 </div>
               </div>
             </>
@@ -111,35 +119,33 @@ export default function Page({ detailData, contentHtml }) {
             </div>
           )}
         </div>
-      <div className="w-full max-w-4xl">
-        <ArticleComment />
-      </div>
+        <div className="w-full max-w-4xl">
+          <ArticleComment />
+        </div>
       </div>
     </>
   );
 }
 
-
 // ssr 적용
-export async function getServerSideProps({params}) {
+export async function getServerSideProps({ params }) {
   try {
     const response = await axios.get(
       `http://www.jeongchaegi.com/api/posts/${params.id}`
     );
     const detailData = response.data;
-  
+
     // md to html
     const processdContent = await remark()
       .use(html)
-      .process(detailData.content)
-    const contentHtml = processdContent.toString()
+      .process(detailData.content);
+    const contentHtml = processdContent.toString();
     return {
-      props: {detailData, contentHtml}
-    }
-    
+      props: { detailData, contentHtml },
+    };
   } catch (error) {
-    return{
-      notFound: true
-    }
+    return {
+      notFound: true,
+    };
   }
 }
