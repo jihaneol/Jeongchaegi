@@ -40,6 +40,7 @@ public class PostService {
                 .addMappings(m -> {
                     m.map(src -> src.getMember().getId(), ResponsePostDto::setMemberId);
                     m.map(src -> src.getMember().getNickname(), ResponsePostDto::setNickname);
+                    m.map(src -> src.getMember().getImg(), ResponsePostDto::setMemberImg);
                 });
     }
 
