@@ -43,7 +43,7 @@ export default function NoticeModal({ type, title, modalClose, setRefreshFlag, e
 		console.log("정채기인 거 찾았어?");
 		console.log(calendarRet);
 		// 정채기인거 있으면 캘린더 아이디 가져오기
-		if (calendarID !== undefined) {
+		if (calendarRet !== undefined) {
 			console.log("캘린더 있음! 아이디 가져오기");
 			console.log(calendarRet);
 			setCalendarID(calendarRet);
