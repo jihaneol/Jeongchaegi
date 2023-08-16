@@ -5,29 +5,21 @@ import style from "../../styles/MyPage.module.css";
 import MyPageScrap from "../../components/MyPageScrap";
 import Link from "next/link";
 import Spin from "../../components/Spin";
+import OurAxios from "../../config/ourAxios";
 
 export default function Page() {
   // 변수
   const router = useRouter();
+  const api = OurAxios();
   const myStatus = ["스크랩수", "작성글", "팔로우", "팔로워"];
 
   // state
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
-  const [policyType, setPolicyType] = useState(false); // false == 스크랩, true == 알림
-  const [myNotice, setMyNotice] = useState([]);
 
   async function getUserData() {
     setUserImg(localStorage.getItem("userImg"));
     setUserName(localStorage.getItem("userName"));
-  }
-
-  function scrapClick() {
-    setPolicyType(false);
-  }
-
-  function noticeClick() {
-    setPolicyType(true);
   }
 
   useEffect(() => {
@@ -100,33 +92,23 @@ export default function Page() {
             </div>
             {/* 팔로우, 팔로워 페이지 이동 */}
             <div className={style.stastus_footer}>
-              <button className={style.status_footer_button}>
+              <button
+                className={style.status_footer_button}
+                onClick={() => {
+                  router.push(`/mypage/${router.query.id}/edit`);
+                }}
+              >
                 프로필 수정
               </button>
-              <button className={style.status_footer_button}>알람 설정</button>
             </div>
           </div>
         </div>
         <div className={style.policyList_wrapper}>
           <div className={style.policyList_header}>
-            <div>My 정책</div>
-            <div className={style.polisyList_type}>
-              <button
-                onClick={scrapClick}
-                className={policyType ? style.off : ""}
-              >
-                스크랩
-              </button>
-              <button
-                onClick={noticeClick}
-                className={!policyType ? style.off : ""}
-              >
-                알림
-              </button>
-            </div>
+            <div>My 스크랩</div>
           </div>
           <div className={style.policyList_content}>
-            {!policyType ? <MyPageScrap /> : ""}
+            <MyPageScrap />
           </div>
         </div>
         <div className={style.followerList_wrapper}>

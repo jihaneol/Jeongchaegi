@@ -8,7 +8,7 @@ export default function Document() {
       <Head>
         <meta name="description" content="i just want increase SEO" />
       </Head>
-      <body>
+      <body className={`bg-aliceblue min-h-screen`}>
         <Main />
         <NextScript />
       </body>

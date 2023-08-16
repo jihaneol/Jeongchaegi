@@ -78,7 +78,7 @@ export default function Page({ detailData, contentHtml }) {
         <div className="w-full max-w-4xl mt-12">
           {detailData ? (
             <>
-              <h1 className="text-4xl font-bold text-center text-black-700 mb-6">
+              <h1 className="text-4xl font-bold text-center text-black-700 mb-6 break-all">
                 {detailData.title}
               </h1>
               {/* 사용자, 작성 시간 */}
@@ -89,7 +89,7 @@ export default function Page({ detailData, contentHtml }) {
                     alt={detailData.nickname}
                     width={24}
                     height={24}
-                    className="rounded-full mr-3"
+                    className="rounded-full mr-5"
                   />
                   {detailData.nickname} | {detailData.createdAt.slice(0, 10)}{" "}
                   {detailData.createdAt.slice(11)}

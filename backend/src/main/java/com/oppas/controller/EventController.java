@@ -25,7 +25,7 @@ public class EventController {
     }
 
     @GetMapping("/check/policies/{policyId}")
-    public ResponseEntity<String> checkEvent(@AuthenticationPrincipal PrincipalDetails principalDetails,
+    public ResponseEntity<List<String>> checkEvent(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                               @PathVariable Long policyId) throws Exception {
         Long memberId = principalDetails.getId();
         return ResponseEntity.ok(eventService.checkEvent(memberId, policyId));

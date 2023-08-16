@@ -45,7 +45,6 @@ spring:
               - profile_nickname
               - account_email
               - profile_image
-#              - talk_calendar
             client_name: kakao
 
 
@@ -70,7 +69,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-#      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

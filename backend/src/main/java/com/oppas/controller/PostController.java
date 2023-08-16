@@ -80,9 +80,7 @@ public class PostController {
 
         System.out.println(keyword);
         Page<ResponsePostDto> posts = postService.getSearchList(keyword,pageIndex);
-        if(posts.isEmpty()){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+       
         return new ResponseEntity(posts,HttpStatus.OK);
     }
 

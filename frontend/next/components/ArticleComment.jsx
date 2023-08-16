@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Image } from "@mui/icons-material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import OurAxios from "../config/ourAxios";
+import Image from "next/image";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -132,9 +132,9 @@ export default function ArticleComment() {
     } else alert("다른 사용자의 댓글을 삭제할 수 없습니다.");
   }
 
-  function handleUserClick() {
-    router.push(`/mypage/${item.nickname}`);
-  }
+  // function handleUserClick(item) {
+  //   router.push(`/mypage/${item.nickname}`);
+  // }
 
   function loadReply() {
     getComment();
@@ -172,12 +172,9 @@ export default function ArticleComment() {
               alt={item.nickname}
               width={24}
               height={24}
-              className="rounded-full mr-3"
-              onClick={handleUserClick}
+              className="rounded-full"
             />
-            <p className="font-semibold" onClick={handleUserClick}>
-              {item.nickname}:
-            </p>
+            <p className="font-semibold">{item.nickname}:</p>
             <p className="flex-1">{item.comment}</p>
             <button
               onClick={() => commentDel(item.id, item.memberId)}

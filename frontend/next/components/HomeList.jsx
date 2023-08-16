@@ -8,12 +8,21 @@ export default function HomeList({ title }) {
   const [contents, setContents] = useState("");
 
   useEffect(() => {
+    let isMounted = true; // 컴포넌트가 마운트되었는지 여부를 추적합니다.
+
     axios({
       method: "get",
       url: "https://jsonplaceholder.typicode.com/posts",
     }).then((res) => {
-      setContents(res.data);
+      if (isMounted) {
+        // 컴포넌트가 여전히 마운트되어 있다면 상태를 설정합니다.
+        setContents(res.data);
+      }
     });
+
+    return () => {
+      isMounted = false; // 컴포넌트가 언마운트될 때 플래그를 false로 설정합니다.
+    };
   }, []);
 
   useEffect(() => {

@@ -29,6 +29,11 @@ public class ScrapController {
         return ResponseEntity.ok(scrapService.getMyPolicyScraps(memberId, pageIndex));
     }
 
+    @GetMapping("/count/members/{memberId}")
+    public ResponseEntity<Long> getMyScrapCount(@PathVariable Long memberId) throws Exception {
+        return ResponseEntity.ok(scrapService.getMyScrapCount(memberId));
+    }
+
     @GetMapping("/check/members/{memberId}/policies/{policyId}")
     public ResponseEntity<Boolean> checkPolicyScrap(@PathVariable Long memberId,
                                                     @PathVariable Long policyId) throws Exception {
