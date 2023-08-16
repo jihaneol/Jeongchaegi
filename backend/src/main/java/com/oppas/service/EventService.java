@@ -38,9 +38,13 @@ public class EventService {
     /**
      * 정책에 대한 일정 가져오기
      */
-    public String checkEvent(Long memberId, Long policyId) throws Exception {
-        Optional<Event> event = eventRepository.findByMemberIdAndPolicyId(memberId, policyId);
-        return event.map(Event::getId).orElse(null);
+    public List<String> checkEvent(Long memberId, Long policyId) throws Exception {
+        List<Event> events = eventRepository.findByMemberIdAndPolicyId(memberId, policyId);
+        List<String> eventIds = new ArrayList<>();
+        for (Event event : events) {
+            eventIds.add(event.getId());
+        }
+        return eventIds;
     }
 
     /**
