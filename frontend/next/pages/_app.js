@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>섹시 경섭</title>
+        <title>정채기</title>
       </Head>
       <Provider store={store}>
         {isClient ? (

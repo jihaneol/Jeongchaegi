@@ -39,7 +39,7 @@ export default function Page(props) {
   const [modalFlag, setModalFlag] = useState(false);
   const userData = useSelector(state => state.user);
   const [refreshFlag, setRefreshFlag] = useState(false);
-  const [eventID, setEventID] = useState("");
+  const [eventID, setEventID] = useState([]);
 
   // 알림 설정 가능 여부
   useEffect(() => {
@@ -161,7 +161,7 @@ export default function Page(props) {
                         postNum={post.id}
                         registerSet={registerSet}
                         refreshFlag={refreshFlag}
-                        getEventID={getEventID}
+                        getEventIdProps={getEventID}
                       />
                       {modalFlag ? (
                         <NoticeModal
@@ -343,7 +343,7 @@ export default function Page(props) {
                       사업관련 참고 사이트1
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      {post.rfcSiteUrla1}
+                    <a href={post.rfcSiteUrla1} target="_blank">{post.rfcSiteUrla1}</a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
@@ -351,7 +351,7 @@ export default function Page(props) {
                       사업관련 참고 사이트2
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      {post.rfcSiteUrla2}
+                      <a href={post.rfcSiteUrla2} target="_blank">{post.rfcSiteUrla2}</a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
