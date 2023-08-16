@@ -78,7 +78,7 @@ export default function Page({ detailData, contentHtml }) {
         <div className="w-full max-w-4xl mt-12">
           {detailData ? (
             <>
-              <h1 className="text-4xl font-bold text-center text-black-700 mb-6">
+              <h1 className="text-4xl font-bold text-center text-black-700 mb-6 break-all">
                 {detailData.title}
               </h1>
               {/* 사용자, 작성 시간 */}
