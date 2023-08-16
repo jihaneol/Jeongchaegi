@@ -15,7 +15,6 @@ export default function NoticeModal({
 }) {
   const [mention, setMention] = useState("등록");
   const [eventId, setEventId] = useState("");
-  const [eventForm, setEventForm] = useState([]);
   const [calendarID, setCalendarID] = useState("");
   const api = OurAxios();
   // type 을 받아와서, type 이 true면 삭제, false면 등록
@@ -110,9 +109,8 @@ export default function NoticeModal({
       .then(async (res) => {
         console.log("생성폼 얻기 성공!");
         console.log(res);
-        setEventForm(res.data);
-				await createKakaoEvent(eventForm[0], 1, kakaoToken);
-				await createKakaoEvent(eventForm[1], 2, kakaoToken);
+				await createKakaoEvent(res.data[0], 1, kakaoToken);
+				await createKakaoEvent(res.data[1], 2, kakaoToken);
       })
       .catch((err) => {
         console.log("생성폼 얻기 실패!");
