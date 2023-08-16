@@ -34,12 +34,20 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag, get
       .catch((err) => {
         // 400이면 일정이 없는 것. delete 요청 보내야함.
         console.log("일정이 없음 -> delete 요청");
-        api.delete(`/api/events/${eventId}`).then((res) => {
-          console.log("delete 요청 성공!");
+        api.delete(`/api/events/${eventId[0]}`).then((res) => {
+          console.log("delete0 요청 성공!");
           console.log(res);
           setRegisterFlag(false);
         }).catch((err) => {
-          console.log("delete 요청 실패");
+          console.log("delete0 요청 실패");
+          console.log(err);
+        });
+        api.delete(`/api/events/${eventId[1]}`).then((res) => {
+          console.log("delete1 요청 성공!");
+          console.log(res);
+          setRegisterFlag(false);
+        }).catch((err) => {
+          console.log("delete1 요청 실패");
           console.log(err);
         });
       });
