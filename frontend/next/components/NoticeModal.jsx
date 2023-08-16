@@ -142,7 +142,7 @@ export default function NoticeModal({
   function unregist() {
     const accessToken = localStorage.getItem("accessToken");
     const kakaoToken = localStorage.getItem("kakaoToken");
-    if (eventId.length == 0) {
+    if (eventId.length === 0) {
       console.log("eventId 없음");
     } else {
       axios({
