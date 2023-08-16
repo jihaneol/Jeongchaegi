@@ -43,6 +43,7 @@ export default function UserInfo() {
 		}).catch((err) => {
 			console.log("수정 실패");
 			console.log(err);
+			alert("모든 정보는 필수 입력입니다.");
 		});
   }
 
