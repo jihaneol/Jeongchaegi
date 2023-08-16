@@ -89,7 +89,7 @@ export default function Page({ detailData, contentHtml }) {
                     alt={detailData.nickname}
                     width={24}
                     height={24}
-                    className="rounded-full mr-3"
+                    className="rounded-full mr-5"
                   />
                   {detailData.nickname} | {detailData.createdAt.slice(0, 10)}{" "}
                   {detailData.createdAt.slice(11)}
