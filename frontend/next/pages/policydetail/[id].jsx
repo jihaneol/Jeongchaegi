@@ -170,7 +170,7 @@ export default function Page(props) {
                           modalClose={modalClose}
                           setRefreshFlag={setRefreshFlag}
                           eventIdProp={eventID}
-                          listIdProp={listId.id}
+                          policyIdProp={listId.id}
                         />
                       ) : null}
                     </div>

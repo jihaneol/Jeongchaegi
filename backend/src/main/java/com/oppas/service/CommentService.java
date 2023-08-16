@@ -38,6 +38,7 @@ public class CommentService {
                     m.map(src -> src.getMember().getId(), CommentResponseDto::setMemberId);
                     m.map(src -> src.getMember().getNickname(), CommentResponseDto::setNickname);
                     m.map(src -> src.getPost().getId(), CommentResponseDto::setPostId);
+                    m.map(src -> src.getMember().getImg(), CommentResponseDto::setMemberImg);
                 });
     }
 

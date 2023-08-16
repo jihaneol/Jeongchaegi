@@ -11,7 +11,7 @@ export default function NoticeModal({
   modalClose,
   setRefreshFlag,
   eventIdProp,
-  listIdProp,
+  policyIdProp,
 }) {
   const [mention, setMention] = useState("등록");
   const [eventId, setEventId] = useState("");
@@ -28,8 +28,11 @@ export default function NoticeModal({
 
   async function createKakaoEvent(events, index, kakaoToken, calendarId) {
 		console.log("카카오 일정 생성 시도! -> event 객체");
-		console.log(events);
 		const event = events[index];
+		console.log(event);
+
+		const accessToken = localStorage.getItem("accessToken");
+
 		await axios({
 			method: "post",
 			url: "https://kapi.kakao.com/v2/api/calendar/create/event",
@@ -40,10 +43,24 @@ export default function NoticeModal({
 				calendar_id: calendarId,
 				event: JSON.stringify(event),
 			},
-		}).then((res) => {
+		}).then(async (res) => {
 			console.log(`카카오 일정${index} 생성 성공!`);
-			// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
 			console.log(res);
+			// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
+			await api
+        .post(`/events/${res.data.event_id}/save/policies/${policyIdProp}/`, {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					}
+				})
+        .then((res) => {
+          console.log("일정 저장 성공!");
+					console.log(res);
+        })
+        .catch((err) => {
+          console.log("일정 저장 실패");
+          console.log(err);
+        });
 		}).catch ((err) => {
 		console.log(`카카오 일정${index} 생성 실패`);
 		console.log(err);
@@ -103,15 +120,15 @@ export default function NoticeModal({
           console.log(err);
         });
     }
-    // 정책 아이디(listIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
+    // 정책 아이디(policyIdProp)로 일정 생성폼 가져오기 -> 이벤트 폼 얻기
     await api
-      .get(`/events/form/policies/${listIdProp}/`)
+      .get(`/events/form/policies/${policyIdProp}/`)
       .then(async (res) => {
         console.log("생성폼 얻기 성공!");
         console.log(res);
 				// 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급 ([0]: 시작일, [1]: 마감일 -> 2번 요청보내야함
-				await createKakaoEvent(res.data[0], 0, kakaoToken, calendarId);
-				await createKakaoEvent(res.data[1], 1, kakaoToken, calendarId);
+				await createKakaoEvent(res.data, 0, kakaoToken, calendarId);
+				await createKakaoEvent(res.data, 1, kakaoToken, calendarId);
       })
       .catch((err) => {
         console.log("생성폼 얻기 실패!");
@@ -124,6 +141,7 @@ export default function NoticeModal({
 
   function unregist() {
     const accessToken = localStorage.getItem("accessToken");
+    const kakaoToken = localStorage.getItem("kakaoToken");
     if (!eventId) {
       console.log("eventId 없음");
     } else {
@@ -134,15 +152,26 @@ export default function NoticeModal({
           event_id: eventId,
         },
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${kakaoToken}`,
         },
       })
         .then((res) => {
-          console.log("일정 삭제 성공!");
+          console.log("카카오 일정 삭제 성공!");
           console.log(res);
+					api.delete(`/events/${eventId}/`, {
+						headers: {
+							Authorization: `Bearer ${accessToken}`,
+						}
+					}).then((res) => {
+						console.log("일정 저장 성공!");
+						console.log(res);
+					}).catch((err) => {
+						console.log("일정 저장 실패");
+						console.log(err);
+					})
         })
         .catch((err) => {
-          console.log("일정 삭제 실패!");
+          console.log("카카오 일정 삭제 실패!");
           console.log(err);
         });
     }
@@ -159,6 +188,7 @@ export default function NoticeModal({
   useEffect(() => {
     setEventId(eventIdProp);
     console.log("event_id 있는 경우");
+		console.log(eventIdProp);
   }, [eventIdProp]);
 
   return (
