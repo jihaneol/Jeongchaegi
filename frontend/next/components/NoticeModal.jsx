@@ -43,12 +43,12 @@ export default function NoticeModal({
 				calendar_id: calendarId,
 				event: JSON.stringify(event),
 			},
-		}).then((res) => {
+		}).then(async (res) => {
 			console.log(`카카오 일정${index} 생성 성공!`);
 			console.log(res);
 			// 일정 아이디와 정책 아이디로 일정 저장 -> 위에서 뱉어낸 eventID 로 마찬가지로 2번 보내야함.
-			api
-        .post(`/events/${res.data}/save/policies/${policyIdProp}/`, {
+			await api
+        .post(`/events/${res.data.event_id}/save/policies/${policyIdProp}/`, {
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
 					}
