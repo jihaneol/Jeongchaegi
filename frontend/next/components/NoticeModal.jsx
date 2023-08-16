@@ -30,6 +30,7 @@ export default function NoticeModal({
 		console.log("카카오 일정 생성 시도! -> event 객체");
 		console.log(events);
 		const event = events[index];
+		console.log(event);
 		await axios({
 			method: "post",
 			url: "https://kapi.kakao.com/v2/api/calendar/create/event",
@@ -110,8 +111,8 @@ export default function NoticeModal({
         console.log("생성폼 얻기 성공!");
         console.log(res);
 				// 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급 ([0]: 시작일, [1]: 마감일 -> 2번 요청보내야함
-				await createKakaoEvent(res.data[0], 0, kakaoToken, calendarId);
-				await createKakaoEvent(res.data[1], 1, kakaoToken, calendarId);
+				await createKakaoEvent(res.data, 0, kakaoToken, calendarId);
+				await createKakaoEvent(res.data, 1, kakaoToken, calendarId);
       })
       .catch((err) => {
         console.log("생성폼 얻기 실패!");
