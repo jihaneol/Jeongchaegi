@@ -343,7 +343,7 @@ export default function Page(props) {
                       사업관련 참고 사이트1
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      {post.rfcSiteUrla1}
+                    <a href={post.rfcSiteUrla1} target="_blank">{post.rfcSiteUrla1}</a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
@@ -351,7 +351,7 @@ export default function Page(props) {
                       사업관련 참고 사이트2
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      {post.rfcSiteUrla2}
+                      <a href={post.rfcSiteUrla2} target="_blank">{post.rfcSiteUrla2}</a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
