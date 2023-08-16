@@ -54,7 +54,7 @@ public class PolicyService {
      * 필터와 페이지 번호를 통해 알맞는 정책 정보들을 반환
      */
     public Page<PolicySummaryDTO> getPolicies(PolicyFilterDTO filter, int pageIndex) throws Exception {
-        Pageable pageable = PageRequest.of(pageIndex - 1, 20);
+        Pageable pageable = PageRequest.of(pageIndex - 1, 10);
         Page<Policy> policyPages = policyRepository.findPolicies(filter, pageable);
         return policyPages.map(policy -> {
             PolicySummaryDTO policySummary = modelMapper.map(policy, PolicySummaryDTO.class);
