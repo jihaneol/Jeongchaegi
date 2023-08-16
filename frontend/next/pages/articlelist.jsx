@@ -82,23 +82,53 @@ export default function ArticleList() {
         <div className="w-full max-w-4xl bg-white shadow-md p-6 rounded-lg">
           {/* Header section */}
           <div className="flex justify-between items-center mb-6 border-b pb-4">
-            <h1 className="text-2xl font-semibold">Article List</h1>
+            {/* gpt님이 만들어주신 개이쁜 검색창 */}
+            <form className="relative">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="border rounded-md pl-10 pr-4 py-2 w-full focus:outline-none focus:border-blue-300"
+              />
+              <svg
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-6a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </form>
             <button
               onClick={myPageRoute}
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
             >
-              Create
+              글쓰기
             </button>
           </div>
 
-          {/* Article List */}
+          {/* Article List / table*/}
           {articleData ? (
-            <div className="mb-6">
-              <ArticleListItem
-                obj={articleData}
-                onItemClick={handleItemClick}
-              />
-            </div>
+            <table className="mb-6 table-fixed w-full">
+              <thead>
+                <tr>
+                  <th className="w-7/12 px-2 py-2 border-b border-gray-300">제목</th>
+                  <th className="w-2/12 px-2 py-2 border-b border-gray-300">작성자</th>
+                  <th className="w-3/12 pl-6 py-2 border-b border-gray-300">작성일</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ArticleListItem
+                  obj={articleData}
+                  onItemClick={handleItemClick}
+                />
+              </tbody>
+            </table>
           ) : (
             <div className="text-center py-4 text-gray-400">Loading...</div>
           )}
