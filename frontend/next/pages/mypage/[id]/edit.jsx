@@ -41,9 +41,9 @@ export default function UserInfo() {
 			localStorage.setItem("userID", res.data.userId);
 			localStorage.setItem("userPolicy", JSON.stringify(res.data.policyMemberDTO));
 		}).catch((err) => {
+			alert("모든 정보는 필수 입력값입니다.");
 			console.log("수정 실패");
 			console.log(err);
-			alert("모든 정보는 필수 입력입니다.");
 		});
   }
 
