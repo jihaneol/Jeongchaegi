@@ -8,6 +8,8 @@ const today_day = String(today.getDate()).padStart(2, "0");
 
 // 유저 초기 상태
 const initialUserState = {
+  id: 0,
+  img: "",
   city: "",
   birth: `${today_year}-${today_month}-${today_day}`,
   age: 0,
@@ -22,12 +24,19 @@ const userSlice = createSlice({
   name: "user",
   initialState: initialUserState,
   reducers: {
+    setId(state, action) {
+      state.id = action.payload;
+    },
+    setImg(state, action) {
+      state.img = action.payload;
+    },
     setisLogined(state, action) {
       state.isLogined = action.payload;
       console.log("state-isLogined: ", state.isLogined);
     },
     setPolicyType(state, action) {
-      state.policyType = action.payload;
+      const arr = action.payload.slice(); // 복사를 통해 새로운 배열 생성
+      state.policyType = arr;
       console.log(state.policyType);
     },
     setBirth(state, action) {
@@ -48,6 +57,9 @@ const userSlice = createSlice({
       state.age = age;
       console.log(state.age);
     },
+    setAge(state, action) {
+      state.age = action.payload;
+    },
     setCity(state, action) {
       state.city = action.payload;
       console.log(state.city);
@@ -62,6 +74,7 @@ const userSlice = createSlice({
       }
       state.isLogined = false;
       state.timer = null;
+      return initialUserState;
     },
     setTimer: (state, action) => {
       state.timer = action.payload;

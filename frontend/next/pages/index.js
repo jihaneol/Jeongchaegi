@@ -24,10 +24,7 @@ export default function Home() {
   };
 
   return (
-    <div
-      className={`${style.all_wrapper} bg-center bg-no-repeat bg-cover min-h-screen p-4`}
-      style={{ backgroundImage: "url('/배경.jpg')" }}
-    >
+    <div>
       <Nav />
       <Modal modalFlag={modalFlag} onClose={onClose} targetDate={targetDate} />
       <div
