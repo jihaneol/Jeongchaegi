@@ -76,7 +76,7 @@ export default function Page(props) {
     // 북마크 체크 확인
     setUserId(localStorage.getItem("userID"));
 
-    if (post && post.id && userId) {
+    if (userData.isLogined) {
       api
         .get(
           `/scraps/check/members/${userId}/policies/${post.id}`
@@ -89,7 +89,7 @@ export default function Page(props) {
           console.log(err);
         });
     }
-  }, [post, refreshFlag]); // post가 변경될 때만 이 훅을 실행합니다.
+  }, [refreshFlag]); // post가 변경될 때만 이 훅을 실행합니다.
 
   // 스크랩 제거
   const handleCancelBookmark = () => {
