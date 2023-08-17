@@ -91,6 +91,9 @@ export default function NoticeModal({
     })
       .then((res) => {
         setCalendarId(res.data);
+      }).catch(err => {
+        console.log("캘린더 생성 에러");
+        console.log(err);
       })
   }
 
@@ -124,8 +127,12 @@ export default function NoticeModal({
         // 캘린더 아이디 + 이벤트 폼 으로 일정생성 -> 일정 아이디 발급 ([0]: 시작일, [1]: 마감일 -> 2번 요청보내야함
         await createKakaoEvent(res.data, 0, kakaoToken, calendarId);
         await createKakaoEvent(res.data, 1, kakaoToken, calendarId);
+        alert("성공적으로 등록되었습니다.");
+      }).catch(err => {
+        console.log("일정 생성 실패");
+        console.log(err);
+        alert("등록 실패!")
       })
-    alert("성공적으로 등록되었습니다.");
     setRefreshFlag((prev) => !prev);
     modalClose();
   }

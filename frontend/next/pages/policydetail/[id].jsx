@@ -6,10 +6,7 @@ import {
   FaBars,
   FaBookmark,
   FaRegBookmark,
-  FaCalendarCheck,
-  FaRegCalendar,
 } from "react-icons/fa";
-import Image from "next/image";
 
 import Head from "next/head";
 
@@ -84,6 +81,9 @@ export default function Page(props) {
       .delete(`/scraps/cancel/members/${userId}/policies/${post.id}`)
       .then(() => {
         setRefreshFlag((prev) => !prev);
+      }).catch(err => {
+        console.log("북마크 해제 실패");
+        console.log(err);
       })
   };
 
