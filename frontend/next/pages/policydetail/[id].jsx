@@ -77,6 +77,7 @@ export default function Page(props) {
     console.log("use Effect 확인");
     // 북마크 체크 확인
     const id = localStorage.getItem("userID");
+    console.log("id: ", id);
     setUserId(id);
 
     if (userData.isLogined) {
