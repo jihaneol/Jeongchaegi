@@ -17,7 +17,7 @@ export default function UserInfo() {
   const userData = useSelector((state) => state.user);
 
   async function submitUserInfo() {
-    const accessToken = localStorage.getItem("accessToken");
+    console.log(userData);
     api.put(
       `/members/${router.query.id}/edit/`,
       {
@@ -26,11 +26,6 @@ export default function UserInfo() {
         city: userData.city,
         nickname: userData.nickname,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
     ).then((res) => {
 			console.log("수정 성공");
 			console.log(res);
