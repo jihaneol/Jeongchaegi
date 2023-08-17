@@ -97,7 +97,7 @@ export default function Page({ detailData, contentHtml }) {
               </div>
               <hr />
               <div className="bg-white shadow-md p-6 rounded-lg space-y-4">
-                <div className="p-4 bg-gray-100 rounded">
+                <div className="p-4 rounded">
                   {/* tailwind는 브라우저 기본 제공 css 날려먹음, 그래서 그냥 깃헙에 있는 마크다운 스타일 훔쳐옴 */}
                   <div
                     dangerouslySetInnerHTML={{ __html: contentHtml }}
