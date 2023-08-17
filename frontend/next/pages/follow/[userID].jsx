@@ -9,7 +9,7 @@ export default function Follow() {
   const [search, setSearch] = useState(""); // 검색어
   const [followNum, setFollowNum] = useState(0); // 팔로우 수
   const [followList, setFollowList] = useState([]); // 팔로우 리스트
-  const [showList, setShowList] = useState(followList); // 출력용 리스트
+  const [showList, setShowList] = useState([]); // 출력용 리스트
   const [showModal, setShowModal] = useState(null); // 모달
 
   // ①팔로워 수 ②팔로워 리스트 받아오기
@@ -31,9 +31,14 @@ export default function Follow() {
         });
 
       api
-        .get("/members/followeeList")
+        .get("/members/followeeList", {
+          params: {
+            nickname: userObject.nickname,
+          },
+        })
         .then((responseList) => {
           setFollowList(responseList.data);
+          console.log("팔로우리스트 : " + responseList.data);
           console.log("팔로우리스트 1번째 요소 : " + responseList.data[0]);
           console.log(
             "팔로우리스트 1번째 요소 타입 : " + typeof responseList.data[0]
@@ -54,8 +59,10 @@ export default function Follow() {
       .delete(`/members/${id}/unFollow`)
       .then((res) => {
         const afterList = followList.filter((user) => user.id !== id);
+        const list = afterList.slice();
         setFollowList(afterList);
-        setShowList(afterList);
+        setShowList(list);
+        setFollowNum(followNum - 1);
       })
       .catch((err) => {
         console.log(err);
@@ -66,7 +73,7 @@ export default function Follow() {
     setSearch(e.target.value);
   };
 
-  const searchName = async () => {
+  const searchName = () => {
     api
       .get("/members/followeeList", {
         params: {
@@ -74,7 +81,8 @@ export default function Follow() {
         },
       })
       .then((responseSearch) => {
-        setShowList(responseSearch.data);
+        const list = responseSearch.data.slice();
+        setShowList(list);
       })
       .catch((err) => {
         console.log(err);
