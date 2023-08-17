@@ -72,7 +72,7 @@ export default function Page(props) {
     }
   }, [userData.isLogined, listId]);
 
-  useEffect(async () => {
+  useEffect(() => {
     //
     console.log("use Effect 확인");
     // 북마크 체크 확인
@@ -81,7 +81,7 @@ export default function Page(props) {
     setUserId(id);
 
     if (userData.isLogined) {
-      await api
+      api
         .get(
           `/scraps/check/members/${id}/policies/${post.id}`
         )
