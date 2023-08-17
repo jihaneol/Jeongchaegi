@@ -22,22 +22,16 @@ export default function Follow() {
       const myId = userObject.id;
 
       api
-        .get("/members/followInfo", { params: { memberid: myId } })
-        .then((responseObject) => {
-          setFollowNum(responseObject.data.followee);
+        .get(`members/followInfo`, { params: { memberid: myId } })
+        .then((res) => {
+          setFollowNum(res.data.followee);
         });
 
-      api
-        .get("/members/followeeList", {
-          params: {
-            nickname: userObject.nickname,
-          },
-        })
-        .then((responseList) => {
-          setFollowList(responseList.data);
-          const list = followList.slice();
-          setShowList(list);
-        });
+      api.get(`members/followeeList`).then((res) => {
+        setFollowList(res.data);
+        const list = followList.slice();
+        setShowList(list);
+      });
     }
   }, []);
 
@@ -57,14 +51,13 @@ export default function Follow() {
 
   const searchName = () => {
     api
-      .get("/members/followeeList", {
+      .get(`/members/followeeList`, {
         params: {
           nickname: search,
         },
       })
-      .then((responseSearch) => {
-        const list = responseSearch.data.slice();
-        setShowList(list);
+      .then((res) => {
+        setShowList(res.data);
       });
   };
 
