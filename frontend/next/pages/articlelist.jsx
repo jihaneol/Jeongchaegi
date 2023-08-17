@@ -23,7 +23,6 @@ export default function ArticleList() {
   useEffect(()=>{
     page = 1
     lastPage = 999999
-    console.log(router.query);
     setArticleData([])
     setisloading(true)
     if (router.query.keyword) {

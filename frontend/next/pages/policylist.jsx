@@ -27,7 +27,6 @@ let lastPage = 999999999999;
 export default function PolicyList() {
   const router = useRouter();
   const { calendarActive, date } = router.query;
-  const api = OurAxios();
 
   // State 모음
   const [isCalendarActive, setIsCalendarActive] = useState(
