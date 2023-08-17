@@ -25,7 +25,7 @@ export default function Page() {
   }
 
   useEffect(() => {
-    const userName = localStorage.getItem("userName")
+    const user = localStorage.getItem("userName")
     if (!userData.isLogined)
     {
       router.push("/login");
@@ -33,8 +33,8 @@ export default function Page() {
       return ;
     }
     else {
-      if(userName !== router.query.id) {
-        console.log(userName);
+      if(user !== router.query.id) {
+        console.log(user);
         console.log(router.query);
         router.push(`/`);
         alert("접근 권한이 없습니다.");
