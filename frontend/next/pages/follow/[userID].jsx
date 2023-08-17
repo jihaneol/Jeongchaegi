@@ -21,13 +21,10 @@ export default function Follow() {
       const userObject = JSON.parse(parsedValue.user);
       const myId = userObject.id;
 
-      const fetchData = async () => {
+      const fetchData = () => {
         api
           .get("/members/followInfo", { params: { memberId: myId } })
           .then((responseObject) => {
-            console.log(typeof responseObject.data);
-            console.log(responseObject.data);
-
             setFollowNum(responseObject.data.followee);
           })
           .catch((err) => {
@@ -37,13 +34,9 @@ export default function Follow() {
         api
           .get("/members/followeeList")
           .then((responseList) => {
-            console.log(typeof responseList.data);
-            console.log(responseList.data);
-
             setFollowList(responseList.data);
             const list = followList.slice();
             setShowList(list);
-            console.log(showList);
           })
           .catch((err) => {
             console.log(err);
@@ -63,9 +56,6 @@ export default function Follow() {
         const afterList = followList.filter((user) => user.id !== id);
         setFollowList(afterList);
         setShowList(afterList);
-        console.log(showList);
-
-        console.log(afterList);
       })
       .catch((err) => {
         console.log(err);
@@ -85,12 +75,16 @@ export default function Follow() {
       })
       .then((responseSearch) => {
         setShowList(responseSearch.data);
-        console.log(showList);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  console.log("showList : " + showList);
+  console.log("showList의 타입 : " + typeof showList);
+  console.log("showList의 2번째 요소 : " + showList[1]);
+  console.log("showList의 2번째 요소 타입 : " + typeof showList[1]);
 
   return (
     <>
