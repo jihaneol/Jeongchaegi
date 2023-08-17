@@ -2,11 +2,15 @@
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         <url>
             <loc>http://www.jeongchaegi.com/policydetail/2023060213370</loc>
-            <priority>1.0</priority>
+            <priority>0.5</priority>
         </url>
         <url>
             <loc>http://www.jeongchaegi.com/</loc>
             <priority>0.8</priority>
+        </url>
+        <url>
+            <loc>http://www.jeongchaegi.com/policydetail/2023072616843</loc>
+            <priority>1.0</priority>
         </url>
     </urlset>
 </xml>

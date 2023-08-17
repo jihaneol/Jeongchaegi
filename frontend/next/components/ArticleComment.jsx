@@ -207,16 +207,16 @@ export default function ArticleComment() {
       <button onClick={loadReply}>댓글 불러오기</button>
 
       {userData.isLogined ? (
-        <form onSubmit={commentSubmit} className="mt-4">
+        <form onSubmit={commentSubmit} className="mt-4 flex">
           <input
             type="text"
             onChange={handleComment}
             value={newComment}
-            className="border p-2 rounded w-full mb-2"
+            className="border p-2 rounded w-full"
             placeholder="Write your comment here..."
           />
-          <button className="bg-green-500 text-white rounded px-4 py-2">
-            제출
+          <button className="bg-green-700 text-white rounded w-32 py-2">
+            댓글 쓰기
           </button>
         </form>
       ) : (
