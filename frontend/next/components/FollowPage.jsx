@@ -5,6 +5,7 @@ import OurAxios from "../config/ourAxios";
 
 export default function FollowPage(props) {
   const user = props.user;
+  const [myNickname, setMyNickname] = useState("");
   const [isFollow, setIsFollow] = useState(true);
   const router = useRouter();
   const api = OurAxios();
@@ -20,18 +21,35 @@ export default function FollowPage(props) {
         .catch((err) => {
           console.log(err);
         });
+
+      const myData = localStorage.getItem("persist:root");
+
+      if (myData) {
+        // 2. 가져온 값을 JavaScript 객체로 변환합니다.
+        const parsedValue = JSON.parse(myData);
+        const userObject = JSON.parse(parsedValue.user);
+
+        // 3. 변환된 객체에서 "nickname" 값을 추출합니다.
+        setMyNickname(userObject.nickname);
+      } else {
+        console.log("persist:root 값을 찾을 수 없습니다.");
+      }
     }
   }, []);
+
+  const handleMypage = () => {
+    router.push(`/mypage/${user.nickname}`);
+  };
 
   const handleUnFollow = () => {
     api
       .delete(
         "memberId" in user
-          ? `/${user.memberId}/unFollow`
-          : `/${user.id}/unFollow`
+          ? `/members/${user.memberId}/unFollow`
+          : `/members/${user.id}/unFollow`
       )
       .then((res) => {
-        setIsFollow(res.data);
+        setIsFollow(false);
         console.log("언팔로우");
       })
       .catch((err) => {
@@ -47,7 +65,7 @@ export default function FollowPage(props) {
           : `/members/${user.id}/follow`
       )
       .then((res) => {
-        setIsFollow(res.data);
+        setIsFollow(true);
         console.log("팔로우");
       })
       .catch((err) => {
@@ -88,7 +106,14 @@ export default function FollowPage(props) {
           </div>
         </div>
         <div className="flex justify-center">
-          {isFollow ? (
+          {myNickname === user.nickname ? (
+            <button
+              onClick={() => handleMypage()}
+              className="w-full text-white font-bold bg-gray-500 py-1 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+            >
+              마이페이지
+            </button>
+          ) : isFollow ? (
             <button
               onClick={() => handleUnFollow()}
               className="w-full text-white font-bold bg-blue-500 py-1 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
