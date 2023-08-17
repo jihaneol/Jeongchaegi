@@ -26,12 +26,9 @@ export default function Follow() {
       });
 
     api.get(`members/followeeList`).then((res) => {
-      console.log("통신 결과 : " + res.data);
       setFollowList(res.data);
-      console.log("팔로우 리스트" + followList);
       const list = res.data.slice();
       setShowList(list);
-      console.log("쇼 리스트 : " + showList);
     });
   }, []);
 
@@ -96,7 +93,7 @@ export default function Follow() {
                 height={48}
                 className="rounded-full mr-6"
                 onMouseEnter={() => setShowModal(index)} // index를 사용하여 어떤 이미지에 대한 모달인지 구분
-                // onMouseLeave={() => setShowModal(null)}
+                onClick={() => setShowModal(null)}
               />
               <div className="flex-grow pl-6">
                 <div className="font-semibold text-gray-700">
