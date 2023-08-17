@@ -183,7 +183,7 @@ export default function PolicyList() {
       {/* fixed calendar */}
       {isCalendarActive ? (
         <div className={`${style.calendar_wrap}`}>
-          <div className={style.calendar_wrap_header}>날짜를 설정하세요</div>
+          <div className={style.calendar_wrap_header}>날짜 고르고 적용 Click!</div>
           {isCalendarActive === true ? (
             <PolicyListCalendar
               onClickDay={onClickDay}
@@ -199,12 +199,14 @@ export default function PolicyList() {
           ${isCalendarActive ? style.list_wrap_on : style.list_wrap_off}`}
       >
         {/* 필터 */}
-        <PolicyFilter
-          isCalendarActive={isCalendarActive}
-          calendarBtnClick={calendarBtnClick}
-        />
-        {/* 검색창 */}
-        <PolicyListSearch submitParamsToBack={submitParamsToBack} />
+        <div>
+          <PolicyFilter
+            isCalendarActive={isCalendarActive}
+            calendarBtnClick={calendarBtnClick}
+          />
+          {/* 검색창 */}
+          <PolicyListSearch submitParamsToBack={submitParamsToBack} />
+        </div>
 
         {/* 정렬 기능 */}
         {/* <PolicyListSort /> */}

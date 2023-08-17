@@ -36,6 +36,7 @@ export default function Nav() {
         clearInterval(interval);
         alert("로그아웃 되었습니다.");
         logout();
+        router.push("/");
       }
     }, 1000);
     return () => clearInterval(interval);
