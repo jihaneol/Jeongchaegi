@@ -1,7 +1,7 @@
 package com.oppas.jwt;
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,30 +32,35 @@ import java.util.Optional;
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter {
 
-    private static final String NO_CHECK_URL = "api/member/logout"; // "/login"으로 들어오는 요청은 Filter 작동 X
+    private static final String NO_CHECK_URL = "api/member/logout";
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
-
+    static boolean flag;
     public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, MemberRepository memberRepository) {
         super(authenticationManager);
         this.memberRepository = memberRepository;
         this.jwtService = jwtService;
     }
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
+
             jwtService.extractRefreshToken(request)
                     .ifPresent(refreshtoken -> memberRepository.findByRefreshToken(refreshtoken)
                             .ifPresent(user -> {
                                 user.updateRefreshToken("");
                                 memberRepository.save(user);
                                 saveAuthentication(user);
+                                flag = true;
                             })
                     );
-            filterChain.doFilter(request, response);
+            if(flag){
+                filterChain.doFilter(request, response);
+            }else{
+                response.sendError(400);
+            }
             return;
         }
 
@@ -108,7 +113,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
     /**
      * [액세스 토큰 체크 & 인증 처리 메소드]
      * request에서 extractAccessToken()으로 액세스 토큰 추출 후, isTokenValid()로 유효한 토큰인지 검증
-     * 유효한 토큰이면, 액세스 토큰에서 extractEmail로 Email을 추출한 후 findByEmail()로 해당 이메일을 사용하는 유저 객체 반환
+     * 유효한 토큰이면, 액세스 토큰에서 extractName로 Name을 추출한 후 findByName()로 해당 이름을 사용하는 유저 객체 반환
      * 그 유저 객체를 saveAuthentication()으로 인증 처리하여
      * 인증 허가 처리된 객체를 SecurityContextHolder에 담기
      * 그 후 다음 인증 필터로 진행
@@ -125,13 +130,11 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
                         .ifPresent(name -> memberRepository.findByName(name)
                                 .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
             } else {
-                // 유효 하지않으면 재발급 해주세요 리프레쉬 토큰
                 log.info("유효하지 않은 토큰이다 리프레쉬 주세요");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
                 return ;
             }
         }
-
         filterChain.doFilter(request, response);
     }
 

@@ -1,12 +1,12 @@
 package com.oppas.dto.member;
 
-import com.oppas.entity.Member;
-import lombok.Data;
+import com.oppas.entity.member.Member;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
     public class MemberResponse {
         private Long userId;
         private Integer age;
@@ -24,8 +24,5 @@ import java.util.stream.Collectors;
             policyType = member.getPolicyMemberMappeds().stream()
                     .map(PolicyMemberDTO::new)
                     .collect(Collectors.toList());
-
         }
-
-
     }

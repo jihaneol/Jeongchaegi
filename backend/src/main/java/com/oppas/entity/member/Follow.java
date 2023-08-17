@@ -1,4 +1,4 @@
-package com.oppas.entity;
+package com.oppas.entity.member;
 
 import lombok.AccessLevel;
 import lombok.Getter;

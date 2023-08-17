@@ -1,7 +1,7 @@
 package com.oppas.repository;
 
 
-import com.oppas.entity.Follow;
+import com.oppas.entity.member.Follow;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
