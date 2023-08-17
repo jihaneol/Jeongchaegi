@@ -19,24 +19,24 @@ export default function Follow() {
     if (myData) {
       const parsedValue = JSON.parse(myData);
       const userObject = JSON.parse(parsedValue.user);
+      const myId = userObject.id;
 
-      console.log(userObject.id);
-      console.log(typeof userObject.id);
-
-      const fetchData = async () => {
+      const fetchData = () => {
         api
-          .get("/members/followInfo", { memberId: userObject.id })
-          .then((responseNum) => {
-            setFollowNum(responseNum.data);
+          .get("/members/followInfo", { params: { memberId: myId } })
+          .then((responseObject) => {
+            setFollowNum(responseObject.data.followee);
           })
           .catch((err) => {
             console.log(err);
           });
 
         api
-          .get("/members/followerList")
+          .get("/members/followeeList")
           .then((responseList) => {
             setFollowList(responseList.data);
+            const list = followList.slice();
+            setShowList(list);
           })
           .catch((err) => {
             console.log(err);
@@ -49,9 +49,9 @@ export default function Follow() {
     }
   }, []);
 
-  const handleFollow = (id) => {
+  const handleUnFollow = (id) => {
     api
-      .delete(`/${id}/unFollow`)
+      .delete(`/members/${id}/unFollow`)
       .then((res) => {
         const afterList = followList.filter((user) => user.id !== id);
         setFollowList(afterList);
@@ -68,7 +68,7 @@ export default function Follow() {
 
   const searchName = async () => {
     api
-      .get("/members/followerList", {
+      .get("/members/followeeList", {
         params: {
           nickname: search,
         },
@@ -80,6 +80,11 @@ export default function Follow() {
         console.log(err);
       });
   };
+
+  console.log("showList : " + showList);
+  console.log("showList의 타입 : " + typeof showList);
+  console.log("showList의 2번째 요소 : " + showList[1]);
+  console.log("showList의 2번째 요소 타입 : " + typeof showList[1]);
 
   return (
     <>
@@ -125,7 +130,7 @@ export default function Follow() {
                 <div className="text-sm text-gray-500">{user.id}</div>
               </div>
               <button
-                onClick={() => handleFollow(user.id)}
+                onClick={() => handleUnFollow(user.id)}
                 className="text-black font-bold bg-gray-200 py-1 px-4 rounded-md hover:bg-gray-300"
               >
                 팔로잉
