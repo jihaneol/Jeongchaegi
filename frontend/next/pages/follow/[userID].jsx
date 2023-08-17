@@ -20,6 +20,9 @@ export default function Follow() {
       const parsedValue = JSON.parse(myData);
       const userObject = JSON.parse(parsedValue.user);
 
+      console.log(userObject.id);
+      console.log(typeof userObject.id);
+
       const fetchData = async () => {
         api
           .get("/members/followInfo", { memberId: userObject.id })
