@@ -218,9 +218,9 @@ export default function NoticeModal({
     if (type === true && !calendarId) {
       deleteEvent(kakaoToken, accessToken, 0);
       deleteEvent(kakaoToken, accessToken, 1);
+      setRefreshFlag(prev => !prev);
     }
-    setRefreshFlag(prev => !prev);
-  })
+  }, [])
 
   return (
     <div className={style.modal_box}>
