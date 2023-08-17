@@ -1,14 +1,14 @@
 package com.oppas.repository.policy;
 
 import com.oppas.entity.policy.PolicyScrap;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-
 public interface PolicyScrapRepository extends JpaRepository<PolicyScrap, Long> {
 
-    List<PolicyScrap> findAllByMemberId(Long memberId);
+    Page<PolicyScrap> findAllByMemberId(Long memberId, Pageable pageable);
 
     Long countByMemberId(Long memberId);
 
