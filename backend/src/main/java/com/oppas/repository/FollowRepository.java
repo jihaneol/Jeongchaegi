@@ -19,10 +19,10 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fe.id = :toId")
     List<Follow> findAllByFolloweeId(@Param("toId") Long toId);
 
-    @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fe.id = :toId and fr.nickname like '%' || :name || '%'")
+    @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fr.id = :toId and fe.nickname like '%' || :name || '%'")
     List<Follow> findLikeFollowerByname(@Param("name") String name,@Param("toId") Long toId);
 
-    @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fr.id = :toId and fe.nickname like '%' || :name || '%'")
+    @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fe.id = :toId and fr.nickname like '%' || :name || '%'")
     List<Follow> findLikeFolloweeByname(@Param("name") String name,@Param("toId") Long toId);
 
     void deleteByFollowerIdAndFolloweeId(Long followerId, Long followeeId);
