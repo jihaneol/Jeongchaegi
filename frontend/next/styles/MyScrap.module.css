@@ -67,9 +67,6 @@
 }
 
 .card_content {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	line-height: 30px;
 	font-size: 15px;
 }
@@ -83,15 +80,13 @@
 .card_box_notice > button {
 	background-color: red;
 	color: white;
+	width: 100%;
+	height: 60%;
 	
 }
 
-.card_box_notice > button :hover {
-	background-color: red;
-	color: white;
+.card_box_notice > button:hover {
 	opacity: 0.8;
-	width: 100%;
-	height: 60%;
 }
 
 .pageButton_wrapper {
