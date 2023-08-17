@@ -24,7 +24,7 @@ export default function UserInfo() {
       .put(`/members/${id}/edit/`, {
         params: {
           policyId: userData.policyType,
-          // age: userData.age,
+          age: userData.age,
           city: userData.city,
           nickname: userData.nickname,
         },
