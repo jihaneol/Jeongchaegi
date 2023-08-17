@@ -141,7 +141,7 @@ export default function Page() {
             </div>
             <div className={style.policyList_wrapper}>
               <div className={style.policyList_header}>
-                <div>My 스크랩</div>
+                <div>My Scrap</div>
               </div>
               <div className={style.policyList_content}>
                 <MyPageScrap />

@@ -108,6 +108,10 @@ export default function Page(props) {
     setEventID(val);
   }
 
+  function moveToList() {
+    router.push("/policydetail");
+  }
+
   return (
     <div className={`text-gray-800 ${modalFlag ? Style.on : ""}`}>
       {post ? (
@@ -123,7 +127,7 @@ export default function Page(props) {
               className={`${Style.container} flex justify-between items-center mb-6`}
             >
               <div className={`${Style.title} flex items-center`}>
-                <FaBars className="text-gray-600 mr-4 cursor-pointer" />
+                <FaBars className="text-gray-600 mr-4 cursor-pointer" onClick={moveToList} />
                 <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
                 <div className={`${Style.icon} flex items-center`}>
                   {/* 알림 설정 파트 */}
