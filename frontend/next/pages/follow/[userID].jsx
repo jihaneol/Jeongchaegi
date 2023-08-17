@@ -26,11 +26,12 @@ export default function Follow() {
       });
 
     api.get(`members/followeeList`).then((res) => {
-      console.log(res.data);
+      console.log("통신 결과 : " + res.data);
       setFollowList(res.data);
-      const list = followList.slice();
+      console.log("팔로우 리스트" + followList);
+      const list = res.data.slice();
       setShowList(list);
-      console.log(showList);
+      console.log("쇼 리스트 : " + showList);
     });
   }, []);
 
