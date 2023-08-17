@@ -1,10 +1,10 @@
 import React from "react";
-import { FaRegBell } from "react-icons/fa";
+import { FaRegBell, FaRegBookmark } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import style from "../styles/PolicyDetail.module.css";
 
-export default function CannotNoticeRegister() {
+export default function CannotNoticeRegister({shape}) {
   const userData = useSelector((state) => state.user);
   const [open, setOpen] = useState();
 
@@ -20,7 +20,7 @@ export default function CannotNoticeRegister() {
 
   return (
     <div onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-      <FaRegBell />
+      {shape === "Bell" ? <FaRegBell /> : <FaRegBookmark />}
       <div className={`${style.popover_box} ${open ? style.visible : ''}`}>
         <div className={style.popover_header}>주의!</div>
         <div className={style.popover_content}>

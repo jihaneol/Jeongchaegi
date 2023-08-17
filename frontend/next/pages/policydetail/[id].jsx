@@ -20,6 +20,7 @@ import CannotRegistNotice from "../../components/CannotRegistNotice";
 import CanRegistNotice from "../../components/CanRegistNotice";
 import NoticeModal from "../../components/NoticeModal";
 import { useSelector } from "react-redux";
+import CannotNoticeRegister from "../../components/CannotRegistNotice";
 
 export default function Page(props) {
   const router = useRouter();
@@ -83,7 +84,7 @@ export default function Page(props) {
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
         })
-        .catch((error) => {
+        .catch((err) => {
           console.error("API 호출 중 오류 발생");
           console.log(err);
         });
@@ -159,7 +160,7 @@ export default function Page(props) {
                   {/* 나머지 작업은 컴포넌트 만들어야 함 */}
                   {!chkNotice ? (
                     <>
-                      <CannotRegistNotice className="cursor-pointer" />
+                      <CannotRegistNotice shape="Bell"/>
                     </>
                   ) : (
                     <div>
@@ -184,7 +185,7 @@ export default function Page(props) {
                   )}
                   {/* 알림 끝 */}
                   {/* 스크랩 시작 */}
-                  {chkBookmark ? (
+                  {userData.isLogined ? (chkBookmark ? (
                     <FaBookmark
                       className="cursor-pointer"
                       onClick={handleCancelBookmark}
@@ -194,7 +195,7 @@ export default function Page(props) {
                       className="cursor-pointer"
                       onClick={handleAddBookmark}
                     />
-                  )}
+                  )) : <CannotNoticeRegister />}
                   {/* 스크랩 끝 */}
                 </div>
               </div>
