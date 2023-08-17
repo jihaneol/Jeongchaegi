@@ -25,6 +25,9 @@ export default function Follow() {
         api
           .get("/members/followInfo", { params: { memberId: myId } })
           .then((responseObject) => {
+            console.log(typeof responseObject.data);
+            console.log(responseObject.data);
+
             setFollowNum(responseObject.data.followee);
           })
           .catch((err) => {
@@ -34,6 +37,9 @@ export default function Follow() {
         api
           .get("/members/followeeList")
           .then((responseList) => {
+            console.log(typeof responseList.data);
+            console.log(responseList.data);
+
             setFollowList(responseList.data);
             const list = followList.slice();
             setShowList(list);
@@ -56,6 +62,8 @@ export default function Follow() {
         const afterList = followList.filter((user) => user.id !== id);
         setFollowList(afterList);
         setShowList(afterList);
+
+        console.log(afterList);
       })
       .catch((err) => {
         console.log(err);
