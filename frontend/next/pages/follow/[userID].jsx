@@ -15,24 +15,23 @@ export default function Follow() {
   // ①팔로워 수 ②팔로워 리스트 받아오기
   useEffect(() => {
     const myData = localStorage.getItem("persist:root");
+    const parsedValue = JSON.parse(myData);
+    const userObject = JSON.parse(parsedValue.user);
+    const myId = userObject.id;
 
-    if (myData) {
-      const parsedValue = JSON.parse(myData);
-      const userObject = JSON.parse(parsedValue.user);
-      const myId = userObject.id;
-
-      api
-        .get(`members/followInfo`, { params: { memberid: myId } })
-        .then((res) => {
-          setFollowNum(res.data.followee);
-        });
-
-      api.get(`members/followeeList`).then((res) => {
-        setFollowList(res.data);
-        const list = followList.slice();
-        setShowList(list);
+    api
+      .get(`members/followInfo`, { params: { memberid: myId } })
+      .then((res) => {
+        setFollowNum(res.data.followee);
       });
-    }
+
+    api.get(`members/followeeList`).then((res) => {
+      console.log(res.data);
+      setFollowList(res.data);
+      const list = followList.slice();
+      setShowList(list);
+      console.log(showList);
+    });
   }, []);
 
   const handleUnFollow = (id) => {
