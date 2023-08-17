@@ -20,7 +20,6 @@ export default function Success() {
   const dispatch = useDispatch();
 
   async function setToken() {
-    console.log("setToken in...");
     if (atCookies && rtCookies) {
       localStorage.setItem("accessToken", atCookies.at);
       localStorage.setItem("refreshToken", rtCookies.rt);
@@ -30,7 +29,6 @@ export default function Success() {
   }
 
   function getLoginData() {
-    console.log("api get gogo");
     api
       .get("/members/info/")
       .then((res) => {
@@ -58,7 +56,7 @@ export default function Success() {
         dispatch(userActions.setisLogined(true));
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 

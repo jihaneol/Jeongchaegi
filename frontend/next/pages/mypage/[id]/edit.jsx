@@ -19,6 +19,7 @@ export default function UserInfo() {
   async function submitUserInfo() {
     console.log(userData);
     const id = localStorage.getItem("userID");
+    const nickname = localStorage.getItem("userName")
     api.put(
       `/members/${id}/edit/`,
       {
@@ -30,12 +31,11 @@ export default function UserInfo() {
     ).then((res) => {
 			console.log("수정 성공");
 			console.log(res);
-			localStorage.setItem("userName", res.data.nickname);
-			localStorage.setItem("userAge", res.data.age);
-			localStorage.setItem("userCity", res.data.city);
-			localStorage.setItem("userImg", res.data.img);
-			localStorage.setItem("userID", res.data.userId);
-			localStorage.setItem("userPolicy", JSON.stringify(res.data.policyMemberDTO));
+			localStorage.setItem("userName", userData.nickname);
+			localStorage.setItem("userAge", userData.age);
+			localStorage.setItem("userCity", userData.city);
+			localStorage.setItem("userPolicy", JSON.stringify(userData.policyType));
+      router.push(`/mypage/${nickname}`)
 		}).catch((err) => {
 			alert("모든 정보는 필수 입력값입니다.");
 			console.log("수정 실패");
