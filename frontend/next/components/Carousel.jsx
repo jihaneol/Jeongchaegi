@@ -1,11 +1,14 @@
 import React from "react";
 import Slider from "react-slick";
+import { useRouter } from "next/router";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import Style from "./styles/Carousel.module.css";
 
 const Carousel = () => {
+  const router = useRouter();
+
   const settings = {
     dots: true,
     infinite: true,
@@ -16,6 +19,10 @@ const Carousel = () => {
     adaptiveHeight: true, // 슬라이드의 높이에 따라 Carousel의 높이를 동적으로 조절
     autoplay: true, // 자동 재생 활성화
     autoplaySpeed: 3000, // 3초 간격으로 사진 변경
+  };
+
+  const handlePcyDetail = () => {
+    router.push(`http://www.jeongchaegi.com/policydetail/2023072616843`);
   };
 
   return (
@@ -44,7 +51,8 @@ const Carousel = () => {
             className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
           >
             <img
-              className={`${Style.carousel_slide_img} w-full h-full object-contain`}
+              onClick={handlePcyDetail}
+              className={`${Style.carousel_slide_img} w-full h-full object-contain transform transition-transform duration-300 hover:scale-105 hover:opacity-80 cursor-pointer`}
               src="/보증금지원.png"
               alt="청년정책②: 보증금지원"
             />
