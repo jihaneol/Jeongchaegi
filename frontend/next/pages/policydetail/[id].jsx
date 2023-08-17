@@ -80,7 +80,7 @@ export default function Page(props) {
     console.log("id: ", id);
     setUserId(id);
 
-    if (userData.isLogined) {
+    if (userData.isLogined && post.id) {
       api
         .get(
           `/scraps/check/members/${id}/policies/${post.id}`
