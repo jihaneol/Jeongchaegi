@@ -40,7 +40,7 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
   }
 
   return (
-    <div className="p-2">
+    <div className="p-2" style={{paddingBottom: "0px"}} >
       <div
         className="m-3 p-2 border border-gray-300 rounded bg-white"
         style={{ padding: "1rem" }}

@@ -2,7 +2,7 @@ package com.oppas.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -106,8 +106,6 @@ public class JwtService {
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
 
-        log.info(refreshHeader);
-        log.info(BEARER);
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));

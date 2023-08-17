@@ -35,6 +35,11 @@ export default function MyPageScrap() {
     setUserName(localStorage.getItem("userName"));
   }
 
+  function clickCard(e) {
+    console.log(e.target);
+    // 수정 필요
+  }
+
   useEffect(() => {
 		getName();
     getScrapList().then(() => {
@@ -53,9 +58,9 @@ export default function MyPageScrap() {
           <div className={style.scrap_card_wrapper}>
             {myScrap.slice(0, 4).map((item) => {
               return (
-                <div key={item.id} className={style.scrap_card}>
+                <button key={item.id} className={style.scrap_card} onClick={clickCard}>
                   {item.polyBizSjnm}
-                </div>
+                </button>
               );
             })}
           </div>

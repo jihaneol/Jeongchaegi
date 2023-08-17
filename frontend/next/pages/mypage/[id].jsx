@@ -18,16 +18,25 @@ export default function Page() {
   // state
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
+  const [myScrapCnt, setMyScrapCnt] = useState(0);
 
   async function getUserData() {
+    const userId = localStorage.getItem("userID");
     setUserImg(localStorage.getItem("userImg"));
     setUserName(localStorage.getItem("userName"));
+    api.get(`/scraps/count/members/${userId}`).then((res) => {
+      console.log("스크랩 수 설정 성공");
+      setMyScrapCnt(res.data);
+    }).catch((err) => {
+      console.log("스크랩 수 설정 실패");
+      console.log(err);
+    })
   }
 
   useEffect(() => {
     if (!userData.isLogined) {
-      router.push("/login");
       alert("로그인이 필요한 페이지입니다.");
+      router.push("/login");
       return;
     } else {
       getUserData();
@@ -37,6 +46,17 @@ export default function Page() {
   // 팔로우, 팔로워 페이지 이동
   function handleStatusCard(item) {
     switch (item) {
+      case "스크랩수":
+      return (
+        <Link href={`/myscrap/${userName}`}>
+          <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
+            <div className={style.status_card}>
+              <div className={style.status_card_header}>{item}</div>
+              <div className={style.status_card_content}>{myScrapCnt}</div>
+            </div>
+          </a>
+        </Link>
+      );
       case "팔로우":
         return (
           <Link href={`/follow/${localStorage.getItem("userID")}`}>
@@ -51,7 +71,7 @@ export default function Page() {
       case "팔로워":
         return (
           <Link href="/follower/1">
-            <a className="hover:bg-gray-200 hover:cursor-pointer transition-all duration-300">
+            <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>
                 <div className={style.status_card_content}>0</div>
@@ -105,7 +125,7 @@ export default function Page() {
                   <button
                     className={style.status_footer_button}
                     onClick={() => {
-                      router.push(`/mypage/${router.query.id}/edit`);
+                      router.push(`/mypage/${userName}/edit`);
                     }}
                   >
                     프로필 수정

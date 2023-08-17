@@ -9,7 +9,7 @@ export default function Follow() {
   const [search, setSearch] = useState(""); // 검색어
   const [followNum, setFollowNum] = useState(0); // 팔로우 수
   const [followList, setFollowList] = useState([]); // 팔로우 리스트
-  const [showList, setShowList] = useState(followList); // 출력용 리스트
+  const [showList, setShowList] = useState([]); // 출력용 리스트
   const [showModal, setShowModal] = useState(null); // 모달
 
   // ①팔로워 수 ②팔로워 리스트 받아오기
@@ -21,43 +21,48 @@ export default function Follow() {
       const userObject = JSON.parse(parsedValue.user);
       const myId = userObject.id;
 
-      console.log(myId);
-      console.log(myId);
+      api
+        .get("/members/followInfo", { params: { memberId: myId } })
+        .then((responseObject) => {
+          setFollowNum(responseObject.data.followee);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-      const fetchData = () => {
-        api
-          .get("/members/followInfo", { params: { memberId: myId } })
-          .then((responseObject) => {
-            setFollowNum(responseObject.data.followee);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-
-        api
-          .get("/members/followerList")
-          .then((responseList) => {
-            const list = responseList.data.slice();
-            setFollowList(responseList.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-
-      fetchData();
+      api
+        .get("/members/followeeList", {
+          params: {
+            nickname: userObject.nickname,
+          },
+        })
+        .then((responseList) => {
+          setFollowList(responseList.data);
+          console.log("팔로우리스트 : " + responseList.data);
+          console.log("팔로우리스트 1번째 요소 : " + responseList.data[0]);
+          console.log(
+            "팔로우리스트 1번째 요소 타입 : " + typeof responseList.data[0]
+          );
+          const list = followList.slice();
+          setShowList(list);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       console.log("persist:root 값을 찾을 수 없습니다.");
     }
   }, []);
 
-  const handleFollow = (id) => {
+  const handleUnFollow = (id) => {
     api
-      .delete(`/${id}/unFollow`)
+      .delete(`/members/${id}/unFollow`)
       .then((res) => {
         const afterList = followList.filter((user) => user.id !== id);
+        const list = afterList.slice();
         setFollowList(afterList);
-        setShowList(afterList);
+        setShowList(list);
+        setFollowNum(followNum - 1);
       })
       .catch((err) => {
         console.log(err);
@@ -68,20 +73,26 @@ export default function Follow() {
     setSearch(e.target.value);
   };
 
-  const searchName = async () => {
+  const searchName = () => {
     api
-      .get("/members/followerList", {
+      .get("/members/followeeList", {
         params: {
           nickname: search,
         },
       })
       .then((responseSearch) => {
-        setShowList(responseSearch.data);
+        const list = responseSearch.data.slice();
+        setShowList(list);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  console.log("showList : " + showList);
+  console.log("showList의 타입 : " + typeof showList);
+  console.log("showList의 2번째 요소 : " + showList[1]);
+  console.log("showList의 2번째 요소 타입 : " + typeof showList[1]);
 
   return (
     <>
@@ -127,7 +138,7 @@ export default function Follow() {
                 <div className="text-sm text-gray-500">{user.id}</div>
               </div>
               <button
-                onClick={() => handleFollow(user.id)}
+                onClick={() => handleUnFollow(user.id)}
                 className="text-black font-bold bg-gray-200 py-1 px-4 rounded-md hover:bg-gray-300"
               >
                 팔로잉

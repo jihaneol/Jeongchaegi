@@ -1,7 +1,8 @@
 package com.oppas.service;
 
+import com.oppas.dto.policy.HotPolicyDTO;
 import com.oppas.dto.policy.PolicySummaryDTO;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.PolicyScrap;
 import com.oppas.repository.MemberRepository;
@@ -58,7 +59,7 @@ public class ScrapService {
             policyPages.add(modelMapper.map(policy, PolicySummaryDTO.class));
         }
 
-        return new PageImpl<>(policyPages, PageRequest.of(pageIndex - 1, 20), policyPages.size());
+        return new PageImpl<>(policyPages, PageRequest.of(pageIndex - 1, 10), policyPages.size());
     }
 
     /**
@@ -82,5 +83,22 @@ public class ScrapService {
     public void cancelPolicyScrap(Long memberId, Long policyId) throws Exception {
         policyScrapRepository.deleteByMemberIdAndPolicyId(memberId, policyId);
     }
+
+    public List<HotPolicyDTO> getMostScrappedPolicies() {
+        List<Object[]> results = policyScrapRepository.findTop10MostScrappedPolicies();
+        List<HotPolicyDTO> dtoList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Long policyId = (Long) result[0];
+            String polyBizSjnm = (String) result[1];
+            Long scrapCount = (Long) result[2];
+
+            HotPolicyDTO dto = new HotPolicyDTO(policyId, polyBizSjnm, scrapCount);
+            dtoList.add(dto);
+        }
+
+        return dtoList;
+    }
+
 
 }

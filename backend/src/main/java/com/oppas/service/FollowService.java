@@ -2,8 +2,8 @@ package com.oppas.service;
 
 import com.oppas.dto.member.FollowInfo;
 import com.oppas.dto.member.FollowListDTO;
-import com.oppas.entity.Follow;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Follow;
+import com.oppas.entity.member.Member;
 import com.oppas.repository.FollowRepository;
 import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

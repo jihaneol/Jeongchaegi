@@ -43,20 +43,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf().disable();
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        /**
+         * 인증 인가 기능
+         */
+        http
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/api/members/**").authenticated()
-                .antMatchers(HttpMethod.DELETE,"/api/members/**", "/api/posts/*").authenticated()
-                .antMatchers(HttpMethod.PUT,"/api/members/**", "/api/posts", "/api/members/{memberId}/edit").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/members/**", "/api/posts/*").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/members/**", "/api/posts", "/api/members/{memberId}/edit").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/members/**", "/api/posts").authenticated()
                 .anyRequest().permitAll();
 
-        http.exceptionHandling() // 예외 처리 기능 작동
+        /**
+         * 예외 처리 기능 작동
+         */
+        http.exceptionHandling()
                 .authenticationEntryPoint(new AuthenticationEntryPoint() {
                     @Override
                     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
@@ -73,6 +79,9 @@ public class SecurityConfig {
                     }
                 });
 
+        /**
+         * 소셜 로그인
+         */
         http
                 .oauth2Login()
                 .userInfoEndpoint()
@@ -81,11 +90,17 @@ public class SecurityConfig {
                 .successHandler(loginSuccessHandler())
                 .failureHandler(loginFailureHandler());
 
+        /**
+         * jwt 필터 기능
+         */
         http.addFilter(new JwtAuthenticationProcessingFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtService, memberRepository));
 
         return http.build();
     }
 
+    /**
+     * 소셜 로그인
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -106,6 +121,4 @@ public class SecurityConfig {
     public LoginFailureHandler loginFailureHandler() {
         return new LoginFailureHandler();
     }
-
-
 }
