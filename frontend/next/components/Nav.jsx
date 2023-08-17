@@ -92,7 +92,7 @@ export default function Nav() {
             마이페이지
           </button>
         </div>
-        {!userData.isLogined ? (
+        {userData.isLogined ? (
           <Link href="/login">
             <a
               className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}

@@ -7,17 +7,20 @@
 }
 
 .nav_logout_box{
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex: 1;
 }
 
 .nav_reset_box {
-  font-size: 13px;
-  line-height: 10px;
-  top: 10%;
+  font-size: 11px;
+  line-height: 16px;
   display: flex;
   flex-direction: column;
+  margin-right: 20px;
+  margin-top: 20px;
+  justify-content: center;
 }
 
 .nav_reset_box > button {
