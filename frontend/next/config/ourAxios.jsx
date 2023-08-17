@@ -81,9 +81,6 @@ export default function OurAxios() {
             return api(originalRequest);
           })
           .catch((error) => {
-            alert("로그인이 만료되었습니다.");
-            logout();
-            Router.push("/");
             return Promise.reject(error);
           });
       } else {
