@@ -15,8 +15,8 @@ export default function NoticeModal({
 }) {
   const [mention, setMention] = useState("등록");
   const [eventId, setEventId] = useState([]);
+  const [calendarId, setCalendarId] = useState("");
   const api = OurAxios();
-  let calendarId;
   // type 을 받아와서, type 이 true면 삭제, false면 등록
 
   async function findJCG(calendars) {
@@ -27,7 +27,7 @@ export default function NoticeModal({
     return calendar;
   }
 
-  async function createKakaoEvent(events, index, kakaoToken, calendarId) {
+  async function createKakaoEvent(events, index, kakaoToken) {
     console.log("카카오 일정 생성 시도! -> event 객체");
     const event = events[index];
     console.log(event);
@@ -82,7 +82,8 @@ export default function NoticeModal({
         console.log("캘린더 목록 가져오기 성공!");
         console.log(res);
         // 캘린더 이름이 "정채기"인 거 찾기
-        calendarId = await findJCG(res.data.calendars);
+        const calendarIdRet = await findJCG(res.data.calendars);
+        setCalendarId(calendarIdRet);
       })
       .catch((err) => {
         console.log("캘린더 목록 가져오기 실패");
@@ -109,7 +110,7 @@ export default function NoticeModal({
     })
       .then((res) => {
         console.log("캘린더 생성 성공!");
-        calendarId = res.data;
+        setCalendarId(res.data);
       })
       .catch((err) => {
         console.log("캘린더 생성 실패");
