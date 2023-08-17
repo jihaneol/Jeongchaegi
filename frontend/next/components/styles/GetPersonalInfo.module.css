@@ -8,15 +8,18 @@
   margin: 0px 14px;
   width: 40%;
   padding: 2px 2px 2px 5px;
+  border: 1px solid rgb(159, 159, 159);
 }
 .nickname_wrapper >label {
   font-weight: bold;
+  line-height: 40px;
 }
 
 .nickname_wrapper > button {
   border: 0px;
   background-color: skyblue;
   border-radius: 4px;
+  padding: 5px;
 }
 
 .birth_wrapper > div > label {

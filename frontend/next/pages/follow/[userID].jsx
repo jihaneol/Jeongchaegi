@@ -1,78 +1,153 @@
 import React, { useEffect, useState } from "react";
-import OurAxios from "../../config/ourAxios";
 import Nav from "../../components/Nav";
 import Image from "next/image";
+import FollowPage from "../../components/FollowPage";
+import OurAxios from "../../config/ourAxios";
 
 export default function Follow() {
-  const [followNum, setFollowNum] = useState(0);
-  const [followList, setFollowList] = useState([]);
-  const userInfo = [
-    {
-      refreshToken: "Token",
-      userName: "심경섭",
-      userAge: 26,
-      userCity: "파주",
-      userImg: "/testImg.jpg",
-      userID: 17,
-      userPolicy: [123, 322, 111],
-    },
-    {
-      refreshToken: "Token",
-      userName: "김창희",
-      userAge: 27,
-      userCity: "서울",
-      userImg: "/testImg.jpg",
-      userID: 18,
-      userPolicy: [123, 322, 111],
-    },
-  ];
+  const api = OurAxios();
+  const [search, setSearch] = useState(""); // 검색어
+  const [followNum, setFollowNum] = useState(0); // 팔로우 수
+  const [followList, setFollowList] = useState([]); // 팔로우 리스트
+  const [showList, setShowList] = useState(followList); // 출력용 리스트
+  const [showModal, setShowModal] = useState(null); // 모달
 
-  // ①팔로우 수 ②팔로우 리스트 받아오기
+  // ①팔로워 수 ②팔로워 리스트 받아오기
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const ourAxios = OurAxios();
-        const responseNum = await ourAxios.get("/members/followInfo");
-        setFollowNum(responseNum.data);
-        const responseList = await ourAxios.get("/members/followeeList");
-        setFollowList(responseList.data);
-      } catch (error) {
-        console.error("There was an error fetching the data:", error);
-      }
-    };
+    const myData = localStorage.getItem("persist:root");
 
-    fetchData();
+    if (myData) {
+      const parsedValue = JSON.parse(myData);
+      const userObject = JSON.parse(parsedValue.user);
+      const myId = userObject.id;
+
+      const fetchData = async () => {
+        api
+          .get("/members/followInfo", { params: { memberId: myId } })
+          .then((responseObject) => {
+            console.log(typeof responseObject.data);
+            console.log(responseObject.data);
+
+            setFollowNum(responseObject.data.followee);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+        api
+          .get("/members/followeeList")
+          .then((responseList) => {
+            console.log(typeof responseList.data);
+            console.log(responseList.data);
+
+            setFollowList(responseList.data);
+            const list = followList.slice();
+            setShowList(list);
+            console.log(showList);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+
+      fetchData();
+    } else {
+      console.log("persist:root 값을 찾을 수 없습니다.");
+    }
   }, []);
 
-  // console.log(followLIst);
-  console.log(userInfo);
+  const handleUnFollow = (id) => {
+    api
+      .delete(`/members/${id}/unFollow`)
+      .then((res) => {
+        const afterList = followList.filter((user) => user.id !== id);
+        setFollowList(afterList);
+        setShowList(afterList);
+        console.log(showList);
+
+        console.log(afterList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const searchName = async () => {
+    api
+      .get("/members/followeeList", {
+        params: {
+          nickname: search,
+        },
+      })
+      .then((responseSearch) => {
+        setShowList(responseSearch.data);
+        console.log(showList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <Nav />
-      <div className="bg-gray-100 h-screen p-4 mt-24">
-        <div className="mb-6">
+      <div className="bg-gray-100 min-h-screen mt-24 px-80 py-4">
+        <div className="flex justify-between items-cetnter mb-6">
           <h1 className="text-2xl font-bold text-gray-800">팔로우 리스트</h1>
+          <span>{followNum}</span>
+          <div className="flex justify-end ml-auto w-3/4">
+            <input
+              className="border rounded w-2/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="닉네임 검색 ex) 심뿐이"
+              value={search}
+              onChange={handleSearch}
+            />
+            <button
+              className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={searchName}
+            >
+              입력
+            </button>
+          </div>
         </div>
-        {userInfo.map((user) => {
+        {showList.map((user, index) => {
           return (
             <div
-              className="flex items-center bg-white p-4 mb-4 rounded-md shadow-sm"
-              key={user.userID}
+              className="relative flex items-center bg-white p-4 mb-4 rounded-md shadow-sm"
+              key={user.id}
             >
               <Image
-                src={user.userImg}
-                alt={user.userName}
-                className="w-12 h-12 rounded-full mr-4"
+                src={user.img}
+                alt={user.nickname}
+                width={48}
+                height={48}
+                className="rounded-full mr-6"
+                onMouseEnter={() => setShowModal(index)} // index를 사용하여 어떤 이미지에 대한 모달인지 구분
+                // onMouseLeave={() => setShowModal(null)}
               />
-              <div className="flex-grow">
+              <div className="flex-grow pl-6">
                 <div className="font-semibold text-gray-700">
-                  {user.userName}
+                  {user.nickname}
                 </div>
-                <div className="text-sm text-gray-500">{user.userCity}</div>
+                <div className="text-sm text-gray-500">{user.id}</div>
               </div>
-              <button className="text-white bg-blue-500 py-1 px-4 rounded-md">
-                팔로우
+              <button
+                onClick={() => handleUnFollow(user.id)}
+                className="text-black font-bold bg-gray-200 py-1 px-4 rounded-md hover:bg-gray-300"
+              >
+                팔로잉
               </button>
+
+              {/* Modal */}
+              {showModal === index && (
+                <div className="absolute top-10 left-20 mt-4 bg-white rounded-md shadow-lg z-10">
+                  <FollowPage user={user} />
+                </div>
+              )}
             </div>
           );
         })}

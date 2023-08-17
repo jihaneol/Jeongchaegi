@@ -76,10 +76,10 @@
 
 .calendar_wrapper {
   height: 80vh;
-  background-color: #d0ddff;
+  /* background-color: #d0ddff; */
   position: relative;
   display: flex;
-  margin-top: 5rem;
+  margin-top: 1rem;
 }
 
 /* .outer_wrapper {

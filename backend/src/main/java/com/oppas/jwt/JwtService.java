@@ -134,7 +134,6 @@ public class JwtService {
      */
     public Optional<String> extractName(String accessToken) {
         try {
-            log.info("유저정보 추출");
             // 토큰 유효성 검사하는 데에 사용할 알고리즘이 있는 JWT verifier builder 반환
             return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
                     .build() // 반환된 빌더로 JWT verifier 생성
@@ -149,7 +148,7 @@ public class JwtService {
 
     public void setKakaoTokenHeader(HttpServletResponse response, String kakaoToken) {
         Cookie cookie = new Cookie("kt", kakaoToken);
-        cookie.setMaxAge(60 * 2);
+        cookie.setMaxAge(60);
         cookie.setPath("/");
         // =============================================잠깜만 수정좀
         // cookie.setDomain("www.jeongchaegi.com");
@@ -164,11 +163,8 @@ public class JwtService {
             response.setHeader("accessToken", accessToken);
         } else {
             Cookie cookie = new Cookie("at", accessToken);
-            cookie.setMaxAge(60 * 2);
+            cookie.setMaxAge(60);
             cookie.setPath("/");
-            // =============================================잠깜만 수정좀
-            // cookie.setDomain("www.jeongchaegi.com");
-            //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
     }
@@ -182,7 +178,7 @@ public class JwtService {
         } else {
             
             Cookie cookie = new Cookie("rt", refreshToken);
-            cookie.setMaxAge(2 * 60);
+            cookie.setMaxAge(60);
             cookie.setPath("/");
             // =============================================잠깜만 수정좀
             // cookie.setDomain("www.jeongchaegi.com");

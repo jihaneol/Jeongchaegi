@@ -23,7 +23,7 @@ export default function UserInfo() {
   }
 
   function submitUserInfo() {
-    api.post("/members/signup", {
+    api.post("/login/signup", {
       policyId: userData.policyType,
       age: userData.age,
       city: userData.city,

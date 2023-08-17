@@ -11,7 +11,8 @@ import java.util.List;
 
 // ORM - Object Relation Mapping
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Builder
@@ -28,7 +29,7 @@ public class Member {
     private String name;
     @Column(nullable = false)
     private String email;
-    @Column(unique=true)
+    @Column(unique = true)
     private String nickname; // 닉네임
     private String role; //ROLE_USER, ROLE_ADMIN
     // OAuth를 위해 구성한 추가 필드 2개
@@ -42,14 +43,16 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<PolicyMemberMapped> policyMemberMappeds = new ArrayList<>();
 
-    @OneToMany(mappedBy = "follower",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
     private final List<Follow> followerList = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "followee",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL)
     private final List<Follow> followeeList = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private final List<Post> post = new ArrayList<>();
 
 
     public void updateRefreshToken(String updateRefreshToken) {
@@ -64,6 +67,10 @@ public class Member {
         this.city = userSignUpDTO.getCity();
         this.age = userSignUpDTO.getAge();
         this.nickname = userSignUpDTO.getNickname();
+    }
+
+    public int postCount() {
+        return this.post.size();
     }
 
     public int followCount() {

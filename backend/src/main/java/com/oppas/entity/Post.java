@@ -1,5 +1,6 @@
 package com.oppas.entity;
 
+import com.oppas.entity.policy.Policy;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,14 +23,21 @@ public class Post {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-
+    @ManyToOne
+    @JoinColumn(name = "policy_id")
+    private Policy policy;
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
+
+
+
+
 
 
     public void modifyPost(String title, String content){
@@ -41,15 +49,5 @@ public class Post {
     public void setWriter(Member member){
         this.member = member;
 
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
     }
 }

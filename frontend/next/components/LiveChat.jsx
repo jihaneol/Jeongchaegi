@@ -5,11 +5,12 @@ import axios from "axios";
 export default function LiveChat(props) {
   const [inputMessage, setInputMessage] = useState("");
   const { client, messages, setMessages } = useStompClient(
-    "http://3.36.131.236/ws/policychat",
+    "http://www.jeongchaegi.com/ws/policychat",
     `/sub/policychat${props.pageId}`
   );
   // "http://3.36.131.236/ws/policychat", 서버
   // "http://localhost:8081/ws/policychat", 로컬
+  // "http://www.jeongchaegi.com/ws/policychat", 정채기
 
   const textareaRef = useRef(null); // 웹소켓 채팅입력
   // 채팅입력 높이 조절 함수
@@ -79,19 +80,20 @@ export default function LiveChat(props) {
         console.log(firstMessage);
       }
 
-      console.log(data);
+      // console.log(data);
       const response = await axios.post(
-        `http://3.36.131.236/api/chats/${props.pageId}`,
+        `http://www.jeongchaegi.com/api/chats/${props.pageId}`,
         data
       );
-      console.log(response.data); // 객체 배열
+      // console.log(response.data); // 객체 배열
       if (response.data.length !== 0)
         setMessages([...response.data, ...messages]);
-      console.log(messages);
+      // console.log(messages);
     } catch (error) {
       console.error("Error sending POST request:", error);
     }
   };
+  // `http://www.jeongchaegi.com/api/chats/${props.pageId}`, 정채기
   // `http://3.36.131.236/api/chats/${props.pageId}`, 서버
   // `http://localhost:8081/api/chats/${props.pageId}`, 로컬
 
@@ -123,7 +125,7 @@ export default function LiveChat(props) {
           const timePart = content.createdAt.split(" ")[1];
           const [hours, minutes] = timePart.split(":");
           const timeString = `${hours}:${minutes}`;
-          const isCurrentUser = content.memberId === props.userId;
+          const isCurrentUser = content.memberId == props.userId;
           return (
             <>
               {index === 0 || (prevDate && currentDate !== prevDate) ? (

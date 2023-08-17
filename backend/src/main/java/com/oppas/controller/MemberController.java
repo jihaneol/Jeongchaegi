@@ -1,9 +1,11 @@
 package com.oppas.controller;
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.member.*;
+import com.oppas.dto.member.FollowInfo;
+import com.oppas.dto.member.FollowListDTO;
+import com.oppas.dto.member.MemberForm;
+import com.oppas.dto.member.MemberResponse;
 import com.oppas.entity.Member;
-import com.oppas.jwt.JwtResponse;
 import com.oppas.jwt.JwtService;
 import com.oppas.repository.MemberRepository;
 import com.oppas.service.FollowService;
@@ -15,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -36,56 +36,18 @@ public class MemberController {
     private final JwtService jwtService;
     private final FollowService followService;
 
+
+
     @ExceptionHandler(RuntimeException.class)
     public Object processValidationError(RuntimeException ex) {
         log.info("에러 확인 {}", ex.getStackTrace());
         return ResponseEntity.badRequest().build();
-//        return ApiResponse.error(ApiStatus.SYSTEM_ERROR, ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
-
-    @GetMapping("/find/{nickname}")
-    public ResponseEntity<?> checkNickName(@PathVariable String nickname) {
-        boolean flag = memberService.findNickName(nickname);
-        if (flag) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/refresh-token")
-    public ResponseEntity<?> refreshToekn(HttpServletRequest request) {
-        Member member = memberRepository.findByRefreshToken(jwtService.extractRefreshToken(request).get()).get();
-        String reIssueRefreshToken = jwtService.reIssueRefreshToken(member);
-        String accessToken = jwtService.createAccessToken(member.getName());
-        JwtResponse jwtResponse = new JwtResponse(reIssueRefreshToken, accessToken);
-
-        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/logout")
-    public ResponseEntity<?> logout() {
-        log.info("로그 아웃 완료");
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO,
-                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        long id = principalDetails.getId();
-        memberService.signUp(memberSignUpDTO, id);
-        log.info("회원가입 성공");
-        // 리다이렉트
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 
     @GetMapping("/info")
     public ResponseEntity<?> info(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long id = principalDetails.getId();
         Member member = memberRepository.findById(id).get();
-
         return new ResponseEntity<>(new MemberResponse(member), HttpStatus.OK);
     }
 
@@ -101,7 +63,9 @@ public class MemberController {
     public ResponseEntity<?> followMember(@PathVariable("toMemberId") Long to,
                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long from = principalDetails.getId();
-        followService.follow(to, from);
+        if(!followService.follow(to, from)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -114,11 +78,11 @@ public class MemberController {
     }
 
     @GetMapping("/followInfo")
-    public ResponseEntity<?> followerInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long id = principalDetails.getId();
+    public ResponseEntity<?> followerInfo(@RequestParam("memberId") Long id) {
         FollowInfo followInfo = followService.Info(id);
         return new ResponseEntity<>(followInfo, HttpStatus.OK);
     }
+
 
     @GetMapping("/{toUserId}/check/follow")
     public ResponseEntity<?> checkFollow(@PathVariable("toUserId") Long toId,
@@ -142,6 +106,19 @@ public class MemberController {
         return new ResponseEntity<>(followListDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/search/follower")
+    public ResponseEntity<?> searchNicknameFollower(@RequestParam("nickname") String name, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long id = principalDetails.getId();
+        List<FollowListDTO> followListDTOS = followService.searchNicknameFollower(name, id);
+        return new ResponseEntity<>(followListDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/followee")
+    public ResponseEntity<?> searchNicknameFollowee(@RequestParam("nickname") String name, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long id = principalDetails.getId();
+        List<FollowListDTO> followListDTOS = followService.searchNicknameFollowee(name, id);
+        return new ResponseEntity<>(followListDTOS, HttpStatus.OK);
+    }
 
 
 }

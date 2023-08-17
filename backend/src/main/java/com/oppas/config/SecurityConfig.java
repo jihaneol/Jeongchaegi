@@ -8,21 +8,32 @@ import com.oppas.login.handler.LoginFailureHandler;
 import com.oppas.login.handler.LoginSuccessHandler;
 import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration // IoC 빈(bean)을 등록
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록이된다.
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) //secured 어노테이션 활성화 , preAuthorize활성화
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     private final JwtService jwtService;
@@ -39,11 +50,28 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/api/members/info").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/api/posts/*").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/posts", "/api/members/{memberId}/edit").authenticated()
-                .antMatchers(HttpMethod.POST, "/api/posts").authenticated()
+                .antMatchers("/api/members/**").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/api/members/**", "/api/posts/*").authenticated()
+                .antMatchers(HttpMethod.PUT,"/api/members/**", "/api/posts", "/api/members/{memberId}/edit").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/members/**", "/api/posts").authenticated()
                 .anyRequest().permitAll();
+
+        http.exceptionHandling() // 예외 처리 기능 작동
+                .authenticationEntryPoint(new AuthenticationEntryPoint() {
+                    @Override
+                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                        log.info("인증 실패시 {}", request.getRequestURI());
+                        response.setStatus(403);
+                    }
+                })
+                .accessDeniedHandler(new AccessDeniedHandler() {
+
+                    @Override
+                    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                        log.info("인가 실패시 {}", request.getRequestURI());
+                        response.setStatus(403);
+                    }
+                });
 
         http
                 .oauth2Login()

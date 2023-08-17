@@ -16,7 +16,7 @@ export default function OurAxios() {
 
   // axios 설정
   const api = axios.create({
-    baseURL: "http://3.36.131.236/api",
+    baseURL: "http://www.jeongchaegi.com/api",
     timeout: 5000,
     headers: {
       "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export default function OurAxios() {
       if (error.response && error.response?.status === 401) {
         // refresh token 전송하기
         api
-          .get("/members/refresh-token", {
+          .get("/login/refresh-token", {
             headers: {
               Authorization_refresh: `Bearer ${tokens.refreshToken}`,
             },

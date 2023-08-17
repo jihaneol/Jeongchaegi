@@ -15,73 +15,139 @@ import Head from "next/head";
 
 import Style from "../../styles/PolicyDetail.module.css";
 import LiveChat from "../../components/LiveChat";
+import OurAxios from "../../config/ourAxios";
+import CannotRegistNotice from "../../components/CannotRegistNotice";
+import CanRegistNotice from "../../components/CanRegistNotice";
+import NoticeModal from "../../components/NoticeModal";
+import { useSelector } from "react-redux";
+import CannotNoticeRegister from "../../components/CannotRegistNotice";
 
 export default function Page(props) {
-  // const router = useRouter();
-  console.log(props);
+  const router = useRouter();
   const post = props.post;
-  console.log(post);
+  const listId = router.query;
+  const api = OurAxios();
   // const keys = Object.keys(post);
   // console.log(keys);
 
+  const [refreshFlag, setRefreshFlag] = useState(false);
   // 북마크, 유저ID 상태 관리
   const [chkBookmark, setchkBookmark] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  useEffect(() => {
-    // 북마크 체크 확인
-    setUserId(localStorage.getItem("userID"));
+  // 알람 상태 관리
+  const [chkNotice, setChkNotice] = useState();
+  const [registerFlag, setRegisterFlag] = useState(false);
+  const [modalFlag, setModalFlag] = useState(false);
+  const userData = useSelector((state) => state.user);
+  const [eventID, setEventID] = useState([]);
 
-    if (post && post.id && userId) {
-      axios
+  // 알림 설정 가능 여부
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    console.log("At : ", accessToken);
+    console.log("policyDetail: ", userData.isLogined);
+    if (!userData.isLogined) {
+      console.log("로그아웃 상태");
+    } else {
+      console.log(listId);
+      if (!listId.id) {
+        console.log("listId 없음!");
+      } else {
+        api
+          .get(`/events/possible/policies/${listId.id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            setChkNotice(res.data);
+          })
+          .catch((err) => {
+            console.log("알림 설정 가능 여부 에러(policy detail)");
+            console.log(err);
+          });
+      }
+    }
+  }, [userData.isLogined, listId]);
+
+  useEffect(() => {
+    //
+    console.log("use Effect 확인");
+    // 북마크 체크 확인
+    const id = localStorage.getItem("userID");
+    console.log("id: ", id);
+    setUserId(id);
+
+    if (userData.isLogined && listId.id) {
+      api
         .get(
-          `http://3.36.131.236/api/scraps/check/members/${userId}/policies/${post.id}`
+          `/scraps/check/members/${id}/policies/${listId.id}`
         )
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
         })
-        .catch((error) => {
-          console.error("API 호출 중 오류 발생:", error.message);
+        .catch((err) => {
+          console.error("API 호출 중 오류 발생");
+          console.log(err);
         });
     }
-  }, [post]); // post가 변경될 때만 이 훅을 실행합니다.
+  }, [refreshFlag, listId.id]); // post가 변경될 때만 이 훅을 실행합니다.
 
-  // 북마크 추가
+  // 스크랩 제거
   const handleCancelBookmark = () => {
-    axios
-      .delete(
-        `http://3.36.131.236:8081/api/scraps/cancel/members/${userId}/policies/${post.id}`
-      )
+    api
+      .delete(`/scraps/cancel/members/${userId}/policies/${post.id}`)
       .then((response) => {
-        setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
+        console.log("스크랩 삭제 성공");
+        console.log(response);
+        setRefreshFlag((prev) => !prev);
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error.message);
       });
   };
 
+  // 스크랩 추가
   const handleAddBookmark = () => {
-    axios
-      .post(
-        `http://3.36.131.236:8081/api/scraps/scrap/members/${userId}/policies/${post.id}`
-      )
+    api
+      .post(`/scraps/scrap/members/${userId}/policies/${post.id}`)
       .then((response) => {
-        setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
+        console.log("스크랩 등록 성공");
+        console.log(response);
+        setRefreshFlag((prev) => !prev);
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error.message);
       });
   };
+
+  function modalClose() {
+    if (modalFlag === true) setModalFlag(false);
+  }
+
+  function registerSet(val, type) {
+    // type : true -> 삭제, false -> 등록
+    setModalFlag(val);
+    setRegisterFlag(type);
+  }
+
+  function getEventID(val) {
+    setEventID(val);
+  }
 
   return (
-    <div>
+    <div className={`text-gray-800 ${modalFlag ? Style.on : ""}`}>
       {post ? (
         <>
           <Head>
             <title>{post.polyBizSjnm}</title>
           </Head>
           <Nav />
-          <div className={`${Style.wrap} max-w-6xl mx-auto p-6`}>
+          <div
+            className={`${Style.wrap} container mx-auto p-6 bg-white text-gray-800`}
+          >
             <div
               className={`${Style.container} flex justify-between items-center mb-6`}
             >
@@ -89,22 +155,52 @@ export default function Page(props) {
                 <FaBars className="text-gray-600 mr-4 cursor-pointer" />
                 <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
                 <div className={`${Style.icon} flex items-center`}>
-                  {chkBookmark ? (
-                    <FaCalendarCheck className="cursor-pointer" />
+                  {/* 알림 설정 파트 */}
+                  {/* 알림 설정 되어 있는지 여부는 여기 파일에서 확인 */}
+                  {/* 나머지 작업은 컴포넌트 만들어야 함 */}
+                  {!chkNotice ? (
+                    <>
+                      <CannotRegistNotice shape="Bell" />
+                    </>
                   ) : (
-                    <FaRegCalendar className="cursor-pointer" />
+                    <div>
+                      <CanRegistNotice
+                        className="cursor-pointer"
+                        postNum={post.id}
+                        registerSet={registerSet}
+                        refreshFlag={refreshFlag}
+                        getEventIdProps={getEventID}
+                      />
+                      {modalFlag ? (
+                        <NoticeModal
+                          type={registerFlag}
+                          title={post.polyBizSjnm}
+                          modalClose={modalClose}
+                          setRefreshFlag={setRefreshFlag}
+                          eventIdProp={eventID}
+                          policyIdProp={listId.id}
+                        />
+                      ) : null}
+                    </div>
                   )}
-                  {chkBookmark ? (
-                    <FaBookmark
-                      className="cursor-pointer"
-                      onClick={handleCancelBookmark}
-                    />
+                  {/* 알림 끝 */}
+                  {/* 스크랩 시작 */}
+                  {userData.isLogined ? (
+                    chkBookmark ? (
+                      <FaBookmark
+                        className="cursor-pointer"
+                        onClick={handleCancelBookmark}
+                      />
+                    ) : (
+                      <FaRegBookmark
+                        className="cursor-pointer"
+                        onClick={handleAddBookmark}
+                      />
+                    )
                   ) : (
-                    <FaRegBookmark
-                      className="cursor-pointer"
-                      onClick={handleAddBookmark}
-                    />
+                    <CannotNoticeRegister />
                   )}
+                  {/* 스크랩 끝 */}
                 </div>
               </div>
               <div
@@ -114,7 +210,7 @@ export default function Page(props) {
                   <p>{post.polyItcnCn}</p>
                 </div>
                 <div className={Style.summary}>
-                  <h2>한 눈에 보는 정책 요약</h2>
+                  <h2 className="font-bold">한 눈에 보는 정책 요약</h2>
                 </div>
                 <div className={Style.summary_box}>
                   <div className={Style.summary_ctt}>
@@ -157,7 +253,7 @@ export default function Page(props) {
                   </div>
                 </div>
                 <div className={Style.summary}>
-                  <h2>신청자격</h2>
+                  <h2 className="font-bold">신청자격</h2>
                 </div>
                 <div className={Style.summary_box}>
                   <div className={Style.summary_ctt}>
@@ -208,7 +304,7 @@ export default function Page(props) {
                   </div>
                 </div>
                 <div className={Style.summary}>
-                  <h2>신청방법</h2>
+                  <h2 className="font-bold">신청방법</h2>
                 </div>
                 <div className={Style.summary_box}>
                   <div className={Style.summary_ctt}>
@@ -237,7 +333,7 @@ export default function Page(props) {
                   </div>
                 </div>
                 <div className={Style.summary}>
-                  <h2>기타</h2>
+                  <h2 className="font-bold">기타</h2>
                 </div>
                 <div className={Style.summary_box}>
                   <div className={Style.summary_ctt}>
@@ -261,7 +357,9 @@ export default function Page(props) {
                       사업관련 참고 사이트1
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      {post.rfcSiteUrla1}
+                      <a href={post.rfcSiteUrla1} target="_blank">
+                        {post.rfcSiteUrla1}
+                      </a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
@@ -269,7 +367,9 @@ export default function Page(props) {
                       사업관련 참고 사이트2
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      {post.rfcSiteUrla2}
+                      <a href={post.rfcSiteUrla2} target="_blank">
+                        {post.rfcSiteUrla2}
+                      </a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
@@ -290,7 +390,7 @@ export default function Page(props) {
           </div>
         </>
       ) : (
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex justify-center items-center min-h-screen bg-white text-gray-800">
           <p>Loading...</p>
         </div>
       )}

@@ -16,7 +16,7 @@ export default function HomeCalendar({ modalActive, getTargetDate }) {
   }
   return (
     <div
-      className={`${style.calendar_wrapper} flex items-center justify-center space-x-4`}
+      className={`${style.calendar_wrapper} flex items-center justify-center space-x-4 shadow-xl`}
     >
       <ReactCalendar
         position="left"

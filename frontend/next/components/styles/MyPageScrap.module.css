@@ -6,19 +6,21 @@
 
 .scrap_card_wrapper {
 	flex: 4;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-evenly;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
 }
 
 .scrap_card {
-	width: 40%;
-	border: 1px solid black;
-	border-radius: 10px;
-	margin: 10px;
-	background-color: white;
-	text-align: center;
-	height: 40%;
+	width: 80%;
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin: 18px auto;
+    background-color: #fff;
+    text-align: center;
+    height: 60%;
+    line-height: 55px;
+    font-weight: bold;
 }
 
 .scrap_seeMore {

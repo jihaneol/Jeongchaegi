@@ -65,4 +65,16 @@ public class PostController {
         return new ResponseEntity(httpStatus);
     }
 
+
+
+    @GetMapping("/search")
+    public ResponseEntity searchPost(String keyword,
+                                     @RequestParam int pageIndex){
+
+        System.out.println(keyword);
+        Page<ResponsePostDto> posts = postService.getSearchList(keyword,pageIndex);
+       
+        return new ResponseEntity(posts,HttpStatus.OK);
+    }
+
 }

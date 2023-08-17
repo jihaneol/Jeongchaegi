@@ -1,10 +1,14 @@
+.on {
+  /* opacity: 0.5; */
+  background-color: rgba(208, 221, 255, 0.5);
+}
+
 .wrap {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   margin-top: 80px;
-  background-color: #d0ddff;
 }
 
 .container {
@@ -112,7 +116,7 @@
   margin-top: 2em;
   padding-bottom: 1em;
   border-bottom: 0.5px solid black;
-  background-color: thistle;
+  background-color: #bdc3c7;
 }
 
 .summary_ctt {
@@ -133,4 +137,47 @@
 .summary_ctt_right {
   display: flex;
   width: 75%;
+}
+
+.popover_box {
+  /* 기타 스타일 */
+  position: absolute;
+  border: 1px solid black;
+  transform: translateX(-90%);
+  padding: 0px 0px 10px 0px;
+  background-color: white;
+  border-radius: 10px;
+  width: auto;
+  white-space: nowrap;
+  font-size: 13px;
+  transition: opacity 0.3s, visibility 0.3s;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.popover_box.visible {
+  position: absolute;
+  border: 1px solid black;
+  transform: translateX(-90%);
+  padding: 0px 0px 10px 0px;
+  background-color: white;
+  border-radius: 10px;
+  width: auto;
+  white-space: nowrap;
+  font-size: 13px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.popover_header {
+  text-align: center;
+  font-weight: bold;
+  background-color: thistle;
+  color: white;
+  margin-bottom: 5px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.popover_content {
+  padding: 0px 10px;
 }

@@ -26,8 +26,7 @@ let lastPage = 999999999999;
 
 export default function PolicyList() {
   const router = useRouter();
-  const { calendarActive } = router.query;
-  const api = OurAxios();
+  const { calendarActive, date } = router.query;
 
   // State 모음
   const [isCalendarActive, setIsCalendarActive] = useState(
@@ -41,10 +40,10 @@ export default function PolicyList() {
 
   // useEffect 관리 모음
   useEffect(() => {
-    console.log("why?", router);
     page = 1;
     lastPage = 9999999;
     setpcy([]);
+    setTargetDate(null)
 
     getPcyData(page, router.query);
   }, [router.query]); // url 쿼리 바뀔 시 실행,
@@ -52,9 +51,9 @@ export default function PolicyList() {
   useEffect(() => {
     // 컴포넌트 생성시 할것들
 
-    // if (calendarDate) {
-    //   setTargetDate(new Date(calendarDate));
-    // } else setTargetDate(new Date());
+    if (date) {
+      setTargetDate(new Date(date));
+    }
     page = 1;
     lastPage = 9999999;
   }, []);
@@ -63,7 +62,7 @@ export default function PolicyList() {
     // 스크롤 이벤트는 처음 했던거 기준으로만 됨 그래서 계속 함수 최신화 할거임 근데 계속 함수 생성하니까 문제, 어떻게 하지?
     const timer = setInterval(() => {
       window.addEventListener("scroll", handleScroll);
-    }, 500);
+    }, 100);
     return () => {
       // 컴포넌트 생성시 스크롤 이벤트, 끝날때 없애기
       clearInterval(timer);
@@ -98,7 +97,7 @@ export default function PolicyList() {
         delete paramobj[key];
       }
     }
-    console.log(paramobj, "완성 param"); // 완성된 params
+    // console.log(paramobj, "완성 param"); // 완성된 params
 
     router.replace({
       // url 변경함 그리고 가져올거임
@@ -110,8 +109,6 @@ export default function PolicyList() {
   // policy data 서버에서 받기, 나중에 수정 예정
   function getPcyData(page, paramobj = "") {
     setIsLoadingList((isLoadingList) => !isLoadingList);
-    console.log(page);
-    console.log(lastPage);
     axios({
       method: "get",
       url: "http://3.36.131.236/api/policies",
@@ -119,18 +116,14 @@ export default function PolicyList() {
         ...paramobj,
         pageIndex: page,
       },
-      // headers:{
-      //   lol: 'lol'
-      // },
     })
-      // api.get('/policies?pageIndex=1')
       .then((res) => {
         if (!pcydata) {
-          console.log(res.request.responseURL); // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
+          // console.log(res.request.responseURL); // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
           lastPage = res.data.totalPages; // 그래도 처음꺼 더 바꾸기 귀찮아서 내버려 둠
           setpcy([...res.data.content]);
         } else {
-          console.log(res.request.responseURL);
+          // console.log(res.request.responseURL);
           lastPage = res.data.totalPages;
           setpcy((pcydata) => [...pcydata, ...res.data.content]);
         }
@@ -157,7 +150,10 @@ export default function PolicyList() {
   }
 
   function handleItemClick(itemId) {
-    router.push(`/policydetail/${itemId}`);
+    router.push({
+      pathname: `/policydetail/${itemId}`,
+      query: { itemId: itemId },
+    });
     // Do whatever you want with the clicked item ID
   }
 
@@ -166,7 +162,6 @@ export default function PolicyList() {
   }
 
   function onClickDay(e) {
-    console.log(targetDate, e);
     if (targetDate) {
       // 날짜가 입력되어 있는 경우
       if (
@@ -187,7 +182,7 @@ export default function PolicyList() {
       <Nav />
       {/* fixed calendar */}
       {isCalendarActive ? (
-        <div className={`${style.calendar_wrap} d-none d-lg-flex`}>
+        <div className={`${style.calendar_wrap}`}>
           <div className={style.calendar_wrap_header}>날짜를 설정하세요</div>
           {isCalendarActive === true ? (
             <PolicyListCalendar
@@ -203,23 +198,28 @@ export default function PolicyList() {
         className={`${style.list_wrap_container}
           ${isCalendarActive ? style.list_wrap_on : style.list_wrap_off}`}
       >
-        {/* 검색창 */}
-        <PolicyListSearch submitParamsToBack={submitParamsToBack} />
-
         {/* 필터 */}
         <PolicyFilter
           isCalendarActive={isCalendarActive}
           calendarBtnClick={calendarBtnClick}
         />
+        {/* 검색창 */}
+        <PolicyListSearch submitParamsToBack={submitParamsToBack} />
 
         {/* 정렬 기능 */}
-        <PolicyListSort />
+        {/* <PolicyListSort /> */}
 
         {/* pcylist */}
         <div className={isFirstLoadingList ? style.loading : style.pcylist}>
           <PcyListItem obj={pcydata} onItemClick={handleItemClick} />
           {isFirstLoadingList ? (<Spin />) : ""}
         </div>
+        <span className={style.loading}>
+          {!isFirstLoadingList && isLoadingList ? (<Spin />) : ""}
+        </span>
+        <span className={`${style.loading} font-bold`}>
+          {lastPage <= page ? '마지막 페이지 입니다.' : false}
+        </span>
       </div>
     </div>
   );

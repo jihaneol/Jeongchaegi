@@ -24,7 +24,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`${style.all_wrapper} bg-gray-100 min-h-screen p-4`}>
+    <div>
       <Nav />
       <Modal modalFlag={modalFlag} onClose={onClose} targetDate={targetDate} />
       <div

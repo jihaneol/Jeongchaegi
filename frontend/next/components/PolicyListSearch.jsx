@@ -23,13 +23,13 @@ export default function PolicyListSearch({ submitParamsToBack }) {
   return (
     <form
       action=""
-      className={`input-group mb-3 ${style.search_query}`}
+      className={`input-group px-4 mb-8`}
       onSubmit={submitParams}
     >
       <input
         type="text"
         className="form-control"
-        placeholder="search query"
+        placeholder="Search..."
         onChange={handleQuery}
       />
       <button className={`btn btn-outline-secondary btn-light`}>search</button>
