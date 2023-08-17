@@ -31,6 +31,7 @@ export default function Logout() {
         localStorage.removeItem("userID");
         localStorage.removeItem("userPolicy");
         dispatch(userActions.setisLogined(false));
+        console.log("로그아웃 성공");
       }).catch(err => {
         console.log("로그아웃 에러");
         console.log(err);
