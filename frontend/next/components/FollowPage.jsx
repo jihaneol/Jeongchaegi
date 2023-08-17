@@ -7,7 +7,11 @@ export default function FollowPage(props) {
   const user = props.user;
   const [myNickname, setMyNickname] = useState("");
   const [isFollow, setIsFollow] = useState(true);
-  const [followInfo, setFollowInfo] = useState(null);
+  const [followInfo, setFollowInfo] = useState({
+    follower: 0,
+    followee: 0,
+    post: 0,
+  });
   const router = useRouter();
   const api = OurAxios();
 
