@@ -76,9 +76,9 @@ export default function Page(props) {
     setUserId(localStorage.getItem("userID"));
 
     if (post && post.id && userId) {
-      axios
+      api
         .get(
-          `http://3.36.131.236/api/scraps/check/members/${userId}/policies/${post.id}`
+          `/scraps/check/members/${userId}/policies/${post.id}`
         )
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
@@ -91,9 +91,9 @@ export default function Page(props) {
 
   // 스크랩 제거
   const handleCancelBookmark = () => {
-    axios
+    api
       .delete(
-        `http://3.36.131.236/api/scraps/cancel/members/${userId}/policies/${post.id}`
+        `/scraps/cancel/members/${userId}/policies/${post.id}`
       )
       .then((response) => {
         console.log("스크랩 삭제 성공");
@@ -107,9 +107,9 @@ export default function Page(props) {
 
   // 스크랩 추가
   const handleAddBookmark = () => {
-    axios
+    api
       .post(
-        `http://3.36.131.236/api/scraps/scrap/members/${userId}/policies/${post.id}`
+        `/scraps/scrap/members/${userId}/policies/${post.id}`
       )
       .then((response) => {
         console.log("스크랩 등록 성공");
