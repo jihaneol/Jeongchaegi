@@ -306,14 +306,6 @@ export default function SelectPlace({getResidence}) {
           </option>
         ))}
       </select>
-      <select className={Style.select} name="gugun1" id="gugun1">
-        <option value="">구/군 선택</option>
-        {gugunOptions.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
     </div>
   );
 }

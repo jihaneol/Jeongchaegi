@@ -32,7 +32,7 @@ export default function PolicyListSearch({ submitParamsToBack }) {
         placeholder="Search..."
         onChange={handleQuery}
       />
-      <button className={`btn btn-outline-secondary btn-light`}>search</button>
+      <button className={`btn btn-outline-secondary btn-light`}>검색/적용</button>
     </form>
   );
 }
