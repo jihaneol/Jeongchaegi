@@ -173,6 +173,8 @@ export default function ArticleComment() {
             />
             <p className="font-semibold">{item.nickname}:</p>
             <p className="flex-1">{item.comment}</p>
+            {/* 댓삭버튼 */}
+            {userData.isLogined && (localStorage.getItem("userID") == item.memberId) ? 
             <button
               onClick={() => commentDel(item.id, item.memberId)}
               type="button"
@@ -194,7 +196,8 @@ export default function ArticleComment() {
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-            </button>
+            </button> : false
+            }
             {/* <button onClick={()=>commentUpdate(item.id, item.memberId)} className="bg-blue-500 text-white rounded px-2 py-1">
             update comment
           </button> */}
