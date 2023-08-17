@@ -11,31 +11,42 @@ export default function Follow() {
   const [followList, setFollowList] = useState([]); // 팔로우 리스트
   const [showList, setShowList] = useState(followList); // 출력용 리스트
   const [showModal, setShowModal] = useState(null); // 모달
-  const [followerInfo, setFollowerInfo] = useState(null); // 팔로우의 팔로우, 팔로워
 
   // ①팔로워 수 ②팔로워 리스트 받아오기
   useEffect(() => {
-    const fetchData = async () => {
-      api
-        .get("/members/followInfo")
-        .then((responseNum) => {
-          setFollowNum(responseNum.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    const myData = localStorage.getItem("persist:root");
 
-      api
-        .get("/members/followerList")
-        .then((responseList) => {
-          setFollowList(responseList.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
+    if (myData) {
+      const parsedValue = JSON.parse(myData);
+      const userObject = JSON.parse(parsedValue.user);
 
-    fetchData();
+      console.log(userObject.id);
+      console.log(typeof userObject.id);
+
+      const fetchData = async () => {
+        api
+          .get("/members/followInfo", { params: { memberId: userObject.id } })
+          .then((responseNum) => {
+            setFollowNum(responseNum.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+        api
+          .get("/members/followerList")
+          .then((responseList) => {
+            setFollowList(responseList.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+
+      fetchData();
+    } else {
+      console.log("persist:root 값을 찾을 수 없습니다.");
+    }
   }, []);
 
   const handleFollow = (id) => {

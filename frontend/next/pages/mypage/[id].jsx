@@ -6,12 +6,14 @@ import MyPageScrap from "../../components/MyPageScrap";
 import Link from "next/link";
 import Spin from "../../components/Spin";
 import OurAxios from "../../config/ourAxios";
+import { useSelector } from "react-redux";
 
 export default function Page() {
   // 변수
   const router = useRouter();
   const api = OurAxios();
   const myStatus = ["스크랩수", "작성글", "팔로우", "팔로워"];
+  const userData = useSelector(state => state.user);
 
   // state
   const [userImg, setUserImg] = useState("");
@@ -23,8 +25,16 @@ export default function Page() {
   }
 
   useEffect(() => {
-    getUserData();
-  }, []);
+    if (!userData.isLogined)
+    {
+      router.push("/login");
+      alert("로그인이 필요한 페이지입니다.");
+      return ;
+    }
+    else{
+      getUserData();
+    }
+  }, [])
 
   // 팔로우, 팔로워 페이지 이동
   function handleStatusCard(item) {
@@ -63,6 +73,8 @@ export default function Page() {
   // 팔로우, 팔로워 페이지 이동
 
   return (
+    <>
+    {userData.isLogined ? (
     <div className={style.all_wrapper}>
       <Nav />
       <div className={style.content_wrapper}>
@@ -117,5 +129,6 @@ export default function Page() {
         </div>
       </div>
     </div>
-  );
+  ) : ""}
+  </> )
 }
