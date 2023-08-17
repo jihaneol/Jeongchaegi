@@ -14,7 +14,7 @@ export default function Logout() {
   async function Logout() {
     const api = OurAxios();
     api
-      .delete("/members/logout/", {
+      .delete("/login/logout/", {
         headers: {
           Authorization_refresh: `Bearer ${tokens}`,
         },
