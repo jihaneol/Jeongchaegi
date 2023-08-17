@@ -14,7 +14,7 @@ export default function ArticleList() {
   const [articleData, setArticleData] = useState(null);
   const router = useRouter();
   const userData = useSelector((state) => state.user);
-  const api = OurAxios
+  const api = OurAxios()
 
   // 시작할때 데이터 받고 시작
 
