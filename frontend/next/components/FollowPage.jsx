@@ -87,24 +87,14 @@ export default function FollowPage(props) {
           </div>
           <div>
             <div className="text-lg font-bold">{user.nickname}</div>
-            <div className="text-sm text-gray-500">{user.id}</div>
+            <div className="text-sm text-gray-500">
+              {"memberId" in user ? user.memberId : user.id}
+            </div>
           </div>
         </div>
         <div className="flex justify-between mb-4">
           <div className="text-center mr-2">
-            <div className="text-lg font-semibold">
-              <Link
-                href={
-                  "memberId" in user
-                    ? `/myarticle/${user.memberId}`
-                    : `/myarticle/${user.id}`
-                }
-              >
-                <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
-                  {followInfo.post}
-                </a>
-              </Link>
-            </div>
+            <div className="text-lg font-semibold">{followInfo.post}</div>
             <div className="text-sm text-gray-500">게시글</div>
           </div>
           <div className="text-center mr-2">
