@@ -75,19 +75,12 @@ export default function CanRegistNotice({ postNum, registerSet, refreshFlag, get
 
   return (
     <div>
-      {/* 일정 등록은 가능한 정책 컴포넌트 */}
-      {/* 이미 등록되어 있을 때, 안되어 있을 때를 기준으로 나뉠듯 */}
       {registerFlag ? (
         <div>
           <FaBell className="cursor-pointer" onClick={onClickImg} />
-          {/* // 등록 되어 있으면
-          // 클릭 시 일정 삭제해야 함.
-          // 일정 삭제 모달 띄우기 */}
         </div>
       ) : (
         <FaRegBell className="cursor-pointer" onClick={onClickImg} />
-        // 등록 안 되어 있으면
-        // 클릭 시 일정 등록해야 함.
       )}
     </div>
   );

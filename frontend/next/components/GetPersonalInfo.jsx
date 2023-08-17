@@ -41,7 +41,7 @@ export default function GetPersonalInfo() {
     console.log(nickName);
     if (nickName !== "") {
       api
-        .get(`/members/find/${nickName}`)
+        .get(`/login/find/${nickName}`)
         .then((res) => {
           dispatch(userActions.setNickName(nickName));
           setIsOverlap(0);
