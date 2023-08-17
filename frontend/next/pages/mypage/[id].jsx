@@ -79,6 +79,17 @@ export default function Page() {
             </a>
           </Link>
         );
+      case "작성글":
+        return (
+          <Link href={`/myarticle/${localStorage.getItem("userID")}`}>
+            <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
+              <div className={style.status_card}>
+                <div className={style.status_card_header}>{item}</div>
+                <div className={style.status_card_content}>0</div>
+              </div>
+            </a>
+          </Link>
+        );
       default:
         return (
           <div className={style.status_card}>
