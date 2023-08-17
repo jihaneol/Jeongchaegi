@@ -28,13 +28,9 @@ export default function MyScrap() {
         },
       })
       .then((res) => {
-        console.log(res);
         setMyScrap(res.data.content);
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   function getScrapCnt() {
@@ -42,17 +38,11 @@ export default function MyScrap() {
     api
       .get(`/scraps/count/members/${id}/`)
       .then((res) => {
-        console.log("스크랩 수 받아오기 성공");
         setMyScrapCnt(res % 10 === 0 ? (res.data / 10) : (res.data / 10) + 1);
       })
-      .catch((err) => {
-        console.log("스크랩 수 받아오기 실패");
-        console.log(err);
-      });
   }
 
   function pageButtonClick(e) {
-    console.log(e);
     setPage(parseInt(e.target.textContent, 10));
   }
 
@@ -89,11 +79,8 @@ export default function MyScrap() {
     let idx = e.target.id;
     let scrapId = myScrap[idx - 1].id;
     api.delete(`scraps/cancel/members/${userName}/policies/${scrapId}`).then((res) => {
-      console.log("스크랩 취소 성공");
+      alert(`${myScrap[idx - 1].polyBizSjnm}을 스크랩 목록에서 삭제하였습니다.`)
       setIsRefresh(prev => !prev);
-    }).catch((err) => {
-      console.log("스크랩 취소 실패");
-      console.log(err);
     })
   }
 

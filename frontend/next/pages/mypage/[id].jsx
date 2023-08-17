@@ -4,7 +4,6 @@ import Nav from "../../components/Nav";
 import style from "../../styles/MyPage.module.css";
 import MyPageScrap from "../../components/MyPageScrap";
 import Link from "next/link";
-import Spin from "../../components/Spin";
 import OurAxios from "../../config/ourAxios";
 import { useSelector } from "react-redux";
 
@@ -25,11 +24,7 @@ export default function Page() {
     setUserImg(localStorage.getItem("userImg"));
     setUserName(localStorage.getItem("userName"));
     api.get(`/scraps/count/members/${userId}`).then((res) => {
-      console.log("스크랩 수 설정 성공");
       setMyScrapCnt(res.data);
-    }).catch((err) => {
-      console.log("스크랩 수 설정 실패");
-      console.log(err);
     })
   }
 
@@ -71,6 +66,17 @@ export default function Page() {
       case "팔로워":
         return (
           <Link href="/follower/1">
+            <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
+              <div className={style.status_card}>
+                <div className={style.status_card_header}>{item}</div>
+                <div className={style.status_card_content}>0</div>
+              </div>
+            </a>
+          </Link>
+        );
+      case "작성글":
+        return (
+          <Link href={`/myarticle/${localStorage.getItem("userID")}`}>
             <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>

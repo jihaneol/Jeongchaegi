@@ -26,9 +26,6 @@ export default function Follow() {
         .then((responseObject) => {
           setFollowNum(responseObject.data.followee);
         })
-        .catch((err) => {
-          console.log(err);
-        });
 
       api
         .get("/members/followeeList", {
@@ -38,19 +35,9 @@ export default function Follow() {
         })
         .then((responseList) => {
           setFollowList(responseList.data);
-          console.log("팔로우리스트 : " + responseList.data);
-          console.log("팔로우리스트 1번째 요소 : " + responseList.data[0]);
-          console.log(
-            "팔로우리스트 1번째 요소 타입 : " + typeof responseList.data[0]
-          );
           const list = followList.slice();
           setShowList(list);
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log("persist:root 값을 찾을 수 없습니다.");
     }
   }, []);
 
@@ -64,9 +51,6 @@ export default function Follow() {
         setShowList(list);
         setFollowNum(followNum - 1);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const handleSearch = (e) => {
@@ -84,15 +68,7 @@ export default function Follow() {
         const list = responseSearch.data.slice();
         setShowList(list);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   };
-
-  console.log("showList : " + showList);
-  console.log("showList의 타입 : " + typeof showList);
-  console.log("showList의 2번째 요소 : " + showList[1]);
-  console.log("showList의 2번째 요소 타입 : " + typeof showList[1]);
 
   return (
     <>

@@ -35,9 +35,7 @@ export default function UserInfo() {
       }
       router.push("/login/signup/success");
       localStorage.removeItem("accessToken");
-    }).catch((err) => {
-      console.error(err);
-    });
+    })
   }
 
   useEffect(() => {

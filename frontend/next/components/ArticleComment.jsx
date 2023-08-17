@@ -83,7 +83,7 @@ export default function ArticleComment() {
       즉 댓글 생성시 페이지네이션 무시하고 모든 댓글을 표시
       */
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -106,9 +106,6 @@ export default function ArticleComment() {
           // 댓글을 입력하면 댓글을 몇개 불러오던 자기 댓글을 무조건 확인해야 함
           fetchComment();
         })
-        .catch((err) => {
-          console.log(err);
-        })
         .finally(() => {
           // 마지막은 댓창 비워줌
           setNewComment("");
@@ -125,7 +122,6 @@ export default function ArticleComment() {
           setArticleComment(articleComment.filter((cmt) => cmt.id !== cmtid));
         })
         .catch((err) => {
-          console.log(err);
           alert("delete fail");
         });
     } else alert("다른 사용자의 댓글을 삭제할 수 없습니다.");

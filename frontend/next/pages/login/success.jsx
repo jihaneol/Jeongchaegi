@@ -42,7 +42,6 @@ export default function Success() {
         //
 
         // 로컬스토리지에 정보 저장
-        console.log(res);
         localStorage.setItem("userName", res.data.nickname);
         localStorage.setItem("userAge", res.data.age);
         localStorage.setItem("userCity", res.data.city);
@@ -55,9 +54,6 @@ export default function Success() {
         // 전역으로 로그인 정보 저장
         dispatch(userActions.setisLogined(true));
       })
-      .catch((err) => {
-        console.error(err);
-      });
   }
 
   useEffect(() => {

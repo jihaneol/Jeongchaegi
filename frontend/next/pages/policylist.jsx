@@ -97,7 +97,6 @@ export default function PolicyList() {
         delete paramobj[key];
       }
     }
-    // console.log(paramobj, "완성 param"); // 완성된 params
 
     router.replace({
       // url 변경함 그리고 가져올거임
@@ -119,17 +118,12 @@ export default function PolicyList() {
     })
       .then((res) => {
         if (!pcydata) {
-          // console.log(res.request.responseURL); // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
           lastPage = res.data.totalPages; // 그래도 처음꺼 더 바꾸기 귀찮아서 내버려 둠
           setpcy([...res.data.content]);
         } else {
-          // console.log(res.request.responseURL);
           lastPage = res.data.totalPages;
           setpcy((pcydata) => [...pcydata, ...res.data.content]);
         }
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(() => {
         setIsLoadingList((isLoadingList) => !isLoadingList);

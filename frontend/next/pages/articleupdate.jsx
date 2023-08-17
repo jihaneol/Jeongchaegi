@@ -32,10 +32,6 @@ export default function ArticleUpdate() {
       setValue(res.data.content);
       setDetailData(res.data)
     })
-    .catch((err)=>{
-      console.log(err);
-    })
-    
   }, []);
 
   // 함수 목록
@@ -61,9 +57,6 @@ export default function ArticleUpdate() {
         content: value,
       })
       .then((res) => {
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(()=>{
         router.push('/articlelist')

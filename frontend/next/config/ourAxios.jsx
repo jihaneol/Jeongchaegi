@@ -55,7 +55,6 @@ export default function OurAxios() {
     async (error) => {
       const originalRequest = error.config;
       // access Token 만료
-      console.log("response error 도착!");
       if (error.response && error.response?.status === 401) {
         // refresh token 전송하기
         api
@@ -66,7 +65,6 @@ export default function OurAxios() {
           })
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
-            console.log(response);
             const at = response?.data.accesstoken;
             const rt = response?.data.refreshtoken;
             const kt = response?.data.kakaotoken;
@@ -83,9 +81,6 @@ export default function OurAxios() {
             return api(originalRequest);
           })
           .catch((error) => {
-            alert("로그인이 만료되었습니다.");
-            logout();
-            Router.push("/");
             return Promise.reject(error);
           });
       } else {

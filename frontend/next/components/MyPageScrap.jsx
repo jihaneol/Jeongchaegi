@@ -15,7 +15,6 @@ export default function MyPageScrap() {
 
   async function getScrapList() {
     const id = localStorage.getItem("userID");
-    console.log("id: ", id);
     api
       .get(`/scraps/my-scrap/members/${id}/`, {
         params: {
@@ -24,11 +23,7 @@ export default function MyPageScrap() {
       })
       .then((res) => {
         setMyScrap(res.data.content);
-        console.log(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   function getName() {
@@ -36,7 +31,6 @@ export default function MyPageScrap() {
   }
 
   function clickCard(e) {
-    console.log(e.target);
     // 수정 필요
   }
 
@@ -44,8 +38,6 @@ export default function MyPageScrap() {
 		getName();
     getScrapList().then(() => {
       setIsLoading(false);
-      console.log(myScrap);
-      console.log(Array.isArray(myScrap)); // true면 배열입니다.
     });
   }, []);
 

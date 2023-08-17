@@ -16,7 +16,7 @@ const useStompClient = (connectUrl, subscribe) => {
       },
       debug: function (str) {
         // 디버그 메시지를 출력
-        console.log(str);
+        console.error(str);
       },
       reconnectDelay: 5000, // 연결이 끊긴 경우 재연결을 시도하기 전에 대기할 시간
       webSocketFactory: () => new SockJS(connectUrl),

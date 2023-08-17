@@ -10,12 +10,10 @@ export default function CannotNoticeRegister({shape}) {
 
   function mouseEnter() {
     setOpen(true);
-    console.log("enter");
   }
 
   function mouseLeave() {
     setOpen(false);
-    console.log("leave");
   }
 
   return (

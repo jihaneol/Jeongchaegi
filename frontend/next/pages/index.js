@@ -20,7 +20,6 @@ export default function Home() {
 
   const modalActive = (modalFlag) => {
     setModalFlag(modalFlag);
-    console.log(modalFlag);
   };
 
   const getTargetDate = (dateProps) => {
@@ -38,7 +37,6 @@ export default function Home() {
         Authorization: `Bearer ${accessToken}`
       }
     }).catch((err) => {
-      console.log(err);
       if (err.response?.status === 401) {
         logout();
         setIsRefresh(prev => !prev);
