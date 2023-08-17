@@ -21,7 +21,7 @@ export default function Follow() {
       const userObject = JSON.parse(parsedValue.user);
       const myId = userObject.id;
 
-      const fetchData = () => {
+      const fetchData = async () => {
         api
           .get("/members/followInfo", { params: { memberId: myId } })
           .then((responseObject) => {
@@ -43,6 +43,7 @@ export default function Follow() {
             setFollowList(responseList.data);
             const list = followList.slice();
             setShowList(list);
+            console.log(showList);
           })
           .catch((err) => {
             console.log(err);
@@ -62,6 +63,7 @@ export default function Follow() {
         const afterList = followList.filter((user) => user.id !== id);
         setFollowList(afterList);
         setShowList(afterList);
+        console.log(showList);
 
         console.log(afterList);
       })
@@ -76,13 +78,14 @@ export default function Follow() {
 
   const searchName = async () => {
     api
-      .get("/members/followerList", {
+      .get("/members/followeeList", {
         params: {
           nickname: search,
         },
       })
       .then((responseSearch) => {
         setShowList(responseSearch.data);
+        console.log(showList);
       })
       .catch((err) => {
         console.log(err);
