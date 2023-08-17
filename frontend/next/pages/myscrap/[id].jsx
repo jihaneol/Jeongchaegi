@@ -14,6 +14,7 @@ export default function MyScrap() {
   // state
   const [myScrap, setMyScrap] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefresh, setIsRefresh] = useState(false);
   const [myScrapCnt, setMyScrapCnt] = useState(0);
   const [page, setPage] = useState(1);
 
@@ -51,7 +52,7 @@ export default function MyScrap() {
   }
 
   function pageButtonClick(e) {
-    console.log(e.target.textContent);
+    console.log(e);
     setPage(parseInt(e.target.textContent, 10));
   }
 
@@ -82,10 +83,19 @@ export default function MyScrap() {
     return buttons;
   }
 
+  function deleteScrap(e) {
+    let idx = e.target.id;
+    console.log("스크랩인덱스");
+    console.log(idx);
+    let scrapId = myScrap[idx].id;
+    console.log("스크랩아이디");
+    console.log(scrapId);
+  }
+
   // effect
   useEffect(() => {
     getData();
-  }, [page]);
+  }, [page, isRefresh]);
 
   useEffect(() => {
     getScrapCnt();
@@ -100,7 +110,7 @@ export default function MyScrap() {
         <div className={style.content_header}>
           <div className={style.header_id}>ID</div>
           <div className={style.header_title}>제목</div>
-          <div className={style.header_notice}>알람</div>
+          <div className={style.header_notice}>삭제</div>
         </div>
         {/* 카드 목록 */}
         <div className={style.card_wrapper}>
@@ -117,7 +127,9 @@ export default function MyScrap() {
                     <div className={style.card_title}>{scrap.polyBizSjnm}</div>
                     <div className={style.card_content}>{scrap.polyItcnCn}</div>
                   </div>
-                  <div className={style.card_box_notice}>X</div>
+                  <div className={style.card_box_notice}>
+                    <button key={idx} id={idx + 1} onClick={deleteScrap}>삭제</button>
+                  </div>
                 </div>
               );
             })
