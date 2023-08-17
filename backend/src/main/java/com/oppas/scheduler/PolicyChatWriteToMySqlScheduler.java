@@ -2,7 +2,7 @@ package com.oppas.scheduler;
 
 
 import com.oppas.dto.policyChat.PolicyChatSaveDto;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.PolicyChat;
 import com.oppas.repository.ChatJdbcRepository;

@@ -5,7 +5,7 @@ import com.oppas.dto.member.FollowInfo;
 import com.oppas.dto.member.FollowListDTO;
 import com.oppas.dto.member.MemberForm;
 import com.oppas.dto.member.MemberResponse;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.jwt.JwtService;
 import com.oppas.repository.MemberRepository;
 import com.oppas.service.FollowService;
@@ -25,7 +25,6 @@ import java.util.List;
  * Authentication -> DI -> userDetails(일반 로그인),OAuth2user(카카오 등 로그인)
  */
 
-
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
@@ -35,8 +34,6 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final JwtService jwtService;
     private final FollowService followService;
-
-
 
     @ExceptionHandler(RuntimeException.class)
     public Object processValidationError(RuntimeException ex) {
@@ -51,7 +48,6 @@ public class MemberController {
         return new ResponseEntity<>(new MemberResponse(member), HttpStatus.OK);
     }
 
-    // 회원 정보 수정
     @PutMapping("/{memberId}/edit")
     public ResponseEntity<?> updateMember(@PathVariable("memberId") Long id,
                                           @RequestBody MemberForm memberForm) {
@@ -63,7 +59,7 @@ public class MemberController {
     public ResponseEntity<?> followMember(@PathVariable("toMemberId") Long to,
                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long from = principalDetails.getId();
-        if(!followService.follow(to, from)){
+        if (!followService.follow(to, from)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -78,11 +74,10 @@ public class MemberController {
     }
 
     @GetMapping("/followInfo")
-    public ResponseEntity<?> followerInfo(@RequestParam("memberId") Long id) {
+    public ResponseEntity<?> followerInfo(@RequestParam("memberid") Long id) {
         FollowInfo followInfo = followService.Info(id);
         return new ResponseEntity<>(followInfo, HttpStatus.OK);
     }
-
 
     @GetMapping("/{toUserId}/check/follow")
     public ResponseEntity<?> checkFollow(@PathVariable("toUserId") Long toId,
@@ -119,6 +114,5 @@ public class MemberController {
         List<FollowListDTO> followListDTOS = followService.searchNicknameFollowee(name, id);
         return new ResponseEntity<>(followListDTOS, HttpStatus.OK);
     }
-
 
 }

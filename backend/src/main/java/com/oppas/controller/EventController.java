@@ -2,7 +2,7 @@ package com.oppas.controller;
 
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.dto.event.EventDTO;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

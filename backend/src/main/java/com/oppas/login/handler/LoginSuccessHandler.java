@@ -2,7 +2,7 @@ package com.oppas.login.handler;
 
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.jwt.JwtService;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
             return;
         }
         // 회원 가입 완료
-
         String refreshToken = jwtService.createRefreshToken(); // JwtService의 createRefreshToken을 사용하여 RefreshToken 발급
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken, false); // 응답 헤더에 AccessToken, RefreshToken 실어서 응답
 

@@ -1,6 +1,7 @@
-package com.oppas.entity;
+package com.oppas.entity.member;
 
 import com.oppas.dto.member.MemberSignUpDTO;
+import com.oppas.entity.Post;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -30,9 +31,9 @@ public class Member {
     @Column(nullable = false)
     private String email;
     @Column(unique = true)
-    private String nickname; // 닉네임
+    private String nickname;
     private String role; //ROLE_USER, ROLE_ADMIN
-    // OAuth를 위해 구성한 추가 필드 2개
+    // Oauth2를 위해 구성한 추가 필드 2개
     private String provider;
     private String providerId;
     private String kakaoToken;
@@ -80,7 +81,6 @@ public class Member {
     public int followeeCount() {
         return this.followeeList.size();
     }
-
 
     @Override
     public String toString() {

@@ -1,6 +1,6 @@
 package com.oppas.entity.policy;
 
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -12,9 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class JeongchaegiApplication {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(JeongchaegiApplication.class, args);
-
 	}
 
 }
