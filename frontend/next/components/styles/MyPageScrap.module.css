@@ -6,9 +6,9 @@
 
 .scrap_card_wrapper {
 	flex: 4;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-evenly;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
 }
 
 .scrap_card {
