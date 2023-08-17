@@ -25,24 +25,14 @@ export default function Page() {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem("userName")
     if (!userData.isLogined)
     {
       router.push("/login");
       alert("로그인이 필요한 페이지입니다.");
       return ;
     }
-    else {
-      if(user !== router.query.id) {
-        console.log(user);
-        console.log(router.query);
-        router.push(`/`);
-        alert("접근 권한이 없습니다.");
-        return ;
-      }
-      else{
-        getUserData();
-      }
+    else{
+      getUserData();
     }
   }, [])
 
