@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import OurAxios from "../config/ourAxios";
+import Link from "next/link";
 
 export default function FollowPage(props) {
   const user = props.user;
@@ -91,7 +92,13 @@ export default function FollowPage(props) {
         </div>
         <div className="flex justify-between mb-4">
           <div className="text-center mr-2">
-            <div className="text-lg font-semibold">{followInfo.post}</div>
+            <div className="text-lg font-semibold">
+              <Link href={`/myarticle/${localStorage.getItem("userID")}`}>
+                <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
+                  {followInfo.post}
+                </a>
+              </Link>
+            </div>
             <div className="text-sm text-gray-500">게시글</div>
           </div>
           <div className="text-center mr-2">

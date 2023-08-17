@@ -78,7 +78,7 @@ export default function Page() {
         );
       case "팔로워":
         return (
-          <Link href="/follower/1">
+          <Link href={`/follower/${localStorage.getItem("userID")}`}>
             <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>
