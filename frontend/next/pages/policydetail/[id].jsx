@@ -77,9 +77,7 @@ export default function Page(props) {
 
     if (post && post.id && userId) {
       api
-        .get(
-          `/scraps/check/members/${userId}/policies/${post.id}`
-        )
+        .get(`/scraps/check/members/${userId}/policies/${post.id}`)
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
         })
@@ -93,13 +91,11 @@ export default function Page(props) {
   // 스크랩 제거
   const handleCancelBookmark = () => {
     api
-      .delete(
-        `/scraps/cancel/members/${userId}/policies/${post.id}`
-      )
+      .delete(`/scraps/cancel/members/${userId}/policies/${post.id}`)
       .then((response) => {
         console.log("스크랩 삭제 성공");
         console.log(response);
-        setRefreshFlag(prev => !prev);
+        setRefreshFlag((prev) => !prev);
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error.message);
@@ -109,13 +105,11 @@ export default function Page(props) {
   // 스크랩 추가
   const handleAddBookmark = () => {
     api
-      .post(
-        `/scraps/scrap/members/${userId}/policies/${post.id}`
-      )
+      .post(`/scraps/scrap/members/${userId}/policies/${post.id}`)
       .then((response) => {
         console.log("스크랩 등록 성공");
         console.log(response);
-        setRefreshFlag(prev => !prev);
+        setRefreshFlag((prev) => !prev);
       })
       .catch((error) => {
         console.error("API 호출 중 오류 발생:", error.message);
