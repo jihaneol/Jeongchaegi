@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import axios from "axios";
 import Nav from "../../components/Nav";
 import Image from "next/image";
 import FollowPage from "../../components/FollowPage";
+import ourAxios from "../config/ourAxios";
 
 export default function Follow() {
-  const token = Cookies.get("at");
-  const api = axios.create({
-    baseURL: "http://3.36.131.236/api",
-    timeout: 1000,
-    headers: { Authorization: `Bearer ${token}` }, // if needed
-  });
+  const api = ourAxios();
   const [search, setSearch] = useState(""); // 검색어
   const [followNum, setFollowNum] = useState(0); // 팔로우 수
   const [followList, setFollowList] = useState([]); // 팔로우 리스트
