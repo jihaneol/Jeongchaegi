@@ -8,7 +8,6 @@ import com.oppas.dto.post.response.ResponsePostDto;
 import com.oppas.entity.Member;
 import com.oppas.entity.Post;
 import com.oppas.entity.policy.Policy;
-import com.oppas.repository.MemberRepository;
 import com.oppas.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,7 +31,6 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
 
     @PostConstruct
@@ -44,104 +43,73 @@ public class PostService {
                 });
     }
 
-
     @Transactional
     public void savePost(PrincipalDetails principalDetails, RequestPostDto requestPostDto) throws Exception {
-
         Member member = principalDetails.getMember();
-
         requestPostDto.setMember(member);
         requestPostDto.setCreatedAt(LocalDateTime.now());
-        Post post = modelMapper.map(requestPostDto,Post.class );
-
+        Post post = modelMapper.map(requestPostDto, Post.class);
         postRepository.save(post);
-
     }
 
-    public PostDetailDto getPost(Long postId){
+    public Page<ResponsePostDto> getPostList(int pageIndex) {
+        Pageable pageable = PageRequest.of(pageIndex - 1, 10, Sort.by("id").descending());
+        Page<Post> postList = postRepository.findAll(pageable);
+        return postList.map(post -> modelMapper.map(post, ResponsePostDto.class));
+    }
 
-        Optional<Post>postOption =  postRepository.findById(postId) ;
+    public Page<ResponsePostDto> getMyPostList(Long memberId, int pageIndex) throws Exception {
+        Pageable pageable = PageRequest.of(pageIndex - 1, 10, Sort.by("id").descending());
+        Page<Post> postList = postRepository.findByMemberId(memberId, pageable);
+        return postList.map(post -> modelMapper.map(post, ResponsePostDto.class));
+    }
 
-        if(postOption.isPresent()) {
+    public PostDetailDto getPost(Long postId) {
+        Optional<Post> postOption = postRepository.findById(postId);
+        if (postOption.isPresent()) {
             PostDetailDto postDetailDto = PostDetailDto.createPostDetailDto(postOption.get());
             Policy relatePolicy = postOption.get().getPolicy();
-            if(relatePolicy!=null){
-                postDetailDto.setPolicy(relatePolicy.getId(),relatePolicy.getPolyBizSjnm());
+            if (relatePolicy != null) {
+                postDetailDto.setPolicy(relatePolicy.getId(), relatePolicy.getPolyBizSjnm());
             }
             return postDetailDto;
-        }
-        else{
+        } else {
             return null;
         }
     }
 
     @Transactional//수저 필요 유저의 정보와 게시물 작성자 일치 여부 확인 필요
-    public HttpStatus modifyPost(PrincipalDetails principalDetails, RequestPostDto requestPostDto){
-
+    public HttpStatus modifyPost(PrincipalDetails principalDetails, RequestPostDto requestPostDto) {
         Member member = principalDetails.getMember();
-        System.out.println(member.toString());
-        if(requestPostDto.getMemberId()==null||member==null||!(requestPostDto.getMemberId().equals(member.getId()))) {
+        if (requestPostDto.getMemberId() == null || member == null || !(requestPostDto.getMemberId().equals(member.getId()))) {
             System.out.println("forbidden");
             return HttpStatus.FORBIDDEN;
         }
-        Optional<Post> postOptional = postRepository.findById(requestPostDto.getId());
 
-        if(postOptional.isEmpty()){
-            System.out.println("nocon");
+        Optional<Post> postOptional = postRepository.findById(requestPostDto.getId());
+        if (postOptional.isEmpty()) {
             return HttpStatus.NO_CONTENT;
         }
-        System.out.println("최종");
         Post post = postOptional.get();
-        System.out.println(post.toString());
         post.modifyPost(requestPostDto.getTitle(), requestPostDto.getContent());
-        System.out.println(post.toString());
-
         return HttpStatus.OK;
     }
 
     @Transactional
-    public HttpStatus removePost(PrincipalDetails principalDetails, Long postId){
-
-
-        Post post =  postRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
-
-        if(post.getMember().getId()==(principalDetails.getMember().getId())){
-
+    public HttpStatus removePost(PrincipalDetails principalDetails, Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
+        if (Objects.equals(post.getMember().getId(), principalDetails.getMember().getId())) {
             postRepository.delete(post);
-
             return HttpStatus.OK;
-        }
-        else{
+        } else {
             return HttpStatus.FORBIDDEN;
         }
     }
 
-    public Page<ResponsePostDto> getPostList(int pageIndex){
-
-
-        Pageable pageable = PageRequest.of(pageIndex - 1, 10, Sort.by("id").descending());
-
-        Page<Post> postList = postRepository.findAll(pageable);
-
-
-        Page<ResponsePostDto> policyPages = postList.map(post -> modelMapper.map(post, ResponsePostDto.class));
-        return policyPages;
-
-    }
-
-    public Page<ResponsePostDto> getSearchList(String keyword, int pageIndex){
-
-
+    public Page<ResponsePostDto> getSearchList(String keyword, int pageIndex) {
         Pageable pageable = PageRequest.of(pageIndex - 1, 10);
-
-        Page<Post> postList = postRepository.findPosts(keyword,pageable);
-
-
-        Page<ResponsePostDto> policyPages = postList.map(post -> modelMapper.map(post, ResponsePostDto.class));
-        return policyPages;
-
+        Page<Post> postList = postRepository.findPosts(keyword, pageable);
+        return postList.map(post -> modelMapper.map(post, ResponsePostDto.class));
     }
-
-
 
 }
