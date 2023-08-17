@@ -21,9 +21,6 @@ export default function Follow() {
       const userObject = JSON.parse(parsedValue.user);
       const myId = userObject.id;
 
-      console.log(myId);
-      console.log(myId);
-
       const fetchData = () => {
         api
           .get("/members/followInfo", { params: { memberId: myId } })
@@ -35,10 +32,11 @@ export default function Follow() {
           });
 
         api
-          .get("/members/followerList")
+          .get("/members/followeeList")
           .then((responseList) => {
-            const list = responseList.data.slice();
             setFollowList(responseList.data);
+            const list = followList.slice();
+            setShowList(list);
           })
           .catch((err) => {
             console.log(err);
@@ -51,9 +49,9 @@ export default function Follow() {
     }
   }, []);
 
-  const handleFollow = (id) => {
+  const handleUnFollow = (id) => {
     api
-      .delete(`/${id}/unFollow`)
+      .delete(`/members/${id}/unFollow`)
       .then((res) => {
         const afterList = followList.filter((user) => user.id !== id);
         setFollowList(afterList);
@@ -127,7 +125,7 @@ export default function Follow() {
                 <div className="text-sm text-gray-500">{user.id}</div>
               </div>
               <button
-                onClick={() => handleFollow(user.id)}
+                onClick={() => handleUnFollow(user.id)}
                 className="text-black font-bold bg-gray-200 py-1 px-4 rounded-md hover:bg-gray-300"
               >
                 팔로잉
