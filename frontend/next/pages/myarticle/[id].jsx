@@ -4,7 +4,6 @@ import ArticleListItem from "../../components/ArticleListItem";
 import { useRouter } from "next/router";
 
 // 인증 관련
-import { useDispatch, useSelector } from "react-redux";
 import OurAxios from "../../config/ourAxios";
 
 let page = 1;
@@ -13,7 +12,6 @@ let lastPage = 999999;
 export default function ArticleList() {
   const [articleData, setArticleData] = useState(null);
   const router = useRouter();
-  const userData = useSelector((state) => state.user);
   const api = OurAxios()
 
   // 시작할때 데이터 받고 시작
@@ -27,7 +25,7 @@ export default function ArticleList() {
 
   // 함수 목록 ===================================================================
   function getArticleData() {
-    api.get(`/api/posts/my?pageIndex=1`)
+    api.get(`/posts/my?pageIndex=1`)
       .then((res) => {
         if (!articleData) {
           lastPage = res.data.totalPages;
