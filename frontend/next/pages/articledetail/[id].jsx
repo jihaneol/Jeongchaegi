@@ -76,11 +76,11 @@ export default function Page({ detailData, contentHtml }) {
         <div className="w-full max-w-4xl mt-12">
           {detailData ? (
             <>
-              <h1 className="text-4xl font-bold text-center text-black-700 mb-6 break-all">
+              <h1 className="text-4xl font-bold text-center text-black-700 break-all mb-24">
                 {detailData.title}
               </h1>
               {/* 사용자, 작성 시간 */}
-              <div className="font-bold text-gray-500 m-1">
+              <div className="flex font-bold text-gray-500 m-1 place-content-between">
                 <p
                   className="relative cursor-pointer"
                   onClick={
@@ -88,7 +88,9 @@ export default function Page({ detailData, contentHtml }) {
                       ? () => setShowModal(false)
                       : () => setShowModal(true)
                   }
-                >
+                > 
+
+                <div className="flex">
                   <Image
                     src={detailData.memberImg}
                     alt={detailData.nickname}
@@ -96,12 +98,18 @@ export default function Page({ detailData, contentHtml }) {
                     height={24}
                     className="rounded-full mr-5"
                   />
-                  {detailData.nickname} | {detailData.createdAt.slice(0, 10)}{" "}
-                  {detailData.createdAt.slice(11)}
+                  <p className="pl-2">
+                    {detailData.nickname}
+                  </p>
+                </div>
+                  
+                </p>
+                <p>
+                  {detailData.createdAt.slice(0, 10)} {detailData.createdAt.slice(11)}
                 </p>
               </div>
               <hr />
-              <div className="bg-white shadow-md p-6 rounded-lg space-y-4">
+              <div className="bg-white shadow-md p-6 rounded-lg" style={{minHeight:'15rem'}}>
                 <div className="p-4 rounded">
                   {/* tailwind는 브라우저 기본 제공 css 날려먹음, 그래서 그냥 깃헙에 있는 마크다운 스타일 훔쳐옴 */}
                   <div
@@ -116,7 +124,7 @@ export default function Page({ detailData, contentHtml }) {
           )}
           {/* 수정, 삭제 버튼/ 로그인한 사용자한테만 보임/ 근데 다른사람이면 경고 */}
           {userData.isLogined && (
-            <div className="mt-6 space-x-4">
+            <div className="mt-6 space-x-4 flex justify-end">
               <button
                 onClick={updateArticle}
                 className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
