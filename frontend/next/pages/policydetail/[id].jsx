@@ -84,7 +84,8 @@ export default function Page(props) {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
         })
         .catch((error) => {
-          console.error("API 호출 중 오류 발생:", error.message);
+          console.error("API 호출 중 오류 발생");
+          console.log(err);
         });
     }
   }, [post, refreshFlag]); // post가 변경될 때만 이 훅을 실행합니다.
