@@ -93,7 +93,13 @@ export default function FollowPage(props) {
         <div className="flex justify-between mb-4">
           <div className="text-center mr-2">
             <div className="text-lg font-semibold">
-              <Link href={`/myarticle/${localStorage.getItem("userID")}`}>
+              <Link
+                href={
+                  "memberId" in user
+                    ? `/myarticle/${user.memberId}`
+                    : `/myarticle/${user.id}`
+                }
+              >
                 <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
                   {followInfo.post}
                 </a>
