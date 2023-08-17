@@ -21,29 +21,29 @@ export default function Follow() {
       const userObject = JSON.parse(parsedValue.user);
       const myId = userObject.id;
 
-      const fetchData = () => {
-        api
-          .get("/members/followInfo", { params: { memberId: myId } })
-          .then((responseObject) => {
-            setFollowNum(responseObject.data.followee);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      api
+        .get("/members/followInfo", { params: { memberId: myId } })
+        .then((responseObject) => {
+          setFollowNum(responseObject.data.followee);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-        api
-          .get("/members/followeeList")
-          .then((responseList) => {
-            setFollowList(responseList.data);
-            const list = followList.slice();
-            setShowList(list);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-
-      fetchData();
+      api
+        .get("/members/followeeList")
+        .then((responseList) => {
+          setFollowList(responseList.data);
+          console.log("팔로우리스트 1번째 요소 : " + responseList.data[0]);
+          console.log(
+            "팔로우리스트 1번째 요소 타입 : " + typeof responseList.data[0]
+          );
+          const list = followList.slice();
+          setShowList(list);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       console.log("persist:root 값을 찾을 수 없습니다.");
     }
