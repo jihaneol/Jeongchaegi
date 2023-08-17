@@ -11,13 +11,21 @@ export default function Follow() {
   const [followList, setFollowList] = useState([]); // 팔로우 리스트
   const [showList, setShowList] = useState(followList); // 출력용 리스트
   const [showModal, setShowModal] = useState(null); // 모달
-  const [followerInfo, setFollowerInfo] = useState(null); // 팔로우의 팔로우, 팔로워
 
   // ①팔로워 수 ②팔로워 리스트 받아오기
   useEffect(() => {
+    const myData = localStorage.getItem("persist:root");
+
+    if (myData) {
+      const parsedValue = JSON.parse(myData);
+      const userObject = JSON.parse(parsedValue.user);
+    } else {
+      console.log("persist:root 값을 찾을 수 없습니다.");
+    }
+
     const fetchData = async () => {
       api
-        .get("/members/followInfo")
+        .get("/members/followInfo", { memberId: userObject.id })
         .then((responseNum) => {
           setFollowNum(responseNum.data);
         })
