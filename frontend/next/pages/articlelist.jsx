@@ -16,19 +16,16 @@ export default function ArticleList() {
   const router = useRouter();
   const userData = useSelector((state) => state.user);
   const [searchData, setSearchData] = useState('')
+  const [isloading, setisloading] = useState(false)
 
   // 시작할때 데이터 받고 시작
-  useEffect(() => {
-    page = 1
-    lastPage = 999999
-    getArticleData()
-  }, []);
 
   useEffect(()=>{
     page = 1
     lastPage = 999999
     console.log(router.query);
     setArticleData([])
+    setisloading(true)
     if (router.query.keyword) {
       getSearchData()
     }
@@ -63,6 +60,7 @@ export default function ArticleList() {
       })
       .finally(() => {
         // console.log("finish article list request!!!!");
+        setisloading(false)
       });
   }
 
@@ -77,15 +75,20 @@ export default function ArticleList() {
       },
     })
       .then((res) => {
-        if (!articleData) {
-          lastPage = res.data.totalPages;
-          setArticleData([...res.data.content]);
-        } else {
-          lastPage = res.data.totalPages;
-          setArticleData((articleData) => [
-            ...articleData,
-            ...res.data.content,
-          ]);
+        if (res.data.totalPages === 0) {
+          lastPage = 1
+        }
+        else{
+          if (!articleData) {
+            lastPage = res.data.totalPages;
+            setArticleData([...res.data.content]);
+          } else {
+            lastPage = res.data.totalPages;
+            setArticleData((articleData) => [
+              ...articleData,
+              ...res.data.content,
+            ]);
+          }
         }
       })
       .catch((err) => {
@@ -93,12 +96,14 @@ export default function ArticleList() {
       })
       .finally(() => {
         // console.log("finish article list request!!!!");
+        setisloading(false)
       });
   }
 
 
   // 다음 페이지로 이동
   function btnNextPage() {
+    setisloading(true)
     if (!router.query.keyword && page < lastPage) {
       page += 1
       getArticleData()
@@ -127,7 +132,6 @@ export default function ArticleList() {
   // 게시판 검색 기능
   function articleSearch(e) {
     e.preventDefault()
-    console.log(searchData);
     if (searchData.trim()) {
       router.push({
         pathname:'articlelist',
@@ -205,7 +209,7 @@ export default function ArticleList() {
           ) : (
             <div className="text-center py-4 text-gray-400">Loading...</div>
           )}
-
+          {isloading ? 'loading' : false}
           {lastPage !== page ? (
             <div>
               <button

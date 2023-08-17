@@ -41,7 +41,6 @@ export default function PolicyList() {
 
   // useEffect 관리 모음
   useEffect(() => {
-    console.log("why?", router);
     page = 1;
     lastPage = 9999999;
     setpcy([]);
@@ -99,7 +98,7 @@ export default function PolicyList() {
         delete paramobj[key];
       }
     }
-    console.log(paramobj, "완성 param"); // 완성된 params
+    // console.log(paramobj, "완성 param"); // 완성된 params
 
     router.replace({
       // url 변경함 그리고 가져올거임
@@ -111,8 +110,6 @@ export default function PolicyList() {
   // policy data 서버에서 받기, 나중에 수정 예정
   function getPcyData(page, paramobj = "") {
     setIsLoadingList((isLoadingList) => !isLoadingList);
-    console.log(page);
-    console.log(lastPage);
     axios({
       method: "get",
       url: "http://3.36.131.236/api/policies",
@@ -120,18 +117,14 @@ export default function PolicyList() {
         ...paramobj,
         pageIndex: page,
       },
-      // headers:{
-      //   lol: 'lol'
-      // },
     })
-      // api.get('/policies?pageIndex=1')
       .then((res) => {
         if (!pcydata) {
-          console.log(res.request.responseURL); // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
+          // console.log(res.request.responseURL); // 바꿔서 그냥 빈 리스트 갖고 있게 해서 아래쪽 실행함
           lastPage = res.data.totalPages; // 그래도 처음꺼 더 바꾸기 귀찮아서 내버려 둠
           setpcy([...res.data.content]);
         } else {
-          console.log(res.request.responseURL);
+          // console.log(res.request.responseURL);
           lastPage = res.data.totalPages;
           setpcy((pcydata) => [...pcydata, ...res.data.content]);
         }
