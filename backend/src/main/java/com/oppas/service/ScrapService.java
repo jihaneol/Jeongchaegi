@@ -58,7 +58,7 @@ public class ScrapService {
             policyPages.add(modelMapper.map(policy, PolicySummaryDTO.class));
         }
 
-        return new PageImpl<>(policyPages, PageRequest.of(pageIndex - 1, 20), policyPages.size());
+        return new PageImpl<>(policyPages, PageRequest.of(pageIndex - 1, 10), policyPages.size());
     }
 
     /**
