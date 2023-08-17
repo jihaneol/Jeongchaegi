@@ -90,12 +90,11 @@ export default function MyScrap() {
     let scrapId = myScrap[idx - 1].id;
     api.delete(`scraps/cancel/members/${userName}/policies/${scrapId}`).then((res) => {
       console.log("스크랩 취소 성공");
+      setIsRefresh(prev => !prev);
     }).catch((err) => {
       console.log("스크랩 취소 실패");
       console.log(err);
     })
-
-    setIsRefresh(prev => !prev);
   }
 
   // effect
