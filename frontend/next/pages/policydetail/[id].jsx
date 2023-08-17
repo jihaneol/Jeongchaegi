@@ -100,10 +100,8 @@ export default function Page(props) {
 
   function registerSet(val, type) {
     // type : true -> 삭제, false -> 등록
-    console.log("registerSet");
     setModalFlag(val);
     setRegisterFlag(type);
-    console.log(val, type);
   }
 
   function getEventID(val) {

@@ -32,16 +32,13 @@ const userSlice = createSlice({
     },
     setisLogined(state, action) {
       state.isLogined = action.payload;
-      console.log("state-isLogined: ", state.isLogined);
     },
     setPolicyType(state, action) {
       const arr = (action.payload || []).slice(); // action.payload 값이 유효하면 그 값을 사용하고, 아니면 빈 배열([])을 사용
       state.policyType = arr;
-      console.log(state.policyType);
     },
     setBirth(state, action) {
       state.birth = action.payload;
-      console.log(state.birth);
 
       const birthYear = parseInt(action.payload.split("-")[0]);
       const birthMonth = parseInt(action.payload.split("-")[1]);
@@ -55,18 +52,15 @@ const userSlice = createSlice({
         age--;
       }
       state.age = age;
-      console.log(state.age);
     },
     setAge(state, action) {
       state.age = action.payload;
     },
     setCity(state, action) {
       state.city = action.payload;
-      console.log(state.city);
     },
     setNickName(state, action) {
       state.nickname = action.payload;
-      console.log(state.nickname);
     },
     setLogout: (state) => {
       if (state.timer) {
@@ -81,7 +75,6 @@ const userSlice = createSlice({
       state.age = 0;
       state.nickname = "";
       state.policyType = [];
-      console.log("persist 초기화!!");
     },
     setTimer: (state, action) => {
       state.timer = action.payload;
