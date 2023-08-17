@@ -73,6 +73,8 @@ export default function Page(props) {
   }, [userData.isLogined, listId]);
 
   useEffect(() => {
+    //
+    console.log("use Effect 확인");
     // 북마크 체크 확인
     setUserId(localStorage.getItem("userID"));
 
