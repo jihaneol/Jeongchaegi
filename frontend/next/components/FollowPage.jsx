@@ -7,7 +7,7 @@ export default function FollowPage(props) {
   const user = props.user;
   const [myNickname, setMyNickname] = useState("");
   const [isFollow, setIsFollow] = useState(true);
-  const [followInfo, setFollowInfo] = useState([0, 0, 0]);
+  const [followInfo, setFollowInfo] = useState(null);
   const router = useRouter();
   const api = OurAxios();
 
@@ -87,15 +87,15 @@ export default function FollowPage(props) {
         </div>
         <div className="flex justify-between mb-4">
           <div className="text-center mr-2">
-            <div className="text-lg font-semibold">{followInfo[2]}</div>
+            <div className="text-lg font-semibold">{followInfo.post}</div>
             <div className="text-sm text-gray-500">게시글</div>
           </div>
           <div className="text-center mr-2">
-            <div className="text-lg font-semibold">{followInfo[1]}</div>
+            <div className="text-lg font-semibold">{followInfo.followee}</div>
             <div className="text-sm text-gray-500">팔로우</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-semibold">{followInfo[0]}</div>
+            <div className="text-lg font-semibold">{followInfo.follower}</div>
             <div className="text-sm text-gray-500">팔로워</div>
           </div>
         </div>
