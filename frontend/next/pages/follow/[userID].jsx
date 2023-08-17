@@ -19,13 +19,14 @@ export default function Follow() {
     if (myData) {
       const parsedValue = JSON.parse(myData);
       const userObject = JSON.parse(parsedValue.user);
+      const myId = userObject.id;
 
-      console.log(userObject.id);
-      console.log(typeof userObject.id);
+      console.log(myId);
+      console.log(myId);
 
-      const fetchData = async () => {
+      const fetchData = () => {
         api
-          .get("/members/followInfo", { params: { memberId: userObject.id } })
+          .get("/members/followInfo", { params: { memberId: myId } })
           .then((responseNum) => {
             setFollowNum(responseNum.data);
           })
