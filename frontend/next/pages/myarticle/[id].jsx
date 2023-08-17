@@ -25,7 +25,7 @@ export default function ArticleList() {
 
   // 함수 목록 ===================================================================
   function getArticleData() {
-    api.get(`/posts/my?pageIndex=1`)
+    api.get(`/posts/my?pageIndex=${page}`)
       .then((res) => {
         if (!articleData) {
           lastPage = res.data.totalPages;
