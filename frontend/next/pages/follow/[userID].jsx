@@ -58,6 +58,12 @@ export default function Follow() {
       });
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      searchName();
+    }
+  };
+
   return (
     <>
       <Nav />
@@ -71,6 +77,7 @@ export default function Follow() {
               placeholder="닉네임 검색 ex) 심뿐이"
               value={search}
               onChange={handleSearch}
+              onKeyDown={handleKeyDown}
             />
             <button
               className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
