@@ -13,11 +13,9 @@ export default function FollowPage(props) {
   useEffect(() => {
     // 팔로우 여부 확인 (게시판에서 접근했을 때)
     if ("memberId" in user) {
-      api
-        .get(`/members/${user.memberId}/check/follow`)
-        .then((res) => {
-          setIsFollow(res.data);
-        })
+      api.get(`/members/${user.memberId}/check/follow`).then((res) => {
+        setIsFollow(res.data);
+      });
 
       const myData = localStorage.getItem("persist:root");
 
@@ -45,7 +43,7 @@ export default function FollowPage(props) {
       )
       .then((res) => {
         setIsFollow(false);
-      })
+      });
   };
 
   const handleFollow = () => {
@@ -57,7 +55,7 @@ export default function FollowPage(props) {
       )
       .then((res) => {
         setIsFollow(true);
-      })
+      });
   };
 
   return (
@@ -89,7 +87,7 @@ export default function FollowPage(props) {
           </div>
           <div className="text-center">
             <div className="text-lg font-semibold">29</div>
-            <div className="text-sm text-gray-500">팔로잉</div>
+            <div className="text-sm text-gray-500">언팔로우</div>
           </div>
         </div>
         <div className="flex justify-center">
@@ -105,7 +103,7 @@ export default function FollowPage(props) {
               onClick={() => handleUnFollow()}
               className="w-full text-white font-bold bg-blue-500 py-1 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
             >
-              팔로잉
+              언팔로우
             </button>
           ) : (
             <button
