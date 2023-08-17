@@ -25,7 +25,6 @@ public class LoginController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final JwtService jwtService;
-
     static String reIssueRefreshToken, accessToken;
 
     @GetMapping("/refresh-token")
@@ -38,7 +37,6 @@ public class LoginController {
                             accessToken = jwtService.createAccessToken(member.getName());
                         })
                 );
-
         JwtResponse jwtResponse = new JwtResponse(reIssueRefreshToken, accessToken);
 
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
@@ -46,7 +44,6 @@ public class LoginController {
 
     @DeleteMapping("/logout")
     public ResponseEntity<?> logout() {
-        log.info("로그 아웃 완료");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -55,8 +52,6 @@ public class LoginController {
                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
         long id = principalDetails.getId();
         memberService.signUp(memberSignUpDTO, id);
-        log.info("회원가입 성공");
-        // 리다이렉트
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

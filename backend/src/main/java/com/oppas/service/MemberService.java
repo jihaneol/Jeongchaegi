@@ -2,8 +2,8 @@ package com.oppas.service;
 
 import com.oppas.dto.member.MemberForm;
 import com.oppas.dto.member.MemberSignUpDTO;
-import com.oppas.entity.Member;
-import com.oppas.entity.PolicyMemberMapped;
+import com.oppas.entity.member.Member;
+import com.oppas.entity.member.PolicyMemberMapped;
 import com.oppas.entity.policy.PolicyType;
 import com.oppas.repository.FollowRepository;
 import com.oppas.repository.MemberRepository;

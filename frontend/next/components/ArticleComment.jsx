@@ -54,18 +54,19 @@ export default function ArticleComment() {
       } else {
         // 댓이 db에 잇으면 for문 돌려서 id가 같거나 작으면 삭제하고 추가함
         const newreply = [...res.data.content]; // 깊은 복사 필요
-        if (articleComment && lastpage !== 999) {
+        if (articleComment.length !== 0 && lastpage !== 999) {
           // 적어도 두번째 요청일 때 / 댓글이 있을때만 자를 필요가 있음
           res.data.content.forEach((element) => {
             if (element.id <= articleComment.slice(-1)[0].id) newreply.shift();
           });
         }
         lastpage = res.data.totalPages; // 일단 막페이지 표시
-        if (articleComment)
+        if (articleComment){
           setArticleComment((articleComment) => [
             ...articleComment,
             ...newreply,
           ]);
+        }
         else setArticleComment([...newreply]);
         setTotalComments(res.data.totalElements);
         if (lastpage > page) {
@@ -172,7 +173,7 @@ export default function ArticleComment() {
               className="rounded-full"
             />
             <p className="font-semibold">{item.nickname}:</p>
-            <p className="flex-1">{item.comment}</p>
+            <p className="flex-1 break-all">{item.comment}</p>
             {/* 댓삭버튼 */}
             {userData.isLogined && (localStorage.getItem("userID") == item.memberId) ? 
             <button

@@ -1,5 +1,6 @@
 package com.oppas.entity;
 
+import com.oppas.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;

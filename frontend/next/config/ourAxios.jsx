@@ -1,7 +1,10 @@
 import axios from "axios";
+import Logout from "../components/Logout";
+import { Router, useRouter } from "next/router";
 
 export default function OurAxios() {
   let requestCount = 0;
+  const logout = Logout();
 
   function getTokens() {
     if (typeof window !== "undefined") {
@@ -29,10 +32,12 @@ export default function OurAxios() {
     async (config) => {
       requestCount++;
 
-      if (requestCount > 10)
+      if (requestCount > 10) {
+        requestCount = 0;
         return Promise.reject(
           new Error(`You have axceeded the maximum number of requests.`)
         );
+      }
       tokens = getTokens();
       config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       return config;
@@ -42,11 +47,9 @@ export default function OurAxios() {
     }
   );
 
-  // access_token 이랑 요청 보냄 -> access_token 만료되면 status 로 에러 보냄 -> refresh_token 다시 보내고
-  // refresh_token 보내면 access_token 다시 발급, 근데 refresh_token 도 만료되면 그 때는 다시 로그인 해야 함.
-
   api.interceptors.response.use(
     (response) => {
+      requestCount = 0;
       return response;
     },
     async (error) => {
@@ -80,6 +83,9 @@ export default function OurAxios() {
             return api(originalRequest);
           })
           .catch((error) => {
+            alert("로그인이 만료되었습니다.");
+            logout();
+            Router.push("/");
             return Promise.reject(error);
           });
       } else {

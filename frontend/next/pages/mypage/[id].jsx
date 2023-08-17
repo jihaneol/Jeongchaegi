@@ -60,7 +60,7 @@ export default function Page() {
       case "팔로우":
         return (
           <Link href={`/follow/${localStorage.getItem("userID")}`}>
-            <a className="hover:bg-gray-200 hover:cursor-pointer transition-all duration-300">
+            <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>
                 <div className={style.status_card_content}>0</div>
@@ -125,7 +125,7 @@ export default function Page() {
                   <button
                     className={style.status_footer_button}
                     onClick={() => {
-                      router.push(`/mypage/${router.query.id}/edit`);
+                      router.push(`/mypage/${userName}/edit`);
                     }}
                   >
                     프로필 수정
@@ -140,10 +140,6 @@ export default function Page() {
               <div className={style.policyList_content}>
                 <MyPageScrap />
               </div>
-            </div>
-            <div className={style.followerList_wrapper}>
-              <div className={style.followerList_header}>팔로워 목록</div>
-              <div className={style.followerList_content}>팔로워 리스트</div>
             </div>
           </div>
         </div>

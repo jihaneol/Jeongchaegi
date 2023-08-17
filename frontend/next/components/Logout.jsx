@@ -23,6 +23,7 @@ export default function Logout() {
         dispatch(userActions.setLogout());
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("kakaoToken");
         localStorage.removeItem("userName");
         localStorage.removeItem("userAge");
         localStorage.removeItem("userCity");

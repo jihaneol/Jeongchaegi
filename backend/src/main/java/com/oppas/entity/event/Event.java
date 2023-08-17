@@ -1,6 +1,6 @@
 package com.oppas.entity.event;
 
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.entity.policy.Policy;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

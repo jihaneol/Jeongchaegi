@@ -1,7 +1,7 @@
 package com.oppas.entity.policy;
 
 import com.oppas.dto.policyChat.PolicyChatSaveDto;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

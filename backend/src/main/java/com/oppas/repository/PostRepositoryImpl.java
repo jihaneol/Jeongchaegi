@@ -2,8 +2,8 @@ package com.oppas.repository;
 
 
 import com.oppas.entity.Post;
-import com.oppas.entity.QMember;
 import com.oppas.entity.QPost;
+import com.oppas.entity.member.QMember;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;

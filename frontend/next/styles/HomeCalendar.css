@@ -113,9 +113,9 @@
   background-color: #e6e6e6;
 }
 
-/* .react-calendar__tile--now {
+.react-calendar__tile--now {
   background: skyblue !important;
-} */
+}
 
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
@@ -132,7 +132,7 @@
 }
 
 .react-calendar__tile--active {
-  /* color: rgb(0, 255, 13); */
+  color: white;
   background: #1087ff !important;
 }
 
