@@ -70,7 +70,6 @@ export default function ArticleComment() {
         setTotalComments(res.data.totalElements);
         if (lastpage > page) {
           // 막페이지가 현재 페이지보다 크면 페이지 +1을 해줌
-          console.log("lastpage bigger page");
           page += 1;
         }
       }
@@ -95,7 +94,6 @@ export default function ArticleComment() {
   // 댓 추가하는 함수
   function commentSubmit(e) {
     e.preventDefault();
-    console.log(newComment.length);
     // 댓글에 내용 있을때만 추가
     if (newComment.trim()) {
       api
@@ -145,7 +143,6 @@ export default function ArticleComment() {
     while (page < lastpage) {
       // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
       await getComment();
-      console.log(page);
     }
     if (page === lastpage) await getComment();
   }

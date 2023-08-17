@@ -86,7 +86,7 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
             <SelectPlace />
           </div>
           <div className="flex items-center space-x-4">
-            <p className="text-md font-medium">나이 : </p>
+            <p className="text-md font-medium">신청 가능 연령 : </p>
             <input className="border p-2 rounded" type="number" onChange={handleAge} />
           </div>
         </div>
