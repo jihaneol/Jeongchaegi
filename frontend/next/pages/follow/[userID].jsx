@@ -25,7 +25,7 @@ export default function Follow() {
 
       const fetchData = async () => {
         api
-          .get("/members/followInfo", { memberId: userObject.id })
+          .get("/members/followInfo", { params: { memberId: userObject.id } })
           .then((responseNum) => {
             setFollowNum(responseNum.data);
           })
