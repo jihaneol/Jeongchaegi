@@ -93,7 +93,7 @@ export default function Page(props) {
           console.log(err);
         });
     }
-  }, [refreshFlag]); // post가 변경될 때만 이 훅을 실행합니다.
+  }, [refreshFlag, post.id]); // post가 변경될 때만 이 훅을 실행합니다.
 
   // 스크랩 제거
   const handleCancelBookmark = () => {
