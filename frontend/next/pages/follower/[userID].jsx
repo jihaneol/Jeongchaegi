@@ -38,7 +38,7 @@ export default function Follow() {
 
   const searchName = () => {
     api
-      .get(`/members/followerList`, {
+      .get(`/members/search/follower`, {
         params: {
           nickname: search,
         },
