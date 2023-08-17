@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import ourAxios from "../config/ourAxios";
+import OurAxios from "../../config/ourAxios";
 
 export default function FollowPage(props) {
   const user = props.user;
   const [isFollow, setIsFollow] = useState(true);
   const router = useRouter();
-  const api = ourAxios();
+  const api = OurAxios();
 
   useEffect(() => {
     // 팔로우 여부 확인 (게시판에서 접근했을 때)

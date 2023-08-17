@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import Image from "next/image";
 import FollowPage from "../../components/FollowPage";
-import ourAxios from "../config/ourAxios";
+import OurAxios from "../../config/ourAxios";
 
 export default function Follow() {
-  const api = ourAxios();
+  const api = OurAxios();
   const [search, setSearch] = useState(""); // 검색어
   const [followNum, setFollowNum] = useState(0); // 팔로우 수
   const [followList, setFollowList] = useState([]); // 팔로우 리스트
