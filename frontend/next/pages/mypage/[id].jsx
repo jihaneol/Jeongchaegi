@@ -18,6 +18,7 @@ export default function Page() {
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
   const [myScrapCnt, setMyScrapCnt] = useState(0);
+  const [myArticleCnt, setMyArticleCnt] = useState(0)
 
   async function getUserData() {
     const userId = localStorage.getItem("userID");
@@ -35,6 +36,8 @@ export default function Page() {
       return;
     } else {
       getUserData();
+      api.get(`/posts/my?pageIndex=1`)
+      .then((res)=>setMyArticleCnt(res.data.totalElements))
     }
   }, []);
 
@@ -80,7 +83,7 @@ export default function Page() {
             <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>
-                <div className={style.status_card_content}>0</div>
+                <div className={style.status_card_content}>{myArticleCnt}</div>
               </div>
             </a>
           </Link>
