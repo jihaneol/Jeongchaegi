@@ -72,16 +72,17 @@ export default function Page(props) {
     }
   }, [userData.isLogined, listId]);
 
-  useEffect(() => {
+  useEffect(async () => {
     //
     console.log("use Effect 확인");
     // 북마크 체크 확인
-    setUserId(localStorage.getItem("userID"));
+    const id = localStorage.getItem("userID");
+    setUserId(id);
 
     if (userData.isLogined) {
-      api
+      await api
         .get(
-          `/scraps/check/members/${userId}/policies/${post.id}`
+          `/scraps/check/members/${id}/policies/${post.id}`
         )
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
