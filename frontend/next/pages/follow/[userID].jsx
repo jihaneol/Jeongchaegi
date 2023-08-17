@@ -19,31 +19,31 @@ export default function Follow() {
     if (myData) {
       const parsedValue = JSON.parse(myData);
       const userObject = JSON.parse(parsedValue.user);
+
+      const fetchData = async () => {
+        api
+          .get("/members/followInfo", { memberId: userObject.id })
+          .then((responseNum) => {
+            setFollowNum(responseNum.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+        api
+          .get("/members/followerList")
+          .then((responseList) => {
+            setFollowList(responseList.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+
+      fetchData();
     } else {
       console.log("persist:root 값을 찾을 수 없습니다.");
     }
-
-    const fetchData = async () => {
-      api
-        .get("/members/followInfo", { memberId: userObject.id })
-        .then((responseNum) => {
-          setFollowNum(responseNum.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      api
-        .get("/members/followerList")
-        .then((responseList) => {
-          setFollowList(responseList.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-
-    fetchData();
   }, []);
 
   const handleFollow = (id) => {
