@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 
 export default function ArticleListItem({ obj, onItemClick }) {
-  console.log(obj);
   return (
     <>
       {obj.map((item) => (

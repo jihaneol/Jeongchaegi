@@ -28,13 +28,10 @@ export default function CreateArticle() {
       alert('내용을 입력하세요!')
       return
     }
-    console.log('title :', mytitle);
-    console.log('value :', value);
     api.post("/posts", {
       title: mytitle,
       content: value,
     }).then((res) => {
-      console.log(res);
     }).catch((err) => {
       console.log(err);
       alert('제출할 수 없습니다!')
