@@ -1,6 +1,6 @@
 package com.oppas.dto.post.request;
 
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 

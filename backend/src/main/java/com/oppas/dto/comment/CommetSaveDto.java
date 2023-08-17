@@ -1,7 +1,7 @@
 package com.oppas.dto.comment;
 
 import com.oppas.dto.comment.request.CommentRequestDto;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.entity.Post;
 import lombok.Builder;
 import lombok.Getter;
