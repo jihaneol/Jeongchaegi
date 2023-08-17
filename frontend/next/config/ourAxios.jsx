@@ -1,10 +1,7 @@
 import axios from "axios";
-import Logout from "../components/Logout";
-import { Router, useRouter } from "next/router";
 
 export default function OurAxios() {
   let requestCount = 0;
-  const logout = Logout();
 
   function getTokens() {
     if (typeof window !== "undefined") {
