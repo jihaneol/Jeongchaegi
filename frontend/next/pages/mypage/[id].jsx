@@ -18,7 +18,7 @@ export default function Page() {
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
   const [myScrapCnt, setMyScrapCnt] = useState(0);
-  consst [myArticleCnt, setMyArticleCnt] = useState(0)
+  const [myArticleCnt, setMyArticleCnt] = useState(0)
 
   async function getUserData() {
     const userId = localStorage.getItem("userID");
