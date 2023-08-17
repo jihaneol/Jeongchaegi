@@ -211,6 +211,17 @@ export default function NoticeModal({
     await getCalendarList(kakaoToken);
   }, []);
 
+  useEffect(() => {
+    // 캘린더가 없는데 일정이 있으면 일정도 삭제해야함
+    const accessToken = localStorage.getItem("accessToken");
+    const kakaoToken = localStorage.getItem("kakaoToken");
+    if (type === true && !calendarId) {
+      deleteEvent(kakaoToken, accessToken, 0);
+      deleteEvent(kakaoToken, accessToken, 1);
+    }
+    setRefreshFlag(prev => !prev);
+  })
+
   return (
     <div className={style.modal_box}>
       <div className={style.modal_header}>
