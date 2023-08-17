@@ -109,7 +109,7 @@ export default function Page(props) {
   }
 
   function moveToList() {
-    router.push("/policydetail");
+    router.push("/policylist");
   }
 
   return (
