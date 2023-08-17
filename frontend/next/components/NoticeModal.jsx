@@ -144,9 +144,9 @@ export default function NoticeModal({
     } else {
       deleteEvent(kakaoToken, accessToken, 0);
       deleteEvent(kakaoToken, accessToken, 1);
+      alert("성공적으로 삭제되었습니다.");
+      setRefreshFlag((prev) => !prev);
     }
-    alert("성공적으로 삭제되었습니다.");
-    setRefreshFlag((prev) => !prev);
     modalClose();
   }
 
