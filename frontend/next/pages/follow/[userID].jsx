@@ -25,7 +25,7 @@ export default function Follow() {
         .get("/members/followInfo", { params: { memberId: myId } })
         .then((responseObject) => {
           setFollowNum(responseObject.data.followee);
-        })
+        });
 
       api
         .get("/members/followeeList", {
@@ -37,20 +37,18 @@ export default function Follow() {
           setFollowList(responseList.data);
           const list = followList.slice();
           setShowList(list);
-        })
+        });
     }
   }, []);
 
   const handleUnFollow = (id) => {
-    api
-      .delete(`/members/${id}/unFollow`)
-      .then((res) => {
-        const afterList = followList.filter((user) => user.id !== id);
-        const list = afterList.slice();
-        setFollowList(afterList);
-        setShowList(list);
-        setFollowNum(followNum - 1);
-      })
+    api.delete(`/members/${id}/unFollow`).then((res) => {
+      const afterList = followList.filter((user) => user.id !== id);
+      const list = afterList.slice();
+      setFollowList(afterList);
+      setShowList(list);
+      setFollowNum(followNum - 1);
+    });
   };
 
   const handleSearch = (e) => {
@@ -67,7 +65,7 @@ export default function Follow() {
       .then((responseSearch) => {
         const list = responseSearch.data.slice();
         setShowList(list);
-      })
+      });
   };
 
   return (
@@ -117,7 +115,7 @@ export default function Follow() {
                 onClick={() => handleUnFollow(user.id)}
                 className="text-black font-bold bg-gray-200 py-1 px-4 rounded-md hover:bg-gray-300"
               >
-                팔로잉
+                언팔로우
               </button>
 
               {/* Modal */}
