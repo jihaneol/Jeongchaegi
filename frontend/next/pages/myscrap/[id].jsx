@@ -86,20 +86,16 @@ export default function MyScrap() {
 
   function deleteScrap(e) {
     const userName = localStorage.getItem("userID");
-    console.log("userName");
-    console.log(userName);
     let idx = e.target.id;
-    console.log("스크랩인덱스");
-    console.log(idx);
     let scrapId = myScrap[idx - 1].id;
-    console.log("스크랩아이디");
-    console.log(scrapId);
     api.delete(`scraps/cancel/members/${userName}/policies/${scrapId}`).then((res) => {
       console.log("스크랩 취소 성공");
     }).catch((err) => {
       console.log("스크랩 취소 실패");
       console.log(err);
     })
+
+    setIsRefresh(prev => !prev);
   }
 
   // effect
@@ -109,7 +105,7 @@ export default function MyScrap() {
 
   useEffect(() => {
     getScrapCnt();
-  }, []);
+  }, [isRefresh]);
 
   return (
     <div className={style.all_wrapper}>
