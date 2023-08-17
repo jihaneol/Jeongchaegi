@@ -82,9 +82,7 @@ export default function Page(props) {
 
     if (userData.isLogined && listId.id) {
       api
-        .get(
-          `/scraps/check/members/${id}/policies/${listId.id}`
-        )
+        .get(`/scraps/check/members/${id}/policies/${listId.id}`)
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
         })
@@ -322,7 +320,13 @@ export default function Page(props) {
                   <div className={Style.summary_ctt}>
                     <div className={Style.summary_ctt_left}>신청 사이트</div>
                     <div className={Style.summary_ctt_right}>
-                      {post.rqutUrla}
+                      <a
+                        className="text-blue-500 hover:text-blue-700 hover:underline transition-colors duration-300"
+                        href={post.rqutUrla}
+                        target="_blank"
+                      >
+                        {post.rqutUrla}
+                      </a>
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
@@ -357,7 +361,11 @@ export default function Page(props) {
                       사업관련 참고 사이트1
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      <a href={post.rfcSiteUrla1} target="_blank">
+                      <a
+                        className="text-blue-500 hover:text-blue-700 hover:underline transition-colors duration-300"
+                        href={post.rfcSiteUrla1}
+                        target="_blank"
+                      >
                         {post.rfcSiteUrla1}
                       </a>
                     </div>
@@ -367,7 +375,11 @@ export default function Page(props) {
                       사업관련 참고 사이트2
                     </div>
                     <div className={Style.summary_ctt_right}>
-                      <a href={post.rfcSiteUrla2} target="_blank">
+                      <a
+                        className="text-blue-500 hover:text-blue-700 hover:underline transition-colors duration-300"
+                        href={post.rfcSiteUrla2}
+                        target="_blank"
+                      >
                         {post.rfcSiteUrla2}
                       </a>
                     </div>
