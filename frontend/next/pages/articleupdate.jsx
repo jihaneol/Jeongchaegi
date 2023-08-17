@@ -28,7 +28,6 @@ export default function ArticleUpdate() {
       url: `http://3.36.131.236/api/posts/${router.query.id}`,
     })
     .then((res) => {
-      console.log(res);
       setTitle(res.data.title);
       setValue(res.data.content);
       setDetailData(res.data)
@@ -62,7 +61,6 @@ export default function ArticleUpdate() {
         content: value,
       })
       .then((res) => {
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);

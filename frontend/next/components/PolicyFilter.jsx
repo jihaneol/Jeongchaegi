@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
 import style from "../styles/PolicyList.module.css";
-import axios from "axios";
 import SelectPlace from "./SelectPlace";
 
 let searchAge = "";
 let selectPcyTypes = [];
+
+const typesofpcy = [  // 로딩하는거 좀 이상해서 이거 가져다 쓸게여;
+  { index: "023010", name: "일자리" },
+  { index: "023020", name: "주거" },
+  { index: "023040", name: "복지ㆍ문화" },
+  { index: "023050", name: "참여ㆍ권리" },
+  { index: "023030", name: "교육" },
+];
 
 export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
   const [typedata, setTypeData] = useState();
 
   useEffect(() => {
     // 시작할때 타입 가져옴
-    selectPcyTypes = []; // 시작할때 비움
     searchAge = ""; // 시작할때 비움
-    axios({
-      method:'get',
-      url:'http://3.36.131.236/api/policies/type',
-    })
-    .then((res)=>{
-      setTypeData(res.data)
-    })
   },[])
 
   function handleAge(e) {
@@ -66,16 +65,16 @@ export default function PolicyFilter({ isCalendarActive, calendarBtnClick }) {
         <div className="space-y-4">
           <div className="flex items-center space-x-4">
             <p className="text-md font-medium">분야 : </p>
-            {typedata
-              ? typedata.map((item) => (
-                <label key={item.id} className="inline-flex items-center space-x-2">
+            {typesofpcy
+              ? typesofpcy.map((item) => (
+                <label key={item.index} className="inline-flex items-center space-x-2">
                   <input
                     className="form-checkbox rounded"
                     type="checkbox"
-                    id={item.id}
+                    id={item.index}
                     onClick={handleTypeChange}
                   />
-                  <span>{item.type}</span>
+                  <span>{item.name}</span>
                 </label>
               ))
               : "loading..."}
