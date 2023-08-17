@@ -27,16 +27,22 @@ public class FollowService {
      * 팔로우 하기
      */
     @Transactional
-    public void follow(Long to, Long from) {
+    public boolean follow(Long to, Long from) {
 
         // 남이 구독당함
         Member toMember = memberRepository.findById(to).get();
         // 내가 구독누름
         Member fromMember = memberRepository.findById(from).get();
-
+        System.out.println(followRepository.existsByFollowerIdAndFolloweeId(to,from));
+        // 팔로우중 이라면 true
+        if(followRepository.existsByFollowerIdAndFolloweeId(to,from)){
+            return false;
+        }
         Follow follower = new Follow(toMember, fromMember);
 
         toMember.getFollowerList().add(follower);
+
+        return true;
     }
 
     /**
@@ -46,7 +52,7 @@ public class FollowService {
     @Transactional
     public void unFollow(Long to, Long from) {
 
-        followRepository.deleteByFolloweeIdAndFollowerId(from, to);
+        followRepository.deleteByFollowerIdAndFolloweeId(to, from);
     }
 
     /**
@@ -69,8 +75,8 @@ public class FollowService {
 
     public List<FollowListDTO> getfollowerList(Long id) {
 //        PageRequest pageable = PageRequest.of(pageIndex - 1, 1000, Sort.by("id").descending());
-        List<Member> followerMember = followRepository.findAllByFolloweeId(id).stream()
-                .map(o -> o.getFollower())
+        List<Member> followerMember = followRepository.findAllByFollowerId(id).stream()
+                .map(o -> o.getFollowee())
                 .collect(Collectors.toList());
         return followerMember.stream()
                 .map(member -> new FollowListDTO(member.getId(), member.getNickname(), member.getImg()))
@@ -78,8 +84,8 @@ public class FollowService {
     }
 
     public List<FollowListDTO> getfolloweeList(Long id) {
-        List<Member> followeeMember = followRepository.findAllByFollowerId(id).stream()
-                .map(o -> o.getFollowee())
+        List<Member> followeeMember = followRepository.findAllByFolloweeId(id).stream()
+                .map(o -> o.getFollower())
                 .collect(Collectors.toList());
         return followeeMember.stream()
                 .map(member -> new FollowListDTO(member.getId(), member.getNickname(), member.getImg()))
@@ -90,9 +96,6 @@ public class FollowService {
         List<Member> collect = followRepository.findLikeFollowerByname(name, id).stream()
                 .map(o -> o.getFollower())
                 .collect(Collectors.toList());
-        for (Member m : collect) {
-            System.out.println(m.getNickname());
-        }
         return collect.stream()
                 .map(member -> new FollowListDTO(member.getId(), member.getNickname(), member.getImg()))
                 .collect(Collectors.toList());
