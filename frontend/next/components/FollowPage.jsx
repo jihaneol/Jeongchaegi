@@ -7,6 +7,7 @@ export default function FollowPage(props) {
   const user = props.user;
   const [myNickname, setMyNickname] = useState("");
   const [isFollow, setIsFollow] = useState(true);
+  const [followInfo, setFollowInfo] = useState([0, 0, 0]);
   const router = useRouter();
   const api = OurAxios();
 
@@ -28,6 +29,14 @@ export default function FollowPage(props) {
         setMyNickname(userObject.nickname);
       }
     }
+
+    api
+      .get(`members/followInfo`, {
+        params: { memberid: "memberId" in user ? user.memberId : user.id },
+      })
+      .then((res) => {
+        setFollowInfo(res.data);
+      });
   }, []);
 
   const handleMypage = () => {
@@ -78,16 +87,16 @@ export default function FollowPage(props) {
         </div>
         <div className="flex justify-between mb-4">
           <div className="text-center mr-2">
-            <div className="text-lg font-semibold">450</div>
+            <div className="text-lg font-semibold">{followInfo[2]}</div>
             <div className="text-sm text-gray-500">게시글</div>
           </div>
           <div className="text-center mr-2">
-            <div className="text-lg font-semibold">3923만</div>
+            <div className="text-lg font-semibold">{followInfo[1]}</div>
             <div className="text-sm text-gray-500">팔로우</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-semibold">29</div>
-            <div className="text-sm text-gray-500">언팔로우</div>
+            <div className="text-lg font-semibold">{followInfo[0]}</div>
+            <div className="text-sm text-gray-500">팔로워</div>
           </div>
         </div>
         <div className="flex justify-center">
