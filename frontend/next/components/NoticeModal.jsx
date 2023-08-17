@@ -187,9 +187,12 @@ export default function NoticeModal({
     modalClose();
   }
 
-  function calendarRegist() {
+  async function calendarRegist() {
     const kakaoToken = localStorage.getItem("kakaoToken");
     createCalendar(kakaoToken);
+    alert("성공적으로 등록되었습니다.")
+    modalClose();
+    await getCalendarList(kakaoToken);
   }
 
   useEffect(() => {
