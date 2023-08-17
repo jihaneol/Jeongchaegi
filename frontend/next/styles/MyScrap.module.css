@@ -76,4 +76,20 @@
 .pageButton_wrapper {
 	border-top: 1px solid black;
 	border-bottom: 2px solid black;
+	display: flex;
+	justify-content: center;
+}
+
+.pageButton_content {
+	margin: 10px;
+	border: 1px solid black;
+	width: 30px;
+}
+
+.button_clicked {
+	margin: 10px;
+	border: 1px solid black;
+	width: 30px;
+	background-color: gray;
+	color: white;
 }

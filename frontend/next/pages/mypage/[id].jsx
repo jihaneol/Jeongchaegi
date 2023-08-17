@@ -125,7 +125,7 @@ export default function Page() {
                   <button
                     className={style.status_footer_button}
                     onClick={() => {
-                      router.push(`/mypage/${router.query.id}/edit`);
+                      router.push(`/mypage/${userName}/edit`);
                     }}
                   >
                     프로필 수정
