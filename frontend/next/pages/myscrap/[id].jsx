@@ -43,7 +43,7 @@ export default function MyScrap() {
       .get(`/scraps/count/members/${id}/`)
       .then((res) => {
         console.log("스크랩 수 받아오기 성공");
-        setMyScrapCnt((res.data / 10) + 1);
+        setMyScrapCnt(res % 10 === 0 ? (res.data / 10) : (res.data / 10) + 1);
       })
       .catch((err) => {
         console.log("스크랩 수 받아오기 실패");
@@ -60,6 +60,7 @@ export default function MyScrap() {
     let startPage = page;
     const buttons = [];
     const one = startPage % 10;
+
     const start = one === 0 ? startPage - 9 : startPage - one + 1;
     let end = one === 0 ? startPage : startPage - one + 10;
     if (end > myScrapCnt) end = myScrapCnt;
