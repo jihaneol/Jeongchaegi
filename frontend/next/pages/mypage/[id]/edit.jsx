@@ -22,10 +22,12 @@ export default function UserInfo() {
     const nickname = localStorage.getItem("userName");
     api
       .put(`/members/${id}/edit/`, {
-        policyId: userData.policyType,
-        age: userData.age,
-        city: userData.city,
-        nickname: userData.nickname,
+        params: {
+          policyId: userData.policyType,
+          // age: userData.age,
+          city: userData.city,
+          nickname: userData.nickname,
+        },
       })
       .then(() => {
         // 리덕스에 로그인 유저 정보 저장
