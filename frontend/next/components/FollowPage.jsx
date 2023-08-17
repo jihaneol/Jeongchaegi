@@ -27,8 +27,8 @@ export default function FollowPage(props) {
     api
       .delete(
         "memberId" in user
-          ? `/${user.memberId}/unFollow`
-          : `/${user.id}/unFollow`
+          ? `/members/${user.memberId}/unFollow`
+          : `/members/${user.id}/unFollow`
       )
       .then((res) => {
         setIsFollow(res.data);
