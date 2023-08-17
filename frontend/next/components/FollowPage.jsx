@@ -31,7 +31,7 @@ export default function FollowPage(props) {
           : `/members/${user.id}/unFollow`
       )
       .then((res) => {
-        setIsFollow(res.data);
+        setIsFollow(false);
         console.log("언팔로우");
       })
       .catch((err) => {
@@ -47,7 +47,7 @@ export default function FollowPage(props) {
           : `/members/${user.id}/follow`
       )
       .then((res) => {
-        setIsFollow(res.data);
+        setIsFollow(true);
         console.log("팔로우");
       })
       .catch((err) => {
