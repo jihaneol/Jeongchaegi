@@ -1,12 +1,64 @@
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 export default function FollowPage(props) {
   const user = props.user;
+  const [isFollow, setIsFollow] = useState(true);
   const router = useRouter();
+  const token = Cookies.get("at");
+  const api = axios.create({
+    baseURL: "http://3.36.131.236/api",
+    timeout: 1000,
+    headers: { Authorization: `Bearer ${token}` },
+  });
 
-  const visitUserPage = () => {
-    router.push(`/mypage/${user.nickname}`);
+  useEffect(() => {
+    // 팔로우 여부 확인 (게시판에서 접근했을 때)
+    if ("memberId" in user) {
+      api
+        .get(`/members/${user.memberId}/check/follow`)
+        .then((res) => {
+          setIsFollow(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
+  const handleUnFollow = () => {
+    api
+      .delete(
+        "memberId" in user
+          ? `/${user.memberId}/unFollow`
+          : `/${user.id}/unFollow`
+      )
+      .then((res) => {
+        setIsFollow(res.data);
+        console.log("언팔로우");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleFollow = () => {
+    api
+      .post(
+        "memberId" in user
+          ? `/members/${user.memberId}/follow`
+          : `/members/${user.id}/follow`
+      )
+      .then((res) => {
+        setIsFollow(res.data);
+        console.log("팔로우");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -15,7 +67,7 @@ export default function FollowPage(props) {
         <div className="flex items-center mb-4">
           <div className="mr-4">
             <Image
-              src={user.img}
+              src={"memberId" in user ? user.memberImg : user.img}
               alt={user.nickname}
               width={52}
               height={52}
@@ -42,12 +94,21 @@ export default function FollowPage(props) {
           </div>
         </div>
         <div className="flex justify-center">
-          <button
-            onClick={() => visitUserPage()}
-            className="w-full text-white font-bold bg-blue-500 py-1 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-          >
-            방문하기
-          </button>
+          {isFollow ? (
+            <button
+              onClick={() => handleUnFollow()}
+              className="w-full text-white font-bold bg-blue-500 py-1 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+            >
+              팔로잉
+            </button>
+          ) : (
+            <button
+              onClick={() => handleFollow()}
+              className="w-full text-white font-bold bg-gray-500 py-1 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+            >
+              팔로우
+            </button>
+          )}
         </div>
       </div>
     </>

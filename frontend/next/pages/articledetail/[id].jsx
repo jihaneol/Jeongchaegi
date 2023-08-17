@@ -8,6 +8,7 @@ import html from "remark-html";
 import axios from "axios";
 import OurAxios from "../../config/ourAxios";
 import ArticleComment from "../../components/ArticleComment";
+import FollowPage from "../../components/FollowPage";
 
 import { useDispatch, useSelector } from "react-redux";
 import style from "../../styles/ArticleDetail.module.css";
@@ -37,6 +38,7 @@ export default function Page({ detailData, contentHtml }) {
   // const [detailData, setDetailData] = useState(null);
   const userData = useSelector((state) => state.user);
   const api = OurAxios();
+  const [showModal, setShowModal] = useState(null); // 모달
 
   // 수정, 삭제 버튼 함수
   function updateArticle() {
@@ -64,10 +66,6 @@ export default function Page({ detailData, contentHtml }) {
     }
   }
 
-  function handleUserClick() {
-    router.push(`/mypage/${detailData.nickname}`);
-  }
-
   // 렌더링 태그들...
 
   return (
@@ -83,7 +81,15 @@ export default function Page({ detailData, contentHtml }) {
               </h1>
               {/* 사용자, 작성 시간 */}
               <div className="font-bold text-gray-500 m-1">
-                <p className="cursor-pointer" onClick={handleUserClick}>
+                <p
+                  className="relative cursor-pointer"
+                  onMouseEnter={() => setShowModal(true)}
+                  onClick={
+                    showModal
+                      ? () => setShowModal(false)
+                      : () => setShowModal(true)
+                  }
+                >
                   <Image
                     src={detailData.memberImg}
                     alt={detailData.nickname}
@@ -130,6 +136,12 @@ export default function Page({ detailData, contentHtml }) {
         <div className="w-full max-w-4xl">
           <ArticleComment />
         </div>
+        {/* Modal */}
+        {showModal && (
+          <div className="absolute top-40 left-20 mt-4 bg-white rounded-md shadow-lg z-10">
+            <FollowPage user={detailData} />
+          </div>
+        )}
       </div>
     </>
   );
