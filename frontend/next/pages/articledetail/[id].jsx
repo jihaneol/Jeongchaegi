@@ -83,7 +83,6 @@ export default function Page({ detailData, contentHtml }) {
               <div className="font-bold text-gray-500 m-1">
                 <p
                   className="relative cursor-pointer"
-                  onMouseEnter={() => setShowModal(true)}
                   onClick={
                     showModal
                       ? () => setShowModal(false)
