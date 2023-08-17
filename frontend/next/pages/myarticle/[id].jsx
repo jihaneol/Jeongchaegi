@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Nav from "../components/Nav";
-import ArticleListItem from "../components/ArticleListItem";
+import Nav from "../../components/Nav";
+import ArticleListItem from "../../components/ArticleListItem";
 import { useRouter } from "next/router";
 
 // 인증 관련
@@ -85,7 +85,6 @@ export default function ArticleList() {
           ) : (
             <div className="text-center py-4 text-gray-400">Loading...</div>
           )}
-          {isloading ? 'loading' : false}
           {lastPage !== page ? (
             <div>
               <button
