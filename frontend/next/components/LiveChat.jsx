@@ -12,6 +12,10 @@ export default function LiveChat(props) {
   // "http://localhost:8081/ws/policychat", 로컬
   // "http://www.jeongchaegi.com/ws/policychat", 정채기
 
+  useEffect(() => {
+    handlePreMessage();
+  }, []);
+
   const textareaRef = useRef(null); // 웹소켓 채팅입력
   // 채팅입력 높이 조절 함수
   const handleTextareaHeight = () => {
