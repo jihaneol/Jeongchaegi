@@ -1,5 +1,6 @@
 package com.oppas.controller;
 
+import com.oppas.dto.policy.HotPolicyDTO;
 import com.oppas.dto.policy.PolicyScrapDTO;
 import com.oppas.dto.policy.PolicySummaryDTO;
 import com.oppas.service.ScrapService;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/scraps")
@@ -46,5 +49,15 @@ public class ScrapController {
         scrapService.cancelPolicyScrap(memberId, policyId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/hot")
+    public ResponseEntity<?> hotPolicyScrap() {
+        System.out.println(123);
+        List<HotPolicyDTO> list =   scrapService.getMostScrappedPolicies();
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
+
+
 
 }
