@@ -80,10 +80,10 @@ export default function Page(props) {
     console.log("id: ", id);
     setUserId(id);
 
-    if (userData.isLogined && post.id) {
+    if (userData.isLogined && listId) {
       api
         .get(
-          `/scraps/check/members/${id}/policies/${post.id}`
+          `/scraps/check/members/${id}/policies/${listId}`
         )
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
@@ -93,7 +93,7 @@ export default function Page(props) {
           console.log(err);
         });
     }
-  }, [refreshFlag, post.id]); // post가 변경될 때만 이 훅을 실행합니다.
+  }, [refreshFlag, listId]); // post가 변경될 때만 이 훅을 실행합니다.
 
   // 스크랩 제거
   const handleCancelBookmark = () => {
