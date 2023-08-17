@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import axios from "axios";
+import ourAxios from "../config/ourAxios";
 
 export default function FollowPage(props) {
   const user = props.user;
   const [isFollow, setIsFollow] = useState(true);
   const router = useRouter();
-  const token = Cookies.get("at");
-  const api = axios.create({
-    baseURL: "http://3.36.131.236/api",
-    timeout: 1000,
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const api = ourAxios;
 
   useEffect(() => {
     // 팔로우 여부 확인 (게시판에서 접근했을 때)
