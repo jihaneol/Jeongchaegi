@@ -20,14 +20,12 @@ export default function GetPersonalInfo() {
   const overlapMsg = ["사용 가능한 아이디입니다.", "중복된 아이디입니다.", ""];
 
   function getResidence(residence) {
-    console.log(residence);
     if (residence) {
       dispatch(userActions.setCity(residence));
     }
   }
 
   function getBirth(birthString) {
-    console.log(birthString);
     if (birthString) {
       dispatch(userActions.setBirth(birthString));
     }
@@ -38,7 +36,6 @@ export default function GetPersonalInfo() {
   }
 
   function overlapCheck() {
-    console.log(nickName);
     if (nickName !== "") {
       api
         .get(`/login/find/${nickName}`)
@@ -47,7 +44,6 @@ export default function GetPersonalInfo() {
           setIsOverlap(0);
         })
         .catch((err) => {
-          console.log(err);
           if (err.response.status === 404) {
             dispatch(userActions.setNickName(""));
             setIsOverlap(1);

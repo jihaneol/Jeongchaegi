@@ -54,10 +54,6 @@ export default function Page({ detailData, contentHtml }) {
     if (localStorage.getItem("userID") == detailData.memberId) {
       api
         .delete(`/posts/${router.query.id}`)
-        .then((res) => {})
-        .catch((err) => {
-          console.log(err);
-        })
         .finally(() => {
           router.push("/articlelist");
         });

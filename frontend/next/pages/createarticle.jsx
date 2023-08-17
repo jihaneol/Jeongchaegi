@@ -33,7 +33,6 @@ export default function CreateArticle() {
       content: value,
     }).then((res) => {
     }).catch((err) => {
-      console.log(err);
       alert('제출할 수 없습니다!')
     })
     .finally(()=>{

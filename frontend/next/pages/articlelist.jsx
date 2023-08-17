@@ -54,11 +54,7 @@ export default function ArticleList() {
           ]);
         }
       })
-      .catch((err) => {
-        console.log(err);
-      })
       .finally(() => {
-        // console.log("finish article list request!!!!");
         setisloading(false)
       });
   }
@@ -90,11 +86,7 @@ export default function ArticleList() {
           }
         }
       })
-      .catch((err) => {
-        console.log(err);
-      })
       .finally(() => {
-        // console.log("finish article list request!!!!");
         setisloading(false)
       });
   }

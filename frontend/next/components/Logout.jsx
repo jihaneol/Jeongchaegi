@@ -31,7 +31,6 @@ export default function Logout() {
         localStorage.removeItem("userID");
         localStorage.removeItem("userPolicy");
         dispatch(userActions.setisLogined(false));
-        console.log("끝!");
       });
   }
 

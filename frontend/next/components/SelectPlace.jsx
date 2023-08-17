@@ -269,7 +269,6 @@ export default function SelectPlace({getResidence}) {
   // 선택한 시/도에 따라 구/군 데이터를 가져오는 함수
   const handleSidoChange = (e) => {
     const selectedSido = e.target.value;
-    console.log(selectedSido);
     if (getResidence) {
       if (selectedSido) {
         sido = sidoOptions[e.target.value].code;

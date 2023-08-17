@@ -27,8 +27,6 @@ export default function Page(props) {
   const post = props.post;
   const listId = router.query;
   const api = OurAxios();
-  // const keys = Object.keys(post);
-  // console.log(keys);
 
   const [refreshFlag, setRefreshFlag] = useState(false);
   // 북마크, 유저ID 상태 관리
@@ -45,14 +43,9 @@ export default function Page(props) {
   // 알림 설정 가능 여부
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log("At : ", accessToken);
-    console.log("policyDetail: ", userData.isLogined);
     if (!userData.isLogined) {
-      console.log("로그아웃 상태");
     } else {
-      console.log(listId);
       if (!listId.id) {
-        console.log("listId 없음!");
       } else {
         api
           .get(`/events/possible/policies/${listId.id}`, {
@@ -61,23 +54,17 @@ export default function Page(props) {
             },
           })
           .then((res) => {
-            console.log(res);
             setChkNotice(res.data);
           })
           .catch((err) => {
-            console.log("알림 설정 가능 여부 에러(policy detail)");
-            console.log(err);
           });
       }
     }
   }, [userData.isLogined, listId]);
 
   useEffect(() => {
-    //
-    console.log("use Effect 확인");
     // 북마크 체크 확인
     const id = localStorage.getItem("userID");
-    console.log("id: ", id);
     setUserId(id);
 
     if (userData.isLogined && listId.id) {
@@ -88,10 +75,6 @@ export default function Page(props) {
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
         })
-        .catch((err) => {
-          console.error("API 호출 중 오류 발생");
-          console.log(err);
-        });
     }
   }, [refreshFlag, listId.id]); // post가 변경될 때만 이 훅을 실행합니다.
 
@@ -99,28 +82,18 @@ export default function Page(props) {
   const handleCancelBookmark = () => {
     api
       .delete(`/scraps/cancel/members/${userId}/policies/${post.id}`)
-      .then((response) => {
-        console.log("스크랩 삭제 성공");
-        console.log(response);
+      .then(() => {
         setRefreshFlag((prev) => !prev);
       })
-      .catch((error) => {
-        console.error("API 호출 중 오류 발생:", error.message);
-      });
   };
 
   // 스크랩 추가
   const handleAddBookmark = () => {
     api
       .post(`/scraps/scrap/members/${userId}/policies/${post.id}`)
-      .then((response) => {
-        console.log("스크랩 등록 성공");
-        console.log(response);
+      .then(() => {
         setRefreshFlag((prev) => !prev);
       })
-      .catch((error) => {
-        console.error("API 호출 중 오류 발생:", error.message);
-      });
   };
 
   function modalClose() {

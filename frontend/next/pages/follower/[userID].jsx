@@ -44,8 +44,6 @@ export default function Follower() {
     fetchData();
   }, []);
 
-  // console.log(followLIst);
-  console.log(userInfo);
   return (
     <>
       <Nav />
