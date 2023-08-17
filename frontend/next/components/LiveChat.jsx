@@ -81,18 +81,14 @@ export default function LiveChat(props) {
           cursor: firstMessage.createdAt,
         };
 
-        console.log(firstMessage);
       }
 
-      // console.log(data);
       const response = await axios.post(
         `http://www.jeongchaegi.com/api/chats/${props.pageId}`,
         data
       );
-      // console.log(response.data); // 객체 배열
       if (response.data.length !== 0)
         setMessages([...response.data, ...messages]);
-      // console.log(messages);
     } catch (error) {
       console.error("Error sending POST request:", error);
     }
@@ -125,7 +121,6 @@ export default function LiveChat(props) {
                 ).createdAt.split(" ")[0]
               : null;
 
-          console.log(typeof content.createdAt);
           const timePart = content.createdAt.split(" ")[1];
           const [hours, minutes] = timePart.split(":");
           const timeString = `${hours}:${minutes}`;

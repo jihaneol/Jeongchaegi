@@ -17,7 +17,6 @@ export default function UserInfo() {
   const userData = useSelector((state) => state.user);
 
   async function submitUserInfo() {
-    console.log(userData);
     const id = localStorage.getItem("userID");
     const nickname = localStorage.getItem("userName")
     api.put(
@@ -28,18 +27,15 @@ export default function UserInfo() {
         city: userData.city,
         nickname: userData.nickname,
       },
-    ).then((res) => {
-			console.log("수정 성공");
-			console.log(res);
+    ).then(() => {
 			localStorage.setItem("userName", userData.nickname);
 			localStorage.setItem("userAge", userData.age);
 			localStorage.setItem("userCity", userData.city);
 			localStorage.setItem("userPolicy", JSON.stringify(userData.policyType));
+      alert("수정이 완료되었습니다.")
       router.push(`/mypage/${nickname}`)
-		}).catch((err) => {
+		}).catch(() => {
 			alert("모든 정보는 필수 입력값입니다.");
-			console.log("수정 실패");
-			console.log(err);
 		});
   }
 

@@ -4,7 +4,6 @@ import Nav from "../../components/Nav";
 import style from "../../styles/MyPage.module.css";
 import MyPageScrap from "../../components/MyPageScrap";
 import Link from "next/link";
-import Spin from "../../components/Spin";
 import OurAxios from "../../config/ourAxios";
 import { useSelector } from "react-redux";
 
@@ -25,11 +24,7 @@ export default function Page() {
     setUserImg(localStorage.getItem("userImg"));
     setUserName(localStorage.getItem("userName"));
     api.get(`/scraps/count/members/${userId}`).then((res) => {
-      console.log("스크랩 수 설정 성공");
       setMyScrapCnt(res.data);
-    }).catch((err) => {
-      console.log("스크랩 수 설정 실패");
-      console.log(err);
     })
   }
 

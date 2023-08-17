@@ -7,8 +7,6 @@ export default function PolicyListSort() {
 
   function test(v) {
     let value = v.target.value;
-    console.log(v.target.value);
-    if (value === "정렬 기준") console.log("pass");
   }
 
   function orderClick() {

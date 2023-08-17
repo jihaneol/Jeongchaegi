@@ -18,9 +18,6 @@ export default function FollowPage(props) {
         .then((res) => {
           setIsFollow(res.data);
         })
-        .catch((err) => {
-          console.log(err);
-        });
 
       const myData = localStorage.getItem("persist:root");
 
@@ -31,8 +28,6 @@ export default function FollowPage(props) {
 
         // 3. 변환된 객체에서 "nickname" 값을 추출합니다.
         setMyNickname(userObject.nickname);
-      } else {
-        console.log("persist:root 값을 찾을 수 없습니다.");
       }
     }
   }, []);
@@ -50,11 +45,7 @@ export default function FollowPage(props) {
       )
       .then((res) => {
         setIsFollow(false);
-        console.log("언팔로우");
       })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const handleFollow = () => {
@@ -66,11 +57,7 @@ export default function FollowPage(props) {
       )
       .then((res) => {
         setIsFollow(true);
-        console.log("팔로우");
       })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (
