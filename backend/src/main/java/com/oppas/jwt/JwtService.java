@@ -178,7 +178,7 @@ public class JwtService {
         } else {
             
             Cookie cookie = new Cookie("rt", refreshToken);
-            cookie.setMaxAge(2 * 60);
+            cookie.setMaxAge(60);
             cookie.setPath("/");
             // =============================================잠깜만 수정좀
             // cookie.setDomain("www.jeongchaegi.com");

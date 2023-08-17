@@ -50,10 +50,10 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/api/members/info").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/api/posts/*").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/posts", "/api/members/{memberId}/edit").authenticated()
-                .antMatchers(HttpMethod.POST, "/api/posts").authenticated()
+                .antMatchers("/api/members/**").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/api/members/**", "/api/posts/*").authenticated()
+                .antMatchers(HttpMethod.PUT,"/api/members/**", "/api/posts", "/api/members/{memberId}/edit").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/members/**", "/api/posts").authenticated()
                 .anyRequest().permitAll();
 
         http.exceptionHandling() // 예외 처리 기능 작동
