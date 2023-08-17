@@ -79,6 +79,7 @@ export default function MyScrap() {
     let idx = e.target.id;
     let scrapId = myScrap[idx - 1].id;
     api.delete(`scraps/cancel/members/${userName}/policies/${scrapId}`).then((res) => {
+      alert(`${myScrap[idx - 1].polyBizSjnm}을 ${<br />}스크랩 목록에서 삭제하였습니다.`)
       setIsRefresh(prev => !prev);
     })
   }
