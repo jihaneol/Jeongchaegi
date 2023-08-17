@@ -18,7 +18,9 @@ export default function Page() {
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
   const [myScrapCnt, setMyScrapCnt] = useState(0);
-  const [myArticleCnt, setMyArticleCnt] = useState(0)
+  const [myArticleCnt, setMyArticleCnt] = useState(0);
+  const [myFollowCnt, setMyFollowCnt] = useState(0);
+  const [myFollowerCnt, setMyFollowerCnt] = useState(0);
 
   async function getUserData() {
     const userId = localStorage.getItem("userID");
@@ -26,7 +28,7 @@ export default function Page() {
     setUserName(localStorage.getItem("userName"));
     api.get(`/scraps/count/members/${userId}`).then((res) => {
       setMyScrapCnt(res.data);
-    })
+    });
   }
 
   useEffect(() => {
@@ -36,8 +38,16 @@ export default function Page() {
       return;
     } else {
       getUserData();
-      api.get(`/posts/my?pageIndex=1`)
-      .then((res)=>setMyArticleCnt(res.data.totalElements))
+      //api.get(`/posts/my?pageIndex=1`)
+      //.then((res)=>setMyArticleCnt(res.data.totalElements))
+      const userId = localStorage.getItem("userID");
+      api
+        .get(`members/followInfo`, { params: { memberid: userId } })
+        .then((res) => {
+          setMyArticleCnt(res.data.post);
+          setMyFollowCnt(res.data.followee);
+          setMyFollowerCnt(res.data.follower);
+        });
     }
   }, []);
 
@@ -45,23 +55,23 @@ export default function Page() {
   function handleStatusCard(item) {
     switch (item) {
       case "스크랩수":
-      return (
-        <Link href={`/myscrap/${userName}`}>
-          <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
-            <div className={style.status_card}>
-              <div className={style.status_card_header}>{item}</div>
-              <div className={style.status_card_content}>{myScrapCnt}</div>
-            </div>
-          </a>
-        </Link>
-      );
+        return (
+          <Link href={`/myscrap/${userName}`}>
+            <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
+              <div className={style.status_card}>
+                <div className={style.status_card_header}>{item}</div>
+                <div className={style.status_card_content}>{myScrapCnt}</div>
+              </div>
+            </a>
+          </Link>
+        );
       case "팔로우":
         return (
           <Link href={`/follow/${localStorage.getItem("userID")}`}>
             <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>
-                <div className={style.status_card_content}>0</div>
+                <div className={style.status_card_content}>{myFollowCnt}</div>
               </div>
             </a>
           </Link>
@@ -72,7 +82,7 @@ export default function Page() {
             <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>
-                <div className={style.status_card_content}>0</div>
+                <div className={style.status_card_content}>{myFollowerCnt}</div>
               </div>
             </a>
           </Link>
