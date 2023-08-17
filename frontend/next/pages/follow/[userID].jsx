@@ -22,7 +22,7 @@ export default function Follow() {
       const myId = userObject.id;
 
       api
-        .get("/members/followInfo", { params: { memberId: myId } })
+        .get("/members/followInfo", { params: { memberid: myId } })
         .then((responseObject) => {
           setFollowNum(responseObject.data.followee);
         });
