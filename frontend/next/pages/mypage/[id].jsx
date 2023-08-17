@@ -26,7 +26,7 @@ export default function Page() {
 
   useEffect(() => {
     const userName = localStorage.getItem("userName")
-    if (userData.isLogined)
+    if (!userData.isLogined)
     {
       router.push("/login");
       alert("로그인이 필요한 페이지입니다.");
