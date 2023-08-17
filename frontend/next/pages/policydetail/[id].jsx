@@ -20,6 +20,7 @@ import CannotRegistNotice from "../../components/CannotRegistNotice";
 import CanRegistNotice from "../../components/CanRegistNotice";
 import NoticeModal from "../../components/NoticeModal";
 import { useSelector } from "react-redux";
+import CannotNoticeRegister from "../../components/CannotRegistNotice";
 
 export default function Page(props) {
   const router = useRouter();
@@ -71,22 +72,26 @@ export default function Page(props) {
     }
   }, [userData.isLogined, listId]);
 
-  useEffect(() => {
+  useEffect(async () => {
+    //
+    console.log("use Effect 확인");
     // 북마크 체크 확인
-    setUserId(localStorage.getItem("userID"));
+    const id = localStorage.getItem("userID");
+    console.log("id: ", id);
+    setUserId(id);
 
-    if (post && post.id && userId) {
-      api
-        .get(`/scraps/check/members/${userId}/policies/${post.id}`)
+    if (userData.isLogined) {
+      await api
+        .get(`/scraps/check/members/${id}/policies/${post.id}`)
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
         })
-        .catch((error) => {
+        .catch((err) => {
           console.error("API 호출 중 오류 발생");
           console.log(err);
         });
     }
-  }, [post, refreshFlag]); // post가 변경될 때만 이 훅을 실행합니다.
+  }, [refreshFlag]); // post가 변경될 때만 이 훅을 실행합니다.
 
   // 스크랩 제거
   const handleCancelBookmark = () => {
@@ -153,7 +158,7 @@ export default function Page(props) {
                   {/* 나머지 작업은 컴포넌트 만들어야 함 */}
                   {!chkNotice ? (
                     <>
-                      <CannotRegistNotice className="cursor-pointer" />
+                      <CannotRegistNotice shape="Bell" />
                     </>
                   ) : (
                     <div>
@@ -178,16 +183,20 @@ export default function Page(props) {
                   )}
                   {/* 알림 끝 */}
                   {/* 스크랩 시작 */}
-                  {chkBookmark ? (
-                    <FaBookmark
-                      className="cursor-pointer"
-                      onClick={handleCancelBookmark}
-                    />
+                  {userData.isLogined ? (
+                    chkBookmark ? (
+                      <FaBookmark
+                        className="cursor-pointer"
+                        onClick={handleCancelBookmark}
+                      />
+                    ) : (
+                      <FaRegBookmark
+                        className="cursor-pointer"
+                        onClick={handleAddBookmark}
+                      />
+                    )
                   ) : (
-                    <FaRegBookmark
-                      className="cursor-pointer"
-                      onClick={handleAddBookmark}
-                    />
+                    <CannotNoticeRegister />
                   )}
                   {/* 스크랩 끝 */}
                 </div>

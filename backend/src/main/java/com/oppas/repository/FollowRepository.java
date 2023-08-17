@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-    void  deleteByFolloweeIdAndFollowerId(Long followeeId, Long followerId);
+
+    boolean existsByFollowerIdAndFolloweeId(Long followeeId, Long followerId);
 
     @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fr.id = :toId" )
     List<Follow> findAllByFollowerId(@Param("toId") Long toId);
@@ -23,4 +24,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     @Query(value = "select f from Follow f join fetch f.followee fe join fetch f.follower fr where fr.id = :toId and fe.nickname like '%' || :name || '%'")
     List<Follow> findLikeFolloweeByname(@Param("name") String name,@Param("toId") Long toId);
+
+    void deleteByFollowerIdAndFolloweeId(Long followerId, Long followeeId);
 }
