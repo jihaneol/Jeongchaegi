@@ -4,11 +4,12 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html lang="ko">
+    <Html lang="ko-KR">
       <Head>
         <meta name="description" content="i just want increase SEO" />
+        <meta name="google-site-verification" content="t7Rx38xM5tH7op-QZNIm8XW_2eYsaU8ZDxBLuSl0Icg" />
       </Head>
-      <body>
+      <body className={`bg-aliceblue min-h-screen`}>
         <Main />
         <NextScript />
       </body>

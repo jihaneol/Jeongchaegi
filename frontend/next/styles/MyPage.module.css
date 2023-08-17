@@ -1,0 +1,163 @@
+.all_wrapper {
+  width: 100%;
+  height: 1500px;
+}
+
+.content_wrapper {
+  position: absolute;
+  background-color: #99b5ff;
+  top: 15%;
+  width: 900px;
+  height: 1000px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+}
+
+.profile_wrapper {
+  height: 470px;
+  width: 100%;
+  border: 1px solid black;
+  display: flex;
+}
+
+.profile_box {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile_picture {
+  flex: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile_picture > span {
+  border-radius: 50%;
+}
+
+.profile_name {
+  flex: 2;
+  text-align: center;
+  line-height: 25px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.status_box {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.status_header {
+  flex: 0.7;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+.status_content {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.status_card {
+  margin: 10px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 15px;
+  padding: 2px;
+}
+
+.status_card_header {
+  flex: 2;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.status_card_content {
+  flex: 3;
+  text-align: center;
+  font-size: 30px;
+  color: #5d5a88;
+}
+
+.stastus_footer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.status_footer_button {
+  width: 280px;
+  height: 45px;
+  border: none;
+  background-color: #5d5a88;
+  color: white;
+  border-radius: 30px;
+}
+
+.policyList_wrapper {
+  height: 330px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.policyList_header {
+  border-bottom: 1px solid black;
+  height: 70px;
+  font-size: 30px;
+  line-height: 70px;
+  font-weight: bold;
+  padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.polisyList_type {
+  font-size: 20px;
+  line-height: 100px;
+  width: 20%;
+  text-align: center;
+}
+
+.off {
+  color: gray;
+}
+
+.policyList_content {
+  height: 260px;
+}
+
+.followerList_wrapper {
+  height: 270px;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.followerList_header {
+  border-bottom: 1px solid black;
+  height: 70px;
+  font-size: 30px;
+  line-height: 70px;
+  font-weight: bold;
+  padding-left: 20px;
+}
+
+.followerList_content {
+  height: 200px;
+}
