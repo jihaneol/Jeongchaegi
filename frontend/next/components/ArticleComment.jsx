@@ -70,7 +70,6 @@ export default function ArticleComment() {
         setTotalComments(res.data.totalElements);
         if (lastpage > page) {
           // 막페이지가 현재 페이지보다 크면 페이지 +1을 해줌
-          console.log("lastpage bigger page");
           page += 1;
         }
       }
@@ -95,7 +94,6 @@ export default function ArticleComment() {
   // 댓 추가하는 함수
   function commentSubmit(e) {
     e.preventDefault();
-    console.log(newComment.length);
     // 댓글에 내용 있을때만 추가
     if (newComment.trim()) {
       api
@@ -132,9 +130,9 @@ export default function ArticleComment() {
     } else alert("다른 사용자의 댓글을 삭제할 수 없습니다.");
   }
 
-  function handleUserClick(item) {
-    router.push(`/mypage/${item.nickname}`);
-  }
+  // function handleUserClick(item) {
+  //   router.push(`/mypage/${item.nickname}`);
+  // }
 
   function loadReply() {
     getComment();
@@ -145,7 +143,6 @@ export default function ArticleComment() {
     while (page < lastpage) {
       // 만약 현재 페이지가 막페이지보다 작으면 댓글 계속 요청
       await getComment();
-      console.log(page);
     }
     if (page === lastpage) await getComment();
   }
@@ -172,11 +169,9 @@ export default function ArticleComment() {
               alt={item.nickname}
               width={24}
               height={24}
-              className="rounded-full mr-3"
+              className="rounded-full"
             />
-            <p className="font-semibold" onClick={handleUserClick(item)}>
-              {item.nickname}:
-            </p>
+            <p className="font-semibold">{item.nickname}:</p>
             <p className="flex-1">{item.comment}</p>
             <button
               onClick={() => commentDel(item.id, item.memberId)}

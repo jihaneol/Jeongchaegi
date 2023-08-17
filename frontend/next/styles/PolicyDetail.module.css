@@ -3,14 +3,12 @@
   background-color: rgba(208, 221, 255, 0.5);
 }
 
-
 .wrap {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   margin-top: 80px;
-  background-color: #d0ddff;
 }
 
 .container {
@@ -118,7 +116,7 @@
   margin-top: 2em;
   padding-bottom: 1em;
   border-bottom: 0.5px solid black;
-  background-color: thistle;
+  background-color: #bdc3c7;
 }
 
 .summary_ctt {

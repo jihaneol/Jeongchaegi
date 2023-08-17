@@ -15,19 +15,29 @@ export default function ArticleList() {
   const [articleData, setArticleData] = useState(null);
   const router = useRouter();
   const userData = useSelector((state) => state.user);
+  const [searchData, setSearchData] = useState('')
+  const [isloading, setisloading] = useState(false)
 
   // 시작할때 데이터 받고 시작
-  useEffect(() => {
-    page = 1;
-    lastPage = 999999;
-    getArticleData(page);
-  }, []);
+
+  useEffect(()=>{
+    page = 1
+    lastPage = 999999
+    setArticleData([])
+    setisloading(true)
+    if (router.query.keyword) {
+      getSearchData()
+    }
+    else{
+      getArticleData()
+    }
+  }, [router.query])
 
   // 함수 목록 ===================================================================
-  function getArticleData(page) {
+  function getArticleData() {
     axios({
       method: "get",
-      url: "http://3.36.131.236/api/posts",
+      url: "http://www.jeongchaegi.com/api/posts",
       params: {
         pageIndex: page,
       },
@@ -49,16 +59,61 @@ export default function ArticleList() {
       })
       .finally(() => {
         // console.log("finish article list request!!!!");
+        setisloading(false)
       });
   }
 
+  // api를 나눠놓아서 부득이하게 함수도 나눔;;;;
+  function getSearchData() {
+    axios({
+      method: "get",
+      url: "http://www.jeongchaegi.com/api/posts/search",
+      params: {
+        pageIndex: page,
+        keyword:router.query.keyword
+      },
+    })
+      .then((res) => {
+        if (res.data.totalPages === 0) {
+          lastPage = 1
+        }
+        else{
+          if (!articleData) {
+            lastPage = res.data.totalPages;
+            setArticleData([...res.data.content]);
+          } else {
+            lastPage = res.data.totalPages;
+            setArticleData((articleData) => [
+              ...articleData,
+              ...res.data.content,
+            ]);
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        // console.log("finish article list request!!!!");
+        setisloading(false)
+      });
+  }
+
+
+  // 다음 페이지로 이동
   function btnNextPage() {
-    if (page < lastPage) {
-      page += 1;
-      getArticleData(page);
+    setisloading(true)
+    if (!router.query.keyword && page < lastPage) {
+      page += 1
+      getArticleData()
+    }
+    else if (router.query.keyword && page < lastPage){
+      page += 1
+      getSearchData()
     }
   }
 
+  // 클릭시 게시판상세 페이지로 이동
   function handleItemClick(itemId) {
     router.push(`/articledetail/${itemId}`);
     // Do whatever you want with the clicked item ID
@@ -73,6 +128,25 @@ export default function ArticleList() {
         })();
   }
 
+  // 게시판 검색 기능
+  function articleSearch(e) {
+    e.preventDefault()
+    if (searchData.trim()) {
+      router.push({
+        pathname:'articlelist',
+        query:{
+          keyword:searchData.trim()
+        },
+      })
+    }
+    else{
+      router.push({
+        pathname:'articlelist',
+      })
+    }
+    setSearchData('')
+  }
+
   // 렌더링 되는 곳
 
   return (
@@ -83,11 +157,13 @@ export default function ArticleList() {
           {/* Header section */}
           <div className="flex justify-between items-center mb-6 border-b pb-4">
             {/* gpt님이 만들어주신 개이쁜 검색창 */}
-            <form className="relative">
+            <form className="relative" onSubmit={articleSearch}>
               <input
                 type="text"
                 placeholder="Search..."
                 className="border rounded-md pl-10 pr-4 py-2 w-full focus:outline-none focus:border-blue-300"
+                onChange={e=>setSearchData(e.target.value)}
+                value={searchData}
               />
               <svg
                 className="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400"
@@ -132,7 +208,7 @@ export default function ArticleList() {
           ) : (
             <div className="text-center py-4 text-gray-400">Loading...</div>
           )}
-
+          {isloading ? 'loading' : false}
           {lastPage !== page ? (
             <div>
               <button
