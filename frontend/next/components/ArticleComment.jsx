@@ -54,7 +54,7 @@ export default function ArticleComment() {
       } else {
         // 댓이 db에 잇으면 for문 돌려서 id가 같거나 작으면 삭제하고 추가함
         const newreply = [...res.data.content]; // 깊은 복사 필요
-        if (articleComment.length !== 0 && lastpage !== 999) {
+        if (articleComment && articleComment.length !== 0 && lastpage !== 999) {
           // 적어도 두번째 요청일 때 / 댓글이 있을때만 자를 필요가 있음
           res.data.content.forEach((element) => {
             if (element.id <= articleComment.slice(-1)[0].id) newreply.shift();
