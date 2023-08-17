@@ -63,7 +63,9 @@ public class MemberController {
     public ResponseEntity<?> followMember(@PathVariable("toMemberId") Long to,
                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long from = principalDetails.getId();
-        followService.follow(to, from);
+        if(!followService.follow(to, from)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
