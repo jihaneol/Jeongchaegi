@@ -27,8 +27,8 @@ export default function Follow() {
       const fetchData = () => {
         api
           .get("/members/followInfo", { params: { memberId: myId } })
-          .then((responseNum) => {
-            setFollowNum(responseNum.data);
+          .then((responseObject) => {
+            setFollowNum(responseObject.data.followee);
           })
           .catch((err) => {
             console.log(err);
@@ -37,6 +37,7 @@ export default function Follow() {
         api
           .get("/members/followerList")
           .then((responseList) => {
+            const list = responseList.data.slice();
             setFollowList(responseList.data);
           })
           .catch((err) => {
