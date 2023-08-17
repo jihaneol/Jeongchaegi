@@ -18,8 +18,9 @@ export default function UserInfo() {
 
   async function submitUserInfo() {
     console.log(userData);
+    const id = localStorage.getItem("userID");
     api.put(
-      `/members/${router.query.id}/edit/`,
+      `/members/${id}/edit/`,
       {
         policyId: userData.policyType,
         age: userData.age,
