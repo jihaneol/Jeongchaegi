@@ -19,9 +19,15 @@ export default function FollowPage(props) {
   useEffect(() => {
     // 팔로우 여부 확인 (게시판에서 접근했을 때)
     if ("memberId" in user) {
-      api.get(`/members/${user.memberId}/check/follow`).then((res) => {
-        setIsFollow(res.data);
-      });
+      api
+        .get(`/members/${user.memberId}/check/follow`)
+        .then((res) => {
+          setIsFollow(res.data);
+        })
+        .catch((error) => {
+          console.error("Error checking follow status:", error);
+          // 여기서 추가적인 에러 처리 로직을 넣을 수 있습니다.
+        });
 
       const myData = localStorage.getItem("persist:root");
 

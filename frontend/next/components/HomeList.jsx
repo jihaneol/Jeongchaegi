@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "../styles/Home.module.css";
 import axios from "axios";
 import HomeListItem from "./HomeListItem";
+import { FaFire } from "react-icons/fa";
 
 export default function HomeList({ title }) {
   const [header, setHeader] = useState("");
@@ -12,7 +13,7 @@ export default function HomeList({ title }) {
 
     axios({
       method: "get",
-      url: "https://jsonplaceholder.typicode.com/posts",
+      url: "http://jeongchaegi.com/api/scraps/hot",
     }).then((res) => {
       if (isMounted) {
         // 컴포넌트가 여전히 마운트되어 있다면 상태를 설정합니다.
@@ -33,17 +34,20 @@ export default function HomeList({ title }) {
     <div className={`${style.list_wrapper} p-6 rounded-lg shadow-lg`}>
       <div className={`${style.list_box} mb-4 p-4 rounded-lg`}>
         <div
-          className={`${style.list_header} text-2xl font-bold mb-4 text-gray-700`}
+          className={`${style.list_header} text-2xl font-bold mb-4 text-gray-700 flex items-center`}
         >
-          {header}
+          {header} <FaFire />
         </div>
         <div className={`${style.list_content_wrapper} p-4 rounded-lg`}>
           {contents ? (
-            contents
-              .filter((content) => content.id < 10)
-              .map((content) => (
-                <HomeListItem key={content.id} type={title} content={content} />
-              ))
+            contents.map((content) => (
+              <HomeListItem
+                key={content.polyBizSjnm}
+                pcyName={content.polyBizSjnm}
+                pcyDesc={content.polyItcnCn}
+                pcyId={content.policyId}
+              />
+            ))
           ) : (
             <h5 className="text-center text-gray-500">Loading...</h5>
           )}
