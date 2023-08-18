@@ -50,7 +50,7 @@ public class MemberController {
 
     @PutMapping("/{memberId}/edit")
     public ResponseEntity<?> updateMember(@PathVariable("memberId") Long id,
-                                          @RequestBody MemberForm memberForm) {
+                                          @RequestParam MemberForm memberForm) {
         memberService.updateMember(id, memberForm);
         return new ResponseEntity<>(HttpStatus.OK);
     }
