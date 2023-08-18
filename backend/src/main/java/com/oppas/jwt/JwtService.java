@@ -2,7 +2,8 @@ package com.oppas.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.oppas.repository.UserRepository;
+import com.oppas.entity.member.Member;
+import com.oppas.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,8 @@ public class JwtService {
     private static final String USER_CLAIM = "username";
     private static final String BEARER = "Bearer ";
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
+
 
     /**
      * AccessToken 생성 메소드
@@ -57,8 +59,6 @@ public class JwtService {
                 .withSubject(ACCESS_TOKEN_SUBJECT) // JWT의 Subject 지정 -> AccessToken이므로 AccessToken
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
 
-                //클레임으로는 저희는 email 하나만 사용합니다.
-                //추가적으로 식별자나, 이름 등의 정보를 더 추가하셔도 됩니다.
                 //추가하실 경우 .withClaim(클래임 이름, 클래임 값) 으로 설정해주시면 됩니다
                 .withClaim(USER_CLAIM, name)
                 .sign(Algorithm.HMAC512(secretKey)); // HMAC512 알고리즘 사용, application-jwt.yml에서 지정한 secret 키로 암호화
@@ -75,14 +75,17 @@ public class JwtService {
                 .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
                 .sign(Algorithm.HMAC512(secretKey));
     }
+    public void sendkakaoToken(HttpServletResponse response, String kakaoToken) {
+        setKakaoTokenHeader(response, kakaoToken);
+    }
 
     /**
      * AccessToken 헤더에 실어서 보내기
      */
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
-        response.setStatus(HttpServletResponse.SC_OK);
+
         setAccessTokenHeader(response, accessToken, false);
-        response.setHeader(accessHeader, accessToken);
+
         log.info("재발급된 Access Token : {}", accessToken);
     }
 
@@ -91,8 +94,7 @@ public class JwtService {
      */
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken, boolean flag) {
         response.setStatus(HttpServletResponse.SC_OK);
-        System.out.println(accessToken);
-        log.info("리프레쉬 {}", refreshToken);
+
         setAccessTokenHeader(response, accessToken, flag);
         setRefreshTokenHeader(response, refreshToken, flag);
     }
@@ -103,7 +105,6 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
-
 
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
@@ -116,7 +117,7 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractAccessToken(HttpServletRequest request) {
-
+        log.info("엑세스 토큰 추출");
         return Optional.ofNullable(request.getHeader(accessHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
@@ -131,7 +132,6 @@ public class JwtService {
      */
     public Optional<String> extractName(String accessToken) {
         try {
-            log.info("유저정보 추출");
             // 토큰 유효성 검사하는 데에 사용할 알고리즘이 있는 JWT verifier builder 반환
             return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
                     .build() // 반환된 빌더로 JWT verifier 생성
@@ -144,37 +144,53 @@ public class JwtService {
         }
     }
 
+    public void setKakaoTokenHeader(HttpServletResponse response, String kakaoToken) {
+        Cookie cookie = new Cookie("kt", kakaoToken);
+        cookie.setMaxAge(60);
+        cookie.setPath("/");
+        // =============================================잠깜만 수정좀
+        // cookie.setDomain("www.jeongchaegi.com");
+        response.addCookie(cookie);
+    }
+
     /**
      * AccessToken 헤더 설정
      */
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken, boolean flag) {
         if (flag) {
-            response.setHeader("accessHeader", accessToken);
-
+            response.setHeader("accessToken", accessToken);
         } else {
             Cookie cookie = new Cookie("at", accessToken);
-            cookie.setMaxAge(60 * 2);
+            cookie.setMaxAge(60);
             cookie.setPath("/");
-//        cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
     }
-
+    
     /**
      * RefreshToken 헤더 설정
      */
     public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken, boolean flag) {
         if (flag) {
-            response.setHeader("refreshHeader", refreshToken);
+            response.setHeader("refreshToken", refreshToken);
         } else {
-
+            
             Cookie cookie = new Cookie("rt", refreshToken);
-            cookie.setMaxAge(2 * 60);
+            cookie.setMaxAge(60);
             cookie.setPath("/");
+            // =============================================잠깜만 수정좀
+            // cookie.setDomain("www.jeongchaegi.com");
             //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
         }
+    }
+
+    public String reIssueRefreshToken(Member user) {
+        String reIssuedRefreshToken = createRefreshToken();
+        user.updateRefreshToken(reIssuedRefreshToken);
+        memberRepository.saveAndFlush(user);
+        return reIssuedRefreshToken;
     }
 
     /**
@@ -183,7 +199,9 @@ public class JwtService {
 
 
     public boolean isTokenValid(String token) {
+        log.info("토큰 유효");
         try {
+        log.info("토큰 유효0");
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {

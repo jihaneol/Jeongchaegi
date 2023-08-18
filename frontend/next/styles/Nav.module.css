@@ -1,15 +1,45 @@
 .nav_wrap {
-  display: flex;
-  justify-content: space-between;
-  min-width: 100%;
-  min-height: 5rem;
-  align-items: center;
-  background-color: #5383ff;
   position: fixed;
+  width: 100%;
   z-index: 500;
-  top: 0px;
+  top: 0%;
+  font-weight: bold;
 }
 
+.nav_logout_box{
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.nav_reset_box {
+  font-size: 11px;
+  line-height: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.nav_reset_box > button {
+  font-size: 13px;
+  line-height: 50px;
+  margin: 10px 10px 0px 10px;
+  height: 20px;
+  background-color: #7474e9;
+  line-height: 0px;
+  border-radius: 5px !important;
+  padding: 3px;
+}
+
+.nav_menu {
+  display: flex;
+  align-items: center;
+}
+
+/*
 .nav_menu {
   display: flex;
   justify-content: space-evenly;
@@ -18,7 +48,6 @@
 }
 
 .nav_logo {
-  /* background-image: url("../../img/Logo.png"); */
   background-size: cover;
   min-height: 4.5rem;
   min-width: 10.5rem;
@@ -27,7 +56,7 @@
   margin-right: 3rem;
 }
 
-.nav_menu > a {
+.nav_menu>a {
   font-size: 1.5rem;
   color: white;
   font-weight: bold;
@@ -46,3 +75,13 @@
   font-weight: bold;
   text-decoration: none;
 }
+
+.nav_logout {
+  margin-right: 1.2rem;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  background-color: #5383ff;
+} */

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../styles/PolicyList.module.css";
+import style from "../styles/PolicyList.module.css";
 import Calendar from "react-calendar";
 
 export default function PolicyListCalendar({ onClickDay, targetDate }) {
@@ -9,7 +9,7 @@ export default function PolicyListCalendar({ onClickDay, targetDate }) {
       formatDay={(locale, date) =>
         date.toLocaleString("en", { day: "numeric" })
       }
-      className={`${styles.fixed_calendar}`}
+      className={`${style.fixed_calendar}`}
       minDetail="month"
       maxDetail="month"
       next2Label={null}
