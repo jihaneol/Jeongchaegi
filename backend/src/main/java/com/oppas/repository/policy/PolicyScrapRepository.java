@@ -18,7 +18,7 @@ public interface PolicyScrapRepository extends JpaRepository<PolicyScrap, Long> 
 
     void deleteByMemberIdAndPolicyId(Long memberId, Long policyId);
 
-    @Query("SELECT ps.policy.id, ps.policy.polyBizSjnm, COUNT(ps.policy) as scrapCount " +
+    @Query("SELECT ps.policy.id, ps.policy.polyBizSjnm, COUNT(ps.policy) as scrapCount ,ps.policy.polyItcnCn " +
             "FROM PolicyScrap ps " +
             "GROUP BY ps.policy " +
             "ORDER BY scrapCount DESC")

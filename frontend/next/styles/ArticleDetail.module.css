@@ -9,6 +9,10 @@
     line-height: 1.5;
     word-wrap: break-word;
   }
+
+  .modal_style {
+    min-width: max-content;
+  }
   
   .markdown_body .octicon {
     display: inline-block;
