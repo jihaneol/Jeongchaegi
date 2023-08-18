@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>정채기</title>
         <meta name="google-site-verification" content="oki5AKJZxS7fbCL6iANmqnSq3jCcBDzvI1RSrSerioc" />
+        <meta name="description" content="청년 정책을 한 눈에 모아보고 관심 있는 정책은 클릭 한 번에 톡캘린더에 등록할 수 있습니다!" />
       </Head>
       <Provider store={store}>
         {isClient ? (
