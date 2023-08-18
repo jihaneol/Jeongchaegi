@@ -88,28 +88,37 @@ export default function Page({ detailData, contentHtml }) {
                       ? () => setShowModal(false)
                       : () => setShowModal(true)
                   }
-                > 
+                >
+                  {/* Modal */}
+                  {showModal && (
+                    <div
+                      className={`absolute top-3 left-100 mt-4 bg-white rounded-md shadow-lg z-10 ${style.modal_style}`}
+                    >
+                      <FollowPage user={detailData} />
+                    </div>
+                  )}
 
-                <div className="flex">
-                  <Image
-                    src={detailData.memberImg}
-                    alt={detailData.nickname}
-                    width={24}
-                    height={24}
-                    className="rounded-full mr-5"
-                  />
-                  <p className="pl-2">
-                    {detailData.nickname}
-                  </p>
-                </div>
-                  
+                  <div className="flex">
+                    <Image
+                      src={detailData.memberImg}
+                      alt={detailData.nickname}
+                      width={24}
+                      height={24}
+                      className="rounded-full mr-5"
+                    />
+                    <p className="pl-2">{detailData.nickname}</p>
+                  </div>
                 </p>
                 <p>
-                  {detailData.createdAt.slice(0, 10)} {detailData.createdAt.slice(11)}
+                  {detailData.createdAt.slice(0, 10)}{" "}
+                  {detailData.createdAt.slice(11)}
                 </p>
               </div>
               <hr />
-              <div className="bg-white shadow-md p-6 rounded-lg" style={{minHeight:'15rem'}}>
+              <div
+                className="bg-white shadow-md p-6 rounded-lg"
+                style={{ minHeight: "15rem" }}
+              >
                 <div className="p-4 rounded">
                   {/* tailwind는 브라우저 기본 제공 css 날려먹음, 그래서 그냥 깃헙에 있는 마크다운 스타일 훔쳐옴 */}
                   <div
@@ -143,12 +152,6 @@ export default function Page({ detailData, contentHtml }) {
         <div className="w-full max-w-4xl">
           <ArticleComment />
         </div>
-        {/* Modal */}
-        {showModal && (
-          <div className="absolute top-40 left-20 mt-4 bg-white rounded-md shadow-lg z-10">
-            <FollowPage user={detailData} />
-          </div>
-        )}
       </div>
     </>
   );

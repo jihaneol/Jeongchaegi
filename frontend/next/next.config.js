@@ -4,7 +4,7 @@ const removeImports = require('next-remove-imports')();
 
 const nextConfig = {
   images: {
-    domains: ["*", "k.kakaocdn.net"],
+    domains: ["*", "k.kakaocdn.net", "www.jeongchaegi.com"],
   },
   reactStrictMode: true,
   swcMinify: true,
