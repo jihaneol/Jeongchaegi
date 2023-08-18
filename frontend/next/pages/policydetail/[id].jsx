@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Nav from "../../components/Nav";
-import {
-  FaBars,
-  FaBookmark,
-  FaRegBookmark,
-} from "react-icons/fa";
+import { FaBars, FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 import Head from "next/head";
 
@@ -53,8 +49,7 @@ export default function Page(props) {
           .then((res) => {
             setChkNotice(res.data);
           })
-          .catch((err) => {
-          });
+          .catch((err) => {});
       }
     }
   }, [userData.isLogined, listId]);
@@ -69,7 +64,7 @@ export default function Page(props) {
         .get(`/scraps/check/members/${id}/policies/${listId.id}`)
         .then((response) => {
           setchkBookmark(response.data); // API 응답값을 chkBookmark 상태에 설정합니다.
-        })
+        });
     }
   }, [refreshFlag, listId.id]); // post가 변경될 때만 이 훅을 실행합니다.
 
@@ -79,19 +74,18 @@ export default function Page(props) {
       .delete(`/scraps/cancel/members/${userId}/policies/${post.id}`)
       .then(() => {
         setRefreshFlag((prev) => !prev);
-      }).catch(err => {
+      })
+      .catch((err) => {
         console.log("북마크 해제 실패");
         console.log(err);
-      })
+      });
   };
 
   // 스크랩 추가
   const handleAddBookmark = () => {
-    api
-      .post(`/scraps/scrap/members/${userId}/policies/${post.id}`)
-      .then(() => {
-        setRefreshFlag((prev) => !prev);
-      })
+    api.post(`/scraps/scrap/members/${userId}/policies/${post.id}`).then(() => {
+      setRefreshFlag((prev) => !prev);
+    });
   };
 
   function modalClose() {
@@ -127,7 +121,10 @@ export default function Page(props) {
               className={`${Style.container} flex justify-between items-center mb-6`}
             >
               <div className={`${Style.title} flex items-center`}>
-                <FaBars className="text-gray-600 mr-4 cursor-pointer" onClick={moveToList} />
+                <FaBars
+                  className="text-gray-600 mr-4 cursor-pointer"
+                  onClick={moveToList}
+                />
                 <h3 className="text-2xl font-semibold">{post.polyBizSjnm}</h3>
                 <div className={`${Style.icon} flex items-center`}>
                   {/* 알림 설정 파트 */}
@@ -179,7 +176,7 @@ export default function Page(props) {
                 </div>
               </div>
               <div
-                className={`${Style.making} bg-white rounded-lg p-4 shadow h-[desiredValue]`}
+                className={`${Style.making} bg-white rounded-lg p-4 shadow h-[desiredValue] w-full`}
               >
                 <div className={Style.ctt_title}>
                   <p>{post.polyItcnCn}</p>
