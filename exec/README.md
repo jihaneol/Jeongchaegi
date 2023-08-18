@@ -1,7 +1,7 @@
 # 소스 클론 이후 빌드 방법
 
 1. jvm, 웹서버 제품 등 종류 및 설정값, 버전
-   * jvm : 
+   * jvm : 11.0.19+9-LTS
    * webserver : nginx/1.25.1
    ```
    # nginx.conf
@@ -73,17 +73,86 @@
     }
    ```
 2. 빌드 시 사용되는 환경변수 및 주요 내용
-   * 환경 변수 없음
    * 백엔드 gradle 사용 빌드, 도커파일 존재
    * 포른트 node.js 사용 빌드, 도커파일 존재
 3. 배포 시 특이사항
-   * backend/ 위치 gradle 빌드 이후 도커파일 이용
+   * backend/ 위치 gradle 빌드 이후 도커 이미지 생성
 4. 주요 계정 및 프로퍼티 정의된 파일 목록
    * \backend\src\main\resources\application.yml
 
 # 외부 서비스 정보
 
-* 카카오 소셜 로그인, 카카오 톡캘린더
+* 카카오 소셜 로그인
+1. 카카오 디벨롭 가입 
+	카카오 로그인 후 내 애플리케이션에서 앱을 등록 후 필요한 정보들을 받고 로그인관련 설정을 한다.
+  security:
+    oauth2:
+      client:
+        registration:
+
+          kakao:
+            client-id:  {클라이언트 ID}
+            redirect-uri: {리다이렉트 URI}
+            client-authentication-method: POST
+            client-secret: {클라이언트 시크릿}
+            authorization-grant-type: authorization_code
+            response-type: code
+            scope:
+              - profile_nickname
+              - account_email
+				      - profile_image
+            client_name: kakao
+
+2. 카카오 api 호출
+	흐름 : 인가코드 요청/받기 -> 에세스 토큰 요청/받기 -> 사용자 정보 요청/받기
+	webclient를 사용하여 요청/받기를 사용할 수 있지만 시큐리티를 적용하여
+	시큐리티 자체에서 요청/응답을 할 수 있게 했다. 
+					provider:
+	          kakao:
+	            authorization-uri: https://kauth.kakao.com/oauth/authorize
+	            token-uri: https://kauth.kakao.com/oauth/token
+	            user-info-uri: https://kapi.kakao.com/v2/user/me
+	            user-name-attribute: id
+
+3. 카카오 로그인 완료
+	스프링 시큐리티의 oauth2login을 통해 DefaultOAuth2UserService을 상속받은 PrincipalOauth2UserService
+에서 카카오 로그인 처리를 해주고 securitycontextholder에 authentication(카카오 정보) 타입 객체를 넣어 주었다.
+
+@Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
+        OAuth2User oAuth2User = super.loadUser(userRequest); // 소셜 로그인의 회원 프로필 조회
+
+        return processOAuth2User(userRequest, oAuth2User);
+    }
+
+    private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+        } else {
+            log.info("카카오 로그인 해주세요.");
+        }
+
+
+ * 카카오 톡캘린더
+1. 카카오 로그인 추가 기능 설정
+https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=account_email,gender
+요청으로 로그인을 해주면 카카오 캘린더 기능 사용 가능.
+
+
+
+* 청년 정책 API
+1. 온라인 청년센터 가입
+- https://www.youthcenter.go.kr/main.do
+
+2. Open API 신청
+- https://www.youthcenter.go.kr/opi/openApiIntro.do
+
+3. API를 주기적으로 호출하여 데이터베이스에 저장
+
+
 
 # DB덤프 파일
 
@@ -119,3 +188,4 @@
 - 마이페이지 기능(`/mypage`)
     - 스크랩, 작성한 글, 팔로우 팔로워 간단히 설명하고 보여주기
 - 마무리 멘트
+    - 감사합니다.
