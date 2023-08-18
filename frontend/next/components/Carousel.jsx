@@ -21,8 +21,8 @@ const Carousel = () => {
     autoplaySpeed: 3000, // 3초 간격으로 사진 변경
   };
 
-  const handlePcyDetail = () => {
-    router.push(`http://www.jeongchaegi.com/policydetail/2023072616843`);
+  const handlePcyDetail = (id) => {
+    router.push(`http://www.jeongchaegi.com/policydetail/${id}`);
   };
 
   return (
@@ -33,7 +33,8 @@ const Carousel = () => {
             className={`${Style.carousel_slide} relative w-full h-48 overflow-hidden rounded-lg shadow-lg`}
           >
             <img
-              className={`${Style.carousel_slide_img} w-full h-full object-contain`}
+              onClick={() => handlePcyDetail(2023050912524)}
+              className={`${Style.carousel_slide_img} w-full h-full object-contain transform transition-transform duration-300 hover:scale-105 hover:opacity-80 cursor-pointer`}
               src="/괜찮아.jpg"
               alt="청년정책①: 괜찮아"
             />
@@ -51,7 +52,7 @@ const Carousel = () => {
             className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
           >
             <img
-              onClick={handlePcyDetail}
+              onClick={() => handlePcyDetail(2023072616843)}
               className={`${Style.carousel_slide_img} w-full h-full object-contain transform transition-transform duration-300 hover:scale-105 hover:opacity-80 cursor-pointer`}
               src="/보증금지원.png"
               alt="청년정책②: 보증금지원"
@@ -61,7 +62,8 @@ const Carousel = () => {
             className={`${Style.carousel_slide} relative w-full h-64 overflow-hidden rounded-lg shadow-lg`}
           >
             <img
-              className={`${Style.carousel_slide_img} w-full h-full object-contain`}
+              onClick={() => handlePcyDetail(2023050912526)}
+              className={`${Style.carousel_slide_img} w-full h-full object-contain transform transition-transform duration-300 hover:scale-105 hover:opacity-80 cursor-pointer`}
               src="/서울영테크.png"
               alt="청년정책③: 서울영테크"
             />
