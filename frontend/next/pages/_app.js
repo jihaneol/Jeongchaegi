@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>정채기</title>
+        <meta name="google-site-verification" content="oki5AKJZxS7fbCL6iANmqnSq3jCcBDzvI1RSrSerioc" />
       </Head>
       <Provider store={store}>
         {isClient ? (
