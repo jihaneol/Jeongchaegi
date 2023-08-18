@@ -7,7 +7,7 @@ jwt:
   secretKey: asdfasdfasdf56454adfs
 
   access:
-    expiration: 1800000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+    expiration: 36000000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
     header: Authorization
 
   refresh:
@@ -15,6 +15,11 @@ jwt:
     header: Authorization_refresh
 
 spring:
+  redis:
+    host: 3.36.131.236
+    port: 6379
+
+
   #   OAuth 로그인
   security:
     oauth2:
@@ -22,17 +27,24 @@ spring:
         registration:
 
           kakao:
-            prompt: login
             client-id: fcb05990a84d7cbf01eef4a5d55f8439
-            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
+            redirect-uri: http://www.jeongchaegi.com:8081/login/oauth2/code/kakao
             client-authentication-method: POST
             client-secret: YKLc4lQmIWKZSzhPcbVeUJckYogzlb0y
             authorization-grant-type: authorization_code
-            # http://localhost:8080/login/oauth2/code/kakao
-            # http://localhost:8080/jeongchaegi/user/kakaologin
+            response-type: code
+
+#             로컬 테스트용 카카오 정보
+#          kakao:
+#            client-id: 5bebd3961cec12296fc72d86729bffe8
+#            redirect-uri: http://localhost:8081/login/oauth2/code/kakao
+#            client-authentication-method: POST
+#            authorization-grant-type: authorization_code
+
             scope:
               - profile_nickname
               - account_email
+              - profile_image
             client_name: kakao
 
 
@@ -47,7 +59,8 @@ spring:
   # Database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://3.36.131.236:3306/jeongchaegi?serverTimezone=UTC
+    url: jdbc:mysql://3.36.131.236:3306/jeongchaegi?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://localhost:3306/jeongchaegi?serverTimezone=UTC
     username: root
     password: ssafy
   # JPA
@@ -55,11 +68,12 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+        default_batch_fetch_size: 100 #성능 최적화
   # batch
   batch:
     initialize-schema: always

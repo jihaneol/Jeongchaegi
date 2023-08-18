@@ -1,17 +1,21 @@
+.on {
+  /* opacity: 0.5; */
+  background-color: rgba(208, 221, 255, 0.5);
+}
+
 .wrap {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   margin-top: 80px;
-  background-color: #d0ddff;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 500px;
+  width: 800px;
 }
 
 .title {
@@ -54,14 +58,13 @@
   /* background-color: greenyellow; */
 }
 
-.chat {
+/* .chat {
   display: flex;
   flex-direction: column;
-  width: auto;
   margin: 1rem 1rem 0 1rem;
   min-height: 24rem;
   background-color: #adc4ff;
-}
+} */
 
 .search_query {
   padding: 1rem;
@@ -78,7 +81,7 @@
   left: 1rem;
 }
 
-.chat_wrapper {
+/* .chat_wrapper {
   width: 650px;
   background-color: #fff;
   padding: 1em;
@@ -96,4 +99,85 @@
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
   min-height: 100px;
   margin-bottom: 1rem;
+} */
+
+.making {
+  background-color: white;
+  border: 1px solid brown;
+}
+
+.ctt_title {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.5px solid blue;
+}
+
+.summary {
+  margin-top: 2em;
+  padding-bottom: 1em;
+  border-bottom: 0.5px solid black;
+  background-color: #bdc3c7;
+}
+
+.summary_ctt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5em;
+  border-bottom: 0.3px solid black;
+  letter-spacing: -2px;
+}
+
+.summary_ctt_left {
+  display: flex;
+  width: 25%;
+  font-weight: bolder;
+}
+
+.summary_ctt_right {
+  display: flex;
+  width: 75%;
+}
+
+.popover_box {
+  /* 기타 스타일 */
+  position: absolute;
+  border: 1px solid black;
+  transform: translateX(-90%);
+  padding: 0px 0px 10px 0px;
+  background-color: white;
+  border-radius: 10px;
+  width: auto;
+  white-space: nowrap;
+  font-size: 13px;
+  transition: opacity 0.3s, visibility 0.3s;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.popover_box.visible {
+  position: absolute;
+  border: 1px solid black;
+  transform: translateX(-90%);
+  padding: 0px 0px 10px 0px;
+  background-color: white;
+  border-radius: 10px;
+  width: auto;
+  white-space: nowrap;
+  font-size: 13px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.popover_header {
+  text-align: center;
+  font-weight: bold;
+  background-color: thistle;
+  color: white;
+  margin-bottom: 5px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.popover_content {
+  padding: 0px 10px;
 }

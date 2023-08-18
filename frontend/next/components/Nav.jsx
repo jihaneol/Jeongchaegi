@@ -1,39 +1,119 @@
-import React from "react";
-import styles from "../styles/Nav.module.css";
+import style from "../styles/Nav.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import Logout from "./Logout";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 export default function Nav() {
+  const [nickname, setNickname] = useState("");
+  const [minutes, setMinutes] = useState(30);
+  const [seconds, setSeconds] = useState(0);
+
+  const logout = Logout();
+  const userData = useSelector((state) => state.user);
+  const router = useRouter();
+
+  const logoutHandler = () => {
+    logout();
+    alert("정상적으로 로그아웃 되었습니다.");
+    router.push("/");
+  };
+
+  useEffect(() => {
+    const name = localStorage.getItem("userName");
+    setNickname(name);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (seconds > 0) setSeconds((prev) => prev - 1);
+      else if (minutes > 0) {
+        setMinutes((prev) => prev - 1);
+        setSeconds(59);
+      } else {
+        clearInterval(interval);
+        alert("로그아웃 되었습니다.");
+        logout();
+        router.push("/");
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [minutes, seconds]);
+
+  function resetTimer() {
+    setMinutes(30);
+    setSeconds(0);
+  }
+
+  function myPageRoute() {
+    userData.isLogined
+      ? router.push(`/mypage/${nickname}`)
+      : (() => {
+          alert("로그인이 필요한 페이지입니다.");
+          router.push("/login");
+        })();
+  }
+
   return (
-    <div className={styles.nav_wrap}>
-      <div className={styles.nav_menu}>
-        {/* <Link href="/" className={styles.nav_logo}></Link> */}
+    <div className={`${style.nav_wrap} bg-gray-800 text-white p-2`}>
+      <div className={`${style.nav_menu}`}>
+        <div className="flex items-center space-x-6 flex-1">
+          <Link href="/">
+            <a>
+              <Image
+                src="/Logo.PNG"
+                width="130px"
+                height="64px"
+                alt="정채기"
+                style={{ borderRadius: "10px" }}
+              />
+            </a>
+          </Link>
 
-        <Link href="/">
-          <a>
-            <Image src="/Logo.PNG" width="130px" height="64px" alt="정채기"/>
-          </a>
-        </Link>
+          <Link href="/policylist">
+            <a className="text-2xl hover:text-blue-500">정책</a>
+          </Link>
 
-        <Link href="/articlelist">
-          <a>게시판</a>
-        </Link>
+          <Link href="/articlelist">
+            <a className="text-2xl hover:text-blue-500">게시판</a>
+          </Link>
 
-        <Link href="/policylist">
-          <a>정책 리스트</a>
-        </Link>
-
-        {/* 일단 기본값 1로 라우팅 */}
-        <Link href="/mypage/1">  
-          <a>My Page</a>
-        </Link>
-        
+          {/* 일단 기본값 1로 라우팅 */}
+          <button
+            className="text-2xl hover:text-blue-500"
+            onClick={myPageRoute}
+          >
+            마이페이지
+          </button>
+        </div>
+        {!userData.isLogined ? (
+          <Link href="/login">
+            <a
+              className={`${style.nav_login} bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
+            >
+              로그인
+            </a>
+          </Link>
+        ) : (
+          <div className={style.nav_logout_box}>
+            <div className={style.nav_reset_box}>
+              로그인 유지 시간
+              {` ${minutes} : `}
+              {seconds < 10 ? "0" : ""}
+              {seconds}
+              <button onClick={resetTimer}>재설정</button>
+            </div>
+            <button
+              className={` bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-2xl`}
+              onClick={logoutHandler}
+            >
+              로그아웃
+            </button>
+          </div>
+        )}
       </div>
-      <Link href="/login" >
-        <a className={styles.nav_login}>
-          Login
-        </a>
-      </Link>
     </div>
   );
 }

@@ -15,7 +15,9 @@ export default function HomeCalendar({ modalActive, getTargetDate }) {
     setTargetMonth(targetMonth + 1);
   }
   return (
-    <div className={style.calendar_wrapper}>
+    <div
+      className={`${style.calendar_wrapper} flex items-center justify-center space-x-4 shadow-xl`}
+    >
       <ReactCalendar
         position="left"
         month={targetMonth - 1}
@@ -23,7 +25,7 @@ export default function HomeCalendar({ modalActive, getTargetDate }) {
         day={day}
       />
       <button
-        className={`react_calendar_side_position_btn react_calendar_left`}
+        className={`react_calendar_side_position_btn react_calendar_left `}
         onClick={onClickLeft}
       ></button>
       <ReactCalendar

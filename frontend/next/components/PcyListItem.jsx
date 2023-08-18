@@ -6,18 +6,47 @@ export default function PcyListItem({ obj, onItemClick }) {
 
   return (
     <>
-      {obj.map((item)=>(
-      <div
-        className={`card ${styles.card_wrapper}`}
-        onClick={() => onItemClick(item.id)}
-        key={item.id}
-      >
-        <div className="card-header">{item.id}</div>
-        <div className="card-body">
-          <div>{item.title}</div>
-          <div>{item.body}</div>
+      {obj?.map((item, index) => (
+        <div
+          className="border rounded-lg overflow-hidden shadow-lg cursor-pointer mb-4 transition-transform transform hover:scale-105"
+          onClick={() => onItemClick(item.id)}
+          key={item.id}
+        >
+          {/* 제목 */}
+          <div className="bg-gray-800 text-white text-lg font-semibold p-4">
+            {item.polyBizSjnm}
+          </div>
+          {/* 요약 내용 */}
+          <div className="p-4 bg-white">
+            <div className="mb-2">{item.polyItcnCn}</div>
+            {/* 기타 내용 */}
+            {item.rqutPrdBegin && (
+              <div className="mb-2">
+                <p className="text-sm font-medium">
+                  신청 기간 : {item.rqutPrdBegin} ~ {item.rqutPrdEnd}
+                </p>
+              </div>
+            )}
+            <div className="mb-2">
+              <p className="text-sm font-medium">
+                나이 : {item.minAge} ~ {item.maxAge}
+              </p>
+            </div>
+            <div className="mb-2">
+              <p className="text-sm font-medium">
+                분야 : {item.type}
+              </p>
+            </div>
+            <div className="mb-2">
+              <p className="text-sm font-medium">
+                지역 : {item.region}
+              </p>
+            </div>
+            <p className={`${item.isOngoing ? 'text-green-500' : 'text-red-500'} font-semibold`}>
+              {item.isOngoing ? '진행중' : '마감'}
+            </p>
+          </div>
         </div>
-      </div>
       ))}
     </>
   );

@@ -1,79 +1,74 @@
 package com.oppas.controller;
 
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.dto.UserSignUpDTO;
+import com.oppas.dto.member.MemberSignUpDTO;
+import com.oppas.jwt.JwtResponse;
 import com.oppas.jwt.JwtService;
+import com.oppas.repository.MemberRepository;
+import com.oppas.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
-/**
- * 스프링 시큐리티
- * 시큐리티 세션
- * Authentication -> DI -> userDetails(일반 로그인),OAuth2user(카카오 등 로그인)
- */
-
-@Controller
+@RestController
+@RequestMapping("/api/login")
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController {
-    JwtService jwtService;
 
-    @GetMapping("/")
-    public String domain() {
-        System.out.println("도메인");
-        return "loginForm";
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
+    private final JwtService jwtService;
+    static String reIssueRefreshToken, accessToken;
+
+    @GetMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+
+        jwtService.extractRefreshToken(request)
+                .ifPresent(refreshtoken -> memberRepository.findByRefreshToken(refreshtoken)
+                        .ifPresent(member -> {
+                            reIssueRefreshToken = jwtService.reIssueRefreshToken(member);
+                            accessToken = jwtService.createAccessToken(member.getName());
+                        })
+                );
+        JwtResponse jwtResponse = new JwtResponse(reIssueRefreshToken, accessToken);
+
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("member/logout")
-    public ResponseEntity<?> logout(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-
-        System.out.println("로그인 완료");
-
-        return new ResponseEntity(HttpStatus.OK);
+    @DeleteMapping("/logout")
+    public ResponseEntity<?> logout() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("member/signup")
-    public ResponseEntity<?> sign(@RequestBody UserSignUpDTO userSignUpDTO) {
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO,
+                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        long id = principalDetails.getId();
+        memberService.signUp(memberSignUpDTO, id);
 
-        
-
-        System.out.println("로그인 완료");
-
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    @GetMapping("/data")
-    public ResponseEntity<?> data() {
-        System.out.println("시발 뭐야");
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    @GetMapping("/test")
-    public String test() {
-        System.out.println("시발 뭐야");
-        return "joinForm";
+    @GetMapping("/find/{nickname}")
+    public ResponseEntity<?> checkNickName(@PathVariable String nickname) {
+        boolean flag = memberService.findNickName(nickname);
+        if (flag) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PostMapping("/refresh-token")
-    public ResponseEntity<?> rep() {
-        System.out.println("이건 뭔데 시발");
-        return new ResponseEntity(HttpStatus.OK);
+    @GetMapping("/check")
+    public ResponseEntity<?> checkLogin() {
+        return ResponseEntity.ok().build();
     }
-
-    @GetMapping("/logout2")
-    public String access() throws IOException {
-
-
-        return "redirect:/";
-    }
-
-
 
 }
