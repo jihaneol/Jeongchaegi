@@ -1,7 +1,8 @@
 package com.oppas.service;
 
+import com.oppas.dto.policy.HotPolicyDTO;
 import com.oppas.dto.policy.PolicySummaryDTO;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Member;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.PolicyScrap;
 import com.oppas.repository.MemberRepository;
@@ -10,8 +11,8 @@ import com.oppas.repository.policy.PolicyScrapRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,15 +51,9 @@ public class ScrapService {
      * 사용자가 스크랩했던 정책 정보들을 반환
      */
     public Page<PolicySummaryDTO> getMyPolicyScraps(Long memberId, int pageIndex) throws Exception {
-        List<PolicySummaryDTO> policyPages = new ArrayList<>();
-        List<PolicyScrap> policyScraps = policyScrapRepository.findAllByMemberId(memberId);
-
-        for (PolicyScrap policyScrap : policyScraps) {
-            Policy policy = policyScrap.getPolicy();
-            policyPages.add(modelMapper.map(policy, PolicySummaryDTO.class));
-        }
-
-        return new PageImpl<>(policyPages, PageRequest.of(pageIndex - 1, 10), policyPages.size());
+        Pageable pageable = PageRequest.of(pageIndex - 1, 10);
+        Page<PolicyScrap> policyScraps = policyScrapRepository.findAllByMemberId(memberId, pageable);
+        return policyScraps.map(scrap -> modelMapper.map(scrap.getPolicy(), PolicySummaryDTO.class));
     }
 
     /**
@@ -82,5 +77,22 @@ public class ScrapService {
     public void cancelPolicyScrap(Long memberId, Long policyId) throws Exception {
         policyScrapRepository.deleteByMemberIdAndPolicyId(memberId, policyId);
     }
+
+    public List<HotPolicyDTO> getMostScrappedPolicies() {
+        List<Object[]> results = policyScrapRepository.findTop10MostScrappedPolicies();
+        List<HotPolicyDTO> dtoList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Long policyId = (Long) result[0];
+            String polyBizSjnm = (String) result[1];
+            Long scrapCount = (Long) result[2];
+
+            HotPolicyDTO dto = new HotPolicyDTO(policyId, polyBizSjnm, scrapCount);
+            dtoList.add(dto);
+        }
+
+        return dtoList;
+    }
+
 
 }

@@ -29,10 +29,12 @@ export default function OurAxios() {
     async (config) => {
       requestCount++;
 
-      if (requestCount > 10)
+      if (requestCount > 10) {
+        requestCount = 0;
         return Promise.reject(
           new Error(`You have axceeded the maximum number of requests.`)
         );
+      }
       tokens = getTokens();
       config.headers.Authorization = `Bearer ${tokens.accessToken}`;
       return config;
@@ -42,17 +44,14 @@ export default function OurAxios() {
     }
   );
 
-  // access_token 이랑 요청 보냄 -> access_token 만료되면 status 로 에러 보냄 -> refresh_token 다시 보내고
-  // refresh_token 보내면 access_token 다시 발급, 근데 refresh_token 도 만료되면 그 때는 다시 로그인 해야 함.
-
   api.interceptors.response.use(
     (response) => {
+      requestCount = 0;
       return response;
     },
     async (error) => {
       const originalRequest = error.config;
       // access Token 만료
-      console.log("response error 도착!");
       if (error.response && error.response?.status === 401) {
         // refresh token 전송하기
         api
@@ -63,7 +62,6 @@ export default function OurAxios() {
           })
           .then((response) => {
             // accessToken 이랑 refreshToken 잘 받았으면
-            console.log(response);
             const at = response?.data.accesstoken;
             const rt = response?.data.refreshtoken;
             const kt = response?.data.kakaotoken;

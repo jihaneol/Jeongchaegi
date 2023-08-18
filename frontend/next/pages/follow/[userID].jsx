@@ -15,58 +15,31 @@ export default function Follow() {
   // ①팔로워 수 ②팔로워 리스트 받아오기
   useEffect(() => {
     const myData = localStorage.getItem("persist:root");
+    const parsedValue = JSON.parse(myData);
+    const userObject = JSON.parse(parsedValue.user);
+    const myId = userObject.id;
 
-    if (myData) {
-      const parsedValue = JSON.parse(myData);
-      const userObject = JSON.parse(parsedValue.user);
-      const myId = userObject.id;
+    api
+      .get(`members/followInfo`, { params: { memberid: myId } })
+      .then((res) => {
+        setFollowNum(res.data.followee);
+      });
 
-      api
-        .get("/members/followInfo", { params: { memberId: myId } })
-        .then((responseObject) => {
-          setFollowNum(responseObject.data.followee);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      api
-        .get("/members/followeeList", {
-          params: {
-            nickname: userObject.nickname,
-          },
-        })
-        .then((responseList) => {
-          setFollowList(responseList.data);
-          console.log("팔로우리스트 : " + responseList.data);
-          console.log("팔로우리스트 1번째 요소 : " + responseList.data[0]);
-          console.log(
-            "팔로우리스트 1번째 요소 타입 : " + typeof responseList.data[0]
-          );
-          const list = followList.slice();
-          setShowList(list);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log("persist:root 값을 찾을 수 없습니다.");
-    }
+    api.get(`members/followeeList`).then((res) => {
+      setFollowList(res.data);
+      const list = res.data.slice();
+      setShowList(list);
+    });
   }, []);
 
   const handleUnFollow = (id) => {
-    api
-      .delete(`/members/${id}/unFollow`)
-      .then((res) => {
-        const afterList = followList.filter((user) => user.id !== id);
-        const list = afterList.slice();
-        setFollowList(afterList);
-        setShowList(list);
-        setFollowNum(followNum - 1);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    api.delete(`/members/${id}/unFollow`).then((res) => {
+      const afterList = followList.filter((user) => user.id !== id);
+      const list = afterList.slice();
+      setFollowList(afterList);
+      setShowList(list);
+      setFollowNum(followNum - 1);
+    });
   };
 
   const handleSearch = (e) => {
@@ -75,24 +48,21 @@ export default function Follow() {
 
   const searchName = () => {
     api
-      .get("/members/followeeList", {
+      .get(`/members/search/followee`, {
         params: {
           nickname: search,
         },
       })
-      .then((responseSearch) => {
-        const list = responseSearch.data.slice();
-        setShowList(list);
-      })
-      .catch((err) => {
-        console.log(err);
+      .then((res) => {
+        setShowList(res.data);
       });
   };
 
-  console.log("showList : " + showList);
-  console.log("showList의 타입 : " + typeof showList);
-  console.log("showList의 2번째 요소 : " + showList[1]);
-  console.log("showList의 2번째 요소 타입 : " + typeof showList[1]);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      searchName();
+    }
+  };
 
   return (
     <>
@@ -107,6 +77,7 @@ export default function Follow() {
               placeholder="닉네임 검색 ex) 심뿐이"
               value={search}
               onChange={handleSearch}
+              onKeyDown={handleKeyDown}
             />
             <button
               className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -129,7 +100,7 @@ export default function Follow() {
                 height={48}
                 className="rounded-full mr-6"
                 onMouseEnter={() => setShowModal(index)} // index를 사용하여 어떤 이미지에 대한 모달인지 구분
-                // onMouseLeave={() => setShowModal(null)}
+                onClick={() => setShowModal(null)}
               />
               <div className="flex-grow pl-6">
                 <div className="font-semibold text-gray-700">
@@ -141,7 +112,7 @@ export default function Follow() {
                 onClick={() => handleUnFollow(user.id)}
                 className="text-black font-bold bg-gray-200 py-1 px-4 rounded-md hover:bg-gray-300"
               >
-                팔로잉
+                언팔로우
               </button>
 
               {/* Modal */}

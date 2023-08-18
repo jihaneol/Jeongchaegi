@@ -4,7 +4,6 @@ import Nav from "../../components/Nav";
 import style from "../../styles/MyPage.module.css";
 import MyPageScrap from "../../components/MyPageScrap";
 import Link from "next/link";
-import Spin from "../../components/Spin";
 import OurAxios from "../../config/ourAxios";
 import { useSelector } from "react-redux";
 
@@ -19,18 +18,17 @@ export default function Page() {
   const [userImg, setUserImg] = useState("");
   const [userName, setUserName] = useState("");
   const [myScrapCnt, setMyScrapCnt] = useState(0);
+  const [myArticleCnt, setMyArticleCnt] = useState(0);
+  const [myFollowCnt, setMyFollowCnt] = useState(0);
+  const [myFollowerCnt, setMyFollowerCnt] = useState(0);
 
   async function getUserData() {
     const userId = localStorage.getItem("userID");
     setUserImg(localStorage.getItem("userImg"));
     setUserName(localStorage.getItem("userName"));
     api.get(`/scraps/count/members/${userId}`).then((res) => {
-      console.log("스크랩 수 설정 성공");
       setMyScrapCnt(res.data);
-    }).catch((err) => {
-      console.log("스크랩 수 설정 실패");
-      console.log(err);
-    })
+    });
   }
 
   useEffect(() => {
@@ -40,6 +38,16 @@ export default function Page() {
       return;
     } else {
       getUserData();
+      //api.get(`/posts/my?pageIndex=1`)
+      //.then((res)=>setMyArticleCnt(res.data.totalElements))
+      const userId = localStorage.getItem("userID");
+      api
+        .get(`members/followInfo`, { params: { memberid: userId } })
+        .then((res) => {
+          setMyArticleCnt(res.data.post);
+          setMyFollowCnt(res.data.followee);
+          setMyFollowerCnt(res.data.follower);
+        });
     }
   }, []);
 
@@ -47,34 +55,45 @@ export default function Page() {
   function handleStatusCard(item) {
     switch (item) {
       case "스크랩수":
-      return (
-        <Link href={`/myscrap/${userName}`}>
-          <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
-            <div className={style.status_card}>
-              <div className={style.status_card_header}>{item}</div>
-              <div className={style.status_card_content}>{myScrapCnt}</div>
-            </div>
-          </a>
-        </Link>
-      );
+        return (
+          <Link href={`/myscrap/${userName}`}>
+            <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
+              <div className={style.status_card}>
+                <div className={style.status_card_header}>{item}</div>
+                <div className={style.status_card_content}>{myScrapCnt}</div>
+              </div>
+            </a>
+          </Link>
+        );
       case "팔로우":
         return (
           <Link href={`/follow/${localStorage.getItem("userID")}`}>
-            <a className="hover:bg-gray-200 hover:cursor-pointer transition-all duration-300">
+            <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>
-                <div className={style.status_card_content}>0</div>
+                <div className={style.status_card_content}>{myFollowCnt}</div>
               </div>
             </a>
           </Link>
         );
       case "팔로워":
         return (
-          <Link href="/follower/1">
+          <Link href={`/follower/${localStorage.getItem("userID")}`}>
             <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
               <div className={style.status_card}>
                 <div className={style.status_card_header}>{item}</div>
-                <div className={style.status_card_content}>0</div>
+                <div className={style.status_card_content}>{myFollowerCnt}</div>
+              </div>
+            </a>
+          </Link>
+        );
+      case "작성글":
+        return (
+          <Link href={`/myarticle/${localStorage.getItem("userID")}`}>
+            <a className="hover:bg-gray-400 hover:cursor-pointer transition-all duration-300">
+              <div className={style.status_card}>
+                <div className={style.status_card_header}>{item}</div>
+                <div className={style.status_card_content}>{myArticleCnt}</div>
               </div>
             </a>
           </Link>
@@ -135,15 +154,11 @@ export default function Page() {
             </div>
             <div className={style.policyList_wrapper}>
               <div className={style.policyList_header}>
-                <div>My 스크랩</div>
+                <div>My Scrap</div>
               </div>
               <div className={style.policyList_content}>
                 <MyPageScrap />
               </div>
-            </div>
-            <div className={style.followerList_wrapper}>
-              <div className={style.followerList_header}>팔로워 목록</div>
-              <div className={style.followerList_content}>팔로워 리스트</div>
             </div>
           </div>
         </div>

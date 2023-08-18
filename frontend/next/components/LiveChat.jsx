@@ -12,6 +12,10 @@ export default function LiveChat(props) {
   // "http://localhost:8081/ws/policychat", 로컬
   // "http://www.jeongchaegi.com/ws/policychat", 정채기
 
+  useEffect(() => {
+    handlePreMessage();
+  }, []);
+
   const textareaRef = useRef(null); // 웹소켓 채팅입력
   // 채팅입력 높이 조절 함수
   const handleTextareaHeight = () => {
@@ -77,18 +81,14 @@ export default function LiveChat(props) {
           cursor: firstMessage.createdAt,
         };
 
-        console.log(firstMessage);
       }
 
-      // console.log(data);
       const response = await axios.post(
         `http://www.jeongchaegi.com/api/chats/${props.pageId}`,
         data
       );
-      // console.log(response.data); // 객체 배열
       if (response.data.length !== 0)
         setMessages([...response.data, ...messages]);
-      // console.log(messages);
     } catch (error) {
       console.error("Error sending POST request:", error);
     }
@@ -121,7 +121,6 @@ export default function LiveChat(props) {
                 ).createdAt.split(" ")[0]
               : null;
 
-          console.log(typeof content.createdAt);
           const timePart = content.createdAt.split(" ")[1];
           const [hours, minutes] = timePart.split(":");
           const timeString = `${hours}:${minutes}`;

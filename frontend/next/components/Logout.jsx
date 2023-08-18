@@ -23,6 +23,7 @@ export default function Logout() {
         dispatch(userActions.setLogout());
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("kakaoToken");
         localStorage.removeItem("userName");
         localStorage.removeItem("userAge");
         localStorage.removeItem("userCity");
@@ -30,8 +31,7 @@ export default function Logout() {
         localStorage.removeItem("userID");
         localStorage.removeItem("userPolicy");
         dispatch(userActions.setisLogined(false));
-        console.log("끝!");
-      });
+      })
   }
 
   return Logout;

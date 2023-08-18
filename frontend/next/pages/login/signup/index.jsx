@@ -18,7 +18,6 @@ export default function UserInfo() {
   const router = useRouter();
 
   function getToken() {
-    console.log(atCookies);
     return atCookies.at;
   }
 
@@ -36,9 +35,7 @@ export default function UserInfo() {
       }
       router.push("/login/signup/success");
       localStorage.removeItem("accessToken");
-    }).catch((err) => {
-      console.log(err);
-    });
+    })
   }
 
   useEffect(() => {

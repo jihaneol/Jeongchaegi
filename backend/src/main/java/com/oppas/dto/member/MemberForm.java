@@ -9,7 +9,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class MemberForm {
-    private String nickName;
+    private String nickname;
     private String city;
     private List<String> policyId;
+    private int age;
 }

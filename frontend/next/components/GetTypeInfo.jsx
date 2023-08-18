@@ -17,7 +17,6 @@ export default function GetTypeInfo() {
   ];
 
   function onCheck(e) {
-    console.log(e.target.checked);
     if (e.target.checked === true) {
       setMyTypes([...myTypes, e.target.id]);
     }
@@ -32,7 +31,6 @@ export default function GetTypeInfo() {
   }
   
   useEffect(() => {
-    console.log(myTypes);
     dispatch(userActions.setPolicyType(myTypes));
   }, [myTypes])
 

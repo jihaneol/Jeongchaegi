@@ -2,8 +2,8 @@ package com.oppas.service;
 
 import com.oppas.dto.member.FollowInfo;
 import com.oppas.dto.member.FollowListDTO;
-import com.oppas.entity.Follow;
-import com.oppas.entity.Member;
+import com.oppas.entity.member.Follow;
+import com.oppas.entity.member.Member;
 import com.oppas.repository.FollowRepository;
 import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -94,7 +94,7 @@ public class FollowService {
 
     public List<FollowListDTO> searchNicknameFollower(String name, Long id) {
         List<Member> collect = followRepository.findLikeFollowerByname(name, id).stream()
-                .map(o -> o.getFollower())
+                .map(o -> o.getFollowee())
                 .collect(Collectors.toList());
         return collect.stream()
                 .map(member -> new FollowListDTO(member.getId(), member.getNickname(), member.getImg()))
@@ -103,7 +103,7 @@ public class FollowService {
 
     public List<FollowListDTO> searchNicknameFollowee(String name, Long id) {
         List<Member> collect = followRepository.findLikeFolloweeByname(name, id).stream()
-                .map(o -> o.getFollowee())
+                .map(o -> o.getFollower())
                 .collect(Collectors.toList());
 
         return collect.stream()

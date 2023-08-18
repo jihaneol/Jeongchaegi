@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Nav from "../../../components/Nav";
 import style from "../../../styles/Signup.module.css";
 import LooksOneRoundedIcon from "@mui/icons-material/LooksOneRounded";
@@ -14,37 +14,39 @@ import { useRouter } from "next/router";
 export default function UserInfo() {
   const api = OurAxios();
   const router = useRouter();
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
 
   async function submitUserInfo() {
-    const accessToken = localStorage.getItem("accessToken");
-    api.put(
-      `/members/${router.query.id}/edit/`,
-      {
-        policyId: userData.policyType,
-        age: userData.age,
-        city: userData.city,
-        nickname: userData.nickname,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+    const id = localStorage.getItem("userID");
+    const nickname = localStorage.getItem("userName");
+    api
+      .put(`/members/${id}/edit/`, {
+        params: {
+          policyId: userData.policyType,
+          age: userData.age,
+          city: userData.city,
+          nickname: userData.nickname,
         },
-      }
-    ).then((res) => {
-			console.log("수정 성공");
-			console.log(res);
-			localStorage.setItem("userName", res.data.nickname);
-			localStorage.setItem("userAge", res.data.age);
-			localStorage.setItem("userCity", res.data.city);
-			localStorage.setItem("userImg", res.data.img);
-			localStorage.setItem("userID", res.data.userId);
-			localStorage.setItem("userPolicy", JSON.stringify(res.data.policyMemberDTO));
-		}).catch((err) => {
-			alert("모든 정보는 필수 입력값입니다.");
-			console.log("수정 실패");
-			console.log(err);
-		});
+      })
+      .then(() => {
+        // 리덕스에 로그인 유저 정보 저장
+        dispatch(userActions.setNickName(res.data.nickname));
+        dispatch(userActions.setAge(res.data.age));
+        dispatch(userActions.setCity(res.data.city));
+        dispatch(userActions.setPolicyType(res.data.setPolicyType));
+        //
+
+        localStorage.setItem("userName", userData.nickname);
+        localStorage.setItem("userAge", userData.age);
+        localStorage.setItem("userCity", userData.city);
+        localStorage.setItem("userPolicy", JSON.stringify(userData.policyType));
+        alert("수정이 완료되었습니다.");
+        router.push(`/mypage/${nickname}`);
+      })
+      .catch(() => {
+        alert("모든 정보는 필수 입력값입니다.");
+      });
   }
 
   return (

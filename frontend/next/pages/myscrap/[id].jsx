@@ -14,6 +14,7 @@ export default function MyScrap() {
   // state
   const [myScrap, setMyScrap] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefresh, setIsRefresh] = useState(false);
   const [myScrapCnt, setMyScrapCnt] = useState(0);
   const [page, setPage] = useState(1);
 
@@ -27,13 +28,9 @@ export default function MyScrap() {
         },
       })
       .then((res) => {
-        console.log(res);
         setMyScrap(res.data.content);
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   function getScrapCnt() {
@@ -41,17 +38,11 @@ export default function MyScrap() {
     api
       .get(`/scraps/count/members/${id}/`)
       .then((res) => {
-        console.log("스크랩 수 받아오기 성공");
-        setMyScrapCnt((res.data / 10) + 1);
+        setMyScrapCnt(res % 10 === 0 ? (res.data / 10) : (res.data / 10) + 1);
       })
-      .catch((err) => {
-        console.log("스크랩 수 받아오기 실패");
-        console.log(err);
-      });
   }
 
   function pageButtonClick(e) {
-    console.log(e.target.textContent);
     setPage(parseInt(e.target.textContent, 10));
   }
 
@@ -59,6 +50,7 @@ export default function MyScrap() {
     let startPage = page;
     const buttons = [];
     const one = startPage % 10;
+
     const start = one === 0 ? startPage - 9 : startPage - one + 1;
     let end = one === 0 ? startPage : startPage - one + 10;
     if (end > myScrapCnt) end = myScrapCnt;
@@ -82,14 +74,24 @@ export default function MyScrap() {
     return buttons;
   }
 
+  function deleteScrap(e) {
+    const userName = localStorage.getItem("userID");
+    let idx = e.target.id;
+    let scrapId = myScrap[idx - 1].id;
+    api.delete(`scraps/cancel/members/${userName}/policies/${scrapId}`).then((res) => {
+      alert(`${myScrap[idx - 1].polyBizSjnm}을 스크랩 목록에서 삭제하였습니다.`)
+      setIsRefresh(prev => !prev);
+    })
+  }
+
   // effect
   useEffect(() => {
     getData();
-  }, [page]);
+  }, [page, isRefresh]);
 
   useEffect(() => {
     getScrapCnt();
-  }, []);
+  }, [isRefresh]);
 
   return (
     <div className={style.all_wrapper}>
@@ -100,7 +102,7 @@ export default function MyScrap() {
         <div className={style.content_header}>
           <div className={style.header_id}>ID</div>
           <div className={style.header_title}>제목</div>
-          <div className={style.header_notice}>알람</div>
+          <div className={style.header_notice}>삭제</div>
         </div>
         {/* 카드 목록 */}
         <div className={style.card_wrapper}>
@@ -117,7 +119,9 @@ export default function MyScrap() {
                     <div className={style.card_title}>{scrap.polyBizSjnm}</div>
                     <div className={style.card_content}>{scrap.polyItcnCn}</div>
                   </div>
-                  <div className={style.card_box_notice}>X</div>
+                  <div className={style.card_box_notice}>
+                    <button key={idx} id={idx + 1} onClick={deleteScrap}>삭제</button>
+                  </div>
                 </div>
               );
             })

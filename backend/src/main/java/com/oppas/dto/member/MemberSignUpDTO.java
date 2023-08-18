@@ -11,9 +11,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Getter
-
 public class MemberSignUpDTO {
-
     @NotEmpty
     private List<String> policyId;
     @NotBlank
@@ -23,5 +21,4 @@ public class MemberSignUpDTO {
     private Integer age;
     @NotBlank
     private String city;
-
 }

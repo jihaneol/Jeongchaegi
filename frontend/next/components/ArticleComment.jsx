@@ -54,18 +54,19 @@ export default function ArticleComment() {
       } else {
         // 댓이 db에 잇으면 for문 돌려서 id가 같거나 작으면 삭제하고 추가함
         const newreply = [...res.data.content]; // 깊은 복사 필요
-        if (articleComment && lastpage !== 999) {
+        if (articleComment && articleComment.length !== 0 && lastpage !== 999) {
           // 적어도 두번째 요청일 때 / 댓글이 있을때만 자를 필요가 있음
           res.data.content.forEach((element) => {
             if (element.id <= articleComment.slice(-1)[0].id) newreply.shift();
           });
         }
         lastpage = res.data.totalPages; // 일단 막페이지 표시
-        if (articleComment)
+        if (articleComment){
           setArticleComment((articleComment) => [
             ...articleComment,
             ...newreply,
           ]);
+        }
         else setArticleComment([...newreply]);
         setTotalComments(res.data.totalElements);
         if (lastpage > page) {
@@ -82,7 +83,7 @@ export default function ArticleComment() {
       즉 댓글 생성시 페이지네이션 무시하고 모든 댓글을 표시
       */
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -105,9 +106,6 @@ export default function ArticleComment() {
           // 댓글을 입력하면 댓글을 몇개 불러오던 자기 댓글을 무조건 확인해야 함
           fetchComment();
         })
-        .catch((err) => {
-          console.log(err);
-        })
         .finally(() => {
           // 마지막은 댓창 비워줌
           setNewComment("");
@@ -124,7 +122,6 @@ export default function ArticleComment() {
           setArticleComment(articleComment.filter((cmt) => cmt.id !== cmtid));
         })
         .catch((err) => {
-          console.log(err);
           alert("delete fail");
         });
     } else alert("다른 사용자의 댓글을 삭제할 수 없습니다.");
@@ -172,7 +169,7 @@ export default function ArticleComment() {
               className="rounded-full"
             />
             <p className="font-semibold">{item.nickname}:</p>
-            <p className="flex-1">{item.comment}</p>
+            <p className="flex-1 break-all">{item.comment}</p>
             {/* 댓삭버튼 */}
             {userData.isLogined && (localStorage.getItem("userID") == item.memberId) ? 
             <button
