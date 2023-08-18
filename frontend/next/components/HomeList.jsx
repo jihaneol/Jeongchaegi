@@ -45,6 +45,7 @@ export default function HomeList({ title }) {
                 key={content.polyBizSjnm}
                 pcyName={content.polyBizSjnm}
                 pcyDesc={content.polyItcnCn}
+                pcyId={content.policyId}
               />
             ))
           ) : (
