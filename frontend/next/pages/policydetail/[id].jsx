@@ -33,6 +33,14 @@ export default function Page(props) {
   const userData = useSelector((state) => state.user);
   const [eventID, setEventID] = useState([]);
 
+  const types = [
+    { index: "023010", name: "일자리" },
+    { index: "023020", name: "주거" },
+    { index: "023040", name: "복지ㆍ문화" },
+    { index: "023050", name: "참여ㆍ권리" },
+    { index: "023030", name: "교육" },
+  ];
+
   // 알림 설정 가능 여부
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -192,7 +200,8 @@ export default function Page(props) {
                   <div className={Style.summary_ctt}>
                     <div className={Style.summary_ctt_left}>정책 분야</div>
                     <div className={Style.summary_ctt_right}>
-                      {post.polyRlmCd}
+                      {types.find((type) => type.index === post.polyRlmCd)
+                        ?.name || post.polyRlmCd}
                     </div>
                   </div>
                   <div className={Style.summary_ctt}>
