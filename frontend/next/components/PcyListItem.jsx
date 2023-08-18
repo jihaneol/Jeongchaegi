@@ -33,17 +33,17 @@ export default function PcyListItem({ obj, onItemClick }) {
               </p>
             </div>
             <div className="mb-2">
-              <p className="text-sm font-medium">
-                분야 : {item.type}
-              </p>
+              <p className="text-sm font-medium">분야 : {item.type}</p>
             </div>
             <div className="mb-2">
-              <p className="text-sm font-medium">
-                지역 : {item.region}
-              </p>
+              <p className="text-sm font-medium">지역 : {item.region}</p>
             </div>
-            <p className={`${item.isOngoing ? 'text-green-500' : 'text-red-500'} font-semibold`}>
-              {item.isOngoing ? '진행중' : '마감'}
+            <p
+              className={`${
+                item.isOngoing ? "text-green-500" : "text-red-500"
+              } font-semibold`}
+            >
+              {item.isOngoing ? "신청 가능" : "신청 불가능"}
             </p>
           </div>
         </div>
