@@ -1,6 +1,7 @@
-## 프로젝트 주제
+## 프로젝트 개요
 
-> 청년 정책 SNS
+🎈 프로젝트명 : 청년 정책 SNS
+🛠 개발 기간 : 23.07.04 ~ 23.8.18 (6주)
 
 ## 프로젝트 목표
 
@@ -19,17 +20,12 @@
 
 ## 기능 정의
 
-- 생애 주기별 재테크 계획 기능
-  - 생애주기 예시
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e03ac437-1e9b-40c0-bfd8-3d47be4b35c0/Untitled.png)
-  - 어떤 금융 상품이나 정책을 활용할 것인지 계획을 세울 수 있습니다.
-  - 설계한 생애주기를 프로필로 활용할 수 있습니다.
 - 친구 또는 팔로워들과 피드 공유 기능
   - 재테크 계획을 공유합니다.
   - 새로 알게된 정책 등의 정보를 친구들에게도 공유하여 알려줍니다.
 - 금융 정책 알림 기능
   - 정책의 신청 기간이 다가오면 알림을 설정한 사용자에게 알림 서비스를 제공합니다.
-  - 카카오톡 채널을 통해 알림을 받을 수 있습니다.
+  - 카카오 캘린더를 통해 알림을 받을 수 있습니다.
   - 정책마다 설명해주는 사이트로 링크를 연결합니다.
 - 정보 공유 게시판 등을 활용한 소통 기능
   - 투자 팁 게시판, 익명 게시판 등 다양한 게시판 활용
@@ -50,6 +46,44 @@
 - API 문서화 도구 : `Swagger`
 - 배포 : `Docker` `AWS EC2`
 
-## 와이어프레임 링크.
+## 서비스 아키텍쳐
 
-https://www.figma.com/file/nIVugz7kZjTHbUGV5RRAl9/%EC%A0%95%EC%B1%84%EA%B8%B0?type=design&node-id=7%3A3&mode=design&t=5HDLBfCKXDbCObez-1
+![아키텍쳐](https://github.com/jihaneol/Jeongchaegi/assets/104291422/7ba2248b-88d8-43f0-905c-d22c65ea7686)
+
+## 서비스 화면
+<h2>메인 화면</h2>
+
+* 메인 페이지
+
+![메인페이지](https://github.com/jihaneol/Jeongchaegi/assets/104291422/0971c58a-29aa-43ab-8a18-791eb5cd7904)
+
+
+<h2>카카오 소셜 로그인</h2>
+
+* 카카오 로그인
+
+![소셜 로그인](https://github.com/jihaneol/Jeongchaegi/assets/104291422/513b82da-516e-400b-bc4c-ded9c9841bc7)
+
+<h2>마이 페이지 및 정책</h2>
+
+* 마이 페이지
+
+![마이페이지](https://github.com/jihaneol/Jeongchaegi/assets/104291422/01fdd47a-1ea9-444e-90bf-3002eedd9ca9)
+
+* 정책 페이지
+
+![정책 검사](https://github.com/jihaneol/Jeongchaegi/assets/104291422/d97bbe68-16e3-46f0-812b-bf9648502d01)
+![정책](https://github.com/jihaneol/Jeongchaegi/assets/104291422/f527c9c7-8f2f-419b-8c5f-0958eb1a0ed6)
+
+## Git Flow
+
+- <h3>master : 제품으로 출시될 수 있는 브랜치</h3>
+
+- <h3>develop : 다음 출시 버전을 개발하는 브랜치</h3>
+
+- <h3>feature : 기능을 개발하는 브랜치</h3>
+
+- <h3>release : 이번 출시 버전을 준비하는 브랜치</h3>
+
+* <h3>hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치</h3>
+
