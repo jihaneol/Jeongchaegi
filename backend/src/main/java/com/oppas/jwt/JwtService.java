@@ -75,6 +75,7 @@ public class JwtService {
                 .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
                 .sign(Algorithm.HMAC512(secretKey));
     }
+
     public void sendkakaoToken(HttpServletResponse response, String kakaoToken) {
         setKakaoTokenHeader(response, kakaoToken);
     }
@@ -148,8 +149,7 @@ public class JwtService {
         Cookie cookie = new Cookie("kt", kakaoToken);
         cookie.setMaxAge(60);
         cookie.setPath("/");
-        // =============================================잠깜만 수정좀
-        // cookie.setDomain("www.jeongchaegi.com");
+
         response.addCookie(cookie);
     }
 
@@ -166,7 +166,7 @@ public class JwtService {
             response.addCookie(cookie);
         }
     }
-    
+
     /**
      * RefreshToken 헤더 설정
      */
@@ -174,13 +174,10 @@ public class JwtService {
         if (flag) {
             response.setHeader("refreshToken", refreshToken);
         } else {
-            
+
             Cookie cookie = new Cookie("rt", refreshToken);
             cookie.setMaxAge(60);
             cookie.setPath("/");
-            // =============================================잠깜만 수정좀
-            // cookie.setDomain("www.jeongchaegi.com");
-            //        cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
         }
@@ -201,7 +198,7 @@ public class JwtService {
     public boolean isTokenValid(String token) {
         log.info("토큰 유효");
         try {
-        log.info("토큰 유효0");
+            log.info("토큰 유효0");
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {

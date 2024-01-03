@@ -37,9 +37,9 @@ public class Policy {
     private String rqutPrdCn; // 사업 신청기간 내용
 
     private String ageInfo; // 연령 정보
-    
+
     private Integer minAge; // 최소 연령
-    
+
     private Integer maxAge; // 최대 연령
 
     @Lob
@@ -101,7 +101,7 @@ public class Policy {
     private String polyRlmCd; // 정책 분야 코드
 
     private String srchPolyBizSecd; // 정책 지역 코드
-    
+
     private Boolean isOngoing; // 정책 신청 진행 여부
 
     @OneToMany(mappedBy = "policy")

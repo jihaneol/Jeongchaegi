@@ -27,7 +27,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-       if(keyword != null || keyword.isEmpty()) {
+        if (keyword != null || keyword.isEmpty()) {
 
             String[] contentArray = keyword.split("\\s+");
             for (String word : contentArray) {

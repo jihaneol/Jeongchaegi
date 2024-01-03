@@ -73,7 +73,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User { //2개 구현
     @Override
     public boolean isEnabled() {
         // 우리사이트 1년 동안 회원이 로그인을 안하면 !!
-        // 현재 - 가입일 = 비번 바꾸셈 false
+        // 현재 - 가입일 = 비번 바꿔 false
         return true;
     }
 
@@ -97,7 +97,8 @@ public class PrincipalDetails implements UserDetails, OAuth2User { //2개 구현
     public String getName() {
         return String.valueOf(member.getId());
     }
-    public  Long getId() {
+
+    public Long getId() {
         return member.getId();
     }
 

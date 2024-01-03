@@ -29,7 +29,7 @@ public class Follow {
     @CreationTimestamp
     private LocalDateTime followTime;
 
-    public Follow(Member to, Member from){
+    public Follow(Member to, Member from) {
         this.follower = to;
         this.followee = from;
     }

@@ -33,9 +33,9 @@ public class FollowService {
         Member toMember = memberRepository.findById(to).get();
         // 내가 구독누름
         Member fromMember = memberRepository.findById(from).get();
-        System.out.println(followRepository.existsByFollowerIdAndFolloweeId(to,from));
+        System.out.println(followRepository.existsByFollowerIdAndFolloweeId(to, from));
         // 팔로우중 이라면 true
-        if(followRepository.existsByFollowerIdAndFolloweeId(to,from)){
+        if (followRepository.existsByFollowerIdAndFolloweeId(to, from)) {
             return false;
         }
         Follow follower = new Follow(toMember, fromMember);

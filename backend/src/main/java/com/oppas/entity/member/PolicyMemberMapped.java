@@ -7,7 +7,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,7 +29,4 @@ public class PolicyMemberMapped {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime time;
 
-    //
-
-    // 생성 메서드 //
 }

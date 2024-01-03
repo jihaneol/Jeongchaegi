@@ -21,22 +21,22 @@ public class CommentController {
     @PostMapping // 답글 생성
     public ResponseEntity<?> registComment(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody CommentRequestDto commentRequestDto) {
 
-        if(commentRequestDto.getComment()==null||commentRequestDto.getPostId()==null){
+        if (commentRequestDto.getComment() == null || commentRequestDto.getPostId() == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        commentService.registComment(principalDetails,commentRequestDto);
+        commentService.registComment(principalDetails, commentRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{postId}") // 답글 리스트
-    public ResponseEntity<?> listComment(@PathVariable Long postId,@RequestParam int pageIdx) {
-        System.out.println(1111);
-        System.out.println("결과는"+postId+"  "+ pageIdx);
-        Page<CommentResponseDto> pageComment = commentService.getListComment(postId,pageIdx);
+    public ResponseEntity<?> listComment(@PathVariable Long postId, @RequestParam int pageIdx) {
 
+        Page<CommentResponseDto> pageComment = commentService.getListComment(postId, pageIdx);
 
-        if(pageComment.getContent().isEmpty()){return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
+        if (pageComment.getContent().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
 
         return new ResponseEntity<>(pageComment, HttpStatus.OK);
     }
@@ -44,12 +44,11 @@ public class CommentController {
     @PutMapping // 답글 업데이트
     public ResponseEntity<?> modifyComment(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody CommentRequestDto commentRequestDto) {
 
-        if(commentRequestDto.getComment()==null || commentRequestDto.getCommentId()==null||commentRequestDto.getMemberId()==null){
+        if (commentRequestDto.getComment() == null || commentRequestDto.getCommentId() == null || commentRequestDto.getMemberId() == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        HttpStatus status = commentService.updateComment(principalDetails,commentRequestDto);
-
+        HttpStatus status = commentService.updateComment(principalDetails, commentRequestDto);
 
 
         return new ResponseEntity<>(status);
@@ -58,7 +57,7 @@ public class CommentController {
     @DeleteMapping("/{commentId}")//답글 삭제
     public ResponseEntity<?> deleteComment(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long commentId) {
 
-        HttpStatus status = commentService.removeComment(principalDetails,commentId);
+        HttpStatus status = commentService.removeComment(principalDetails, commentId);
 
         return new ResponseEntity<>(status);
     }

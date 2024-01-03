@@ -1,7 +1,10 @@
 package com.oppas.dto.policyChat;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter
@@ -10,8 +13,8 @@ import lombok.*;
 @AllArgsConstructor
 public class PolicyChatPagingDto {
 
-    private String  message;
-    private Long  memberId;
+    private String message;
+    private Long memberId;
     private String cursor; // 마지막 채팅의 시간
     private String nickname;
 

@@ -22,7 +22,7 @@ public class RequestPostDto {
 
     private LocalDateTime createdAt;
 
-    public void setMember(Member member){
+    public void setMember(Member member) {
         this.member = member;
     }
 

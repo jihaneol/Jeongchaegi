@@ -1,7 +1,6 @@
 package com.oppas.dto.policyChat;
 
 
-
 import com.oppas.entity.policy.PolicyChat;
 import lombok.*;
 
@@ -21,8 +20,7 @@ public class PolicyChatPagingResponseDto {
     private String nickname;
 
 
-
-    public static PolicyChatPagingResponseDto byChatMessageDto(PolicyChatSaveDto policyChatSaveDto){
+    public static PolicyChatPagingResponseDto byChatMessageDto(PolicyChatSaveDto policyChatSaveDto) {
         return PolicyChatPagingResponseDto.builder()
                 .memberId(policyChatSaveDto.getMemberId())
                 .createdAt(policyChatSaveDto.getCreatedAt())
@@ -33,7 +31,7 @@ public class PolicyChatPagingResponseDto {
     }
 
 
-    public static PolicyChatPagingResponseDto policyChatEntityToPagingResponseDto(PolicyChat policyChat){
+    public static PolicyChatPagingResponseDto policyChatEntityToPagingResponseDto(PolicyChat policyChat) {
         return PolicyChatPagingResponseDto.builder()
                 .memberId(policyChat.getMember().getId())
                 .createdAt(policyChat.getCreatedAt())

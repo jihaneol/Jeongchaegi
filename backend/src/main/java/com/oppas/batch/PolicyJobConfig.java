@@ -50,7 +50,6 @@ public class PolicyJobConfig {
     @Bean
     @StepScope
     public StaxEventItemReader<PolicyApiDTO> xmlItemReader(@Value("#{jobParameters['pageIndex']}") long pageIndex) {
-        System.out.println("Page Index: " + pageIndex);
         String apiUrl = "https://www.youthcenter.go.kr/opi/youthPlcyList.do?openApiVlak=839cda72655c1032eea8f071&display=100&pageIndex=" + pageIndex;
 
         // API URL에서 XML 데이터 읽어오기
@@ -72,9 +71,6 @@ public class PolicyJobConfig {
         return items -> {
             for (PolicyApiDTO item : items) {
                 Long policyId = policyService.updatePolicies(item);
-                if (policyId != null) {
-                    System.out.println("Saved policy ID: " + policyId);
-                }
             }
         };
     }

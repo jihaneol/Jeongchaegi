@@ -32,7 +32,7 @@ public class PostController {
     @GetMapping//게시글 목록보기
     public ResponseEntity<Page<ResponsePostDto>> getPostList(@RequestParam int pageIndex) throws Exception {
         Page<ResponsePostDto> posts = postService.getPostList(pageIndex);
-        return new ResponseEntity<Page<ResponsePostDto>>(posts,HttpStatus.OK);
+        return new ResponseEntity<Page<ResponsePostDto>>(posts, HttpStatus.OK);
     }
 
     @GetMapping("/my")
@@ -61,14 +61,14 @@ public class PostController {
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deletePost(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long postId) {
-        HttpStatus httpStatus =  postService.removePost(principalDetails, postId);
+        HttpStatus httpStatus = postService.removePost(principalDetails, postId);
         return new ResponseEntity<>(httpStatus);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchPost(String keyword, @RequestParam int pageIndex){
-        Page<ResponsePostDto> posts = postService.getSearchList(keyword,pageIndex);
-        return new ResponseEntity<>(posts,HttpStatus.OK);
+    public ResponseEntity<?> searchPost(String keyword, @RequestParam int pageIndex) {
+        Page<ResponsePostDto> posts = postService.getSearchList(keyword, pageIndex);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
 }

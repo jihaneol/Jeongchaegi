@@ -88,7 +88,7 @@ public class ScrapService {
             Long scrapCount = (Long) result[2];
             String polyItcnCn = (String) result[3];
 
-            HotPolicyDTO dto = new HotPolicyDTO(policyId, polyBizSjnm, scrapCount,polyItcnCn);
+            HotPolicyDTO dto = new HotPolicyDTO(policyId, polyBizSjnm, scrapCount, polyItcnCn);
             dtoList.add(dto);
         }
 

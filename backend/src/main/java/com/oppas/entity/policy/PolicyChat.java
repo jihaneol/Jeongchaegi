@@ -34,7 +34,7 @@ public class PolicyChat {
 
     private String message;
 
-    public static PolicyChat of(PolicyChatSaveDto policyChatSaveDto,Member member,Policy policy){
+    public static PolicyChat of(PolicyChatSaveDto policyChatSaveDto, Member member, Policy policy) {
 
         return PolicyChat.builder()
                 .message(policyChatSaveDto.getMessage())

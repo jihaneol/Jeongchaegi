@@ -18,20 +18,20 @@ public class ChatJdbcRepository {
     private final JdbcTemplate jdbcTemplate;
 
 
-    public void batchInsertRoomInventories(List<PolicyChat> chatList){
+    public void batchInsertRoomInventories(List<PolicyChat> chatList) {
 
         String sql = "INSERT INTO policy_chat"
-                +  "(policy_id,member_id,message,created_at) VALUE(?,?,?,?)";
+                + "(policy_id,member_id,message,created_at) VALUE(?,?,?,?)";
 
 
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 PolicyChat policyChat = chatList.get(i);
-                ps.setLong(1,policyChat.getPolicy().getId());
-                ps.setLong(2,policyChat.getMember().getId());
-                ps.setString(3,policyChat.getMessage());
-                ps.setString(4,policyChat.getCreatedAt());
+                ps.setLong(1, policyChat.getPolicy().getId());
+                ps.setLong(2, policyChat.getMember().getId());
+                ps.setString(3, policyChat.getMessage());
+                ps.setString(4, policyChat.getCreatedAt());
             }
 
             @Override

@@ -1,8 +1,8 @@
 package com.oppas.login.handler;
 
 import com.oppas.config.auth.PrincipalDetails;
-import com.oppas.jwt.JwtService;
 import com.oppas.entity.member.Member;
+import com.oppas.jwt.JwtService;
 import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         String username = extractUsername(authentication);
         String accessToken = jwtService.createAccessToken(username);
         Member user = getMember(authentication);
-        log.info("accessToken {}",accessToken);
+        log.info("accessToken {}", accessToken);
         if (!user.isSign()) {
             // 회원 가입 x
             jwtService.sendAccessToken(response, accessToken);
@@ -41,7 +41,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                 .ifPresent(member -> {
                     member.updateRefreshToken(refreshToken);
                     memberRepository.saveAndFlush(member);
-                    jwtService.sendkakaoToken(response,member.getKakaoToken());
+                    jwtService.sendkakaoToken(response, member.getKakaoToken());
                 });
 
         response.sendRedirect("http://www.jeongchaegi.com/login/success");

@@ -11,7 +11,7 @@ public class HotPolicyDTO {
     private Long scrapCount;
     private String polyItcnCn;
 
-    public HotPolicyDTO(Long policyId, String polyBizSjnm, Long scrapCount,String polyItcnCn) {
+    public HotPolicyDTO(Long policyId, String polyBizSjnm, Long scrapCount, String polyItcnCn) {
         this.policyId = policyId;
         this.polyBizSjnm = polyBizSjnm;
         this.scrapCount = scrapCount;

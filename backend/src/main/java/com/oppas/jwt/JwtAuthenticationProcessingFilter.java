@@ -36,6 +36,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
     static boolean flag;
+
     public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, MemberRepository memberRepository) {
         super(authenticationManager);
         this.memberRepository = memberRepository;
@@ -56,9 +57,9 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
                                 flag = true;
                             })
                     );
-            if(flag){
+            if (flag) {
                 filterChain.doFilter(request, response);
-            }else{
+            } else {
                 response.sendError(400);
             }
             return;
@@ -72,7 +73,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
 
         if (refreshToken != null) {
             log.info("리프레쉬토큰 들어갔다.");
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
             return;
         }
 
@@ -132,7 +133,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
             } else {
                 log.info("유효하지 않은 토큰이다 리프레쉬 주세요");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
-                return ;
+                return;
             }
         }
         filterChain.doFilter(request, response);

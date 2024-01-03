@@ -1,8 +1,8 @@
 package com.oppas.dto.comment;
 
 import com.oppas.dto.comment.request.CommentRequestDto;
-import com.oppas.entity.member.Member;
 import com.oppas.entity.Post;
+import com.oppas.entity.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +25,7 @@ public class CommetSaveDto {
 
     public static CommetSaveDto createSaveDto(Post post, Member member, CommentRequestDto commentRequestDto) {
 
-       return CommetSaveDto.builder().
+        return CommetSaveDto.builder().
                 member(member).
                 post(post).
                 comment(commentRequestDto.getComment()).

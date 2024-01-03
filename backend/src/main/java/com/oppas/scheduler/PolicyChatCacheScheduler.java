@@ -43,11 +43,11 @@ public class PolicyChatCacheScheduler {
                 .match("CHAT_SORTED_SET_" + "*")
                 .build();
 
-        Cursor<String> cursor=redisTemplate.scan(scanOptions);
+        Cursor<String> cursor = redisTemplate.scan(scanOptions);
 
 
         //기존 redis caching 데이터 삭제
-        while(cursor.hasNext()){
+        while (cursor.hasNext()) {
             String matchedKey = cursor.next();
             log.info(matchedKey);
             redisTemplate.delete(matchedKey);
@@ -58,7 +58,7 @@ public class PolicyChatCacheScheduler {
 
     }
 
-    public void cachingDataToRedisFromDB(){
+    public void cachingDataToRedisFromDB() {
 
         zSetOperations = chatRedisTemplate.opsForZSet();
         //서버 시작전, redis 에 데이터 적재시키기.
@@ -73,7 +73,7 @@ public class PolicyChatCacheScheduler {
 
         for (PolicyChat policyChat : policyChats) {
             PolicyChatSaveDto policyChatSaveDto = PolicyChatSaveDto.policyChatEntityToSaveDto(policyChat);
-            zSetOperations.add("CHAT_SORTED_SET_"+policyChat.getPolicy().getId(), policyChatSaveDto, chatUtil.changeLocalDateTimeToDouble(policyChat.getCreatedAt()));
+            zSetOperations.add("CHAT_SORTED_SET_" + policyChat.getPolicy().getId(), policyChatSaveDto, chatUtil.changeLocalDateTimeToDouble(policyChat.getCreatedAt()));
         }
     }
 

@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 public class PolicyChatSaveDto {
 
-//    정책채팅은 사용자의 입장퇴장 관리가 필요없다.
+    //    정책채팅은 사용자의 입장퇴장 관리가 필요없다.
 //    private String type;
     private Long memberId;
     private Long policyId;// 프론트 테스트를 위해서 변환시켜 놓음 , 컨트롤러에 getRoomId랑 RedisSubscriber의 getRoomId랑 원상복구 필요
@@ -19,15 +19,13 @@ public class PolicyChatSaveDto {
     private String nickname;
 
 
-    
     private String createdAt;
 
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
 
-
-    public static PolicyChatSaveDto createChatMessageSaveDto(PolicyChatSaveDto policyChatSaveDto){
+    public static PolicyChatSaveDto createChatMessageSaveDto(PolicyChatSaveDto policyChatSaveDto) {
         return PolicyChatSaveDto.builder()
 //    type관리가 필요 없으므로 그대로 보냄
 //              .type(MessageType.TALK)
@@ -40,7 +38,7 @@ public class PolicyChatSaveDto {
                 .build();
     }
 
-    public static PolicyChatSaveDto policyChatEntityToSaveDto(PolicyChat policyChat){
+    public static PolicyChatSaveDto policyChatEntityToSaveDto(PolicyChat policyChat) {
         return PolicyChatSaveDto.builder()
 //    type관리가 필요 없으므로 그대로 보냄
 //              .type(MessageType.TALK)

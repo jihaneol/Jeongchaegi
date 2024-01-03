@@ -53,11 +53,9 @@ public class ScrapController {
     @GetMapping("/hot")
     public ResponseEntity<?> hotPolicyScrap() {
         System.out.println(123);
-        List<HotPolicyDTO> list =   scrapService.getMostScrappedPolicies();
-        return new ResponseEntity<>(list,HttpStatus.OK);
+        List<HotPolicyDTO> list = scrapService.getMostScrappedPolicies();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
-
-
 
 
 }

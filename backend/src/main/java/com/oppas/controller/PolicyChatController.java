@@ -21,16 +21,15 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class PolicyChatController {
-//    private final SimpMessageSendingOperations simpMessageSendingOperations;
+    //    private final SimpMessageSendingOperations simpMessageSendingOperations;
     private final RedisPublisher redisPublisher;
     private final ChannelTopic channelTopic;
     private final ChatRedisCacheService chatRedisCacheService;
 
 
-    
     //채팅 받았을 시 sub/pub처리 메서드. 즉, 메시지 발행 메서드
     @MessageMapping("policychat")
-    public void message(PolicyChatSaveDto policyChatSaveDto){
+    public void message(PolicyChatSaveDto policyChatSaveDto) {
 
 //        simpMessageSendingOperations.convertAndSend("/sub/policychat/"+ policyChat.getRoomId(), policyChat);
 //        레디스 설정파일에 MessageListenerAdapter 즉 sub에서 처리하도록 변경
@@ -48,16 +47,16 @@ public class PolicyChatController {
     //채팅방 입장 또는 커서 올릴 시 이전의 채팅내역을 보여주는 메서드
 //    @ApiOperation(value = "채팅", notes = "채팅 cursor paging 을 통해 조회하기")
     @PostMapping("/api/chats/{policyId}")
-    public ResponseEntity<List<PolicyChatPagingResponseDto>> getChatting(@PathVariable Long policyId, @RequestBody(required = false) PolicyChatPagingDto policyChatPagingDto){
+    public ResponseEntity<List<PolicyChatPagingResponseDto>> getChatting(@PathVariable Long policyId, @RequestBody(required = false) PolicyChatPagingDto policyChatPagingDto) {
 
         //Cursor 존재하지 않을 경우,현재시간을 기준으로 paging
-        if(policyChatPagingDto==null||policyChatPagingDto.getCursor()==null || policyChatPagingDto.getCursor().equals("")){
-            policyChatPagingDto= PolicyChatPagingDto.builder()
+        if (policyChatPagingDto == null || policyChatPagingDto.getCursor() == null || policyChatPagingDto.getCursor().equals("")) {
+            policyChatPagingDto = PolicyChatPagingDto.builder()
                     .cursor(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS")))
                     .build();
         }
         System.out.println(policyChatPagingDto.toString());
-        return chatRedisCacheService.getChatsFromRedis(policyId,policyChatPagingDto);
+        return chatRedisCacheService.getChatsFromRedis(policyId, policyChatPagingDto);
     }
 
 }

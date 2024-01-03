@@ -22,15 +22,15 @@ public class RedisSubscriber/* implements MessageListener*/ {
      */
     /*@Override
     public void onMessage(Message message, byte[] pattern) {*/
-    public void sendMessage(String publishMessage){
+    public void sendMessage(String publishMessage) {
 //
-        try{
+        try {
             //redis에서 발행된 데이터를 받아 deserialize
             PolicyChatSaveDto policyChatSaveDto = objectMapper.readValue(publishMessage, PolicyChatSaveDto.class);
 
             //WebSocket 구독자에게 채팅 메시지 Send
-            messagingTemplate.convertAndSend("/sub/policychat"+policyChatSaveDto.getPolicyId(),policyChatSaveDto);
-        }catch (Exception e){
+            messagingTemplate.convertAndSend("/sub/policychat" + policyChatSaveDto.getPolicyId(), policyChatSaveDto);
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
 

@@ -1,7 +1,6 @@
 package com.oppas.dto.member;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 import java.util.List;

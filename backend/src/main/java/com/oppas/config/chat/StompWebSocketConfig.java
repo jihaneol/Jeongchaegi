@@ -13,7 +13,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @RequiredArgsConstructor
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-//    private final StompHandler stompHandler;
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/sub");
@@ -22,11 +21,11 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("ws/policychat").setAllowedOrigins("http://localhost:3000","http://3.36.131.236:443","http://3.36.131.236:80","http://3.36.131.236:3000").withSockJS();
-    
+        registry.addEndpoint("ws/policychat").setAllowedOrigins("http://localhost:3000", "http://3.36.131.236:443", "http://3.36.131.236:80", "http://3.36.131.236:3000").withSockJS();
+
     }
 
-    
+
     //기존 webSocketConfig => StompWebSocketConfig 으로 바꾸면서 추가된 메서드
     //stomp는 메시징 프로토콜,  클라이언트와 서버 간의 실시간 메시징을 지원, 메시지를 발행(Publish)하고 구독(Subscribe)하는 기능을 제공
     //redis를 사용하는 이유는 분산 메모리 데이터베이스로 은 클라이언트와 연결되고 실시간 메시지를 처리,멀티 서버 환경, 메시지 보존

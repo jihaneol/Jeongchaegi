@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 // JpaRepository 를 상속하면 자동 컴포넌트 스캔됨.
 //@repository 라는 어노테이션이 없어도 loc돼요, 이유는 jparepository를 상속했기 때문에
-public interface PostRepository extends JpaRepository<Post, Long> , PostRepositoryCustom  {
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
     Page<Post> findByMemberId(Long memberId, Pageable pageable);
 

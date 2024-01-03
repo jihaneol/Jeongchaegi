@@ -1,7 +1,6 @@
 package com.oppas.service;
 
 
-
 import com.oppas.Util.ChatUtil;
 import com.oppas.dto.policyChat.PolicyChatPagingDto;
 import com.oppas.dto.policyChat.PolicyChatPagingResponseDto;
@@ -16,6 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-
 
 
 @Service
@@ -41,9 +39,7 @@ public class ChatRedisCacheService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final PolicyChatRepository policyChatRepository;
-//
 
-//    private final UserRepository userRepository;
     private final RedisTemplate<String, PolicyChatSaveDto> chatRedisTemplate;
 
     private final RedisTemplate<String, String> roomRedisTemplate;
@@ -87,16 +83,14 @@ public class ChatRedisCacheService {
         //마지막 chat_data cursor Rank 조회
         Long rank = zSetOperations.reverseRank("CHAT_SORTED_SET_" + policyId, cursorDto);
         //Cursor 없을 경우 -> 최신채팅 조회
-        System.out.println("rank : "+rank);
+        System.out.println("rank : " + rank);
         if (rank == null) {
             rank = 0L;
-        }
-        else rank = rank + 1;
+        } else rank = rank + 1;
 
-        System.out.println("rank : "+rank);
+        System.out.println("rank : " + rank);
         //Redis 로부터 chat_data 조회
         Set<PolicyChatSaveDto> policyChatSaveDtoSet = zSetOperations.reverseRange("CHAT_SORTED_SET_" + policyId, rank, rank + 9);
-
 
 
         List<PolicyChatPagingResponseDto> redisChatList =
@@ -111,25 +105,24 @@ public class ChatRedisCacheService {
         }
 
 
-
         Collections.reverse(redisChatList);
 
         Iterator<PolicyChatPagingResponseDto> ite = redisChatList.iterator();
-        while(ite.hasNext()){
+        while (ite.hasNext()) {
             System.out.println(ite.next().toString());
         }
 
         return ResponseEntity.ok(redisChatList);
     }
 
-//    레디스에 채팅 부족할 시 호출할 메서드
+    //    레디스에 채팅 부족할 시 호출할 메서드
     private void findChatFromMysql(List<PolicyChatPagingResponseDto> chatMessageDtoList, Long policyId, String cursor) {
 
 
         String lastCursor;
         // 데이터가 하나도 없을 경우 현재시간을 Cursor로
         if (chatMessageDtoList.size() == 0 && cursor == null) {
-            ;
+
             lastCursor = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS"));
         }
 
@@ -162,7 +155,6 @@ public class ChatRedisCacheService {
         }
 
 
-
         //추가 데이터가 존재하다면, responseDto에  데이터 추가.
         for (int i = redisChatListSize; i <= 10; i++) {
             try {
@@ -175,8 +167,8 @@ public class ChatRedisCacheService {
 
     }
 
-    
-//    각각의 채팅을 레디스에 싣는 메서드
+
+    //    각각의 채팅을 레디스에 싣는 메서드
     public void cachingChatFromMysqlToRedis(PolicyChat policyChat) {
 //      policyChat 엔티티를 Dto로 만들어서 올리기
         PolicyChatSaveDto policyChatSaveDto = PolicyChatSaveDto.policyChatEntityToSaveDto(policyChat);

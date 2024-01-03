@@ -37,17 +37,13 @@ public class Post {
     private LocalDateTime createdAt;
 
 
-
-
-
-
-    public void modifyPost(String title, String content){
+    public void modifyPost(String title, String content) {
         this.title = title;
         this.content = content;
 
     }
 
-    public void setWriter(Member member){
+    public void setWriter(Member member) {
         this.member = member;
 
     }

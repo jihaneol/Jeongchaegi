@@ -2,8 +2,8 @@ package com.oppas.service;
 
 import com.oppas.dto.event.EventDTO;
 import com.oppas.dto.event.TimeDTO;
-import com.oppas.entity.member.Member;
 import com.oppas.entity.event.Event;
+import com.oppas.entity.member.Member;
 import com.oppas.entity.policy.Policy;
 import com.oppas.entity.policy.PolicyDate;
 import com.oppas.repository.EventRepository;

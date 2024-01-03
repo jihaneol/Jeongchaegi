@@ -17,9 +17,9 @@ public class PostDetailDto {
     private String memberImg;
 
     private Long policyId;
-    
+
     private String polyBizSjnm;// 정책명
-    
+
     private String nickname;
 
     private String title;
@@ -29,7 +29,7 @@ public class PostDetailDto {
     private LocalDateTime createdAt;
 
 
-    public static PostDetailDto createPostDetailDto(Post post){
+    public static PostDetailDto createPostDetailDto(Post post) {
 
         PostDetailDto dto = PostDetailDto.builder().
                 id(post.getId()).
@@ -44,7 +44,7 @@ public class PostDetailDto {
         return dto;
     }
 
-    public void setPolicy(Long policyId, String polyBizSjnm){
+    public void setPolicy(Long policyId, String polyBizSjnm) {
         this.policyId = policyId;
         this.polyBizSjnm = polyBizSjnm;
     }
