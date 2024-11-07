@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -32,12 +33,11 @@ import java.util.Optional;
 @Slf4j
 public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter {
 
-    private static final String NO_CHECK_URL = "api/member/logout";
-    private final JwtService jwtService;
+    private static final String LOGOUT_CHECK_URL = "api/member/logout";
+    private final JwtProvider jwtService;
     private final MemberRepository memberRepository;
-    static boolean flag;
 
-    public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtService jwtService, MemberRepository memberRepository) {
+    public JwtAuthenticationProcessingFilter(AuthenticationManager authenticationManager, JwtProvider jwtService, MemberRepository memberRepository) {
         super(authenticationManager);
         this.memberRepository = memberRepository;
         this.jwtService = jwtService;
@@ -46,50 +46,50 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (request.getRequestURI().equals(NO_CHECK_URL)) {
+        // 로그아웃
+        if (request.getRequestURI().equals(LOGOUT_CHECK_URL)) {
 
-            jwtService.extractRefreshToken(request)
-                    .ifPresent(refreshtoken -> memberRepository.findByRefreshToken(refreshtoken)
-                            .ifPresent(user -> {
-                                user.updateRefreshToken("");
-                                memberRepository.save(user);
-                                saveAuthentication(user);
-                                flag = true;
-                            })
-                    );
-            if (flag) {
-                filterChain.doFilter(request, response);
-            } else {
-                response.sendError(400);
-            }
+            boolean isLoggedOut = jwtService.extractRefreshToken(request)
+                    .flatMap(refreshtoken -> memberRepository.findByRefreshToken(refreshtoken))
+                    .map(user -> {
+                        user.updateRefreshToken("");
+                        memberRepository.save(user);
+                        saveAuthentication(user);
+                        return true;  // 로그아웃 성공
+                    })
+                    .orElse(false);  // 로그아웃 실패
+
+            if (isLoggedOut) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("Logged out successfully");
+            } else
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Logout failed: Invalid token or user not found");
             return;
         }
+
 
         String refreshToken = jwtService.extractRefreshToken(request)
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
 
-        log.info("리프레쉬 토큰 {}", refreshToken);
-
-        if (refreshToken != null) {
-            log.info("리프레쉬토큰 들어갔다.");
-            filterChain.doFilter(request, response);
+        // 리프레쉬 토큰이 있다면. - 재발급 해달라는 뜻..
+        if (!refreshToken.isEmpty()) {
+            checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
             return;
         }
 
-        if (refreshToken == null) {
-            checkAccessTokenAndAuthentication(request, response, filterChain);
-        }
+        // 리프레쉬 토큰이 없다면 에세스토큰을 확인.
+        checkAccessTokenAndAuthentication(request, response, filterChain);
     }
 
     /**
      * [리프레시 토큰으로 유저 정보 찾기 & 액세스 토큰/리프레시 토큰 재발급 메소드]
-     * 파라미터로 들어온 헤더에서 추출한 리프레시 토큰으로 DB에서 유저를 찾고, 해당 유저가 있다면
-     * JwtService.createAccessToken()으로 AccessToken 생성,
+     * 파라미터로 면
+     * JwtService.createAccessToken()으로 AccessToken 생성,들어온 헤더에서 추출한 리프레시 토큰으로 DB에서 유저를 찾고, 해당 유저가 있다
      * reIssueRefreshToken()로 리프레시 토큰 재발급 & DB에 리프레시 토큰 업데이트 메소드 호출
      * 그 후 JwtService.sendAccessTokenAndRefreshToken()으로 응답 헤더에 보내기
      */
-    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
+    private void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
         memberRepository.findByRefreshToken(refreshToken)
                 .ifPresent(user -> {
                     String reIssuedRefreshToken = reIssueRefreshToken(user);
@@ -119,7 +119,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      * 인증 허가 처리된 객체를 SecurityContextHolder에 담기
      * 그 후 다음 인증 필터로 진행
      */
-    public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
+    private void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                   FilterChain filterChain) throws ServletException, IOException {
         Optional<String> token = jwtService.extractAccessToken(request);
 
@@ -131,7 +131,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
                         .ifPresent(name -> memberRepository.findByName(name)
                                 .ifPresent(this::saveAuthentication))); // 엑세스 토큰확인
             } else {
-                log.info("유효하지 않은 토큰이다 리프레쉬 주세요");
+                log.info("유효하지 않은 토큰이라 리프레쉬 토큰 필요");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
                 return;
             }
@@ -154,7 +154,7 @@ public class JwtAuthenticationProcessingFilter extends BasicAuthenticationFilter
      * SecurityContextHolder.getContext()로 SecurityContext를 꺼낸 후,
      * setAuthentication()을 이용하여 위에서 만든 Authentication 객체에 대한 인증 허가 처리
      */
-    public void saveAuthentication(Member myUser) {
+    private void saveAuthentication(Member myUser) {
         PrincipalDetails userDetailsUser = new PrincipalDetails(myUser);
 
         Authentication authentication =

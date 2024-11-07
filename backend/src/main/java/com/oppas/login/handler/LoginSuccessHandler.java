@@ -2,7 +2,7 @@ package com.oppas.login.handler;
 
 import com.oppas.config.auth.PrincipalDetails;
 import com.oppas.entity.member.Member;
-import com.oppas.jwt.JwtService;
+import com.oppas.jwt.JwtProvider;
 import com.oppas.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,39 +17,31 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtService jwtService;
+    private final JwtProvider jwtService;
     private final MemberRepository memberRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-        String username = extractUsername(authentication);
-        String accessToken = jwtService.createAccessToken(username);
         Member user = getMember(authentication);
-        log.info("accessToken {}", accessToken);
+        String accessToken = jwtService.createAccessToken(user.getName());
+
+        // 회원 가입 안했다면.
         if (!user.isSign()) {
-            // 회원 가입 x
             jwtService.sendAccessToken(response, accessToken);
             response.sendRedirect("http://www.jeongchaegi.com/login/signup");
             return;
         }
-        // 회원 가입 완료
+
+        // 로그인 처리
         String refreshToken = jwtService.createRefreshToken(); // JwtService의 createRefreshToken을 사용하여 RefreshToken 발급
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken, false); // 응답 헤더에 AccessToken, RefreshToken 실어서 응답
 
-        memberRepository.findByName(username)
-                .ifPresent(member -> {
-                    member.updateRefreshToken(refreshToken);
-                    memberRepository.saveAndFlush(member);
-                    jwtService.sendkakaoToken(response, member.getKakaoToken());
-                });
+        user.updateRefreshToken(refreshToken);
+        memberRepository.save(user);
+        jwtService.sendkakaoToken(response, user.getKakaoToken());
 
         response.sendRedirect("http://www.jeongchaegi.com/login/success");
-    }
-
-    private String extractUsername(Authentication authentication) {
-        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-        return userDetails.getUsername();
     }
 
     private Member getMember(Authentication authentication) {

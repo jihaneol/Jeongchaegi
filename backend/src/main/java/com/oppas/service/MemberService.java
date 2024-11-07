@@ -1,6 +1,7 @@
 package com.oppas.service;
 
 import com.oppas.dto.member.MemberForm;
+import com.oppas.dto.member.MemberResponse;
 import com.oppas.dto.member.MemberSignUpDTO;
 import com.oppas.entity.member.Member;
 import com.oppas.entity.member.PolicyMemberMapped;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,27 +25,28 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final PolicyMemberMappedRepository policyMemberMappedRepository;
     private final PolicyTypeRepository policyTypeRepository;
-    private final FollowRepository followRepository;
+    private final PolicyMemberMappedRepository policyMemberMappedRepository;
 
-    /**
+    /*
      * 회원 가입
      */
     @Transactional
     public void signUp(MemberSignUpDTO memberSignUpDTO, long id) {
-        Member member = memberRepository.findById(id).get();
+        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원이 없습니다."));
         member.join(memberSignUpDTO);
-        for (String policyId : memberSignUpDTO.getPolicyId()) {
-            // Type 찾기
-            PolicyType findType = policyTypeRepository.findById(policyId).orElseThrow();
-            PolicyMemberMapped mapped = PolicyMemberMapped.builder()
-                    .policyType(findType)
-                    .member(member)
-                    .time(LocalDateTime.now()).build();
-            // member에 값 저장
-            member.getPolicyMemberMappeds().add(mapped);
-        }
+
+        policyMemberMappedRepository.saveAll(memberSignUpDTO.getPolicyId()
+                .stream()
+                .map(policyId -> {
+                    PolicyType findType = policyTypeRepository.findById(policyId).orElseThrow(() ->new IllegalArgumentException("정책 없습니다."));
+                    return PolicyMemberMapped.builder()
+                            .policyType(findType)
+                            .member(member)
+                            .time(LocalDateTime.now()).build();
+                })
+                .collect(Collectors.toList()));
+
         member.updateJoin(true);
     }
 
@@ -52,15 +56,7 @@ public class MemberService {
 
     public boolean findNickName(String nickname) {
         Optional<Member> member = memberRepository.findByNickname(nickname);
-
-        if (member.isEmpty()) {
-            // 유일 하다면
-            return true;
-        } else {
-            // 유일 하지 않으면
-            return false;
-        }
-
+        return member.isEmpty()?  true : false;
     }
 
     /**
@@ -85,5 +81,10 @@ public class MemberService {
         return member;
     }
 
+    public MemberResponse getMemberInfo(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(()
+        -> new IllegalArgumentException("회원 정보가 없습니다."));
 
+        return new MemberResponse(member);
+    }
 }

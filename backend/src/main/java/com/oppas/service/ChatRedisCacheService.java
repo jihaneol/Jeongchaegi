@@ -56,6 +56,7 @@ public class ChatRedisCacheService {
 
     //opsForZSet은 RedisTemplate의 인스턴스를 사용하여 Sorted Set (정렬된 집합) 데이터 유형을 다루는데 사용되는 메서드를 반환합니다
     //redis chat data 삽입
+
     public void addChat(PolicyChatSaveDto policyChatSaveDto) {
 
         PolicyChatSaveDto savedData = PolicyChatSaveDto.createChatMessageSaveDto(policyChatSaveDto);
@@ -83,12 +84,11 @@ public class ChatRedisCacheService {
         //마지막 chat_data cursor Rank 조회
         Long rank = zSetOperations.reverseRank("CHAT_SORTED_SET_" + policyId, cursorDto);
         //Cursor 없을 경우 -> 최신채팅 조회
-        System.out.println("rank : " + rank);
+
         if (rank == null) {
             rank = 0L;
         } else rank = rank + 1;
 
-        System.out.println("rank : " + rank);
         //Redis 로부터 chat_data 조회
         Set<PolicyChatSaveDto> policyChatSaveDtoSet = zSetOperations.reverseRange("CHAT_SORTED_SET_" + policyId, rank, rank + 9);
 

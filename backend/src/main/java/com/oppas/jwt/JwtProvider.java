@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Getter
 @Slf4j
-public class JwtService {
+public class JwtProvider {
 
     @Value("${jwt.secretKey}")
     private String secretKey;
@@ -37,6 +37,7 @@ public class JwtService {
     @Value("${jwt.refresh.header}")
     private String refreshHeader;
 
+    private static String reIssueRefreshToken, accessToken;
     /**
      * JWT의 Subject와 Claim으로 email 사용 -> 클레임의 name을 "email"으로 설정
      * JWT의 헤더에 들어오는 값 : 'Authorization(Key) = Bearer {토큰} (Value)' 형식
@@ -53,12 +54,10 @@ public class JwtService {
      * AccessToken 생성 메소드
      */
     public String createAccessToken(String name) {
-        System.out.println("토근 생성");
         Date now = new Date();
         return JWT.create() // JWT 토큰을 생성하는 빌더 반환
                 .withSubject(ACCESS_TOKEN_SUBJECT) // JWT의 Subject 지정 -> AccessToken이므로 AccessToken
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
-
                 //추가하실 경우 .withClaim(클래임 이름, 클래임 값) 으로 설정해주시면 됩니다
                 .withClaim(USER_CLAIM, name)
                 .sign(Algorithm.HMAC512(secretKey)); // HMAC512 알고리즘 사용, application-jwt.yml에서 지정한 secret 키로 암호화
@@ -95,7 +94,6 @@ public class JwtService {
      */
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken, boolean flag) {
         response.setStatus(HttpServletResponse.SC_OK);
-
         setAccessTokenHeader(response, accessToken, flag);
         setRefreshTokenHeader(response, refreshToken, flag);
     }
@@ -106,10 +104,25 @@ public class JwtService {
      * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
      */
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
-
         return Optional.ofNullable(request.getHeader(refreshHeader))
                 .filter(refreshToken -> refreshToken.startsWith(BEARER))
                 .map(refreshToken -> refreshToken.replace(BEARER, ""));
+    }
+
+    public JwtResponse getrefreshTokenResponse(HttpServletRequest request) {
+
+        extractRefreshToken(request).flatMap(refreshToken -> memberRepository.findByRefreshToken(refreshToken))
+                        .map(member -> new JwtResponse(reIssueRefreshToken(member),createAccessToken(member.getName())));
+
+        extractRefreshToken(request).ifPresentOrElse(refreshtoken ->
+                        memberRepository.findByRefreshToken(refreshtoken)
+                                .ifPresentOrElse(member -> {
+                                    reIssueRefreshToken = reIssueRefreshToken(member);
+                                    accessToken = createAccessToken(member.getName());
+                                }, () -> new IllegalArgumentException("일치하는 리프레쉬 값이 없습니다."))
+                , () -> new IllegalArgumentException("리프레쉬 토큰 정보가 없습니다."));
+
+        return new JwtResponse(reIssueRefreshToken, accessToken);
     }
 
     /**
@@ -174,7 +187,6 @@ public class JwtService {
         if (flag) {
             response.setHeader("refreshToken", refreshToken);
         } else {
-
             Cookie cookie = new Cookie("rt", refreshToken);
             cookie.setMaxAge(60);
             cookie.setPath("/");

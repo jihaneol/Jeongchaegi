@@ -33,36 +33,38 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
 
-        OAuth2UserInfo oAuth2UserInfo = null;
-        if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
-            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
-        } else {
-            log.info("카카오로그인만 가능");
-        }
+        OAuth2UserInfo oAuth2UserInfo = getUserInfo(userRequest, oAuth2User);
 
-        Optional<Member> userOptional =
-                memberRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
+        Optional<Member> userOptional = memberRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
 
-        Member member;
-
-        if (userOptional.isPresent()) {
-            member = userOptional.get();
-        } else {
-            member = Member.builder()
-                    .name(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
-                    .email(oAuth2UserInfo.getEmail())
-                    .role("ROLE_USER")
-                    .provider(oAuth2UserInfo.getProvider())
-                    .providerId(oAuth2UserInfo.getProviderId())
-                    .sign(false)
-                    .img((String) ((Map) oAuth2User.getAttributes().get("properties")).get("thumbnail_image"))
-                    .build();
-        }
+        Member member = getMember(userOptional, oAuth2UserInfo, oAuth2User);
 
         member.setKakaoToken(userRequest.getAccessToken().getTokenValue());
 
         memberRepository.save(member);
 
         return new PrincipalDetails(member, oAuth2User.getAttributes());
+    }
+
+    private OAuth2UserInfo getUserInfo(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+        if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+            return new KakaoUserInfo(oAuth2User.getAttributes());
+        }
+
+        throw new IllegalArgumentException("카카오 로그인만 가능합니다.");
+    }
+
+    private Member getMember(Optional<Member> userOptional, OAuth2UserInfo oAuth2UserInfo, OAuth2User oAuth2User) {
+        if (userOptional.isPresent()) return userOptional.get();
+
+        return Member.builder()
+                .name(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
+                .email(oAuth2UserInfo.getEmail())
+                .role("ROLE_USER")
+                .provider(oAuth2UserInfo.getProvider())
+                .providerId(oAuth2UserInfo.getProviderId())
+                .sign(false)
+                .img((String) ((Map) oAuth2User.getAttributes().get("properties")).get("thumbnail_image"))
+                .build();
     }
 }

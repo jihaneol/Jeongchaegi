@@ -3,7 +3,7 @@ package com.oppas.config;
 
 import com.oppas.config.oauth.PrincipalOauth2UserService;
 import com.oppas.jwt.JwtAuthenticationProcessingFilter;
-import com.oppas.jwt.JwtService;
+import com.oppas.jwt.JwtProvider;
 import com.oppas.login.handler.LoginFailureHandler;
 import com.oppas.login.handler.LoginSuccessHandler;
 import com.oppas.repository.MemberRepository;
@@ -12,22 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Configuration // IoC 빈(bean)을 등록
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록이된다.
@@ -36,7 +29,7 @@ import java.io.IOException;
 @Slf4j
 public class SecurityConfig {
 
-    private final JwtService jwtService;
+    private final JwtProvider jwtService;
     private final MemberRepository memberRepository;
     private final PrincipalOauth2UserService principalOauth2UserService;
 
@@ -63,21 +56,18 @@ public class SecurityConfig {
          * 예외 처리 기능 작동
          */
         http.exceptionHandling()
-                .authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    @Override
-                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                        log.info("인증 실패시 {}", request.getRequestURI());
-                        response.setStatus(403);
-                    }
-                })
-                .accessDeniedHandler(new AccessDeniedHandler() {
-
-                    @Override
-                    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-                        log.info("인가 실패시 {}", request.getRequestURI());
-                        response.setStatus(403);
-                    }
-                });
+                .authenticationEntryPoint(
+                        (request, response, authenticationException)->{
+                            log.info("인증 실패시 {}", request.getRequestURI());
+                            response.setStatus(403);
+                        }
+                )
+                .accessDeniedHandler(
+                        (request, response, authenticationException)->{
+                            log.info("인가 실패시 {}", request.getRequestURI());
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"인가 없음");
+                        }
+                );
 
         /**
          * 소셜 로그인
@@ -93,7 +83,8 @@ public class SecurityConfig {
         /**
          * jwt 필터 기능
          */
-        http.addFilter(new JwtAuthenticationProcessingFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtService, memberRepository));
+        http.addFilter(new JwtAuthenticationProcessingFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))
+                , jwtService, memberRepository));
 
         return http.build();
     }

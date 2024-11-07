@@ -14,7 +14,6 @@ import java.io.IOException;
  */
 @Slf4j
 public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {

@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b48e27ab-08a7-4036-87fa-3a2a1c6815ab" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/config/oauth/provider/KakaoUserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/config/oauth/provider/KakaoUserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/controller/PolicyChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/controller/PolicyChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/jwt/JwtAuthenticationProcessingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/jwt/JwtAuthenticationProcessingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/jwt/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/jwt/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/login/handler/LoginSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/login/handler/LoginSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/service/ChatRedisCacheService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/service/ChatRedisCacheService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/service/FollowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/service/FollowService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/oppas/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/oppas/service/MemberService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,10 +40,21 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "fix/frontend/follow",
-    "last_opened_file_path": "C:/Users/SSAFY/Desktop/SSAFY/S09P12A510/backend"
+    "git-widget-placeholder": "develop",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/SSAFY/Desktop/SSAFY/S09P12A510/backend",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-11.0.22-semeru-11.0.22-f644763e9732-83f6228e" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

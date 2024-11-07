@@ -45,13 +45,13 @@ public class CommentService {
     public void registComment(PrincipalDetails principalDetails, CommentRequestDto commentRequestDto) {
 
         Member member = principalDetails.getMember();
-        System.out.println(member.toString());
+
         Post post = postRepository.findById(commentRequestDto.getPostId()).get();
-        System.out.println(post.toString());
+
         CommetSaveDto commetSaveDto = CommetSaveDto.createSaveDto(post, member, commentRequestDto);
 
         Comment comment = modelMapper.map(commetSaveDto, Comment.class);
-        System.out.println(comment.toString());
+
 
         commentRepository.save(comment);
 
@@ -84,22 +84,17 @@ public class CommentService {
 
         comment.setComment(commentRequestDto.getComment());
 
-        System.out.println(comment.toString());
-
         return HttpStatus.OK;
     }
-
 
     public HttpStatus removeComment(PrincipalDetails principalDetails, Long commentId) {
 
         Member member = principalDetails.getMember();
         Comment comment = commentRepository.findById(commentId).get();
 
-
         if (member.getId() != comment.getMember().getId()) {
             return HttpStatus.FORBIDDEN;
         }
-
 
         commentRepository.delete(comment);
 

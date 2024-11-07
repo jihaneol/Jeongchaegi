@@ -5,9 +5,6 @@ import com.oppas.dto.member.FollowInfo;
 import com.oppas.dto.member.FollowListDTO;
 import com.oppas.dto.member.MemberForm;
 import com.oppas.dto.member.MemberResponse;
-import com.oppas.entity.member.Member;
-import com.oppas.jwt.JwtService;
-import com.oppas.repository.MemberRepository;
 import com.oppas.service.FollowService;
 import com.oppas.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +28,6 @@ import java.util.List;
 @Slf4j
 public class MemberController {
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
-    private final JwtService jwtService;
     private final FollowService followService;
 
     @ExceptionHandler(RuntimeException.class)
@@ -44,8 +39,8 @@ public class MemberController {
     @GetMapping("/info")
     public ResponseEntity<?> info(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long id = principalDetails.getId();
-        Member member = memberRepository.findById(id).get();
-        return new ResponseEntity<>(new MemberResponse(member), HttpStatus.OK);
+        MemberResponse memberInfo = memberService.getMemberInfo(id);
+        return new ResponseEntity<>(memberInfo, HttpStatus.OK);
     }
 
     @PutMapping("/{memberId}/edit")
